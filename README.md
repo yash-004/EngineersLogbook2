@@ -9,7 +9,7 @@ npm install -g cordova ionic
 
 ## To clone project: 
 
-git clone https://github.com/fangbryan/EngineersLogbook.git
+git clone https://github.com/yash-004/EngineersLogbook2.git
 
 ## To install project modules
 
