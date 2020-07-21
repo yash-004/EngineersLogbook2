@@ -1,0 +1,11 @@
+ion-content {
+
+  --padding-start: 10%;
+  --padding-end: 10%;
+  --padding-top: 5px;
+
+  .error-message {
+    color: red;
+    font-size: 0.8em;
+  }
+}

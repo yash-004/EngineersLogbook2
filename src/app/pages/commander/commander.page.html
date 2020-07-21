@@ -1,0 +1,229 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Commander</ion-title>
+    <ion-buttons slot="primary">
+      <ion-button left routerLink="/" routerDirection="root" fill="clear" slot="primary">
+        Logout<ion-icon name="log-out"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+  <!-- Notifications -->
+  <ion-item class="headers" text-center><ion-label style="margin-bottom: 0;"><h1> Notifications </h1></ion-label></ion-item>
+
+  <ion-card *ngFor="let drive of getPendingDrives()" padding>
+
+    <ion-fab vertical="top" horizontal="end">
+      <!--ion-fab-button size="small" (click)="click(drive)">View</ion-fab-button-->
+      <ion-fab-button size="small" (click)="click(drive)"><ion-icon name='share-alt'></ion-icon></ion-fab-button>
+      <!--ion-button fill="outline" size="small" (click)="click(drive)">View</ion-button-->
+    </ion-fab>
+
+    <ion-card-subtitle color='danger'><strong>Pending review</strong></ion-card-subtitle>
+    <ion-card-title>{{drive.date}}</ion-card-title>
+
+    <ion-card-content no-padding>
+      Your drive on <b>{{drive.date}}</b> with <b>{{drive.driver}}</b> from
+      <b>{{drive.start_location}}</b> (<b>{{drive.start_time}}</b>) to 
+      <b>{{drive.end_location}}</b> (<b>{{drive.end_time}}</b>)
+      is pending review.
+    </ion-card-content>
+
+  </ion-card>
+  <ion-card *ngFor="let form of getPendingMTRAC()" padding>
+    <ion-fab vertical="top" horizontal="end">
+      <!--ion-fab-button size="small" (click)="click(drive)">View</ion-fab-button-->
+      <ion-fab-button size="small" (click)="clickmtrac(form)"><ion-icon name='share-alt'></ion-icon></ion-fab-button>
+      <!--ion-button fill="outline" size="small" (click)="click(drive)">View</ion-button-->
+    </ion-fab>
+    <ion-card-title>Complete MT-RAC</ion-card-title>
+  </ion-card>
+
+
+
+  <ion-item class="headers" text-center><ion-label style="margin-bottom: 0;"><h1> Operators </h1></ion-label></ion-item>
+
+  <ion-card>
+    <ion-list>
+      <ion-item>
+        <ion-label position="stacked">Driver</ion-label>
+        <ion-select id="driverlist" interface="popover" class="full-width-select" value="ALL">
+          <ion-select-option value="ALL">ALL</ion-select-option>
+          <ion-select-option text-wrap *ngFor="let driver of database.current.all_drivers_of_commander" value={{driver.email}} class="custom-font-size">{{driver.email}}</ion-select-option>
+        </ion-select>
+      </ion-item>
+    </ion-list>
+  </ion-card>
+  <ion-card *ngFor="let driver of getDrivers()">
+    <ion-card-header>
+      <ion-card-subtitle><ion-icon name="person" text-center (click)="showother()"></ion-icon> <strong> {{driver.name}} ({{driver.email}})</strong></ion-card-subtitle>
+      <ion-card-subtitle (click)="showother()">Last drive: {{driver.summary.most_recent_drive | date: "dd/MM/yyyy hh:mm"}}, {{driver.summary.most_recent_drive | daysAgo}} days ago</ion-card-subtitle>
+      <ion-label position="stacked" *ngIf="checkAll()==true"><h2>Certifications</h2></ion-label>
+      <ion-button *ngIf="checkAll()==false" (click)="showEdit()">Certifications <ion-icon name="settings"></ion-icon></ion-button>
+      <ion-grid>
+        <ion-row>
+          <ion-col>
+            <ion-label color="success"> OUV </ion-label>
+          </ion-col>
+          <ion-col offset-4>
+            <ion-label color="success"> 5TON </ion-label>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col>
+            <ion-label *ngIf="driver.mss_certified == true" color="success" > MSS </ion-label>
+          </ion-col>
+          <ion-col offset-4 >
+            <ion-label *ngIf="driver.flb_certified == true" color="success"> FLB </ion-label>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col>
+            <ion-label *ngIf="driver.belrex_certified == true" color="success"> BELREX </ion-label>
+          </ion-col>
+          <ion-col offset-4>
+            <ion-label *ngIf="driver.m3g_certified == true" color="success"> M3G </ion-label>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+
+      <ion-card *ngIf="checkEditDriverStatus()==true">
+        <ion-list>
+          <ion-item>
+            <ion-label position="stacked">MSS</ion-label>
+            <ion-select id="mss" interface="popover" value={{driver.mss_certified}}>
+              <ion-select-option value="true">Certified</ion-select-option>
+              <ion-select-option value="false">Not Certified</ion-select-option>
+            </ion-select>
+            <ion-label position="stacked">FLB</ion-label>
+            <ion-select id="flb" interface="popover" value={{driver.flb_certified}}>
+              <ion-select-option value="true">Certified</ion-select-option>
+              <ion-select-option value="false">Not Certified</ion-select-option>
+            </ion-select>
+            <ion-label position="stacked">BELREX</ion-label>
+            <ion-select id="belrex" interface="popover" value={{driver.belrex_certified}}>
+              <ion-select-option value="true">Certified</ion-select-option>
+              <ion-select-option value="false">Not Certified</ion-select-option>
+            </ion-select>
+            <ion-label position="stacked">M3G</ion-label>
+            <ion-select id="m3g" interface="popover" value={{driver.m3g_certified}}>
+              <ion-select-option value="true">Certified</ion-select-option>
+              <ion-select-option value="false">Not Certified</ion-select-option>
+            </ion-select>
+          </ion-item>
+        </ion-list>
+        <ion-button (click)="updateCertfication(getDriver())">save changes</ion-button>
+      </ion-card>
+    </ion-card-header>
+
+
+
+
+    <ion-card-content>
+      <ion-grid class="table" no-padding>
+
+        <ion-row>
+          <ion-col size="4" class="bubble-text" no-padding><ion-card no-padding (click)="showdrives()">
+            <div class="ion-text-center" style="width: 100%;">
+              <ion-icon name="car" size="large" ></ion-icon><br>
+              <div class="shift_up">Drives</div>
+              <div class="slide_num">{{driver.summary.drive_count}}</div>
+              <ion-label *ngIf="checkDriveStatus()">
+                <h6 *ngFor="let vehicle of driver.summary.most_recent_drive_by_vehicle_type | keyvalue">
+                  {{vehicle.key}} : {{getDrivesbyVehicleType(vehicle.key, driver)}}
+                </h6>
+              </ion-label>
+            </div>
+          </ion-card></ion-col>
+
+          <ion-col size="4" class="bubble-text" no-padding><ion-card no-padding (click)="showmileage()">
+            <div class="ion-text-center" style="width: 100%;">
+              <ion-icon name="speedometer" size="large"></ion-icon><br>
+              <div class="shift_up">Mileage</div>
+              <div class="slide_num">{{driver.summary.mileage_km}} km</div>
+              <ion-label *ngIf="checkMileageStatus()">
+                <h6 *ngFor="let vehicle of driver.summary.most_recent_drive_by_vehicle_type | keyvalue">
+                  {{vehicle.key}} : {{getMileagebyVehicleType(driver.summary.mileage_by_vehicle_type, vehicle.key)}}
+                </h6>
+              </ion-label>
+            </div>
+          </ion-card></ion-col>
+
+          <ion-col size="4" class="bubble-text" no-padding><ion-card no-padding>
+            <div class="ion-text-center" style="width: 100%;" (click)="showother()">
+              <ion-icon name="clock" size="large"></ion-icon><br>
+              <div class="shift_up">Time Driven</div>
+              <div class="slide_num">{{driver.summary.duration_minutes / 60 | number : '1.0-1' }} hours</div>
+            </div>
+          </ion-card></ion-col>
+
+
+          <ion-row text-center style="padding: 0 10px" *ngIf="checkDriveStatus() || checkMileageStatus() || checkOtherStatus()" (click)="showother()">
+            <ion-col>
+              average drive distance: <br/> {{driver.summary.mileage_km / driver.summary.drive_count | number : '1.0-1'}} km
+            </ion-col>
+            <ion-col>
+              average drive duration: <br/>{{driver.summary.duration_minutes / 60 / driver.summary.drive_count | number : '1.0-1'}} hours
+            </ion-col>
+          </ion-row>
+        </ion-row>
+        <ion-row text-center (click)="showother()">
+          <ion-col text-center><ion-card padding text-center>
+            <ion-grid>
+              <ion-row><ion-col><ion-card-title text-center>
+                <strong>JIT Countdown</strong>
+              </ion-card-title></ion-col></ion-row>
+
+              <ion-row><ion-col><ion-card-subtitle>
+
+                <ion-grid><ion-row><ion-col><ion-label *ngIf="checkTimelefttoJIT(driver.summary.most_recent_drive) == false" color='danger' text-center>
+                  <strong><h2>
+                    DO JIT NOW!
+                  </h2></strong>
+                </ion-label></ion-col></ion-row></ion-grid>
+
+                <ion-label>
+                  <ion-item *ngIf="checkTimelefttoJIT(driver.summary.most_recent_drive) == true" text-center>
+                    <ion-grid><ion-row><ion-col><countdown [config]="{leftTime: getTimelefttoJIT(driver.summary.most_recent_drive), format: 'dd'}"></countdown>
+                        <h6 style="padding-bottom: 5px">days</h6></ion-col>
+                      <ion-col><countdown [config]="{leftTime: getTimelefttoJIT(driver.summary.most_recent_drive), format: 'HH'}"></countdown>
+                        <h6 style="padding-bottom: 5px">hrs</h6></ion-col>
+                      <ion-col><countdown [config]="{leftTime: getTimelefttoJIT(driver.summary.most_recent_drive), format: 'mm'}"></countdown>
+                        <h6 style="padding-bottom: 5px">mins</h6></ion-col>
+                      <ion-col><countdown [config]="{leftTime: getTimelefttoJIT(driver.summary.most_recent_drive), format: 'ss'}"></countdown>
+                        <h6 style="padding-bottom: 5px">sec</h6></ion-col></ion-row></ion-grid>
+                  </ion-item>
+                </ion-label>
+           </ion-card-subtitle></ion-col></ion-row></ion-grid>
+          </ion-card></ion-col>
+        </ion-row>
+      </ion-grid>
+      <!--<ion-grid  class="ion-no-padding">
+        <ion-row text-center>
+          <ion-col text-center><ion-icon name="car"></ion-icon> <br> Total Drives: <br> {{driver.summary.drive_count}}</ion-col>
+          <ion-col text-center><ion-icon name="speedometer"></ion-icon> <br> Total Mileage:<br> {{driver.summary.mileage_km}} KM</ion-col>
+          <ion-col text-center><ion-icon name="clock"></ion-icon> <br> Time Driven: <br> {{driver.summary.duration_minutes / 60 | number : '1.0-1' }} hours</ion-col>
+        </ion-row>
+
+      </ion-grid>-->
+
+      <ion-item *ngFor="let vehicle of driver.summary.most_recent_drive_by_vehicle_type | keyvalue" (click)="showother()">
+
+
+          <ion-col *ngIf="checkOtherStatus()" (click)="showother()">
+            <ion-label *ngIf="checkOtherStatus()">
+              <h3 class="underline" *ngIf="checkOperatorCurrencyValid(vehicle.key,driver.summary.most_recent_drive_by_vehicle_type[vehicle.key])">{{vehicle.key}}</h3>
+            </ion-label >
+            <ion-label  color='danger' *ngIf="checkOtherStatus()">
+               <h3 class="underline" *ngIf="checkOperatorCurrencyInvalid(vehicle.key,driver.summary.most_recent_drive_by_vehicle_type[vehicle.key])">{{vehicle.key}}</h3>
+            </ion-label>
+          
+           Last Drive: {{driver.summary.most_recent_drive_by_vehicle_type[vehicle.key] | date: "dd/MM/yyyy"}}
+           ({{driver.summary.most_recent_drive_by_vehicle_type[vehicle.key] | daysAgo}} days ago)</ion-col>
+      </ion-item>
+    </ion-card-content>
+  </ion-card>
+</ion-content>

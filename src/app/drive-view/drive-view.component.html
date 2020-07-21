@@ -1,0 +1,74 @@
+<ion-item detail (click)="click()">
+  <ion-text style="padding-top:8px;padding-bottom:8px;"><strong>{{formatDate(drive.date)}}</strong></ion-text>
+  <ion-icon slot="end" color='danger' size="small" name="alert" *ngIf="drive.status!='verified'"></ion-icon>
+  <!--ion-button size="small" fill="solid" slot="end"><ion-icon slot="icon-only" name="create"></ion-icon></ion-button-->
+</ion-item>
+
+<ion-row class='row'>
+
+  <!-- Left column: Mileage/Time --------------------->
+  
+  <ion-col size='4' class='left'>
+    <ion-item text-center lines="none" *ngIf="drive.status!='in-progress'">
+      <ion-label position="stacked">Distance</ion-label>
+      <ion-text style="margin-bottom:8px; font-size: 120%; font-weight:bold;">{{database.distance(drive)}}km</ion-text>
+      <ion-text><ion-icon name="clock"></ion-icon>{{database.formatMinutesToString(database.duration(drive))}}</ion-text>
+    </ion-item>
+
+    <ion-item text-center lines="none" *ngIf="drive.status=='in-progress'">
+      <ion-text color="danger" style="margin-bottom:8px; font-size: 110%; font-weight:bold;">Drive In Progress</ion-text>
+    </ion-item>
+  </ion-col>
+
+  <!-- Main column ------------------------->
+  
+  <ion-col class="main1">
+    <br>
+    <ion-item lines="none" no-padding>
+      <ion-icon name="pin" size="small"></ion-icon>
+      <small>Start Location</small>
+    </ion-item>
+    
+    <ion-item style="--padding-start:18px" lines="none">
+      {{drive.start_location}}
+      <ion-text text-right slot="end">{{drive.start_time}}</ion-text>
+    </ion-item>
+
+    <ion-item lines="none" no-padding>
+      <ion-icon name="pin" size="small"></ion-icon>
+      <small>End Location</small>
+    </ion-item>
+
+    <ion-item style="--padding-start:18px;" lines="none">  <!-- extra padding is to align text with location label -->
+      {{drive.end_location}}
+      <ion-text text-right slot="end">{{drive.end_time}}</ion-text> <br>
+    </ion-item>
+
+  </ion-col>
+</ion-row>
+
+<!--- TODO? Collapse/Expand these details -->
+<ion-grid class="table">
+  <ion-row style="font-size: 0.8em;" style="height: 20%;">
+    <ion-col size="4" class="bubble-text" >
+      <div class="ion-text-center" style="width: 100%;">
+        <ion-icon name="person"></ion-icon><br>{{drive.driver.split('@')[0]}}
+      </div>
+    </ion-col>
+    <ion-col size="2" class="bubble-text" >
+      <div class="ion-text-center" style="width: 100%;">
+        <ion-icon name="car"></ion-icon><br>{{drive.vehicle_type}}
+      </div>
+    </ion-col>
+    <ion-col size="3" class="bubble-text" >
+      <div class="ion-text-center" style="width: 100%;">
+        <ion-icon name="create"></ion-icon><br>{{drive.comments}}
+      </div>
+    </ion-col>
+    <ion-col size="3" class="bubble-text" >
+      <div class="ion-text-center" style="width: 100%;">
+        <ion-icon name="contact"></ion-icon><br>{{drive.commander.split('@')[0]}}
+      </div>
+    </ion-col>
+  </ion-row>
+</ion-grid>

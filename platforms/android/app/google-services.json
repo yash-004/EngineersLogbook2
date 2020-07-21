@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "778276158903",
+    "firebase_url": "https://engineerslogbook-v1.firebaseio.com",
+    "project_id": "engineerslogbook-v1",
+    "storage_bucket": "engineerslogbook-v1.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:778276158903:android:5cb77a4215cea8dd",
+        "android_client_info": {
+          "package_name": "com.engineers.logbook"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "778276158903-afa5gu5g7ivnrt7akdn9q0asiti57opj.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDg1mVQzGuUZYxHs0aZwnxDLPORpBswpEM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "778276158903-afa5gu5g7ivnrt7akdn9q0asiti57opj.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

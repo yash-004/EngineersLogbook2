@@ -1,0 +1,40 @@
+<ion-header translucent>
+  <ion-toolbar>
+    <h1 style="margin-left: 10px;">BEFORE OPERATIONS CHECK (BOC) CHECKLIST</h1>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <h6 style="margin-left: 10px;"> NOTE: Any defects including the items in the Check List found are to be reported to Transport Leader/3SG and above immediately and recorded in the ODD book</h6>
+  <ol>
+    <li>Check Engine Oil in between minimum and maximum level.</li>
+    <li>Check Brake Fluid is between minimum minimum and maximum level. (if applicable)</li>
+    <li>Check Clutch Fluid is between minimum minimum and maximum level. (if applicable)</li>
+    <li>Check Power Steering Oil is between minimum minimum and maximum level.</li>
+    <li>Check Radiator Coolant is filled to the required level.</li>
+    <li>Check all wheel nuts are intact & tyre side wall for physical damage.</li>
+    <li>Check Canopy Ropes are tightened. (if applicable)</li>
+    <li>Check Battery terminal / mounting bracket secured & terminal insulators are intact.</li>
+    <li>Check Front & Rear Seat Belts are able to buckle & lock.</li>
+    <li>Check Headlight / Signal Height / Tail Height / Brake Light / Horn / Wipers are working.</li>
+    <li>Check instrument panel warning lights and buzzer are working.</li>
+    <li>Check SWD / IVD are working.</li>
+    <li>Check Fuel Tank level. (not less than 1/2 tank)</li>
+    <li>Check for abnormal noise, vibration and burning smell.</li>
+    <li>Check that reverse sensor is switched on. (for OUV)</li>
+    <li>Check that reverse camera is working. (if applicable)</li>
+  </ol>
+  <ion-item>
+    <ion-label text-wrap>I acknowledge that I have read through, understood, and checked through the Before Operations Check (BOC) Checklist and have not found any defects.</ion-label>
+    <ion-checkbox slot="start" name="boc" (ionChange)="setcheckboxstatus()"></ion-checkbox>
+  </ion-item>
+  <div class="btn-wrapper">
+    <div *ngIf=getcheckboxstatus()>
+      <ion-button (click)=onCancel()>Cancel</ion-button>
+      <ion-button routerLink="/mtrac" >Continue</ion-button>
+    </div>
+    <div *ngIf = !getcheckboxstatus()>
+      <ion-button expand="block" (click)=onCancel()>Cancel</ion-button>
+    </div>
+  </div>
+</ion-content>

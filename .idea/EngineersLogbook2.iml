@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module type="JAVA_MODULE" version="4">
+  <component name="FacetManager">
+    <facet type="android" name="Android">
+      <configuration>
+        <option name="GEN_FOLDER_RELATIVE_PATH_APT" value="/../../EngineersLogbook2/gen" />
+        <option name="GEN_FOLDER_RELATIVE_PATH_AIDL" value="/../../EngineersLogbook2/gen" />
+        <option name="MANIFEST_FILE_RELATIVE_PATH" value="/../../EngineersLogbook2/AndroidManifest.xml" />
+        <option name="RES_FOLDER_RELATIVE_PATH" value="/../../EngineersLogbook2/res" />
+        <option name="ASSETS_FOLDER_RELATIVE_PATH" value="/../../EngineersLogbook2/assets" />
+        <option name="LIBS_FOLDER_RELATIVE_PATH" value="/../../EngineersLogbook2/libs" />
+        <option name="PROGUARD_LOGS_FOLDER_RELATIVE_PATH" value="/../../EngineersLogbook2/proguard_logs" />
+      </configuration>
+    </facet>
+  </component>
+  <component name="NewModuleRootManager" inherit-compiler-output="true">
+    <exclude-output />
+    <content url="file://$MODULE_DIR$">
+      <sourceFolder url="file://$MODULE_DIR$/gen" isTestSource="false" generated="true" />
+      <excludeFolder url="file://$MODULE_DIR$/.DS_Store" />
+      <excludeFolder url="file://$MODULE_DIR$/.firebaserc" />
+      <excludeFolder url="file://$MODULE_DIR$/.git" />
+      <excludeFolder url="file://$MODULE_DIR$/.gitattributes" />
+      <excludeFolder url="file://$MODULE_DIR$/.gitignore" />
+      <excludeFolder url="file://$MODULE_DIR$/.gradle" />
+      <excludeFolder url="file://$MODULE_DIR$/.idea" />
+      <excludeFolder url="file://$MODULE_DIR$/Failed" />
+      <excludeFolder url="file://$MODULE_DIR$/README.md" />
+      <excludeFolder url="file://$MODULE_DIR$/angular.json" />
+      <excludeFolder url="file://$MODULE_DIR$/browserlist" />
+      <excludeFolder url="file://$MODULE_DIR$/config.xml" />
+      <excludeFolder url="file://$MODULE_DIR$/e2e" />
+      <excludeFolder url="file://$MODULE_DIR$/firebase.json" />
+      <excludeFolder url="file://$MODULE_DIR$/functions" />
+      <excludeFolder url="file://$MODULE_DIR$/google-services.json" />
+      <excludeFolder url="file://$MODULE_DIR$/gradle" />
+      <excludeFolder url="file://$MODULE_DIR$/gradle.properties" />
+      <excludeFolder url="file://$MODULE_DIR$/gradlew" />
+      <excludeFolder url="file://$MODULE_DIR$/ionic.config.json" />
+      <excludeFolder url="file://$MODULE_DIR$/karma.conf.js" />
+      <excludeFolder url="file://$MODULE_DIR$/node_modules" />
+      <excludeFolder url="file://$MODULE_DIR$/package-lock.json" />
+      <excludeFolder url="file://$MODULE_DIR$/package.json" />
+      <excludeFolder url="file://$MODULE_DIR$/platforms" />
+      <excludeFolder url="file://$MODULE_DIR$/plugins" />
+      <excludeFolder url="file://$MODULE_DIR$/resources" />
+      <excludeFolder url="file://$MODULE_DIR$/src" />
+      <excludeFolder url="file://$MODULE_DIR$/tsconfig.app.json" />
+      <excludeFolder url="file://$MODULE_DIR$/tsconfig.json" />
+      <excludeFolder url="file://$MODULE_DIR$/tsconfig.spec.json" />
+      <excludeFolder url="file://$MODULE_DIR$/tslint.json" />
+      <excludeFolder url="file://$MODULE_DIR$/www" />
+    </content>
+    <orderEntry type="jdk" jdkName="Android API 29 Platform" jdkType="Android SDK" />
+    <orderEntry type="sourceFolder" forTests="false" />
+  </component>
+</module>

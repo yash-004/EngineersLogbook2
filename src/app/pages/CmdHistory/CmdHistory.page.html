@@ -1,0 +1,112 @@
+<ion-header >
+  <ion-toolbar>
+    <ion-title>History</ion-title>
+    <ion-buttons slot="primary">
+      <ion-button left routerLink="/" routerDirection="root" fill="clear" slot="primary">
+        Logout<ion-icon name="log-out"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-card>
+  <ion-list>
+    <ion-item>
+      <ion-label position="stacked">Driver</ion-label>
+      <ion-select id="drvr" interface="popover" value="ALL" class="full-width-select">
+        <ion-select-option value="ALL">ALL</ion-select-option>
+        <ion-select-option text-wrap *ngFor="let driver of database.current.all_drivers_of_commander" value={{driver.email}} class="custom-font-size">{{driver.email}}</ion-select-option>
+      </ion-select>
+      <ion-label position="stacked">Vehicle Type</ion-label>
+        <ion-select id="vehitype" interface="popover" value="ALL" class="full-width-select">
+          <ion-select-option value="ALL">ALL</ion-select-option>
+          <ion-select-option text-wrap *ngFor ="let vehicle of database.current.stats.most_recent_drive_by_vehicle_type | keyvalue" value={{vehicle.key}} class="custom-font-size">{{vehicle.key}}</ion-select-option>
+        </ion-select>
+    </ion-item>
+  </ion-list>
+</ion-card>
+
+<ion-content>
+
+  <!-- Month/date Selector (Sticky header) -->
+
+  <ion-item-divider sticky>
+    <ion-grid>
+      <ion-row class="vertical-align-content">
+        <ion-col no-padding text-center size=3>
+            <ion-button size="small" (click)="incrementFilterPeriod(-1)"><ion-icon name="return-left"></ion-icon></ion-button>
+        </ion-col>
+
+        <ion-col no-padding text-center>
+          <h4>{{getFilterPeriodString()}}</h4>
+        </ion-col>
+
+        <ion-col no-padding text-center size=3>
+            <ion-button size="small" (click)="incrementFilterPeriod(+1)"><ion-icon name="return-right"></ion-icon></ion-button>
+        </ion-col>
+
+      </ion-row>
+    </ion-grid>
+  </ion-item-divider>
+
+  <div style="display: block">
+    <canvas baseChart
+                [data]="chartData"
+                [labels]="chartLabels"
+                [chartType]="chartType"
+                [colors]="chartColors"
+                (chartHover)="chartHovered($event)"
+                (chartClick)="chartClicked($event)"></canvas>
+  </div>
+
+  <ion-card *ngFor="let trip of getDrives()">
+    <br>
+    <app-drive-view expandHeight='150px' expandWidth='100px' [drive]="trip"></app-drive-view>
+  </ion-card>
+
+<!--
+    <ion-row >
+      <ion-col align="center">
+      <ion-card >
+    <ion-card-header>
+      <ion-card-subtitle>
+          <ion-item class="card">
+          <ion-label position="floating"></ion-label>
+          <ion-input disabled type="date" name="text_drivedate" color="success">  </ion-input>
+            </ion-item>
+        </ion-card-subtitle>
+      <ion-card-title>
+        <ion-item class="card" >
+          <ion-label color="success" position="floating">VehicleType</ion-label>
+          <ion-input color="success" disabled type="number" name="text_drivevehicletype">  </ion-input>
+            </ion-item>
+    </ion-card-title>
+    </ion-card-header>
+
+    <ion-card-content>
+
+      <ion-grid>
+        <ion-row>
+          <ion-col >
+            <ion-item class="card">
+          <ion-label color="success" position="floating">Total Time Driven</ion-label>
+          <ion-input disabled type="number" name="text_driveduration" color="success">  </ion-input>
+            </ion-item>
+          </ion-col>
+          <ion-col>
+            <ion-item class="card">
+          <ion-label color="success" position="floating">Total Mileage</ion-label>
+          <ion-input disabled type="number" name="text_drivemileage" color="success">  </ion-input>
+            </ion-item>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+
+    </ion-card-content>
+  </ion-card>
+
+      </ion-col>
+    </ion-row>
+-->
+
+</ion-content>

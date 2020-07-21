@@ -1,0 +1,65 @@
+<ion-tabs>
+  <ion-tab-bar slot="bottom">
+
+    <ion-tab-button tab="commander" *ngIf="this.database.current.user.is_commander">
+      <ion-icon name="home"></ion-icon>
+      <ion-label>Home</ion-label>
+    </ion-tab-button>
+  
+    <ion-tab-button tab="summary" *ngIf="!this.database.current.user.is_commander">
+      <ion-icon name="home"></ion-icon>
+      <ion-label>Home</ion-label>
+    </ion-tab-button>
+
+    <ion-tab-button tab="CmdHistory" *ngIf="this.database.current.user.is_commander">
+      <ion-icon name="car"></ion-icon>
+      <ion-label>History</ion-label>
+    </ion-tab-button>
+
+    <ion-tab-button tab="history" *ngIf="!this.database.current.user.is_commander">
+      <ion-icon name="car"></ion-icon>
+      <ion-label>History</ion-label>
+    </ion-tab-button>
+
+    <ion-tab-button tab="profile">
+      <ion-icon name="person"></ion-icon>
+      <ion-label >Profile</ion-label>
+    </ion-tab-button>
+
+    <ion-tab-button tab="CmdMap" *ngIf="this.database.current.user.is_commander">
+      <ion-icon name="locate"></ion-icon>
+      <ion-label>Map</ion-label>
+    </ion-tab-button>
+
+    <ion-tab-button tab="map" *ngIf="!this.database.current.user.is_commander">
+      <ion-icon name="locate"></ion-icon>
+      <ion-label>Map</ion-label>
+    </ion-tab-button>
+
+  </ion-tab-bar>
+
+</ion-tabs>
+
+<ion-fab vertical="bottom" horizontal="center">
+  <ion-fab-button size="small" color="primary">
+    <ion-icon name="add"></ion-icon>
+  </ion-fab-button>
+  <ion-fab-list side="end">
+    <ion-fab-button color="primary" *ngIf="this.database.current.drive_in_progress==null && this.database.current.mtrac_in_progress==null && this.getDrive().length==0;" routerLink = "/boc"><ion-icon name="speedometer"></ion-icon></ion-fab-button>
+    <ng-container
+            *ngIf="this.getDrive().length!=0 && this.getIncompleteMTRAC().length==0; then editdrive;">
+    </ng-container>
+    <ng-template #editdrive>
+      <ion-fab-button color="primary"  *ngFor="let drive of getDrive()" (click)="clickdrive(drive)"><ion-icon name="speedometer"></ion-icon></ion-fab-button>
+    </ng-template>
+    <ng-container
+            *ngIf="this.getIncompleteMTRAC().length!=0 && this.getDrive().length==0; then editmtrac;">
+    </ng-container>
+    <ng-template #editmtrac>
+      <ion-fab-button color="primary"  *ngFor="let form of getIncompleteMTRAC()" (click)="clickmtrac(form)"><ion-icon name="speedometer"></ion-icon></ion-fab-button>
+    </ng-template>
+  </ion-fab-list>
+  <ion-fab-list side="start">
+    <ion-fab-button color="primary" routerLink = "/add-fuel"><ion-icon name="color-fill"></ion-icon></ion-fab-button>
+  </ion-fab-list>
+</ion-fab>

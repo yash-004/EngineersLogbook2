@@ -1,0 +1,141 @@
+<ion-header translucent>
+  <ion-toolbar>
+    <ion-title>Vehicle & Incident Details</ion-title>
+  </ion-toolbar>
+
+</ion-header>
+
+<ion-content>
+  <form class="form" [formGroup]="addDriveForm" (submit)="addDrive(addDriveForm.value)">
+    <ion-grid>
+      <ion-row>
+        <ion-col>
+          <ion-item text-wrap>
+            <ion-label position="floating">driving area</ion-label>
+            <ion-select formControlName="incamp" interface="popover">
+              <ion-select-option text-wrap value=true>In Camp</ion-select-option>
+              <ion-select-option text-wrap value=false *ngIf="gettime()">Out of Camp</ion-select-option>
+            </ion-select>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+
+      <ion-row>
+        <ion-col>
+          <ion-item >
+            <ion-label position="floating">Vehicle Number</ion-label>
+            <ion-input onkeyup="this.value = this.value.toUpperCase()" formControlName="vehicleNumber"></ion-input>
+          </ion-item>
+          <div class="validation-errors">
+            <ng-container *ngFor="let validation of validationMessages.vehicleNumber">
+              <div class="error-message"
+                *ngIf="addDriveForm.get('vehicleNumber').hasError(validation.type) && (addDriveForm.get('vehicleNumber').dirty || addDriveForm.get('vehicleNumber').touched)">
+                {{ validation.message }}
+              </div>
+            </ng-container>
+          </div>
+        </ion-col>
+
+        <ion-col>
+          <ion-item>
+            <ion-label position="floating">Vehicle Type</ion-label>
+            <ion-select formControlName="vehicleType" interface="popover">
+              <ion-select-option text-wrap *ngFor="let vty of getapprovedvtypes()" value={{vty}}>{{vty}}</ion-select-option>
+            </ion-select>
+          </ion-item>
+          <div class="validation-errors">
+            <ng-container *ngFor="let validation of validationMessages.vehicleType">
+              <div class="error-message"
+                *ngIf="addDriveForm.get('vehicleType').hasError(validation.type) && (addDriveForm.get('vehicleType').dirty || addDriveForm.get('vehicleType').touched)">
+                {{ validation.message }}
+              </div>
+            </ng-container>
+          </div>
+        </ion-col>
+      </ion-row>
+
+      <ion-row>
+        <ion-col>
+          <ion-item>
+            <ion-label position="floating">Vehicle Commander</ion-label>
+            <ion-select formControlName="vehicleCommander" interface="popover">
+              <ion-select-option *ngFor="let c of database.current.all_commanders_of_driver" value={{c.email}}>{{c.name}}
+              </ion-select-option>
+            </ion-select>
+          </ion-item>
+          <div class="validation-errors">
+            <ng-container *ngFor="let validation of validationMessages.vehicleCommander">
+              <div class="error-message"
+                *ngIf="addDriveForm.get('vehicleCommander').hasError(validation.type) && (addDriveForm.get('vehicleCommander').dirty || addDriveForm.get('vehicleCommander').touched)">
+                {{ validation.message }}
+              </div>
+            </ng-container>
+          </div>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+
+    <ion-card>
+      <ion-card-content>
+        <ion-item lines="none" no-padding>
+          <ion-icon name="pin" size="large" color="primary"></ion-icon>
+          <ion-label> Drive Details </ion-label>
+        </ion-item>
+        <ion-item>
+          <ion-label position="floating">Start Location</ion-label>
+          <ion-input type="text" onkeyup="this.value = this.value.toUpperCase()" formControlName="startLocation"></ion-input>
+        </ion-item>
+        <div class="validation-errors">
+          <ng-container *ngFor="let validation of validationMessages.startLocation">
+            <div class="error-message"
+              *ngIf="addDriveForm.get('startLocation').hasError(validation.type) && (addDriveForm.get('startLocation').dirty || addDriveForm.get('startLocation').touched)">
+              {{ validation.message }}
+            </div>
+          </ng-container>
+        </div>
+
+        <ion-item>
+          <ion-label position="floating">Current Location</ion-label>
+          <ion-input type="text" onkeyup="this.value = this.value.toUpperCase()" formControlName="endLocation" placeholder="Current Location Address"></ion-input>
+        </ion-item>
+        <div class="validation-errors">
+          <ng-container *ngFor="let validation of validationMessages.endLocation">
+            <div class="error-message"
+                 *ngIf="addDriveForm.get('endLocation').hasError(validation.type) && (addDriveForm.get('endLocation').dirty || addDriveForm.get('endLocation').touched)">
+              {{ validation.message }}
+            </div>
+          </ng-container>
+        </div>
+
+        <ion-item>
+          <ion-label floating>Description</ion-label>
+          <ion-textarea formControlName="driveComments" placeholder="Describe the incident (what happened? which part of vehicle is damaged?)"></ion-textarea>
+        </ion-item>
+        <div class="validation-errors">
+          <ng-container *ngFor="let validation of validationMessages.driveComments">
+            <div class="error-message"
+                 *ngIf="addDriveForm.get('driveComments').hasError(validation.type) && (addDriveForm.get('driveComments').dirty || addDriveForm.get('driveComments').touched)">
+              {{ validation.message }}
+            </div>
+          </ng-container>
+        </div>
+
+      </ion-card-content>
+    </ion-card>
+
+    <div class="btn-wrapper">
+      <div *ngIf = showSubmit()>
+        <ion-button *ngIf = this.database.current.user.is_commander routerLink="/tabs/commander">Cancel</ion-button>
+        <ion-button *ngIf = !this.database.current.user.is_commander routerLink="/tabs/summary">Cancel</ion-button>
+        <ion-button *ngIf = this.database.current.user.is_commander class="submit-btn" type="submit" [disabled]="!addDriveForm.valid" style="padding-right:10px">Submit
+        </ion-button>
+        <ion-button *ngIf = !this.database.current.user.is_commander class="submit-btn" type="submit" [disabled]="!addDriveForm.valid" style="padding-right:10px">Submit
+        </ion-button>
+      </div>
+      <div *ngIf = !showSubmit()>
+            <ion-button *ngIf = !this.database.current.user.is_commander expand="block" routerLink="/tabs/summary">OK</ion-button>
+            <ion-button *ngIf = this.database.current.user.is_commander expand="block" routerLink="/tabs/commander">OK</ion-button>
+      </div>
+    </div>
+  </form>
+</ion-content>

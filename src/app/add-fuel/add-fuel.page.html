@@ -1,0 +1,111 @@
+<ion-header translucent>
+  <ion-toolbar>
+    <ion-title>Fuel Details</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+
+<ion-content>
+  <form class="form" [formGroup]="addFuelForm" (submit)="addFuel(addFuelForm.value)">
+    <ion-grid>
+      <ion-row>
+        <ion-col>
+          <ion-item>
+            <ion-label position="floating">Date</ion-label>
+            <ion-datetime displayFormat="DD/MM/YYYY" formControlName="date"></ion-datetime>
+          </ion-item>
+          <div class="validation-errors">
+            <ng-container *ngFor="let validation of validationMessages.date">
+              <div class="error-message"
+                *ngIf="addFuelForm.get('date').hasError(validation.type) && (addFuelForm.get('date').dirty || addFuelForm.get('date').touched)">
+                {{ validation.message }}
+              </div>
+            </ng-container>
+          </div>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col>
+          <ion-item>
+            <ion-label position="floating">Vehicle Number</ion-label>
+            <ion-input onkeyup="this.value = this.value.toUpperCase()" formControlName="vehicleNumber"></ion-input>
+          </ion-item>
+          <div class="validation-errors">
+            <ng-container *ngFor="let validation of validationMessages.vehicleNumber">
+              <div class="error-message"
+                *ngIf="addFuelForm.get('vehicleNumber').hasError(validation.type) && (addFuelForm.get('vehicleNumber').dirty || addFuelForm.get('vehicleNumber').touched)">
+                {{ validation.message }}
+              </div>
+            </ng-container>
+          </div>
+        </ion-col>
+        <ion-col>
+          <ion-item>
+            <ion-label position="floating">Vehicle Type</ion-label>
+            <ion-select formControlName="vehicleType" interface="popover">
+              <ion-select-option text-wrap *ngFor="let vty of getapprovedvtypes()" value={{vty}}>{{vty}}</ion-select-option>
+            </ion-select>
+          </ion-item>
+          <div class="validation-errors">
+            <ng-container *ngFor="let validation of validationMessages.vehicleType">
+              <div class="error-message"
+                *ngIf="addFuelForm.get('vehicleType').hasError(validation.type) && (addFuelForm.get('vehicleType').dirty || addFuelForm.get('vehicleType').touched)">
+                {{ validation.message }}
+              </div>
+            </ng-container>
+          </div>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+
+    <ion-card>
+      <ion-card-content>
+        <ion-item>
+          <ion-label position="floating">Location</ion-label>
+          <ion-input type="text" onkeyup="this.value = this.value.toUpperCase()" formControlName="location"></ion-input>
+        </ion-item>
+        <div class="validation-errors">
+          <ng-container *ngFor="let validation of validationMessages.location">
+            <div class="error-message"
+              *ngIf="addFuelForm.get('location').hasError(validation.type) && (addFuelForm.get('location').dirty || addFuelForm.get('location').touched)">
+              {{ validation.message }}
+            </div>
+          </ng-container>
+        </div>
+        <ion-item>
+          <ion-label position="floating">Time</ion-label>
+          <ion-datetime formControlName="time" displayFormat="HH:mm"></ion-datetime>
+        </ion-item>
+        <div class="validation-errors">
+          <ng-container *ngFor="let validation of validationMessages.time">
+            <div class="error-message"
+              *ngIf="addFuelForm.get('time').hasError(validation.type) && (addFuelForm.get('time').dirty || addFuelForm.get('time').touched)">
+              {{ validation.message }}
+            </div>
+          </ng-container>
+        </div>
+        <ion-item>
+          <ion-label position="floating">Fuel Type</ion-label>
+          <ion-select text-wrap formControlName="FuelType" interface="popover" value="getfueltype()">
+            <ion-select-option text-wrap value="getfueltype()">{{getfueltype()}}</ion-select-option>
+          </ion-select>
+        </ion-item>
+        <ion-item>
+          <ion-label position="floating">FuelTopUp</ion-label>
+          <ion-input type="number" inputmode="numeric" formControlName="FuelTopUp"></ion-input>
+        </ion-item>
+      </ion-card-content>
+    </ion-card>
+
+    <div class="btn-wrapper">
+      <div *ngIf = showSubmit()>
+        <ion-button class="submit-btn" type="submit" [disabled]="!addFuelForm.valid" style="padding-right:10px">Submit
+        </ion-button>
+        <ion-button (click)='onCancel()'>Cancel</ion-button>
+      </div>
+      <div *ngIf = !showSubmit()>
+            <ion-button expand="block" (click)='onCancel()'>OK</ion-button>
+      </div>
+    </div>
+  </form>
+</ion-content>

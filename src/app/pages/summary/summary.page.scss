@@ -1,0 +1,89 @@
+ion-row {
+  //color: black; --background: white; background: white;
+  //color: white; --background: black; background: black;
+  //color: white; --background: none; background: none;
+//  --min-height: 1em;  // Otherwise, ion-items has implicit outer paddings!
+//  background: red;
+}
+
+ion-item{
+    --border-style: none;
+}
+
+.underline{
+    text-decoration: underline;
+}
+
+.shift_up {  // Shift text upwards, sticking the label closer to icon
+  position: relative; 
+  top: -5px;
+}
+
+.slide_num{
+    font-size: 200%;
+    font-weight: 900; //Black (Heavy) 
+    text-align: center;
+    letter-spacing: 2px;
+    //color: black;
+}
+
+.slide_label{
+    font-size: small;
+    letter-spacing: 2px;
+    font-weight: bolder; 
+}
+
+.slide_time{
+    font-size: 180%;
+    font-weight: 900; //Black (Heavy) 
+    text-align: center;
+    letter-spacing: 3px;
+}
+
+.gauge_value{
+    font-weight:900;
+}
+.top_stats{
+    font-size: 150%;
+    font-weight: 900; 
+    text-align: center;
+}
+
+.top_inputs{
+//    --ion-background-color:#005750;
+    font-size: 20px;  
+}
+.top_labels{
+    font-size: 25px;
+    padding-bottom: 5px;
+
+}
+.scrollable{
+    height:auto;
+    overflow-y: auto;
+}
+
+.table{
+//        table-layout: fixed;
+        width: 100%;  
+//        background: green;
+//        height: 100%;
+        display: flex; flex-flow: column;
+    padding-bottom: 0px;
+    margin-bottom: 0px;
+}
+
+.bubble-text {
+  //background: red;
+  padding: 0px;
+//  border-radius: 10px;
+//  margin-bottom: 4px;
+//  white-space: pre-wrap;
+}
+
+.vertical-align-content > *
+{
+     display: flex!important;
+     align-content: center!important;
+     align-items: center!important;
+}

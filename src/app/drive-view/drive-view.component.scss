@@ -1,0 +1,26 @@
+ion-item, .row {
+  //color: black; --background: white; background: white;
+  //color: white; --background: black; background: black;
+  //color: white; --background: none; background: none;
+  --min-height: 1em;  // Otherwise, ion-items has implicit outer paddings!
+}
+
+ion-col {
+  padding: 0;  // No automatic spacing between labels
+  //background: white;   // Fix ugly background gap at bottom of left column
+}
+
+.left {
+  //background:red;
+  display: flex!important;
+  ion-item{
+    --inner-padding-end: 0px;
+  }
+  //align-content: center!important;
+  //width: 100% !important;
+  //height: 100%;
+  //ion-item {
+    align-items: center!important;  // vertical alignment
+  justify-content: center!important;  // horizontal alignment
+  //}
+}

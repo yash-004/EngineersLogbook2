@@ -1,0 +1,67 @@
+<ion-content padding id='login-content'>
+
+  <form class="form" [formGroup]="validationsForm"  (ngSubmit)="loginUser(validationsForm.value)">
+    <ion-item class="textfield" no-padding id='email'>
+      <ion-label class="textfield" position="floating">Email</ion-label>
+      <ion-input type="email" formControlName="email" name="email"></ion-input>
+    </ion-item>
+
+    <!--div class="validation-errors">
+      <ng-container *ngFor="let validation of validationMessages.email">
+        <div class="error-message" *ngIf="validationsForm.get('email').hasError(validation.type) && (validationsForm.get('email').dirty || validationsForm.get('email').touched)">
+          {{ validation.message }}
+        </div>
+      </ng-container>
+    </div-->
+
+    <ion-item class="textfield" fill="outline" no-padding id='password'>
+      <ion-label class="textfield" position="floating">Password</ion-label>
+      <ion-input type="password" formControlName="password" class="form-control" required ></ion-input>
+    </ion-item>
+
+    <!--div class="validation-errors">
+      <ng-container *ngFor="let validation of validationMessages.password">
+        <div class="error-message" *ngIf="validationsForm.get('password').hasError(validation.type) && (validationsForm.get('password').dirty || validationsForm.get('password').touched)">
+          {{ validation.message }}
+        </div>
+      </ng-container>
+    </div-->
+
+    <label class="error-message">{{errorMessage}}</label>
+
+    <ion-button class="submit-btn" type="submit" fill="solid" expand="block" [disabled]="!validationsForm.valid" >Login</ion-button>
+
+  </form>
+  <ion-button class='signup-btn' fill="outline" routerLink="/signup" expand="block">Sign up</ion-button>
+
+<!--
+  <ion-button class='offline-btn' fill="outline" routerLink="/offline" expand="block">Offline Mode</ion-button>
+-->
+
+      <ion-list>
+        <ion-item lines="full">
+          <ion-icon slot="start" name="moon"></ion-icon>
+          <ion-label>
+            Toggle Dark Theme
+          </ion-label>
+          <ion-toggle [(ngModel)]="toggle_dark_mode" id="themeToggle" slot="end"></ion-toggle>
+        </ion-item>
+      </ion-list>
+
+      <div text-center>
+        <img src="assets/30SCE.png">
+      </div>
+
+  <!-- FOR DEBUGGING ONLY -->
+
+  <!--<div id='debug-stuff' style="position:relative; top:5em;" *ngIf="debugging_mode">
+    <ion-button size='small' fill="outline" (click)="debug('driver')" clear>Debug Driver</ion-button>
+    <ion-button size='small' fill="outline" (click)="debug('commander')" clear>Debug Commander</ion-button>
+    <ion-button size='small' fill="outline" (click)="debug('admin')" clear>Debug Admin</ion-button>
+    &lt;!&ndash;ion-button (click)="changeTheme('autumn')">Autumn</ion-button>
+    <ion-button (click)="changeTheme('night')">Dark</ion-button>
+    <ion-button (click)="changeTheme('neon')">Neon</ion-button> &ndash;&gt;
+  </div>-->
+
+
+</ion-content>

@@ -1,0 +1,27 @@
+
+ion-content {
+
+//  opacity: 0;   // animejs will fade this in
+  
+  --padding-start: 10%;
+  --padding-end: 10%;
+  --padding-top: 10%;
+
+  // https://www.cssmatic.com/gradient-generator
+  //background: -moz-linear-gradient(left, rgba(33,53,9,1)0%,  rgba(104,133,81,1)  100%);
+  //--ion-background-color: none;
+  //--ion-text-color:#000000;
+    
+  .rounded {
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    border-radius: 5px;
+  }
+  .textfield {
+    --background: transparent;
+  }
+  .error-message {
+    color: red;
+    font-size: 0.8em;
+  }
+}

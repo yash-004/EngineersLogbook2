@@ -1,0 +1,23 @@
+
+* {
+//  opacity: 1 !important;  // disabled items will not be grey out.
+}
+
+ion-input{
+  text-transform: uppercase;
+  color: primary!important;
+}
+
+ion-card-title{
+  --color:--ion-color-primary-contrast-rgb;
+}
+
+.btn-wrapper {
+  text-align: center;
+}
+
+// do not show spinner for number inputs
+.input[type=number] {  
+  &::-webkit-inner-spin-button{ display: none; }
+  -moz-appearance:textfield;
+}
