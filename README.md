@@ -1,7 +1,5 @@
-
 # Engineer's Logbook
-
-Ionic/Cordova mobile app for tracking driving mileage. 
+Cordova/Ionic app for tracking mileage and currency
 
 ## Prerequisites
 
@@ -30,6 +28,12 @@ ionic cordova run android
 ## Authors
 
 Bryan Fang
+
+Lewis Tham
+
+Louis Wang
+
+Yash Dixit
 
 ## Issues
 
