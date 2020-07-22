@@ -1,0 +1,56 @@
+### ApacheCordova ###
+# Apache Cordova generated files and directories
+bin/*
+!/plugins
+!/plugins/android.json
+!/plugins/fetch.json
+plugins/*
+platforms/*
+
+### Cordova ###
+# gitignore template for the Cordova framework
+# website: https://cordova.apache.org/
+#
+# Recommended template: Node.gitignore
+
+# App platform binaries and built files
+/platforms
+
+# Optional to ignore plugin Git clones
+#/plugins
+
+### Ionic3 ###
+# Log an tmp data
+*~
+*.sw[mnpcod]
+*.log
+*.tmp
+*.tmp.*
+log.txt
+
+# NPM (Node Package Manager) files
+npm-debug.log*
+node_modules/
+tmp/
+temp/
+
+# Preprocessors cache files
+.sourcemaps/
+.sass-cache/
+.tmp/
+hooks/
+
+# Ionic 3 plugins files
+platforms/
+plugins/
+plugins/android.json
+plugins/ios.json
+www/
+
+# Trash data
+$RECYCLE.BIN/
+.DS_Store
+Thumbs.db
+UserInterfaceState.xcuserstate
+
+# End of https://www.toptal.com/developers/gitignore/api/ionic3,cordova,apachecordova
