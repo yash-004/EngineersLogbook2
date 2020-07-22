@@ -52,5 +52,3 @@ $RECYCLE.BIN/
 .DS_Store
 Thumbs.db
 UserInterfaceState.xcuserstate
-
-# End of https://www.toptal.com/developers/gitignore/api/ionic3,cordova,apachecordova
