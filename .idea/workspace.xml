@@ -16,11 +16,7 @@
   <component name="ChangeListManager">
     <list default="true" id="3cdf076c-df2b-4277-9f47-69f51d413bc6" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config.xml" beforeDir="false" afterPath="$PROJECT_DIR$/config.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/app/boc/boc.page.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/boc/boc.page.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/boc/boc.page.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/boc/boc.page.scss" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/app/boc/boc.page.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/boc/boc.page.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -240,6 +236,14 @@
       <option name="presentableId" value="Default" />
       <updated>1581489826310</updated>
     </task>
+    <task id="LOCAL-00001" summary="edited boc&#10;changed all to checkboxes&#10;will do the logic tomorrow">
+      <created>1595415589505</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1595415589505</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="UnknownFeatures">
@@ -273,11 +277,23 @@
       </map>
     </option>
   </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="edited boc&#10;changed all to checkboxes&#10;will do the logic tomorrow" />
+    <option name="LAST_COMMIT_MESSAGE" value="edited boc&#10;changed all to checkboxes&#10;will do the logic tomorrow" />
+  </component>
   <component name="WindowStateProjectService">
+    <state x="251" y="0" key="CommitChangelistDialog2" timestamp="1595415582869">
+      <screen x="0" y="0" width="1280" height="720" />
+    </state>
+    <state x="251" y="0" key="CommitChangelistDialog2/0.0.1280.720@0.0.1280.720" timestamp="1595415582869" />
     <state x="221" y="103" key="IDE.errors.dialog" timestamp="1595393523610">
       <screen x="0" y="0" width="1280" height="720" />
     </state>
     <state x="221" y="103" key="IDE.errors.dialog/0.0.1280.720@0.0.1280.720" timestamp="1595393523610" />
+    <state x="233" y="94" key="Vcs.Push.Dialog.v2" timestamp="1595424282819">
+      <screen x="0" y="0" width="1280" height="720" />
+    </state>
+    <state x="233" y="94" key="Vcs.Push.Dialog.v2/0.0.1280.720@0.0.1280.720" timestamp="1595424282819" />
     <state x="110" y="120" width="1060" height="480" key="com.android.tools.idea.avdmanager.AvdListDialog" timestamp="1595392907048">
       <screen x="0" y="0" width="1280" height="720" />
     </state>

@@ -62,9 +62,19 @@ constructor(
     public route: ActivatedRoute
   ) { }
 
+    selectedArray : any = [];
+
+onChange(name) {
+if(this.selectedArray.includes(name)) {
+    this.selectedArray = this.selectedArray.filter((value)=>value!=name);
+} else {
+    this.selectedArray.push(name)
+}
+}
   public setcheckboxstatus(){
     this.checkboxstatus =! this.checkboxstatus;
-  }
+}
+
 
   public getcheckboxstatus(){
     return this.checkboxstatus;
