@@ -9,7 +9,7 @@
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony default export */ __webpack_exports__["default"] = ("<ion-header translucent>\n  <ion-toolbar>\n    <h1 style=\"margin-left: 10px;\">BEFORE OPERATIONS CHECK (BOC) CHECKLIST</h1>\n  </ion-toolbar>\n</ion-header>\n\n<ion-content>\n  <h6 style=\"margin-left: 10px;\"> NOTE: Any defects including the items in the Check List found are to be reported to Transport Leader/3SG and above immediately and recorded in the ODD book</h6>\n  <ol>\n    <li>Check Engine Oil in between minimum and maximum level.</li>\n    <li>Check Brake Fluid is between minimum minimum and maximum level. (if applicable)</li>\n    <li>Check Clutch Fluid is between minimum minimum and maximum level. (if applicable)</li>\n    <li>Check Power Steering Oil is between minimum minimum and maximum level.</li>\n    <li>Check Radiator Coolant is filled to the required level.</li>\n    <li>Check all wheel nuts are intact & tyre side wall for physical damage.</li>\n    <li>Check Canopy Ropes are tightened. (if applicable)</li>\n    <li>Check Battery terminal / mounting bracket secured & terminal insulators are intact.</li>\n    <li>Check Front & Rear Seat Belts are able to buckle & lock.</li>\n    <li>Check Headlight / Signal Height / Tail Height / Brake Light / Horn / Wipers are working.</li>\n    <li>Check instrument panel warning lights and buzzer are working.</li>\n    <li>Check SWD / IVD are working.</li>\n    <li>Check Fuel Tank level. (not less than 1/2 tank)</li>\n    <li>Check for abnormal noise, vibration and burning smell.</li>\n    <li>Check that reverse sensor is switched on. (for OUV)</li>\n    <li>Check that reverse camera is working. (if applicable)</li>\n  </ol>\n  <ion-item>\n    <ion-label text-wrap>I acknowledge that I have read through, understood, and checked through the Before Operations Check (BOC) Checklist and have not found any defects.</ion-label>\n    <ion-checkbox slot=\"start\" name=\"boc\" (ionChange)=\"setcheckboxstatus()\"></ion-checkbox>\n  </ion-item>\n  <div class=\"btn-wrapper\">\n    <div *ngIf=getcheckboxstatus()>\n      <ion-button class=\"submit-btn\" style=\"padding-right:10px\" routerLink=\"/mtrac\" >Continue</ion-button>\n      <ion-button (click)='onCancel()'>Cancel</ion-button>\n    </div>\n    <div *ngIf = !getcheckboxstatus()>\n      <ion-button expand=\"block\" (click)='onCancel()'>Cancel</ion-button>\n    </div>\n  </div>\n</ion-content>");
+/* harmony default export */ __webpack_exports__["default"] = ("<ion-header translucent>\n  <ion-toolbar>\n    <h1 style=\"margin-left: 10px;\">BEFORE OPERATIONS CHECK (BOC) CHECKLIST</h1>\n  </ion-toolbar>\n</ion-header>\n<ion-content>\n  <h6 style=\"margin-left: 10px;\"> NOTE: Any defects including the items in the Check List found are to be reported to Transport Leader/3SG and above immediately and recorded in the ODD book</h6>\n  <ion-list>\n    <ion-item *ngFor=\"let list of checklist\">\n      <ion-label>{{list.listID}}.{{list.name}}</ion-label>\n      <ion-checkbox slot=\"end\" [(ngModel)]=\"list.isChecked\" (click)=\"onChange(list)\"></ion-checkbox>\n    </ion-item>\n  </ion-list>\n  <ion-item>\n    <ion-label text-wrap>I acknowledge that I have read through, understood, and checked through the Before Operations Check (BOC) Checklist and have not found any defects.</ion-label>\n    <ion-checkbox slot=\"start\" name=\"boc\" [disabled]=\"selectedArray.length <= 15\" (ionChange)=\"setcheckboxstatus()\"></ion-checkbox>\n  </ion-item>\n  <div class=\"btn-wrapper\">\n    <div *ngIf=getcheckboxstatus()>\n      <ion-button (click)=onCancel()>Cancel</ion-button>\n      <ion-button routerLink=\"/mtrac\" >Continue</ion-button>\n    </div>\n    <div *ngIf = !getcheckboxstatus()>\n      <ion-button expand=\"block\" (click)=onCancel()>Cancel</ion-button>\n    </div>\n  </div>\n</ion-content>");
 
 /***/ }),
 
@@ -71,7 +71,7 @@ bocPageModule = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony default export */ __webpack_exports__["default"] = ("ion-input {\n  text-transform: uppercase;\n  color: primary !important;\n}\n\nion-card-title {\n  --color:--ion-color-primary-contrast-rgb;\n}\n\n.btn-wrapper {\n  text-align: center;\n}\n\n.input[type=number] {\n  -moz-appearance: textfield;\n}\n\n.input[type=number]::-webkit-inner-spin-button {\n  display: none;\n}\n\n.toolbar-title {\n  text-overflow: inherit;\n  white-space: normal;\n  text-align: left;\n  font-size: 1.3em;\n}\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9Vc2Vycy9tb2phdmUvRGVza3RvcC9FbmdpbmVlcnNMb2dib29rMi9zcmMvYXBwL2JvYy9ib2MucGFnZS5zY3NzIiwic3JjL2FwcC9ib2MvYm9jLnBhZ2Uuc2NzcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiQUFJQTtFQUNFLHlCQUFBO0VBQ0EseUJBQUE7QUNIRjs7QURNQTtFQUNFLHdDQUFBO0FDSEY7O0FETUE7RUFDRSxrQkFBQTtBQ0hGOztBRE9BO0VBRUUsMEJBQUE7QUNMRjs7QURJRTtFQUE4QixhQUFBO0FDRGhDOztBREtBO0VBQ0csc0JBQUE7RUFDQSxtQkFBQTtFQUNBLGdCQUFBO0VBQ0EsZ0JBQUE7QUNGSCIsImZpbGUiOiJzcmMvYXBwL2JvYy9ib2MucGFnZS5zY3NzIiwic291cmNlc0NvbnRlbnQiOlsiKiB7XG4vLyAgb3BhY2l0eTogMSAhaW1wb3J0YW50OyAgLy8gZGlzYWJsZWQgaXRlbXMgd2lsbCBub3QgYmUgZ3JleSBvdXQuXG59XG5cbmlvbi1pbnB1dHtcbiAgdGV4dC10cmFuc2Zvcm06IHVwcGVyY2FzZTtcbiAgY29sb3I6IHByaW1hcnkhaW1wb3J0YW50O1xufVxuXG5pb24tY2FyZC10aXRsZXtcbiAgLS1jb2xvcjotLWlvbi1jb2xvci1wcmltYXJ5LWNvbnRyYXN0LXJnYjtcbn1cblxuLmJ0bi13cmFwcGVyIHtcbiAgdGV4dC1hbGlnbjogY2VudGVyO1xufVxuXG4vLyBkbyBub3Qgc2hvdyBzcGlubmVyIGZvciBudW1iZXIgaW5wdXRzXG4uaW5wdXRbdHlwZT1udW1iZXJdIHsgIFxuICAmOjotd2Via2l0LWlubmVyLXNwaW4tYnV0dG9ueyBkaXNwbGF5OiBub25lOyB9XG4gIC1tb3otYXBwZWFyYW5jZTp0ZXh0ZmllbGQ7XG59XG5cbi50b29sYmFyLXRpdGxlIHtcbiAgIHRleHQtb3ZlcmZsb3c6IGluaGVyaXQ7XG4gICB3aGl0ZS1zcGFjZTogbm9ybWFsO1xuICAgdGV4dC1hbGlnbjogbGVmdDtcbiAgIGZvbnQtc2l6ZToxLjNlbTtcbn0iLCJpb24taW5wdXQge1xuICB0ZXh0LXRyYW5zZm9ybTogdXBwZXJjYXNlO1xuICBjb2xvcjogcHJpbWFyeSAhaW1wb3J0YW50O1xufVxuXG5pb24tY2FyZC10aXRsZSB7XG4gIC0tY29sb3I6LS1pb24tY29sb3ItcHJpbWFyeS1jb250cmFzdC1yZ2I7XG59XG5cbi5idG4td3JhcHBlciB7XG4gIHRleHQtYWxpZ246IGNlbnRlcjtcbn1cblxuLmlucHV0W3R5cGU9bnVtYmVyXSB7XG4gIC1tb3otYXBwZWFyYW5jZTogdGV4dGZpZWxkO1xufVxuLmlucHV0W3R5cGU9bnVtYmVyXTo6LXdlYmtpdC1pbm5lci1zcGluLWJ1dHRvbiB7XG4gIGRpc3BsYXk6IG5vbmU7XG59XG5cbi50b29sYmFyLXRpdGxlIHtcbiAgdGV4dC1vdmVyZmxvdzogaW5oZXJpdDtcbiAgd2hpdGUtc3BhY2U6IG5vcm1hbDtcbiAgdGV4dC1hbGlnbjogbGVmdDtcbiAgZm9udC1zaXplOiAxLjNlbTtcbn0iXX0= */");
+/* harmony default export */ __webpack_exports__["default"] = ("ion-input {\n  text-transform: uppercase;\n  color: primary !important;\n}\n\nion-card-title {\n  --color:--ion-color-primary-contrast-rgb;\n}\n\n.btn-wrapper {\n  text-align: center;\n}\n\n.input[type=number] {\n  -moz-appearance: textfield;\n}\n\n.input[type=number]::-webkit-inner-spin-button {\n  display: none;\n}\n\n.toolbar-title {\n  text-overflow: inherit;\n  white-space: normal;\n  text-align: left;\n  font-size: 1.3em;\n}\n\n.scroll-content {\n  overflow-y: hidden;\n}\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9Vc2Vycy9sZXdpc3RoYW0vR2l0SHViL0VuZ2luZWVyc0xvZ2Jvb2syL3NyYy9hcHAvYm9jL2JvYy5wYWdlLnNjc3MiLCJzcmMvYXBwL2JvYy9ib2MucGFnZS5zY3NzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQUlBO0VBQ0UseUJBQUE7RUFDQSx5QkFBQTtBQ0hGOztBRE1BO0VBQ0Usd0NBQUE7QUNIRjs7QURNQTtFQUNFLGtCQUFBO0FDSEY7O0FET0E7RUFFRSwwQkFBQTtBQ0xGOztBRElFO0VBQThCLGFBQUE7QUNEaEM7O0FES0E7RUFDRyxzQkFBQTtFQUNBLG1CQUFBO0VBQ0EsZ0JBQUE7RUFDQSxnQkFBQTtBQ0ZIOztBREtBO0VBQ0ksa0JBQUE7QUNGSiIsImZpbGUiOiJzcmMvYXBwL2JvYy9ib2MucGFnZS5zY3NzIiwic291cmNlc0NvbnRlbnQiOlsiKiB7XG4vLyAgb3BhY2l0eTogMSAhaW1wb3J0YW50OyAgLy8gZGlzYWJsZWQgaXRlbXMgd2lsbCBub3QgYmUgZ3JleSBvdXQuXG59XG5cbmlvbi1pbnB1dHtcbiAgdGV4dC10cmFuc2Zvcm06IHVwcGVyY2FzZTtcbiAgY29sb3I6IHByaW1hcnkhaW1wb3J0YW50O1xufVxuXG5pb24tY2FyZC10aXRsZXtcbiAgLS1jb2xvcjotLWlvbi1jb2xvci1wcmltYXJ5LWNvbnRyYXN0LXJnYjtcbn1cblxuLmJ0bi13cmFwcGVyIHtcbiAgdGV4dC1hbGlnbjogY2VudGVyO1xufVxuXG4vLyBkbyBub3Qgc2hvdyBzcGlubmVyIGZvciBudW1iZXIgaW5wdXRzXG4uaW5wdXRbdHlwZT1udW1iZXJdIHsgIFxuICAmOjotd2Via2l0LWlubmVyLXNwaW4tYnV0dG9ueyBkaXNwbGF5OiBub25lOyB9XG4gIC1tb3otYXBwZWFyYW5jZTp0ZXh0ZmllbGQ7XG59XG5cbi50b29sYmFyLXRpdGxlIHtcbiAgIHRleHQtb3ZlcmZsb3c6IGluaGVyaXQ7XG4gICB3aGl0ZS1zcGFjZTogbm9ybWFsO1xuICAgdGV4dC1hbGlnbjogbGVmdDtcbiAgIGZvbnQtc2l6ZToxLjNlbTtcbn1cblxuLnNjcm9sbC1jb250ZW50e1xuICAgIG92ZXJmbG93LXk6aGlkZGVuO1xufSIsImlvbi1pbnB1dCB7XG4gIHRleHQtdHJhbnNmb3JtOiB1cHBlcmNhc2U7XG4gIGNvbG9yOiBwcmltYXJ5ICFpbXBvcnRhbnQ7XG59XG5cbmlvbi1jYXJkLXRpdGxlIHtcbiAgLS1jb2xvcjotLWlvbi1jb2xvci1wcmltYXJ5LWNvbnRyYXN0LXJnYjtcbn1cblxuLmJ0bi13cmFwcGVyIHtcbiAgdGV4dC1hbGlnbjogY2VudGVyO1xufVxuXG4uaW5wdXRbdHlwZT1udW1iZXJdIHtcbiAgLW1vei1hcHBlYXJhbmNlOiB0ZXh0ZmllbGQ7XG59XG4uaW5wdXRbdHlwZT1udW1iZXJdOjotd2Via2l0LWlubmVyLXNwaW4tYnV0dG9uIHtcbiAgZGlzcGxheTogbm9uZTtcbn1cblxuLnRvb2xiYXItdGl0bGUge1xuICB0ZXh0LW92ZXJmbG93OiBpbmhlcml0O1xuICB3aGl0ZS1zcGFjZTogbm9ybWFsO1xuICB0ZXh0LWFsaWduOiBsZWZ0O1xuICBmb250LXNpemU6IDEuM2VtO1xufVxuXG4uc2Nyb2xsLWNvbnRlbnQge1xuICBvdmVyZmxvdy15OiBoaWRkZW47XG59Il19 */");
 
 /***/ }),
 
@@ -111,12 +111,41 @@ let bocPage = class bocPage {
         this.checkboxstatus = false;
         this.validationMessages = {
             date: [
-                { type: 'required', message: 'Date is required.' }
+                { type: 'required', message: 'Date is required.'
+                }
             ],
             time: [
-                { type: 'required', message: 'Enter current time' },
+                { type: 'required', message: 'Enter current time'
+                },
             ],
         };
+        this.checklist = [
+            { listID: 1, name: "Check Engine Oil in between minimum and maximum level.", ischecked: false },
+            { listID: 2, name: "Check Brake Fluid is between minimum minimum and maximum level. (if applicable)", ischecked: false },
+            { listID: 3, name: "Check Clutch Fluid is between minimum minimum and maximum level. (if applicable)", ischecked: false },
+            { listID: 4, name: "Check Power Steering Oil is between minimum minimum and maximum level.", ischecked: false },
+            { listID: 5, name: "Check Radiator Coolant is filled to the required level.", ischecked: false },
+            { listID: 6, name: "Check all wheel nuts are intact & tyre side wall for physical damage.", ischecked: false },
+            { listID: 7, name: "Check Canopy Ropes are tightened. (if applicable)", ischecked: false },
+            { listID: 8, name: "Check Battery terminal / mounting bracket secured & terminal insulators are intact.", ischecked: false },
+            { listID: 9, name: "Check Front & Rear Seat Belts are able to buckle & lock.", ischecked: false },
+            { listID: 10, name: "Check Headlight / Signal Height / Tail Height / Brake Light / Horn / Wipers are working.", ischecked: false },
+            { listID: 11, name: "Check instrument panel warning lights and buzzer are working.", ischecked: false },
+            { listID: 12, name: "Check SWD / IVD are working.", ischecked: false },
+            { listID: 13, name: "Check Fuel Tank level. (not less than 1/2 tank)", ischecked: false },
+            { listID: 14, name: "Check for abnormal noise, vibration and burning smell.", ischecked: false },
+            { listID: 15, name: "Check that reverse sensor is switched on. (for OUV)", ischecked: false },
+            { listID: 16, name: "Check that reverse camera is working. (if applicable)", ischecked: false }
+        ];
+        this.selectedArray = [];
+    }
+    onChange(name) {
+        if (this.selectedArray.includes(name)) {
+            this.selectedArray = this.selectedArray.filter((value) => value != name);
+        }
+        else {
+            this.selectedArray.push(name);
+        }
     }
     setcheckboxstatus() {
         this.checkboxstatus = !this.checkboxstatus;

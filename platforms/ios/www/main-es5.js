@@ -30,6 +30,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
       "./home/home.module": ["./src/app/home/home.module.ts", "home-home-module"],
       "./mtrac/mtrac.module": ["./src/app/mtrac/mtrac.module.ts", "mtrac-mtrac-module"],
       "./pages/summary/summary.module": ["./src/app/pages/summary/summary.module.ts", "default~pages-history-history-module~pages-summary-summary-module", "common", "pages-summary-summary-module"],
+      "./reportvehicle/reportvehicle.module": ["./src/app/reportvehicle/reportvehicle.module.ts", "reportvehicle-reportvehicle-module"],
       "./signup/signup.module": ["./src/app/signup/signup.module.ts", "signup-signup-module"],
       "./tabs/tabs.module": ["./src/app/tabs/tabs.module.ts"]
     };
@@ -523,7 +524,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     /* harmony default export */
 
 
-    __webpack_exports__["default"] = "<ion-tabs>\n  <ion-tab-bar slot=\"bottom\">\n\n    <ion-tab-button tab=\"commander\" *ngIf=\"this.database.current.user.is_commander\">\n      <ion-icon name=\"home\"></ion-icon>\n      <ion-label>Home</ion-label>\n    </ion-tab-button>\n  \n    <ion-tab-button tab=\"summary\" *ngIf=\"!this.database.current.user.is_commander\">\n      <ion-icon name=\"home\"></ion-icon>\n      <ion-label>Home</ion-label>\n    </ion-tab-button>\n\n    <ion-tab-button tab=\"CmdHistory\" *ngIf=\"this.database.current.user.is_commander\">\n      <ion-icon name=\"car\"></ion-icon>\n      <ion-label>History</ion-label>\n    </ion-tab-button>\n\n    <ion-tab-button tab=\"history\" *ngIf=\"!this.database.current.user.is_commander\">\n      <ion-icon name=\"car\"></ion-icon>\n      <ion-label>History</ion-label>\n    </ion-tab-button>\n\n    <ion-tab-button tab=\"profile\">\n      <ion-icon name=\"person\"></ion-icon>\n      <ion-label >Profile</ion-label>\n    </ion-tab-button>\n\n    <ion-tab-button tab=\"CmdMap\" *ngIf=\"this.database.current.user.is_commander\">\n      <ion-icon name=\"locate\"></ion-icon>\n      <ion-label>Map</ion-label>\n    </ion-tab-button>\n\n    <ion-tab-button tab=\"map\" *ngIf=\"!this.database.current.user.is_commander\">\n      <ion-icon name=\"locate\"></ion-icon>\n      <ion-label>Map</ion-label>\n    </ion-tab-button>\n\n  </ion-tab-bar>\n\n</ion-tabs>\n\n<ion-fab vertical=\"bottom\" horizontal=\"center\" *ngIf=\"!this.database.current.user.is_commander\">\n  <ion-fab-button size=\"small\" color=\"primary\">\n    <ion-icon name=\"add\"></ion-icon>\n  </ion-fab-button>\n  <ion-fab-list side=\"end\">\n      <ion-fab-button color=\"primary\" *ngIf=\"this.database.current.drive_in_progress==null\" routerLink = \"/boc\"><ion-icon name=\"speedometer\"></ion-icon></ion-fab-button>\n  </ion-fab-list>\n  <ion-fab-list side=\"start\">\n    <ion-fab-button color=\"primary\" routerLink = \"/add-fuel\"><ion-icon name=\"color-fill\"></ion-icon></ion-fab-button>\n  </ion-fab-list>\n</ion-fab>\n";
+    __webpack_exports__["default"] = "<ion-tabs>\n  <ion-tab-bar slot=\"bottom\">\n\n    <ion-tab-button tab=\"commander\" *ngIf=\"this.database.current.user.is_commander\">\n      <ion-icon name=\"home\"></ion-icon>\n      <ion-label>Home</ion-label>\n    </ion-tab-button>\n  \n    <ion-tab-button tab=\"summary\" *ngIf=\"!this.database.current.user.is_commander\">\n      <ion-icon name=\"home\"></ion-icon>\n      <ion-label>Home</ion-label>\n    </ion-tab-button>\n\n    <ion-tab-button tab=\"CmdHistory\" *ngIf=\"this.database.current.user.is_commander\">\n      <ion-icon name=\"car\"></ion-icon>\n      <ion-label>History</ion-label>\n    </ion-tab-button>\n\n    <ion-tab-button tab=\"history\" *ngIf=\"!this.database.current.user.is_commander\">\n      <ion-icon name=\"car\"></ion-icon>\n      <ion-label>History</ion-label>\n    </ion-tab-button>\n\n    <ion-tab-button tab=\"profile\">\n      <ion-icon name=\"person\"></ion-icon>\n      <ion-label >Profile</ion-label>\n    </ion-tab-button>\n\n    <ion-tab-button tab=\"CmdMap\" *ngIf=\"this.database.current.user.is_commander\">\n      <ion-icon name=\"locate\"></ion-icon>\n      <ion-label>Map</ion-label>\n    </ion-tab-button>\n\n    <ion-tab-button tab=\"map\" *ngIf=\"!this.database.current.user.is_commander\">\n      <ion-icon name=\"locate\"></ion-icon>\n      <ion-label>Map</ion-label>\n    </ion-tab-button>\n\n  </ion-tab-bar>\n\n</ion-tabs>\n\n<ion-fab vertical=\"bottom\" horizontal=\"center\">\n  <ion-fab-button size=\"small\" color=\"primary\">\n    <ion-icon name=\"add\"></ion-icon>\n  </ion-fab-button>\n  <ion-fab-list side=\"end\">\n    <ion-fab-button color=\"primary\" *ngIf=\"this.database.current.drive_in_progress==null && this.database.current.mtrac_in_progress==null && this.getDrive().length==0;\" routerLink = \"/boc\"><ion-icon name=\"speedometer\"></ion-icon></ion-fab-button>\n    <ng-container\n            *ngIf=\"this.getDrive().length!=0 && this.getIncompleteMTRAC().length==0; then editdrive;\">\n    </ng-container>\n    <ng-template #editdrive>\n      <ion-fab-button color=\"primary\"  *ngFor=\"let drive of getDrive()\" (click)=\"clickdrive(drive)\"><ion-icon name=\"speedometer\"></ion-icon></ion-fab-button>\n    </ng-template>\n    <ng-container\n            *ngIf=\"this.getIncompleteMTRAC().length!=0 && this.getDrive().length==0; then editmtrac;\">\n    </ng-container>\n    <ng-template #editmtrac>\n      <ion-fab-button color=\"primary\"  *ngFor=\"let form of getIncompleteMTRAC()\" (click)=\"clickmtrac(form)\"><ion-icon name=\"speedometer\"></ion-icon></ion-fab-button>\n    </ng-template>\n  </ion-fab-list>\n  <ion-fab-list side=\"start\">\n    <ion-fab-button color=\"primary\" routerLink = \"/add-fuel\"><ion-icon name=\"color-fill\"></ion-icon></ion-fab-button>\n  </ion-fab-list>\n</ion-fab>\n";
     /***/
   },
 
@@ -1158,6 +1159,9 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
       path: 'summary',
       loadChildren: './pages/summary/summary.module#SummaryPageModule'
     }, {
+      path: 'reportvehicle',
+      loadChildren: './reportvehicle/reportvehicle.module#ReportVehiclePageModule'
+    }, {
       path: 'about',
       loadChildren: function loadChildren() {
         return __webpack_require__.e(
@@ -1199,7 +1203,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     /* harmony default export */
 
 
-    __webpack_exports__["default"] = "ion-select-option {\n  --width:100%;\n}\n\nion-label {\n  white-space: normal !important;\n}\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9Vc2Vycy9tb2phdmUvRGVza3RvcC9FbmdpbmVlcnNMb2dib29rMi9zcmMvYXBwL2FwcC5jb21wb25lbnQuc2NzcyIsInNyYy9hcHAvYXBwLmNvbXBvbmVudC5zY3NzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQVVBO0VBQ0ksWUFBQTtBQ1RKOztBRFdBO0VBQ0ksOEJBQUE7QUNSSiIsImZpbGUiOiJzcmMvYXBwL2FwcC5jb21wb25lbnQuc2NzcyIsInNvdXJjZXNDb250ZW50IjpbIi8vIEFwcCBTdHlsZXNcbi8vIC0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS1cbi8vIFB1dCBzdHlsZSBydWxlcyBoZXJlIHRoYXQgeW91IHdhbnQgdG8gYXBwbHkgdG8gdGhlIGVudGlyZSBhcHBsaWNhdGlvbi4gVGhlc2UgXG4vLyBzdHlsZXMgYXJlIGZvciB0aGUgZW50aXJlIGFwcCBhbmQgbm90IGp1c3Qgb25lIGNvbXBvbmVudC4gQWRkaXRpb25hbGx5LCB0aGlzIFxuLy8gZmlsZSBjYW4gaG9sZCBTYXNzIG1peGlucywgZnVuY3Rpb25zLCBhbmQgcGxhY2Vob2xkZXIgY2xhc3NlcyB0byBiZSBpbXBvcnRlZCBcbi8vIGFuZCB1c2VkIHRocm91Z2hvdXQgdGhlIGFwcGxpY2F0aW9uLlxuXG5pb24tY29udGVudHtcbn1cblxuaW9uLXNlbGVjdC1vcHRpb24ge1xuICAgIC0td2lkdGg6MTAwJTtcbn1cbmlvbi1sYWJlbHtcbiAgICB3aGl0ZS1zcGFjZTpub3JtYWwgIWltcG9ydGFudDtcbn0iLCJpb24tc2VsZWN0LW9wdGlvbiB7XG4gIC0td2lkdGg6MTAwJTtcbn1cblxuaW9uLWxhYmVsIHtcbiAgd2hpdGUtc3BhY2U6IG5vcm1hbCAhaW1wb3J0YW50O1xufSJdfQ== */";
+    __webpack_exports__["default"] = "ion-select-option {\n  --width:100%;\n}\n\nion-label {\n  white-space: normal !important;\n}\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9Vc2Vycy9sZXdpc3RoYW0vR2l0SHViL0VuZ2luZWVyc0xvZ2Jvb2syL3NyYy9hcHAvYXBwLmNvbXBvbmVudC5zY3NzIiwic3JjL2FwcC9hcHAuY29tcG9uZW50LnNjc3MiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IkFBVUE7RUFDSSxZQUFBO0FDVEo7O0FEV0E7RUFDSSw4QkFBQTtBQ1JKIiwiZmlsZSI6InNyYy9hcHAvYXBwLmNvbXBvbmVudC5zY3NzIiwic291cmNlc0NvbnRlbnQiOlsiLy8gQXBwIFN0eWxlc1xuLy8gLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLVxuLy8gUHV0IHN0eWxlIHJ1bGVzIGhlcmUgdGhhdCB5b3Ugd2FudCB0byBhcHBseSB0byB0aGUgZW50aXJlIGFwcGxpY2F0aW9uLiBUaGVzZSBcbi8vIHN0eWxlcyBhcmUgZm9yIHRoZSBlbnRpcmUgYXBwIGFuZCBub3QganVzdCBvbmUgY29tcG9uZW50LiBBZGRpdGlvbmFsbHksIHRoaXMgXG4vLyBmaWxlIGNhbiBob2xkIFNhc3MgbWl4aW5zLCBmdW5jdGlvbnMsIGFuZCBwbGFjZWhvbGRlciBjbGFzc2VzIHRvIGJlIGltcG9ydGVkIFxuLy8gYW5kIHVzZWQgdGhyb3VnaG91dCB0aGUgYXBwbGljYXRpb24uXG5cbmlvbi1jb250ZW50e1xufVxuXG5pb24tc2VsZWN0LW9wdGlvbiB7XG4gICAgLS13aWR0aDoxMDAlO1xufVxuaW9uLWxhYmVse1xuICAgIHdoaXRlLXNwYWNlOm5vcm1hbCAhaW1wb3J0YW50O1xufSIsImlvbi1zZWxlY3Qtb3B0aW9uIHtcbiAgLS13aWR0aDoxMDAlO1xufVxuXG5pb24tbGFiZWwge1xuICB3aGl0ZS1zcGFjZTogbm9ybWFsICFpbXBvcnRhbnQ7XG59Il19 */";
     /***/
   },
 
@@ -1516,7 +1520,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     /* harmony default export */
 
 
-    __webpack_exports__["default"] = "ion-item, .row {\n  --min-height: 1em;\n}\n\nion-col {\n  padding: 0;\n}\n\n.left {\n  display: -webkit-box !important;\n  display: flex !important;\n  -webkit-box-align: center !important;\n          align-items: center !important;\n  -webkit-box-pack: center !important;\n          justify-content: center !important;\n}\n\n.left ion-item {\n  --inner-padding-end: 0px;\n}\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9Vc2Vycy9tb2phdmUvRGVza3RvcC9FbmdpbmVlcnNMb2dib29rMi9zcmMvYXBwL2RyaXZlLXZpZXcvZHJpdmUtdmlldy5jb21wb25lbnQuc2NzcyIsInNyYy9hcHAvZHJpdmUtdmlldy9kcml2ZS12aWV3LmNvbXBvbmVudC5zY3NzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQUFBO0VBSUUsaUJBQUE7QUNGRjs7QURLQTtFQUNFLFVBQUE7QUNGRjs7QURNQTtFQUVFLCtCQUFBO0VBQUEsd0JBQUE7RUFRRSxvQ0FBQTtVQUFBLDhCQUFBO0VBQ0YsbUNBQUE7VUFBQSxrQ0FBQTtBQ1hGOztBREdFO0VBQ0Usd0JBQUE7QUNESiIsImZpbGUiOiJzcmMvYXBwL2RyaXZlLXZpZXcvZHJpdmUtdmlldy5jb21wb25lbnQuc2NzcyIsInNvdXJjZXNDb250ZW50IjpbImlvbi1pdGVtLCAucm93IHtcbiAgLy9jb2xvcjogYmxhY2s7IC0tYmFja2dyb3VuZDogd2hpdGU7IGJhY2tncm91bmQ6IHdoaXRlO1xuICAvL2NvbG9yOiB3aGl0ZTsgLS1iYWNrZ3JvdW5kOiBibGFjazsgYmFja2dyb3VuZDogYmxhY2s7XG4gIC8vY29sb3I6IHdoaXRlOyAtLWJhY2tncm91bmQ6IG5vbmU7IGJhY2tncm91bmQ6IG5vbmU7XG4gIC0tbWluLWhlaWdodDogMWVtOyAgLy8gT3RoZXJ3aXNlLCBpb24taXRlbXMgaGFzIGltcGxpY2l0IG91dGVyIHBhZGRpbmdzIVxufVxuXG5pb24tY29sIHtcbiAgcGFkZGluZzogMDsgIC8vIE5vIGF1dG9tYXRpYyBzcGFjaW5nIGJldHdlZW4gbGFiZWxzXG4gIC8vYmFja2dyb3VuZDogd2hpdGU7ICAgLy8gRml4IHVnbHkgYmFja2dyb3VuZCBnYXAgYXQgYm90dG9tIG9mIGxlZnQgY29sdW1uXG59XG5cbi5sZWZ0IHtcbiAgLy9iYWNrZ3JvdW5kOnJlZDtcbiAgZGlzcGxheTogZmxleCFpbXBvcnRhbnQ7XG4gIGlvbi1pdGVte1xuICAgIC0taW5uZXItcGFkZGluZy1lbmQ6IDBweDtcbiAgfVxuICAvL2FsaWduLWNvbnRlbnQ6IGNlbnRlciFpbXBvcnRhbnQ7XG4gIC8vd2lkdGg6IDEwMCUgIWltcG9ydGFudDtcbiAgLy9oZWlnaHQ6IDEwMCU7XG4gIC8vaW9uLWl0ZW0ge1xuICAgIGFsaWduLWl0ZW1zOiBjZW50ZXIhaW1wb3J0YW50OyAgLy8gdmVydGljYWwgYWxpZ25tZW50XG4gIGp1c3RpZnktY29udGVudDogY2VudGVyIWltcG9ydGFudDsgIC8vIGhvcml6b250YWwgYWxpZ25tZW50XG4gIC8vfVxufVxuIiwiaW9uLWl0ZW0sIC5yb3cge1xuICAtLW1pbi1oZWlnaHQ6IDFlbTtcbn1cblxuaW9uLWNvbCB7XG4gIHBhZGRpbmc6IDA7XG59XG5cbi5sZWZ0IHtcbiAgZGlzcGxheTogZmxleCAhaW1wb3J0YW50O1xuICBhbGlnbi1pdGVtczogY2VudGVyICFpbXBvcnRhbnQ7XG4gIGp1c3RpZnktY29udGVudDogY2VudGVyICFpbXBvcnRhbnQ7XG59XG4ubGVmdCBpb24taXRlbSB7XG4gIC0taW5uZXItcGFkZGluZy1lbmQ6IDBweDtcbn0iXX0= */";
+    __webpack_exports__["default"] = "ion-item, .row {\n  --min-height: 1em;\n}\n\nion-col {\n  padding: 0;\n}\n\n.left {\n  display: -webkit-box !important;\n  display: flex !important;\n  -webkit-box-align: center !important;\n          align-items: center !important;\n  -webkit-box-pack: center !important;\n          justify-content: center !important;\n}\n\n.left ion-item {\n  --inner-padding-end: 0px;\n}\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9Vc2Vycy9sZXdpc3RoYW0vR2l0SHViL0VuZ2luZWVyc0xvZ2Jvb2syL3NyYy9hcHAvZHJpdmUtdmlldy9kcml2ZS12aWV3LmNvbXBvbmVudC5zY3NzIiwic3JjL2FwcC9kcml2ZS12aWV3L2RyaXZlLXZpZXcuY29tcG9uZW50LnNjc3MiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IkFBQUE7RUFJRSxpQkFBQTtBQ0ZGOztBREtBO0VBQ0UsVUFBQTtBQ0ZGOztBRE1BO0VBRUUsK0JBQUE7RUFBQSx3QkFBQTtFQVFFLG9DQUFBO1VBQUEsOEJBQUE7RUFDRixtQ0FBQTtVQUFBLGtDQUFBO0FDWEY7O0FER0U7RUFDRSx3QkFBQTtBQ0RKIiwiZmlsZSI6InNyYy9hcHAvZHJpdmUtdmlldy9kcml2ZS12aWV3LmNvbXBvbmVudC5zY3NzIiwic291cmNlc0NvbnRlbnQiOlsiaW9uLWl0ZW0sIC5yb3cge1xuICAvL2NvbG9yOiBibGFjazsgLS1iYWNrZ3JvdW5kOiB3aGl0ZTsgYmFja2dyb3VuZDogd2hpdGU7XG4gIC8vY29sb3I6IHdoaXRlOyAtLWJhY2tncm91bmQ6IGJsYWNrOyBiYWNrZ3JvdW5kOiBibGFjaztcbiAgLy9jb2xvcjogd2hpdGU7IC0tYmFja2dyb3VuZDogbm9uZTsgYmFja2dyb3VuZDogbm9uZTtcbiAgLS1taW4taGVpZ2h0OiAxZW07ICAvLyBPdGhlcndpc2UsIGlvbi1pdGVtcyBoYXMgaW1wbGljaXQgb3V0ZXIgcGFkZGluZ3MhXG59XG5cbmlvbi1jb2wge1xuICBwYWRkaW5nOiAwOyAgLy8gTm8gYXV0b21hdGljIHNwYWNpbmcgYmV0d2VlbiBsYWJlbHNcbiAgLy9iYWNrZ3JvdW5kOiB3aGl0ZTsgICAvLyBGaXggdWdseSBiYWNrZ3JvdW5kIGdhcCBhdCBib3R0b20gb2YgbGVmdCBjb2x1bW5cbn1cblxuLmxlZnQge1xuICAvL2JhY2tncm91bmQ6cmVkO1xuICBkaXNwbGF5OiBmbGV4IWltcG9ydGFudDtcbiAgaW9uLWl0ZW17XG4gICAgLS1pbm5lci1wYWRkaW5nLWVuZDogMHB4O1xuICB9XG4gIC8vYWxpZ24tY29udGVudDogY2VudGVyIWltcG9ydGFudDtcbiAgLy93aWR0aDogMTAwJSAhaW1wb3J0YW50O1xuICAvL2hlaWdodDogMTAwJTtcbiAgLy9pb24taXRlbSB7XG4gICAgYWxpZ24taXRlbXM6IGNlbnRlciFpbXBvcnRhbnQ7ICAvLyB2ZXJ0aWNhbCBhbGlnbm1lbnRcbiAganVzdGlmeS1jb250ZW50OiBjZW50ZXIhaW1wb3J0YW50OyAgLy8gaG9yaXpvbnRhbCBhbGlnbm1lbnRcbiAgLy99XG59XG4iLCJpb24taXRlbSwgLnJvdyB7XG4gIC0tbWluLWhlaWdodDogMWVtO1xufVxuXG5pb24tY29sIHtcbiAgcGFkZGluZzogMDtcbn1cblxuLmxlZnQge1xuICBkaXNwbGF5OiBmbGV4ICFpbXBvcnRhbnQ7XG4gIGFsaWduLWl0ZW1zOiBjZW50ZXIgIWltcG9ydGFudDtcbiAganVzdGlmeS1jb250ZW50OiBjZW50ZXIgIWltcG9ydGFudDtcbn1cbi5sZWZ0IGlvbi1pdGVtIHtcbiAgLS1pbm5lci1wYWRkaW5nLWVuZDogMHB4O1xufSJdfQ== */";
     /***/
   },
 
@@ -1880,7 +1884,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     __webpack_require__.n(sprintf_js__WEBPACK_IMPORTED_MODULE_5__); // DateTime utility, See http://zetcode.com/javascript/dayjs/
 
 
-    var VehicleTypes = ['BELREX', 'MSS', '5TON', 'OUV', 'FLB'];
+    var VehicleTypes = ['BELREX', 'MSS', '5TON', 'OUV', 'FLB', 'M3G'];
 
     var DatabaseService =
     /*#__PURE__*/
@@ -1906,89 +1910,104 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
           regeneratorRuntime.mark(function _callee() {
             var _this2 = this;
 
-            var result, _iteratorNormalCompletion, _didIteratorError, _iteratorError, _loop, _iterator, _step;
+            var result, _iteratorNormalCompletion, _didIteratorError, _iteratorError, _loop, _iterator, _step, _iteratorNormalCompletion2, _didIteratorError2, _iteratorError2, _loop2, _iterator2, _step2;
 
-            return regeneratorRuntime.wrap(function _callee$(_context2) {
+            return regeneratorRuntime.wrap(function _callee$(_context3) {
               while (1) {
-                switch (_context2.prev = _context2.next) {
+                switch (_context3.prev = _context3.next) {
                   case 0:
                     if (this.current) this.logout();
-                    _context2.next = 3;
+                    _context3.next = 3;
                     return this.read('user', email);
 
                   case 3:
-                    result = _context2.sent;
+                    result = _context3.sent;
                     this.current = {
                       user: result.data(),
                       snapshot_wait: 0
                     };
-                    _context2.next = 7;
+                    _context3.next = 7;
                     return this.log("Logged-in: ".concat(email));
 
                   case 7:
                     if (this.current.user.fleet) {
-                      _context2.next = 11;
+                      _context3.next = 11;
                       break;
                     }
 
                     // No fleet string? Set it to the default and update the database
                     this.current.user.fleet = "30SCE";
-                    _context2.next = 11;
+                    _context3.next = 11;
                     return this.write('user', email, this.current.user);
 
                   case 11:
+                    if (!(this.current.user.is_driver && !this.current.user.is_commander && this.current.user.admin_level != 0)) {
+                      _context3.next = 15;
+                      break;
+                    }
+
+                    // No fleet string? Set it to the default and update the database
+                    this.current.user.admin_level = 0;
+                    _context3.next = 15;
+                    return this.write('user', email, this.current.user);
+
+                  case 15:
                     // Bind local data to database
                     this.bind(this.current); // Wait for data binding to finish
 
-                  case 12:
+                  case 16:
                     if (!(this.current.snapshot_wait == 0)) {
-                      _context2.next = 18;
+                      _context3.next = 22;
                       break;
                     }
 
                     console.log("> Still retrieving userdata...");
-                    _context2.next = 16;
+                    _context3.next = 20;
                     return this.sleep(500);
 
-                  case 16:
-                    _context2.next = 12;
+                  case 20:
+                    _context3.next = 16;
                     break;
 
-                  case 18:
-                    console.log(this.current.user);
+                  case 22:
                     console.log("> Current database user: ".concat(email, " => ").concat(JSON.stringify(this.current.user))); // Get all users who are in the same company as logged in user
 
-                    _context2.next = 22;
+                    _context3.next = 25;
                     return this.list('user', ['company', '==', this.current.user.company]);
 
-                  case 22:
-                    this.current.all_users = _context2.sent;
+                  case 25:
+                    this.current.all_coyusers = _context3.sent;
+                    _context3.next = 28;
+                    return this.list('user', ['fleet', '==', this.current.user.fleet]);
 
-                    //console.log(`> All Users: ${JSON.stringify(this.current.all_users)}`);
+                  case 28:
+                    this.current.all_unitusers = _context3.sent;
+
+                    //console.log(`> All Users: ${JSON.stringify(this.current.all_coyusers)}`);
+                    //console.log(`> All Users: ${JSON.stringify(this.current.all_unitusers)}`);
                     // If user is_driver, get list of commanders from the same company (for drop-down list in add-drive)
-                    if (this.current.user.is_driver) {
-                      this.current.all_commanders_of_driver = this.current.all_users.filter(function (user) {
-                        return user.is_commander && !user.is_admin;
-                      }); // Don't include superuser in commanders list
-
+                    if (this.current.user.is_driver || this.current.user.is_commander) {
+                      this.current.all_commanders_of_driver = this.current.all_coyusers.filter(function (user) {
+                        return user.is_commander && user.email != _this2.current.user.email;
+                      });
                       console.log("> List of commanders[".concat(this.current.all_commanders_of_driver.length, "] = ").concat(JSON.stringify(this.current.all_commanders_of_driver)));
-                    } // If user is_commander, get list of drivers from the same company
+                    } // If user is_commander and admin_level != 3 (sgt, pc, oc, csm) , get list of drivers from the same company
 
 
-                    if (!this.current.user.is_commander) {
-                      _context2.next = 52;
+                    if (!(this.current.user.is_commander && this.current.user.admin_level != 3)) {
+                      _context3.next = 58;
                       break;
                     }
 
-                    this.current.all_drivers_of_commander = this.current.all_users.filter(function (user) {
-                      return user.is_driver;
+                    this.current.all_drivers_of_commander = this.current.all_coyusers.filter(function (user) {
+                      return user.is_driver || user.email == _this2.current.user.email;
                     });
                     console.log("> List of drivers[".concat(this.current.all_drivers_of_commander.length, "] = ").concat(JSON.stringify(this.current.all_drivers_of_commander))); // Also retrieve summaries of drivers
 
                     _iteratorNormalCompletion = true;
                     _didIteratorError = false;
                     _iteratorError = undefined;
-                    _context2.prev = 30;
+                    _context3.prev = 36;
                     _loop =
                     /*#__PURE__*/
                     regeneratorRuntime.mark(function _loop() {
@@ -2024,62 +2043,159 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
                     });
                     _iterator = this.current.all_drivers_of_commander[Symbol.iterator]();
 
-                  case 33:
+                  case 39:
                     if (_iteratorNormalCompletion = (_step = _iterator.next()).done) {
-                      _context2.next = 38;
+                      _context3.next = 44;
                       break;
                     }
 
-                    return _context2.delegateYield(_loop(), "t0", 35);
+                    return _context3.delegateYield(_loop(), "t0", 41);
 
-                  case 35:
+                  case 41:
                     _iteratorNormalCompletion = true;
-                    _context2.next = 33;
+                    _context3.next = 39;
                     break;
-
-                  case 38:
-                    _context2.next = 44;
-                    break;
-
-                  case 40:
-                    _context2.prev = 40;
-                    _context2.t1 = _context2["catch"](30);
-                    _didIteratorError = true;
-                    _iteratorError = _context2.t1;
 
                   case 44:
-                    _context2.prev = 44;
-                    _context2.prev = 45;
+                    _context3.next = 50;
+                    break;
+
+                  case 46:
+                    _context3.prev = 46;
+                    _context3.t1 = _context3["catch"](36);
+                    _didIteratorError = true;
+                    _iteratorError = _context3.t1;
+
+                  case 50:
+                    _context3.prev = 50;
+                    _context3.prev = 51;
 
                     if (!_iteratorNormalCompletion && _iterator["return"] != null) {
                       _iterator["return"]();
                     }
 
-                  case 47:
-                    _context2.prev = 47;
+                  case 53:
+                    _context3.prev = 53;
 
                     if (!_didIteratorError) {
-                      _context2.next = 50;
+                      _context3.next = 56;
                       break;
                     }
 
                     throw _iteratorError;
 
-                  case 50:
-                    return _context2.finish(47);
+                  case 56:
+                    return _context3.finish(53);
 
-                  case 51:
-                    return _context2.finish(44);
+                  case 57:
+                    return _context3.finish(50);
 
-                  case 52:
-                    return _context2.abrupt("return", this.current);
+                  case 58:
+                    if (!(this.current.user.is_commander && this.current.user.admin_level == 3)) {
+                      _context3.next = 86;
+                      break;
+                    }
 
-                  case 53:
+                    this.current.all_drivers_of_commander = this.current.all_unitusers.filter(function (user) {
+                      return user.is_driver;
+                    });
+                    console.log("> List of drivers[".concat(this.current.all_drivers_of_commander.length, "] = ").concat(JSON.stringify(this.current.all_drivers_of_commander))); // Also retrieve summaries of drivers
+
+                    _iteratorNormalCompletion2 = true;
+                    _didIteratorError2 = false;
+                    _iteratorError2 = undefined;
+                    _context3.prev = 64;
+                    _loop2 =
+                    /*#__PURE__*/
+                    regeneratorRuntime.mark(function _loop2() {
+                      var driver, result;
+                      return regeneratorRuntime.wrap(function _loop2$(_context2) {
+                        while (1) {
+                          switch (_context2.prev = _context2.next) {
+                            case 0:
+                              driver = _step2.value;
+                              _context2.next = 3;
+                              return _this2.read('summary', driver.email);
+
+                            case 3:
+                              result = _context2.sent;
+
+                              if (result.data()) {
+                                // Found summary, great.
+                                driver.summary = result.data();
+                              } else {
+                                // No summary? Calculate it...
+                                driver.summary = _this2.summarize(_this2.current.drive_history.filter(function (drive) {
+                                  return drive.driver === driver.email;
+                                }));
+                              } //console.log(`${driver.email} ${JSON.stringify(driver.summary)}`);
+
+
+                            case 5:
+                            case "end":
+                              return _context2.stop();
+                          }
+                        }
+                      }, _loop2);
+                    });
+                    _iterator2 = this.current.all_drivers_of_commander[Symbol.iterator]();
+
+                  case 67:
+                    if (_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done) {
+                      _context3.next = 72;
+                      break;
+                    }
+
+                    return _context3.delegateYield(_loop2(), "t2", 69);
+
+                  case 69:
+                    _iteratorNormalCompletion2 = true;
+                    _context3.next = 67;
+                    break;
+
+                  case 72:
+                    _context3.next = 78;
+                    break;
+
+                  case 74:
+                    _context3.prev = 74;
+                    _context3.t3 = _context3["catch"](64);
+                    _didIteratorError2 = true;
+                    _iteratorError2 = _context3.t3;
+
+                  case 78:
+                    _context3.prev = 78;
+                    _context3.prev = 79;
+
+                    if (!_iteratorNormalCompletion2 && _iterator2["return"] != null) {
+                      _iterator2["return"]();
+                    }
+
+                  case 81:
+                    _context3.prev = 81;
+
+                    if (!_didIteratorError2) {
+                      _context3.next = 84;
+                      break;
+                    }
+
+                    throw _iteratorError2;
+
+                  case 84:
+                    return _context3.finish(81);
+
+                  case 85:
+                    return _context3.finish(78);
+
+                  case 86:
+                    return _context3.abrupt("return", this.current);
+
+                  case 87:
                   case "end":
-                    return _context2.stop();
+                    return _context3.stop();
                 }
               }
-            }, _callee, this, [[30, 40, 44, 52], [45,, 47, 51]]);
+            }, _callee, this, [[36, 46, 50, 58], [51,, 53, 57], [64, 74, 78, 86], [79,, 81, 85]]);
           }));
         }
       }, {
@@ -2123,19 +2239,19 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
           return tslib__WEBPACK_IMPORTED_MODULE_0__["__awaiter"](this, void 0, void 0,
           /*#__PURE__*/
           regeneratorRuntime.mark(function _callee2() {
-            return regeneratorRuntime.wrap(function _callee2$(_context3) {
+            return regeneratorRuntime.wrap(function _callee2$(_context4) {
               while (1) {
-                switch (_context3.prev = _context3.next) {
+                switch (_context4.prev = _context4.next) {
                   case 0:
-                    _context3.next = 2;
+                    _context4.next = 2;
                     return this.collection(table).doc(key).get();
 
                   case 2:
-                    return _context3.abrupt("return", _context3.sent);
+                    return _context4.abrupt("return", _context4.sent);
 
                   case 3:
                   case "end":
-                    return _context3.stop();
+                    return _context4.stop();
                 }
               }
             }, _callee2, this);
@@ -2147,23 +2263,23 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
           return tslib__WEBPACK_IMPORTED_MODULE_0__["__awaiter"](this, void 0, void 0,
           /*#__PURE__*/
           regeneratorRuntime.mark(function _callee3() {
-            return regeneratorRuntime.wrap(function _callee3$(_context4) {
+            return regeneratorRuntime.wrap(function _callee3$(_context5) {
               while (1) {
-                switch (_context4.prev = _context4.next) {
+                switch (_context5.prev = _context5.next) {
                   case 0:
-                    _context4.next = 2;
+                    _context5.next = 2;
                     return this.log("Write table:".concat(table, " key:").concat(key));
 
                   case 2:
-                    _context4.next = 4;
+                    _context5.next = 4;
                     return this.collection(table).doc(key).set(doc);
 
                   case 4:
-                    return _context4.abrupt("return", _context4.sent);
+                    return _context5.abrupt("return", _context5.sent);
 
                   case 5:
                   case "end":
-                    return _context4.stop();
+                    return _context5.stop();
                 }
               }
             }, _callee3, this);
@@ -2175,23 +2291,23 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
           return tslib__WEBPACK_IMPORTED_MODULE_0__["__awaiter"](this, void 0, void 0,
           /*#__PURE__*/
           regeneratorRuntime.mark(function _callee4() {
-            return regeneratorRuntime.wrap(function _callee4$(_context5) {
+            return regeneratorRuntime.wrap(function _callee4$(_context6) {
               while (1) {
-                switch (_context5.prev = _context5.next) {
+                switch (_context6.prev = _context6.next) {
                   case 0:
-                    _context5.next = 2;
+                    _context6.next = 2;
                     return this.log("Write table:".concat(table));
 
                   case 2:
-                    _context5.next = 4;
+                    _context6.next = 4;
                     return this.collection(table).add(doc);
 
                   case 4:
-                    return _context5.abrupt("return", _context5.sent);
+                    return _context6.abrupt("return", _context6.sent);
 
                   case 5:
                   case "end":
-                    return _context5.stop();
+                    return _context6.stop();
                 }
               }
             }, _callee4, this);
@@ -2203,23 +2319,23 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
           return tslib__WEBPACK_IMPORTED_MODULE_0__["__awaiter"](this, void 0, void 0,
           /*#__PURE__*/
           regeneratorRuntime.mark(function _callee5() {
-            return regeneratorRuntime.wrap(function _callee5$(_context6) {
+            return regeneratorRuntime.wrap(function _callee5$(_context7) {
               while (1) {
-                switch (_context6.prev = _context6.next) {
+                switch (_context7.prev = _context7.next) {
                   case 0:
-                    _context6.next = 2;
+                    _context7.next = 2;
                     return this.log("Delete table:".concat(table, " key:").concat(key));
 
                   case 2:
-                    _context6.next = 4;
+                    _context7.next = 4;
                     return this.collection(table).doc(key)["delete"]();
 
                   case 4:
-                    return _context6.abrupt("return", _context6.sent);
+                    return _context7.abrupt("return", _context7.sent);
 
                   case 5:
                   case "end":
-                    return _context6.stop();
+                    return _context7.stop();
                 }
               }
             }, _callee5, this);
@@ -2232,9 +2348,9 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
           /*#__PURE__*/
           regeneratorRuntime.mark(function _callee6() {
             var query, snapshot, array;
-            return regeneratorRuntime.wrap(function _callee6$(_context7) {
+            return regeneratorRuntime.wrap(function _callee6$(_context8) {
               while (1) {
-                switch (_context7.prev = _context7.next) {
+                switch (_context8.prev = _context8.next) {
                   case 0:
                     query = firebase_app__WEBPACK_IMPORTED_MODULE_3__["firestore"]().collection(table);
 
@@ -2250,20 +2366,20 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
                       });
                     }
 
-                    _context7.next = 5;
+                    _context8.next = 5;
                     return query.get();
 
                   case 5:
-                    snapshot = _context7.sent;
+                    snapshot = _context8.sent;
                     array = [];
                     snapshot.forEach(function (doc) {
                       array.push(doc.data()); // Caller will access documents with: "doc.id" and "doc.data()"
                     });
-                    return _context7.abrupt("return", array);
+                    return _context8.abrupt("return", array);
 
                   case 9:
                   case "end":
-                    return _context7.stop();
+                    return _context8.stop();
                 }
               }
             }, _callee6);
@@ -2276,25 +2392,25 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
           /*#__PURE__*/
           regeneratorRuntime.mark(function _callee7() {
             var now, user, key;
-            return regeneratorRuntime.wrap(function _callee7$(_context8) {
+            return regeneratorRuntime.wrap(function _callee7$(_context9) {
               while (1) {
-                switch (_context8.prev = _context8.next) {
+                switch (_context9.prev = _context9.next) {
                   case 0:
                     now = dayjs__WEBPACK_IMPORTED_MODULE_4__();
                     user = this.current && this.current.user.email != "sample@gmail.com" ? ",".concat(this.current.user.email) : '';
                     key = "".concat(now.format('YYYY-MM-DD,HH:mm:ss')).concat(user);
                     console.log("> ".concat(message));
-                    _context8.next = 6;
+                    _context9.next = 6;
                     return this.collection('logger').doc(key).set({
                       message: message
                     });
 
                   case 6:
-                    return _context8.abrupt("return", _context8.sent);
+                    return _context9.abrupt("return", _context9.sent);
 
                   case 7:
                   case "end":
-                    return _context8.stop();
+                    return _context9.stop();
                 }
               }
             }, _callee7, this);
@@ -2366,7 +2482,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
           var query = this.collection("drive").orderBy("date", "desc").orderBy("start_time", "desc");
 
           if (login.user.is_commander == true) {
-            query.where("fleet", "==", login.user.fleet);
+            query.where("commander", "==", login.user.fleet);
             /*login.detach_bind_drive =
               query.onSnapshot
               (
@@ -2417,8 +2533,35 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
               }
 
               if (trip.end_time == null) login.drive_in_progress = trip;
-            }); //console.log(login.drive_history);
+            });
+            console.log(login.drive_in_progress);
 
+            var query = _this3.collection("mtrac").orderBy("created", "desc");
+
+            if (login.user.is_commander == true) {
+              query.where("commander", "==", login.user.email);
+            } else {
+              query = query.where("driver", "==", login.user.email);
+            }
+
+            login.detach_bind_mtrac = query.onSnapshot(function (querySnapshot) {
+              login.mtrac_history = [];
+              login.mtrac_in_progress = null;
+              querySnapshot.forEach(function (doc) {
+                var form = doc.data(); // Casting to interface Drive
+
+                form.id = doc.id;
+
+                if (form.company == login.user.company && form.fleet == login.user.fleet) {
+                  login.mtrac_history.push(form);
+                }
+
+                if (form.status != "completed") {
+                  login.mtrac_in_progress = form;
+                }
+              });
+            });
+            console.log(login.mtrac_in_progress);
             console.log("\n> Updated Drive history for ".concat(login.user.email, ", ").concat(login.drive_history.length, " drives found.")); // Calculate new stats for both drivers and commanders
 
             login.stats = _this3.summarize(login.drive_history); // For drivers, write summarized report to database (For commanders' module)
@@ -2499,7 +2642,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
         value: function createDebugLogin() {
           var drive_history = [{
             created: '',
-            driver: 'sample@gmail.com',
+            driver: 'sample@test.com',
             commander: 'commander_name',
             vehicle: '1234MID',
             vehicle_type: '5TON',
@@ -2513,7 +2656,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
             incamp: true
           }, {
             created: '',
-            driver: 'sample@gmail.com',
+            driver: 'sample@test.com',
             commander: 'commander_name',
             vehicle: '1235MID',
             vehicle_type: 'MSS',
@@ -2532,12 +2675,23 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
             incamp: true
           }];
           var user = {
-            created: '',
-            name: "Sample User",
-            fleet: "Sample Fleet",
-            email: "sample@gmail.com",
-            is_driver: true,
-            company: 'C'
+            admin_level: 1,
+            belrex_certified: false,
+            company: "A",
+            created: "2020-02-13 02:33",
+            email: "sample@test.com",
+            flb_certified: false,
+            fleet: "test",
+            is_commander: true,
+            is_driver: false,
+            licence_num: "SXXXXXX",
+            licence_type: "A",
+            location: {
+              lat: 1.3365133,
+              lng: 103.7405132
+            },
+            mss_certified: false,
+            name: "Sample User"
           };
           return {
             user: user,
@@ -2678,7 +2832,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     /* harmony default export */
 
 
-    __webpack_exports__["default"] = "ion-fab {\n  bottom: 25px;\n}\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9Vc2Vycy9tb2phdmUvRGVza3RvcC9FbmdpbmVlcnNMb2dib29rMi9zcmMvYXBwL3RhYnMvdGFicy5wYWdlLnNjc3MiLCJzcmMvYXBwL3RhYnMvdGFicy5wYWdlLnNjc3MiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IkFBQUE7RUFHRSxZQUFBO0FDREYiLCJmaWxlIjoic3JjL2FwcC90YWJzL3RhYnMucGFnZS5zY3NzIiwic291cmNlc0NvbnRlbnQiOlsiaW9uLWZhYntcbi8vICBwb3NpdGlvbjogcmVsYXRpdmU7XG4vLyAgYm90dG9tOiAtMjF2aDtcbiAgYm90dG9tOiAyNXB4O1xufSIsImlvbi1mYWIge1xuICBib3R0b206IDI1cHg7XG59Il19 */";
+    __webpack_exports__["default"] = "ion-fab {\n  bottom: 25px;\n}\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9Vc2Vycy9sZXdpc3RoYW0vR2l0SHViL0VuZ2luZWVyc0xvZ2Jvb2syL3NyYy9hcHAvdGFicy90YWJzLnBhZ2Uuc2NzcyIsInNyYy9hcHAvdGFicy90YWJzLnBhZ2Uuc2NzcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiQUFBQTtFQUdFLFlBQUE7QUNERiIsImZpbGUiOiJzcmMvYXBwL3RhYnMvdGFicy5wYWdlLnNjc3MiLCJzb3VyY2VzQ29udGVudCI6WyJpb24tZmFie1xuLy8gIHBvc2l0aW9uOiByZWxhdGl2ZTtcbi8vICBib3R0b206IC0yMXZoO1xuICBib3R0b206IDI1cHg7XG59IiwiaW9uLWZhYiB7XG4gIGJvdHRvbTogMjVweDtcbn0iXX0= */";
     /***/
   },
 
@@ -2719,14 +2873,21 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     var _services_database_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(
     /*! ../services/database.service */
     "./src/app/services/database.service.ts");
+    /* harmony import */
+
+
+    var _ionic_angular__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(
+    /*! @ionic/angular */
+    "./node_modules/@ionic/angular/dist/fesm5.js");
 
     var TabsPage =
     /*#__PURE__*/
     function () {
-      function TabsPage(database) {
+      function TabsPage(database, navCtrl) {
         _classCallCheck(this, TabsPage);
 
         this.database = database;
+        this.navCtrl = navCtrl;
       }
 
       _createClass(TabsPage, [{
@@ -2756,6 +2917,90 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
           return true;
         }
+      }, {
+        key: "getPendingDrives",
+        value: function getPendingDrives() {
+          var _this4 = this;
+
+          return this.database.current.drive_history.filter(function (drive) {
+            if (_this4.database.current.user.email === drive.driver) {
+              return drive.status === 'pending';
+            }
+          });
+        }
+      }, {
+        key: "getInProgressDrives",
+        value: function getInProgressDrives() {
+          var _this5 = this;
+
+          return this.database.current.drive_history.filter(function (drive) {
+            if (_this5.database.current.user.email === drive.driver) {
+              return drive.status === 'in-progress';
+            }
+          });
+        }
+      }, {
+        key: "getDrive",
+        value: function getDrive() {
+          var _this6 = this;
+
+          if (this.database.current.drive_history != null) {
+            return this.database.current.drive_history.filter(function (drive) {
+              if (_this6.database.current.user.email === drive.driver) {
+                if (drive.status == "in-progress" || drive.status == "rejected") {
+                  return drive;
+                }
+              }
+            });
+          }
+        }
+      }, {
+        key: "getVerifiedMTRAC",
+        value: function getVerifiedMTRAC() {
+          var _this7 = this;
+
+          return this.database.current.mtrac_history.filter(function (form) {
+            if (_this7.database.current.user.email === form.driver) {
+              return form.status === 'verified';
+            }
+          });
+        }
+      }, {
+        key: "getPendingMTRAC",
+        value: function getPendingMTRAC() {
+          var _this8 = this;
+
+          return this.database.current.mtrac_history.filter(function (form) {
+            if (_this8.database.current.user.email === form.driver) {
+              return form.status === 'pending';
+            }
+          });
+        }
+      }, {
+        key: "getIncompleteMTRAC",
+        value: function getIncompleteMTRAC() {
+          var _this9 = this;
+
+          return this.database.current.mtrac_history.filter(function (form) {
+            if (_this9.database.current.user.email === form.driver) {
+              return form.status != 'completed';
+            }
+          });
+        }
+      }, {
+        key: "clickdrive",
+        value: function clickdrive(drive) {
+          this.database.current.drive_to_edit = drive; //console.log(`> Navigating to AddDrivePage for drive id=${drive.id}`);
+
+          this.navCtrl.navigateForward(['/add-drive']);
+        }
+      }, {
+        key: "clickmtrac",
+        value: function clickmtrac(form) {
+          this.database.current.mtrac_to_edit = form; //console.log(`> Navigating to mtracPage for mtrac id=${form.id}`);
+
+          this.navCtrl.navigateForward(['/mtrac']);
+        }
       }]);
 
       return TabsPage;
@@ -2764,6 +3009,8 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     TabsPage.ctorParameters = function () {
       return [{
         type: _services_database_service__WEBPACK_IMPORTED_MODULE_2__["DatabaseService"]
+      }, {
+        type: _ionic_angular__WEBPACK_IMPORTED_MODULE_3__["NavController"]
       }];
     };
 
@@ -2775,7 +3022,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
       styles: [tslib__WEBPACK_IMPORTED_MODULE_0__["__importDefault"](__webpack_require__(
       /*! ./tabs.page.scss */
       "./src/app/tabs/tabs.page.scss"))["default"]]
-    }), tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_services_database_service__WEBPACK_IMPORTED_MODULE_2__["DatabaseService"]])], TabsPage);
+    }), tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_services_database_service__WEBPACK_IMPORTED_MODULE_2__["DatabaseService"], _ionic_angular__WEBPACK_IMPORTED_MODULE_3__["NavController"]])], TabsPage);
     /***/
   },
 
@@ -2896,7 +3143,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
   /***/
   function _(module, exports, __webpack_require__) {
     module.exports = __webpack_require__(
-    /*! /Users/mojave/Desktop/EngineersLogbook2/src/main.ts */
+    /*! /Users/lewistham/GitHub/EngineersLogbook2/src/main.ts */
     "./src/main.ts");
     /***/
   }

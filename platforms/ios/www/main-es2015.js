@@ -72,6 +72,10 @@ var map = {
 		"common",
 		"pages-summary-summary-module"
 	],
+	"./reportvehicle/reportvehicle.module": [
+		"./src/app/reportvehicle/reportvehicle.module.ts",
+		"reportvehicle-reportvehicle-module"
+	],
 	"./signup/signup.module": [
 		"./src/app/signup/signup.module.ts",
 		"signup-signup-module"
@@ -834,7 +838,7 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony default export */ __webpack_exports__["default"] = ("<ion-tabs>\n  <ion-tab-bar slot=\"bottom\">\n\n    <ion-tab-button tab=\"commander\" *ngIf=\"this.database.current.user.is_commander\">\n      <ion-icon name=\"home\"></ion-icon>\n      <ion-label>Home</ion-label>\n    </ion-tab-button>\n  \n    <ion-tab-button tab=\"summary\" *ngIf=\"!this.database.current.user.is_commander\">\n      <ion-icon name=\"home\"></ion-icon>\n      <ion-label>Home</ion-label>\n    </ion-tab-button>\n\n    <ion-tab-button tab=\"CmdHistory\" *ngIf=\"this.database.current.user.is_commander\">\n      <ion-icon name=\"car\"></ion-icon>\n      <ion-label>History</ion-label>\n    </ion-tab-button>\n\n    <ion-tab-button tab=\"history\" *ngIf=\"!this.database.current.user.is_commander\">\n      <ion-icon name=\"car\"></ion-icon>\n      <ion-label>History</ion-label>\n    </ion-tab-button>\n\n    <ion-tab-button tab=\"profile\">\n      <ion-icon name=\"person\"></ion-icon>\n      <ion-label >Profile</ion-label>\n    </ion-tab-button>\n\n    <ion-tab-button tab=\"CmdMap\" *ngIf=\"this.database.current.user.is_commander\">\n      <ion-icon name=\"locate\"></ion-icon>\n      <ion-label>Map</ion-label>\n    </ion-tab-button>\n\n    <ion-tab-button tab=\"map\" *ngIf=\"!this.database.current.user.is_commander\">\n      <ion-icon name=\"locate\"></ion-icon>\n      <ion-label>Map</ion-label>\n    </ion-tab-button>\n\n  </ion-tab-bar>\n\n</ion-tabs>\n\n<ion-fab vertical=\"bottom\" horizontal=\"center\" *ngIf=\"!this.database.current.user.is_commander\">\n  <ion-fab-button size=\"small\" color=\"primary\">\n    <ion-icon name=\"add\"></ion-icon>\n  </ion-fab-button>\n  <ion-fab-list side=\"end\">\n      <ion-fab-button color=\"primary\" *ngIf=\"this.database.current.drive_in_progress==null\" routerLink = \"/boc\"><ion-icon name=\"speedometer\"></ion-icon></ion-fab-button>\n  </ion-fab-list>\n  <ion-fab-list side=\"start\">\n    <ion-fab-button color=\"primary\" routerLink = \"/add-fuel\"><ion-icon name=\"color-fill\"></ion-icon></ion-fab-button>\n  </ion-fab-list>\n</ion-fab>\n");
+/* harmony default export */ __webpack_exports__["default"] = ("<ion-tabs>\n  <ion-tab-bar slot=\"bottom\">\n\n    <ion-tab-button tab=\"commander\" *ngIf=\"this.database.current.user.is_commander\">\n      <ion-icon name=\"home\"></ion-icon>\n      <ion-label>Home</ion-label>\n    </ion-tab-button>\n  \n    <ion-tab-button tab=\"summary\" *ngIf=\"!this.database.current.user.is_commander\">\n      <ion-icon name=\"home\"></ion-icon>\n      <ion-label>Home</ion-label>\n    </ion-tab-button>\n\n    <ion-tab-button tab=\"CmdHistory\" *ngIf=\"this.database.current.user.is_commander\">\n      <ion-icon name=\"car\"></ion-icon>\n      <ion-label>History</ion-label>\n    </ion-tab-button>\n\n    <ion-tab-button tab=\"history\" *ngIf=\"!this.database.current.user.is_commander\">\n      <ion-icon name=\"car\"></ion-icon>\n      <ion-label>History</ion-label>\n    </ion-tab-button>\n\n    <ion-tab-button tab=\"profile\">\n      <ion-icon name=\"person\"></ion-icon>\n      <ion-label >Profile</ion-label>\n    </ion-tab-button>\n\n    <ion-tab-button tab=\"CmdMap\" *ngIf=\"this.database.current.user.is_commander\">\n      <ion-icon name=\"locate\"></ion-icon>\n      <ion-label>Map</ion-label>\n    </ion-tab-button>\n\n    <ion-tab-button tab=\"map\" *ngIf=\"!this.database.current.user.is_commander\">\n      <ion-icon name=\"locate\"></ion-icon>\n      <ion-label>Map</ion-label>\n    </ion-tab-button>\n\n  </ion-tab-bar>\n\n</ion-tabs>\n\n<ion-fab vertical=\"bottom\" horizontal=\"center\">\n  <ion-fab-button size=\"small\" color=\"primary\">\n    <ion-icon name=\"add\"></ion-icon>\n  </ion-fab-button>\n  <ion-fab-list side=\"end\">\n    <ion-fab-button color=\"primary\" *ngIf=\"this.database.current.drive_in_progress==null && this.database.current.mtrac_in_progress==null && this.getDrive().length==0;\" routerLink = \"/boc\"><ion-icon name=\"speedometer\"></ion-icon></ion-fab-button>\n    <ng-container\n            *ngIf=\"this.getDrive().length!=0 && this.getIncompleteMTRAC().length==0; then editdrive;\">\n    </ng-container>\n    <ng-template #editdrive>\n      <ion-fab-button color=\"primary\"  *ngFor=\"let drive of getDrive()\" (click)=\"clickdrive(drive)\"><ion-icon name=\"speedometer\"></ion-icon></ion-fab-button>\n    </ng-template>\n    <ng-container\n            *ngIf=\"this.getIncompleteMTRAC().length!=0 && this.getDrive().length==0; then editmtrac;\">\n    </ng-container>\n    <ng-template #editmtrac>\n      <ion-fab-button color=\"primary\"  *ngFor=\"let form of getIncompleteMTRAC()\" (click)=\"clickmtrac(form)\"><ion-icon name=\"speedometer\"></ion-icon></ion-fab-button>\n    </ng-template>\n  </ion-fab-list>\n  <ion-fab-list side=\"start\">\n    <ion-fab-button color=\"primary\" routerLink = \"/add-fuel\"><ion-icon name=\"color-fill\"></ion-icon></ion-fab-button>\n  </ion-fab-list>\n</ion-fab>\n");
 
 /***/ }),
 
@@ -1095,6 +1099,7 @@ const routes = [
     { path: 'boc', loadChildren: './boc/boc.module#bocPageModule' },
     { path: 'mtrac', loadChildren: './mtrac/mtrac.module#mtracPageModule' },
     { path: 'summary', loadChildren: './pages/summary/summary.module#SummaryPageModule' },
+    { path: 'reportvehicle', loadChildren: './reportvehicle/reportvehicle.module#ReportVehiclePageModule' },
     {
         path: 'about',
         loadChildren: () => __webpack_require__.e(/*! import() | pages-about-about-module */ "pages-about-about-module").then(__webpack_require__.bind(null, /*! ./pages/about/about.module */ "./src/app/pages/about/about.module.ts")).then(m => m.AboutPageModule)
@@ -1125,7 +1130,7 @@ AppRoutingModule = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony default export */ __webpack_exports__["default"] = ("ion-select-option {\n  --width:100%;\n}\n\nion-label {\n  white-space: normal !important;\n}\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9Vc2Vycy9tb2phdmUvRGVza3RvcC9FbmdpbmVlcnNMb2dib29rMi9zcmMvYXBwL2FwcC5jb21wb25lbnQuc2NzcyIsInNyYy9hcHAvYXBwLmNvbXBvbmVudC5zY3NzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQVVBO0VBQ0ksWUFBQTtBQ1RKOztBRFdBO0VBQ0ksOEJBQUE7QUNSSiIsImZpbGUiOiJzcmMvYXBwL2FwcC5jb21wb25lbnQuc2NzcyIsInNvdXJjZXNDb250ZW50IjpbIi8vIEFwcCBTdHlsZXNcbi8vIC0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS1cbi8vIFB1dCBzdHlsZSBydWxlcyBoZXJlIHRoYXQgeW91IHdhbnQgdG8gYXBwbHkgdG8gdGhlIGVudGlyZSBhcHBsaWNhdGlvbi4gVGhlc2UgXG4vLyBzdHlsZXMgYXJlIGZvciB0aGUgZW50aXJlIGFwcCBhbmQgbm90IGp1c3Qgb25lIGNvbXBvbmVudC4gQWRkaXRpb25hbGx5LCB0aGlzIFxuLy8gZmlsZSBjYW4gaG9sZCBTYXNzIG1peGlucywgZnVuY3Rpb25zLCBhbmQgcGxhY2Vob2xkZXIgY2xhc3NlcyB0byBiZSBpbXBvcnRlZCBcbi8vIGFuZCB1c2VkIHRocm91Z2hvdXQgdGhlIGFwcGxpY2F0aW9uLlxuXG5pb24tY29udGVudHtcbn1cblxuaW9uLXNlbGVjdC1vcHRpb24ge1xuICAgIC0td2lkdGg6MTAwJTtcbn1cbmlvbi1sYWJlbHtcbiAgICB3aGl0ZS1zcGFjZTpub3JtYWwgIWltcG9ydGFudDtcbn0iLCJpb24tc2VsZWN0LW9wdGlvbiB7XG4gIC0td2lkdGg6MTAwJTtcbn1cblxuaW9uLWxhYmVsIHtcbiAgd2hpdGUtc3BhY2U6IG5vcm1hbCAhaW1wb3J0YW50O1xufSJdfQ== */");
+/* harmony default export */ __webpack_exports__["default"] = ("ion-select-option {\n  --width:100%;\n}\n\nion-label {\n  white-space: normal !important;\n}\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9Vc2Vycy9sZXdpc3RoYW0vR2l0SHViL0VuZ2luZWVyc0xvZ2Jvb2syL3NyYy9hcHAvYXBwLmNvbXBvbmVudC5zY3NzIiwic3JjL2FwcC9hcHAuY29tcG9uZW50LnNjc3MiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IkFBVUE7RUFDSSxZQUFBO0FDVEo7O0FEV0E7RUFDSSw4QkFBQTtBQ1JKIiwiZmlsZSI6InNyYy9hcHAvYXBwLmNvbXBvbmVudC5zY3NzIiwic291cmNlc0NvbnRlbnQiOlsiLy8gQXBwIFN0eWxlc1xuLy8gLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLVxuLy8gUHV0IHN0eWxlIHJ1bGVzIGhlcmUgdGhhdCB5b3Ugd2FudCB0byBhcHBseSB0byB0aGUgZW50aXJlIGFwcGxpY2F0aW9uLiBUaGVzZSBcbi8vIHN0eWxlcyBhcmUgZm9yIHRoZSBlbnRpcmUgYXBwIGFuZCBub3QganVzdCBvbmUgY29tcG9uZW50LiBBZGRpdGlvbmFsbHksIHRoaXMgXG4vLyBmaWxlIGNhbiBob2xkIFNhc3MgbWl4aW5zLCBmdW5jdGlvbnMsIGFuZCBwbGFjZWhvbGRlciBjbGFzc2VzIHRvIGJlIGltcG9ydGVkIFxuLy8gYW5kIHVzZWQgdGhyb3VnaG91dCB0aGUgYXBwbGljYXRpb24uXG5cbmlvbi1jb250ZW50e1xufVxuXG5pb24tc2VsZWN0LW9wdGlvbiB7XG4gICAgLS13aWR0aDoxMDAlO1xufVxuaW9uLWxhYmVse1xuICAgIHdoaXRlLXNwYWNlOm5vcm1hbCAhaW1wb3J0YW50O1xufSIsImlvbi1zZWxlY3Qtb3B0aW9uIHtcbiAgLS13aWR0aDoxMDAlO1xufVxuXG5pb24tbGFiZWwge1xuICB3aGl0ZS1zcGFjZTogbm9ybWFsICFpbXBvcnRhbnQ7XG59Il19 */");
 
 /***/ }),
 
@@ -1293,7 +1298,7 @@ AppModule = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony default export */ __webpack_exports__["default"] = ("ion-item, .row {\n  --min-height: 1em;\n}\n\nion-col {\n  padding: 0;\n}\n\n.left {\n  display: -webkit-box !important;\n  display: flex !important;\n  -webkit-box-align: center !important;\n          align-items: center !important;\n  -webkit-box-pack: center !important;\n          justify-content: center !important;\n}\n\n.left ion-item {\n  --inner-padding-end: 0px;\n}\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9Vc2Vycy9tb2phdmUvRGVza3RvcC9FbmdpbmVlcnNMb2dib29rMi9zcmMvYXBwL2RyaXZlLXZpZXcvZHJpdmUtdmlldy5jb21wb25lbnQuc2NzcyIsInNyYy9hcHAvZHJpdmUtdmlldy9kcml2ZS12aWV3LmNvbXBvbmVudC5zY3NzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQUFBO0VBSUUsaUJBQUE7QUNGRjs7QURLQTtFQUNFLFVBQUE7QUNGRjs7QURNQTtFQUVFLCtCQUFBO0VBQUEsd0JBQUE7RUFRRSxvQ0FBQTtVQUFBLDhCQUFBO0VBQ0YsbUNBQUE7VUFBQSxrQ0FBQTtBQ1hGOztBREdFO0VBQ0Usd0JBQUE7QUNESiIsImZpbGUiOiJzcmMvYXBwL2RyaXZlLXZpZXcvZHJpdmUtdmlldy5jb21wb25lbnQuc2NzcyIsInNvdXJjZXNDb250ZW50IjpbImlvbi1pdGVtLCAucm93IHtcbiAgLy9jb2xvcjogYmxhY2s7IC0tYmFja2dyb3VuZDogd2hpdGU7IGJhY2tncm91bmQ6IHdoaXRlO1xuICAvL2NvbG9yOiB3aGl0ZTsgLS1iYWNrZ3JvdW5kOiBibGFjazsgYmFja2dyb3VuZDogYmxhY2s7XG4gIC8vY29sb3I6IHdoaXRlOyAtLWJhY2tncm91bmQ6IG5vbmU7IGJhY2tncm91bmQ6IG5vbmU7XG4gIC0tbWluLWhlaWdodDogMWVtOyAgLy8gT3RoZXJ3aXNlLCBpb24taXRlbXMgaGFzIGltcGxpY2l0IG91dGVyIHBhZGRpbmdzIVxufVxuXG5pb24tY29sIHtcbiAgcGFkZGluZzogMDsgIC8vIE5vIGF1dG9tYXRpYyBzcGFjaW5nIGJldHdlZW4gbGFiZWxzXG4gIC8vYmFja2dyb3VuZDogd2hpdGU7ICAgLy8gRml4IHVnbHkgYmFja2dyb3VuZCBnYXAgYXQgYm90dG9tIG9mIGxlZnQgY29sdW1uXG59XG5cbi5sZWZ0IHtcbiAgLy9iYWNrZ3JvdW5kOnJlZDtcbiAgZGlzcGxheTogZmxleCFpbXBvcnRhbnQ7XG4gIGlvbi1pdGVte1xuICAgIC0taW5uZXItcGFkZGluZy1lbmQ6IDBweDtcbiAgfVxuICAvL2FsaWduLWNvbnRlbnQ6IGNlbnRlciFpbXBvcnRhbnQ7XG4gIC8vd2lkdGg6IDEwMCUgIWltcG9ydGFudDtcbiAgLy9oZWlnaHQ6IDEwMCU7XG4gIC8vaW9uLWl0ZW0ge1xuICAgIGFsaWduLWl0ZW1zOiBjZW50ZXIhaW1wb3J0YW50OyAgLy8gdmVydGljYWwgYWxpZ25tZW50XG4gIGp1c3RpZnktY29udGVudDogY2VudGVyIWltcG9ydGFudDsgIC8vIGhvcml6b250YWwgYWxpZ25tZW50XG4gIC8vfVxufVxuIiwiaW9uLWl0ZW0sIC5yb3cge1xuICAtLW1pbi1oZWlnaHQ6IDFlbTtcbn1cblxuaW9uLWNvbCB7XG4gIHBhZGRpbmc6IDA7XG59XG5cbi5sZWZ0IHtcbiAgZGlzcGxheTogZmxleCAhaW1wb3J0YW50O1xuICBhbGlnbi1pdGVtczogY2VudGVyICFpbXBvcnRhbnQ7XG4gIGp1c3RpZnktY29udGVudDogY2VudGVyICFpbXBvcnRhbnQ7XG59XG4ubGVmdCBpb24taXRlbSB7XG4gIC0taW5uZXItcGFkZGluZy1lbmQ6IDBweDtcbn0iXX0= */");
+/* harmony default export */ __webpack_exports__["default"] = ("ion-item, .row {\n  --min-height: 1em;\n}\n\nion-col {\n  padding: 0;\n}\n\n.left {\n  display: -webkit-box !important;\n  display: flex !important;\n  -webkit-box-align: center !important;\n          align-items: center !important;\n  -webkit-box-pack: center !important;\n          justify-content: center !important;\n}\n\n.left ion-item {\n  --inner-padding-end: 0px;\n}\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9Vc2Vycy9sZXdpc3RoYW0vR2l0SHViL0VuZ2luZWVyc0xvZ2Jvb2syL3NyYy9hcHAvZHJpdmUtdmlldy9kcml2ZS12aWV3LmNvbXBvbmVudC5zY3NzIiwic3JjL2FwcC9kcml2ZS12aWV3L2RyaXZlLXZpZXcuY29tcG9uZW50LnNjc3MiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IkFBQUE7RUFJRSxpQkFBQTtBQ0ZGOztBREtBO0VBQ0UsVUFBQTtBQ0ZGOztBRE1BO0VBRUUsK0JBQUE7RUFBQSx3QkFBQTtFQVFFLG9DQUFBO1VBQUEsOEJBQUE7RUFDRixtQ0FBQTtVQUFBLGtDQUFBO0FDWEY7O0FER0U7RUFDRSx3QkFBQTtBQ0RKIiwiZmlsZSI6InNyYy9hcHAvZHJpdmUtdmlldy9kcml2ZS12aWV3LmNvbXBvbmVudC5zY3NzIiwic291cmNlc0NvbnRlbnQiOlsiaW9uLWl0ZW0sIC5yb3cge1xuICAvL2NvbG9yOiBibGFjazsgLS1iYWNrZ3JvdW5kOiB3aGl0ZTsgYmFja2dyb3VuZDogd2hpdGU7XG4gIC8vY29sb3I6IHdoaXRlOyAtLWJhY2tncm91bmQ6IGJsYWNrOyBiYWNrZ3JvdW5kOiBibGFjaztcbiAgLy9jb2xvcjogd2hpdGU7IC0tYmFja2dyb3VuZDogbm9uZTsgYmFja2dyb3VuZDogbm9uZTtcbiAgLS1taW4taGVpZ2h0OiAxZW07ICAvLyBPdGhlcndpc2UsIGlvbi1pdGVtcyBoYXMgaW1wbGljaXQgb3V0ZXIgcGFkZGluZ3MhXG59XG5cbmlvbi1jb2wge1xuICBwYWRkaW5nOiAwOyAgLy8gTm8gYXV0b21hdGljIHNwYWNpbmcgYmV0d2VlbiBsYWJlbHNcbiAgLy9iYWNrZ3JvdW5kOiB3aGl0ZTsgICAvLyBGaXggdWdseSBiYWNrZ3JvdW5kIGdhcCBhdCBib3R0b20gb2YgbGVmdCBjb2x1bW5cbn1cblxuLmxlZnQge1xuICAvL2JhY2tncm91bmQ6cmVkO1xuICBkaXNwbGF5OiBmbGV4IWltcG9ydGFudDtcbiAgaW9uLWl0ZW17XG4gICAgLS1pbm5lci1wYWRkaW5nLWVuZDogMHB4O1xuICB9XG4gIC8vYWxpZ24tY29udGVudDogY2VudGVyIWltcG9ydGFudDtcbiAgLy93aWR0aDogMTAwJSAhaW1wb3J0YW50O1xuICAvL2hlaWdodDogMTAwJTtcbiAgLy9pb24taXRlbSB7XG4gICAgYWxpZ24taXRlbXM6IGNlbnRlciFpbXBvcnRhbnQ7ICAvLyB2ZXJ0aWNhbCBhbGlnbm1lbnRcbiAganVzdGlmeS1jb250ZW50OiBjZW50ZXIhaW1wb3J0YW50OyAgLy8gaG9yaXpvbnRhbCBhbGlnbm1lbnRcbiAgLy99XG59XG4iLCJpb24taXRlbSwgLnJvdyB7XG4gIC0tbWluLWhlaWdodDogMWVtO1xufVxuXG5pb24tY29sIHtcbiAgcGFkZGluZzogMDtcbn1cblxuLmxlZnQge1xuICBkaXNwbGF5OiBmbGV4ICFpbXBvcnRhbnQ7XG4gIGFsaWduLWl0ZW1zOiBjZW50ZXIgIWltcG9ydGFudDtcbiAganVzdGlmeS1jb250ZW50OiBjZW50ZXIgIWltcG9ydGFudDtcbn1cbi5sZWZ0IGlvbi1pdGVtIHtcbiAgLS1pbm5lci1wYWRkaW5nLWVuZDogMHB4O1xufSJdfQ== */");
 
 /***/ }),
 
@@ -1486,7 +1491,7 @@ __webpack_require__.r(__webpack_exports__);
 
  // DateTime utility, See http://zetcode.com/javascript/dayjs/
 
-const VehicleTypes = ['BELREX', 'MSS', '5TON', 'OUV', 'FLB'];
+const VehicleTypes = ['BELREX', 'MSS', '5TON', 'OUV', 'FLB', 'M3G'];
 let DatabaseService = class DatabaseService {
     constructor(firestore) {
         this.firestore = firestore;
@@ -1512,6 +1517,11 @@ let DatabaseService = class DatabaseService {
                 this.current.user.fleet = "30SCE";
                 yield this.write('user', email, this.current.user);
             }
+            if (this.current.user.is_driver && !this.current.user.is_commander && this.current.user.admin_level != 0) {
+                // No fleet string? Set it to the default and update the database
+                this.current.user.admin_level = 0;
+                yield this.write('user', email, this.current.user);
+            }
             // Bind local data to database
             this.bind(this.current);
             // Wait for data binding to finish
@@ -1519,19 +1529,38 @@ let DatabaseService = class DatabaseService {
                 console.log("> Still retrieving userdata...");
                 yield this.sleep(500);
             }
-            console.log(this.current.user);
             console.log(`> Current database user: ${email} => ${JSON.stringify(this.current.user)}`);
             // Get all users who are in the same company as logged in user
-            this.current.all_users = yield this.list('user', ['company', '==', this.current.user.company]);
-            //console.log(`> All Users: ${JSON.stringify(this.current.all_users)}`);
+            this.current.all_coyusers = yield this.list('user', ['company', '==', this.current.user.company]);
+            this.current.all_unitusers = yield this.list('user', ['fleet', '==', this.current.user.fleet]);
+            //console.log(`> All Users: ${JSON.stringify(this.current.all_coyusers)}`);
+            //console.log(`> All Users: ${JSON.stringify(this.current.all_unitusers)}`);
             // If user is_driver, get list of commanders from the same company (for drop-down list in add-drive)
-            if (this.current.user.is_driver) {
-                this.current.all_commanders_of_driver = this.current.all_users.filter((user) => { return user.is_commander && !user.is_admin; }); // Don't include superuser in commanders list
+            if (this.current.user.is_driver || this.current.user.is_commander) {
+                this.current.all_commanders_of_driver = this.current.all_coyusers.filter((user) => { return user.is_commander && user.email != this.current.user.email; });
                 console.log(`> List of commanders[${this.current.all_commanders_of_driver.length}] = ${JSON.stringify(this.current.all_commanders_of_driver)}`);
             }
-            // If user is_commander, get list of drivers from the same company
-            if (this.current.user.is_commander) {
-                this.current.all_drivers_of_commander = this.current.all_users.filter((user) => { return user.is_driver; });
+            // If user is_commander and admin_level != 3 (sgt, pc, oc, csm) , get list of drivers from the same company
+            if (this.current.user.is_commander && this.current.user.admin_level != 3) {
+                this.current.all_drivers_of_commander = this.current.all_coyusers.filter((user) => { return user.is_driver || user.email == this.current.user.email; });
+                console.log(`> List of drivers[${this.current.all_drivers_of_commander.length}] = ${JSON.stringify(this.current.all_drivers_of_commander)}`);
+                // Also retrieve summaries of drivers
+                for (let driver of this.current.all_drivers_of_commander) {
+                    const result = yield this.read('summary', driver.email);
+                    if (result.data()) {
+                        // Found summary, great.
+                        driver.summary = result.data();
+                    }
+                    else {
+                        // No summary? Calculate it...
+                        driver.summary = this.summarize(this.current.drive_history.filter((drive) => { return drive.driver === driver.email; }));
+                    }
+                    //console.log(`${driver.email} ${JSON.stringify(driver.summary)}`);
+                }
+            }
+            // If user is_commander and admin_level == 3 (co,rsm) , get list of drivers from the same unit
+            if (this.current.user.is_commander && this.current.user.admin_level == 3) {
+                this.current.all_drivers_of_commander = this.current.all_unitusers.filter((user) => { return user.is_driver; });
                 console.log(`> List of drivers[${this.current.all_drivers_of_commander.length}] = ${JSON.stringify(this.current.all_drivers_of_commander)}`);
                 // Also retrieve summaries of drivers
                 for (let driver of this.current.all_drivers_of_commander) {
@@ -1684,7 +1713,7 @@ let DatabaseService = class DatabaseService {
         // Construct composite query depending on driver or commander (require Firestore composite index)
         var query = this.collection("drive").orderBy("date", "desc").orderBy("start_time", "desc");
         if (login.user.is_commander == true) {
-            query.where("fleet", "==", login.user.fleet);
+            query.where("commander", "==", login.user.fleet);
             /*login.detach_bind_drive =
               query.onSnapshot
               (
@@ -1735,7 +1764,30 @@ let DatabaseService = class DatabaseService {
                     if (trip.end_time == null)
                         login.drive_in_progress = trip;
                 });
-                //console.log(login.drive_history);
+                console.log(login.drive_in_progress);
+                var query = this.collection("mtrac").orderBy("created", "desc");
+                if (login.user.is_commander == true) {
+                    query.where("commander", "==", login.user.email);
+                }
+                else {
+                    query = query.where("driver", "==", login.user.email);
+                }
+                login.detach_bind_mtrac =
+                    query.onSnapshot((querySnapshot) => {
+                        login.mtrac_history = [];
+                        login.mtrac_in_progress = null;
+                        querySnapshot.forEach((doc) => {
+                            let form = doc.data(); // Casting to interface Drive
+                            form.id = doc.id;
+                            if (form.company == login.user.company && form.fleet == login.user.fleet) {
+                                login.mtrac_history.push(form);
+                            }
+                            if (form.status != "completed") {
+                                login.mtrac_in_progress = form;
+                            }
+                        });
+                    });
+                console.log(login.mtrac_in_progress);
                 console.log(`\n> Updated Drive history for ${login.user.email}, ${login.drive_history.length} drives found.`);
                 // Calculate new stats for both drivers and commanders
                 login.stats = this.summarize(login.drive_history);
@@ -1801,7 +1853,7 @@ let DatabaseService = class DatabaseService {
         const drive_history = [
             {
                 created: '',
-                driver: 'sample@gmail.com',
+                driver: 'sample@test.com',
                 commander: 'commander_name',
                 vehicle: '1234MID',
                 vehicle_type: '5TON',
@@ -1816,7 +1868,7 @@ let DatabaseService = class DatabaseService {
             },
             {
                 created: '',
-                driver: 'sample@gmail.com',
+                driver: 'sample@test.com',
                 commander: 'commander_name',
                 vehicle: '1235MID',
                 vehicle_type: 'MSS',
@@ -1836,12 +1888,20 @@ let DatabaseService = class DatabaseService {
             }
         ];
         const user = {
-            created: '',
+            admin_level: 1,
+            belrex_certified: false,
+            company: "A",
+            created: "2020-02-13 02:33",
+            email: "sample@test.com",
+            flb_certified: false,
+            fleet: "test",
+            is_commander: true,
+            is_driver: false,
+            licence_num: "SXXXXXX",
+            licence_type: "A",
+            location: { lat: 1.3365133, lng: 103.7405132 },
+            mss_certified: false,
             name: "Sample User",
-            fleet: "Sample Fleet",
-            email: "sample@gmail.com",
-            is_driver: true,
-            company: 'C',
         };
         return {
             user: user,
@@ -1932,7 +1992,7 @@ TabsPageModule = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony default export */ __webpack_exports__["default"] = ("ion-fab {\n  bottom: 25px;\n}\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9Vc2Vycy9tb2phdmUvRGVza3RvcC9FbmdpbmVlcnNMb2dib29rMi9zcmMvYXBwL3RhYnMvdGFicy5wYWdlLnNjc3MiLCJzcmMvYXBwL3RhYnMvdGFicy5wYWdlLnNjc3MiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IkFBQUE7RUFHRSxZQUFBO0FDREYiLCJmaWxlIjoic3JjL2FwcC90YWJzL3RhYnMucGFnZS5zY3NzIiwic291cmNlc0NvbnRlbnQiOlsiaW9uLWZhYntcbi8vICBwb3NpdGlvbjogcmVsYXRpdmU7XG4vLyAgYm90dG9tOiAtMjF2aDtcbiAgYm90dG9tOiAyNXB4O1xufSIsImlvbi1mYWIge1xuICBib3R0b206IDI1cHg7XG59Il19 */");
+/* harmony default export */ __webpack_exports__["default"] = ("ion-fab {\n  bottom: 25px;\n}\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9Vc2Vycy9sZXdpc3RoYW0vR2l0SHViL0VuZ2luZWVyc0xvZ2Jvb2syL3NyYy9hcHAvdGFicy90YWJzLnBhZ2Uuc2NzcyIsInNyYy9hcHAvdGFicy90YWJzLnBhZ2Uuc2NzcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiQUFBQTtFQUdFLFlBQUE7QUNERiIsImZpbGUiOiJzcmMvYXBwL3RhYnMvdGFicy5wYWdlLnNjc3MiLCJzb3VyY2VzQ29udGVudCI6WyJpb24tZmFie1xuLy8gIHBvc2l0aW9uOiByZWxhdGl2ZTtcbi8vICBib3R0b206IC0yMXZoO1xuICBib3R0b206IDI1cHg7XG59IiwiaW9uLWZhYiB7XG4gIGJvdHRvbTogMjVweDtcbn0iXX0= */");
 
 /***/ }),
 
@@ -1949,12 +2009,15 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm2015/core.js");
 /* harmony import */ var _services_database_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../services/database.service */ "./src/app/services/database.service.ts");
+/* harmony import */ var _ionic_angular__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @ionic/angular */ "./node_modules/@ionic/angular/dist/fesm5.js");
+
 
 
 
 let TabsPage = class TabsPage {
-    constructor(database) {
+    constructor(database, navCtrl) {
         this.database = database;
+        this.navCtrl = navCtrl;
     }
     ngOnInit() {
     }
@@ -1976,9 +2039,66 @@ let TabsPage = class TabsPage {
         }
         return true;
     }
+    getPendingDrives() {
+        return this.database.current.drive_history.filter((drive) => {
+            if (this.database.current.user.email === drive.driver) {
+                return drive.status === 'pending';
+            }
+        });
+    }
+    getInProgressDrives() {
+        return this.database.current.drive_history.filter((drive) => {
+            if (this.database.current.user.email === drive.driver) {
+                return drive.status === 'in-progress';
+            }
+        });
+    }
+    getDrive() {
+        if (this.database.current.drive_history != null) {
+            return this.database.current.drive_history.filter((drive) => {
+                if (this.database.current.user.email === drive.driver) {
+                    if (drive.status == "in-progress" || drive.status == "rejected") {
+                        return drive;
+                    }
+                }
+            });
+        }
+    }
+    getVerifiedMTRAC() {
+        return this.database.current.mtrac_history.filter((form) => {
+            if (this.database.current.user.email === form.driver) {
+                return form.status === 'verified';
+            }
+        });
+    }
+    getPendingMTRAC() {
+        return this.database.current.mtrac_history.filter((form) => {
+            if (this.database.current.user.email === form.driver) {
+                return form.status === 'pending';
+            }
+        });
+    }
+    getIncompleteMTRAC() {
+        return this.database.current.mtrac_history.filter((form) => {
+            if (this.database.current.user.email === form.driver) {
+                return form.status != 'completed';
+            }
+        });
+    }
+    clickdrive(drive) {
+        this.database.current.drive_to_edit = drive;
+        //console.log(`> Navigating to AddDrivePage for drive id=${drive.id}`);
+        this.navCtrl.navigateForward(['/add-drive']);
+    }
+    clickmtrac(form) {
+        this.database.current.mtrac_to_edit = form;
+        //console.log(`> Navigating to mtracPage for mtrac id=${form.id}`);
+        this.navCtrl.navigateForward(['/mtrac']);
+    }
 };
 TabsPage.ctorParameters = () => [
-    { type: _services_database_service__WEBPACK_IMPORTED_MODULE_2__["DatabaseService"] }
+    { type: _services_database_service__WEBPACK_IMPORTED_MODULE_2__["DatabaseService"] },
+    { type: _ionic_angular__WEBPACK_IMPORTED_MODULE_3__["NavController"] }
 ];
 TabsPage = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
     Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"])({
@@ -1986,7 +2106,7 @@ TabsPage = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
         template: tslib__WEBPACK_IMPORTED_MODULE_0__["__importDefault"](__webpack_require__(/*! raw-loader!./tabs.page.html */ "./node_modules/raw-loader/dist/cjs.js!./src/app/tabs/tabs.page.html")).default,
         styles: [tslib__WEBPACK_IMPORTED_MODULE_0__["__importDefault"](__webpack_require__(/*! ./tabs.page.scss */ "./src/app/tabs/tabs.page.scss")).default]
     }),
-    tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_services_database_service__WEBPACK_IMPORTED_MODULE_2__["DatabaseService"]])
+    tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_services_database_service__WEBPACK_IMPORTED_MODULE_2__["DatabaseService"], _ionic_angular__WEBPACK_IMPORTED_MODULE_3__["NavController"]])
 ], TabsPage);
 
 
@@ -2066,7 +2186,7 @@ Object(_angular_platform_browser_dynamic__WEBPACK_IMPORTED_MODULE_2__["platformB
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! /Users/mojave/Desktop/EngineersLogbook2/src/main.ts */"./src/main.ts");
+module.exports = __webpack_require__(/*! /Users/lewistham/GitHub/EngineersLogbook2/src/main.ts */"./src/main.ts");
 
 
 /***/ })

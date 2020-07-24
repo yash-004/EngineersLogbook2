@@ -21,7 +21,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     /* harmony default export */
 
 
-    __webpack_exports__["default"] = "<ion-header translucent>\n  <ion-toolbar>\n    <ion-title>Drive Details</ion-title>\n  </ion-toolbar>\n\n</ion-header>\n\n<ion-content>\n  <ion-item *ngIf=\"!gettime()\" color=\"danger\" text-wrap>\n    <ion-label>ONLY IN CAMP DRIVES ALLOWED</ion-label>\n  </ion-item>\n  <form class=\"form\" [formGroup]=\"addDriveForm\" (submit)=\"addDrive(addDriveForm.value)\">\n\n    <ion-grid>\n      <ion-row>\n        <ion-col>\n          <ion-item text-wrap>\n            <ion-label position=\"floating\">driving area</ion-label>\n            <ion-select formControlName=\"incamp\" interface=\"popover\">\n              <ion-select-option text-wrap value=true>In Camp</ion-select-option>\n              <ion-select-option text-wrap value=false *ngIf=\"gettime()\">Out of Camp</ion-select-option>\n            </ion-select>\n          </ion-item>\n        </ion-col>\n      </ion-row>\n\n      <ion-row>\n        <ion-col>\n          <ion-item>\n            <ion-label position=\"floating\">Date</ion-label>\n            <ion-datetime displayFormat=\"DD/MM/YYYY\" formControlName=\"date\"></ion-datetime>\n          </ion-item>\n          <div class=\"validation-errors\">\n            <ng-container *ngFor=\"let validation of validationMessages.date\">\n              <div class=\"error-message\"\n                *ngIf=\"addDriveForm.get('date').hasError(validation.type) && (addDriveForm.get('date').dirty || addDriveForm.get('date').touched)\">\n                {{ validation.message }}\n              </div>\n            </ng-container>\n          </div>\n        </ion-col>\n      </ion-row>\n\n      <ion-row>\n        <ion-col>\n          <ion-item >\n            <ion-label position=\"floating\">Vehicle Number</ion-label>\n            <ion-input onkeyup=\"this.value = this.value.toUpperCase()\" formControlName=\"vehicleNumber\"></ion-input>\n          </ion-item>\n          <div class=\"validation-errors\">\n            <ng-container *ngFor=\"let validation of validationMessages.vehicleNumber\">\n              <div class=\"error-message\"\n                *ngIf=\"addDriveForm.get('vehicleNumber').hasError(validation.type) && (addDriveForm.get('vehicleNumber').dirty || addDriveForm.get('vehicleNumber').touched)\">\n                {{ validation.message }}\n              </div>\n            </ng-container>\n          </div>\n        </ion-col>\n\n        <ion-col>\n          <ion-item>\n            <ion-label position=\"floating\">Vehicle Type</ion-label>\n            <ion-select formControlName=\"vehicleType\" interface=\"popover\">\n              <ion-select-option text-wrap *ngFor=\"let vty of getapprovedvtypes()\" value={{vty}}>{{vty}}</ion-select-option>\n            </ion-select>\n          </ion-item>\n          <div class=\"validation-errors\">\n            <ng-container *ngFor=\"let validation of validationMessages.vehicleType\">\n              <div class=\"error-message\"\n                *ngIf=\"addDriveForm.get('vehicleType').hasError(validation.type) && (addDriveForm.get('vehicleType').dirty || addDriveForm.get('vehicleType').touched)\">\n                {{ validation.message }}\n              </div>\n            </ng-container>\n          </div>\n        </ion-col>\n      </ion-row>\n\n      <ion-row>\n        <ion-col>\n          <ion-item>\n            <ion-label position=\"floating\">Vehicle Commander</ion-label>\n            <ion-select formControlName=\"vehicleCommander\" interface=\"popover\">\n              <ion-select-option *ngFor=\"let c of database.current.all_commanders_of_driver\" value={{c.email}}>{{c.name}}\n              </ion-select-option>\n            </ion-select>\n          </ion-item>\n          <div class=\"validation-errors\">\n            <ng-container *ngFor=\"let validation of validationMessages.vehicleCommander\">\n              <div class=\"error-message\"\n                *ngIf=\"addDriveForm.get('vehicleCommander').hasError(validation.type) && (addDriveForm.get('vehicleCommander').dirty || addDriveForm.get('vehicleCommander').touched)\">\n                {{ validation.message }}\n              </div>\n            </ng-container>\n          </div>\n        </ion-col>\n      </ion-row>\n    </ion-grid>\n\n    <ion-card>\n      <ion-card-content>\n        <ion-item lines=\"none\" no-padding>\n          <ion-icon name=\"pin\" size=\"large\" color=\"primary\"></ion-icon>\n          <ion-label> Start Drive Details </ion-label>\n        </ion-item>\n        <ion-item>\n          <ion-label position=\"floating\">Location</ion-label>\n          <ion-input type=\"text\" onkeyup=\"this.value = this.value.toUpperCase()\" formControlName=\"startLocation\"></ion-input>\n        </ion-item>\n        <div class=\"validation-errors\">\n          <ng-container *ngFor=\"let validation of validationMessages.startLocation\">\n            <div class=\"error-message\"\n              *ngIf=\"addDriveForm.get('startLocation').hasError(validation.type) && (addDriveForm.get('startLocation').dirty || addDriveForm.get('startLocation').touched)\">\n              {{ validation.message }}\n            </div>\n          </ng-container>\n        </div>\n        <ion-item>\n          <ion-label position=\"floating\">Odometer</ion-label>\n          <ion-input type=\"number\" inputmode=\"numeric\" formControlName=\"startOdometer\"></ion-input>\n        </ion-item>\n        <div class=\"validation-errors\">\n          <ng-container *ngFor=\"let validation of validationMessages.startOdometer\">\n            <div class=\"error-message\"\n              *ngIf=\"addDriveForm.get('startOdometer').hasError(validation.type) && (addDriveForm.get('startOdometer').dirty || addDriveForm.get('startOdometer').touched)\">\n              {{ validation.message }}\n            </div>\n          </ng-container>\n        </div>\n        <ion-item>\n          <ion-label position=\"floating\">Time</ion-label>\n          <ion-datetime formControlName=\"startTime\" displayFormat=\"HH:mm\"></ion-datetime>\n        </ion-item>\n        <div class=\"validation-errors\">\n          <ng-container *ngFor=\"let validation of validationMessages.startTime\">\n            <div class=\"error-message\"\n              *ngIf=\"addDriveForm.get('startTime').hasError(validation.type) && (addDriveForm.get('startTime').dirty || addDriveForm.get('startTime').touched)\">\n              {{ validation.message }}\n            </div>\n          </ng-container>\n        </div>\n      </ion-card-content>\n    </ion-card>\n\n    <ion-card *ngIf=(drive)>\n      <ion-card-content>\n        <ion-item lines=\"none\" no-padding>\n          <ion-icon name=\"pin\" size=\"large\" color=\"success\"></ion-icon>\n          <ion-label> End Drive Details </ion-label>\n        </ion-item>\n        <ion-item>\n          <ion-label position=\"floating\">Location</ion-label>\n          <ion-input type=\"text\" onkeyup=\"this.value = this.value.toUpperCase()\" formControlName=\"endLocation\"></ion-input>\n        </ion-item>\n        <div class=\"validation-errors\">\n          <ng-container *ngFor=\"let validation of validationMessages.endLocation\">\n            <div class=\"error-message\"\n              *ngIf=\"addDriveForm.get('endLocation').hasError(validation.type) && (addDriveForm.get('endLocation').dirty || addDriveForm.get('endLocation').touched)\">\n              {{ validation.message }}\n            </div>\n          </ng-container>\n        </div>\n        <ion-item>\n          <ion-label position=\"floating\">Odometer</ion-label>\n          <ion-input type=\"number\" inputmode=\"numeric\" formControlName=\"endOdometer\"></ion-input>\n        </ion-item>\n        <div class=\"validation-errors\">\n          <ng-container *ngFor=\"let validation of validationMessages.endOdometer\">\n            <div class=\"error-message\"\n              *ngIf=\"addDriveForm.get('endOdometer').hasError(validation.type) && (addDriveForm.get('endOdometer').dirty || addDriveForm.get('endOdometer').touched)\">\n              {{ validation.message }}\n            </div>\n          </ng-container>\n        </div>\n        <ion-item>\n          <ion-label position=\"floating\">Time</ion-label>\n          <ion-datetime formControlName=\"endTime\" displayFormat=\"HH:mm\"></ion-datetime>\n        </ion-item>\n        <div class=\"validation-errors\">\n          <ng-container *ngFor=\"let validation of validationMessages.endTime\">\n            <div class=\"error-message\"\n              *ngIf=\"addDriveForm.get('endTime').hasError(validation.type) && (addDriveForm.get('endTime').dirty || addDriveForm.get('endTime').touched)\">\n              {{ validation.message }}\n            </div>\n          </ng-container>\n        </div>\n        <ion-item>\n          <ion-label>Fuel Level</ion-label>\n          <ion-range min='0' max='4' color=\"secondary\" step='1' formControlName=\"fuelLevel\">\n            <ion-label slot=\"start\">empty</ion-label>\n            <ion-label slot=\"end\">full</ion-label>\n          </ion-range>\n        </ion-item>\n        <div class=\"validation-errors\">\n          <ng-container *ngFor=\"let validation of validationMessages.fuelLevel\">\n            <div class=\"error-message\"\n              *ngIf=\"addDriveForm.get('fuelLevel').hasError(validation.type) && (addDriveForm.get('fuelLevel').dirty || addDriveForm.get('fuelLevel').touched)\">\n              {{ validation.message }}\n            </div>\n          </ng-container>\n        </div>\n        <ion-item>\n          <ion-label>Maintenance Drive</ion-label>\n          <ion-toggle slot=\"start\" formControlName=\"maintenance\" (ionChange)=\"onToggle()\" [checked]=\"isToggled\"></ion-toggle>\n        </ion-item>\n\n        <ion-item>\n          <ion-label floating>Comments</ion-label>\n          <ion-textarea onkeyup=\"this.value = this.value.toUpperCase()\" formControlName=\"driveComments\"></ion-textarea>\n        </ion-item>\n      </ion-card-content>\n    </ion-card>\n   <ion-card *ngIf=(showStatus)>\n      <ion-list>\n      <ion-radio-group formControlName=\"driveStatus\">\n        <ion-item>\n          <ion-label>Verified Drive</ion-label>\n          <ion-radio value='verified' formControlName='radioVerify'>Verified drive</ion-radio>\n        </ion-item>\n        <ion-item>\n          <ion-label>Reject Drive</ion-label>\n          <ion-radio value='rejected' formControlName='radioReject'>Reject Drive</ion-radio>\n        </ion-item>\n      </ion-radio-group>\n      </ion-list>\n    </ion-card>\n\n    <div class=\"btn-wrapper\">\n      <div *ngIf = showSubmit()>\n        <ion-button *ngIf = this.database.current.user.is_commander class=\"submit-btn\" type=\"submit\" routerLink=\"/tabs/commander\" [disabled]=\"!addDriveForm.valid\" style=\"padding-right:10px\">Submit\n        </ion-button>\n        <ion-button *ngIf = !this.database.current.user.is_commander class=\"submit-btn\" type=\"submit\" routerLink=\"/tabs/summary\" [disabled]=\"!addDriveForm.valid\" style=\"padding-right:10px\">Submit\n        </ion-button>\n        <ion-button *ngIf = this.database.current.user.is_commander routerLink=\"/tabs/commander\">Cancel</ion-button>\n        <ion-button *ngIf = !this.database.current.user.is_commander routerLink=\"/tabs/summary\">Cancel</ion-button>\n      </div>\n      <div *ngIf = !showSubmit()>\n            <ion-button *ngIf = !this.database.current.user.is_commander expand=\"block\" routerLink=\"/tabs/summary\">OK</ion-button>\n            <ion-button *ngIf = this.database.current.user.is_commander expand=\"block\" routerLink=\"/tabs/commander\">OK</ion-button>\n\n      </div>\n    </div>\n  </form>\n</ion-content>";
+    __webpack_exports__["default"] = "<ion-header translucent>\n  <ion-toolbar>\n    <ion-title>Drive Details</ion-title>\n  </ion-toolbar>\n\n</ion-header>\n\n<ion-content>\n  <ion-item *ngIf=\"!gettime()\" color=\"danger\" text-wrap>\n    <ion-label>ONLY IN CAMP DRIVES ALLOWED</ion-label>\n  </ion-item>\n  <form class=\"form\" [formGroup]=\"addDriveForm\" (submit)=\"addDrive(addDriveForm.value)\">\n\n    <ion-grid>\n      <ion-row>\n        <ion-col>\n          <ion-item text-wrap>\n            <ion-label position=\"floating\">driving area</ion-label>\n            <ion-select formControlName=\"incamp\" interface=\"popover\">\n              <ion-select-option text-wrap value=true>In Camp</ion-select-option>\n              <ion-select-option text-wrap value=false *ngIf=\"gettime()\">Out of Camp</ion-select-option>\n            </ion-select>\n          </ion-item>\n        </ion-col>\n      </ion-row>\n\n      <ion-row>\n        <ion-col>\n          <ion-item>\n            <ion-label position=\"floating\">Date</ion-label>\n            <ion-datetime displayFormat=\"DD/MM/YYYY\" formControlName=\"date\"></ion-datetime>\n          </ion-item>\n          <div class=\"validation-errors\">\n            <ng-container *ngFor=\"let validation of validationMessages.date\">\n              <div class=\"error-message\"\n                *ngIf=\"addDriveForm.get('date').hasError(validation.type) && (addDriveForm.get('date').dirty || addDriveForm.get('date').touched)\">\n                {{ validation.message }}\n              </div>\n            </ng-container>\n          </div>\n        </ion-col>\n      </ion-row>\n\n      <ion-row>\n        <ion-col>\n          <ion-item >\n            <ion-label position=\"floating\">Vehicle Number</ion-label>\n            <ion-input onkeyup=\"this.value = this.value.toUpperCase()\" formControlName=\"vehicleNumber\"></ion-input>\n          </ion-item>\n          <div class=\"validation-errors\">\n            <ng-container *ngFor=\"let validation of validationMessages.vehicleNumber\">\n              <div class=\"error-message\"\n                *ngIf=\"addDriveForm.get('vehicleNumber').hasError(validation.type) && (addDriveForm.get('vehicleNumber').dirty || addDriveForm.get('vehicleNumber').touched)\">\n                {{ validation.message }}\n              </div>\n            </ng-container>\n          </div>\n        </ion-col>\n\n        <ion-col>\n          <ion-item>\n            <ion-label position=\"floating\">Vehicle Type</ion-label>\n            <ion-select formControlName=\"vehicleType\" interface=\"popover\">\n              <ion-select-option text-wrap *ngFor=\"let vty of getapprovedvtypes()\" value={{vty}}>{{vty}}</ion-select-option>\n            </ion-select>\n          </ion-item>\n          <div class=\"validation-errors\">\n            <ng-container *ngFor=\"let validation of validationMessages.vehicleType\">\n              <div class=\"error-message\"\n                *ngIf=\"addDriveForm.get('vehicleType').hasError(validation.type) && (addDriveForm.get('vehicleType').dirty || addDriveForm.get('vehicleType').touched)\">\n                {{ validation.message }}\n              </div>\n            </ng-container>\n          </div>\n        </ion-col>\n      </ion-row>\n\n      <ion-row>\n        <ion-col>\n          <ion-item>\n            <ion-label position=\"floating\">Vehicle Commander</ion-label>\n            <ion-select formControlName=\"vehicleCommander\" interface=\"popover\">\n              <ion-select-option *ngFor=\"let c of database.current.all_commanders_of_driver\" value={{c.email}}>{{c.name}}\n              </ion-select-option>\n            </ion-select>\n          </ion-item>\n          <div class=\"validation-errors\">\n            <ng-container *ngFor=\"let validation of validationMessages.vehicleCommander\">\n              <div class=\"error-message\"\n                *ngIf=\"addDriveForm.get('vehicleCommander').hasError(validation.type) && (addDriveForm.get('vehicleCommander').dirty || addDriveForm.get('vehicleCommander').touched)\">\n                {{ validation.message }}\n              </div>\n            </ng-container>\n          </div>\n        </ion-col>\n      </ion-row>\n    </ion-grid>\n\n    <ion-card>\n      <ion-card-content>\n        <ion-item lines=\"none\" no-padding>\n          <ion-icon name=\"pin\" size=\"large\" color=\"primary\"></ion-icon>\n          <ion-label> Start Drive Details </ion-label>\n        </ion-item>\n        <ion-item>\n          <ion-label position=\"floating\">Location</ion-label>\n          <ion-input type=\"text\" onkeyup=\"this.value = this.value.toUpperCase()\" formControlName=\"startLocation\"></ion-input>\n        </ion-item>\n        <div class=\"validation-errors\">\n          <ng-container *ngFor=\"let validation of validationMessages.startLocation\">\n            <div class=\"error-message\"\n              *ngIf=\"addDriveForm.get('startLocation').hasError(validation.type) && (addDriveForm.get('startLocation').dirty || addDriveForm.get('startLocation').touched)\">\n              {{ validation.message }}\n            </div>\n          </ng-container>\n        </div>\n        <ion-item>\n          <ion-label position=\"floating\">Odometer</ion-label>\n          <ion-input type=\"number\" inputmode=\"numeric\" formControlName=\"startOdometer\" placeholder=\"Input Current Odometer Reading\"></ion-input>\n        </ion-item>\n        <div class=\"validation-errors\">\n          <ng-container *ngFor=\"let validation of validationMessages.startOdometer\">\n            <div class=\"error-message\"\n              *ngIf=\"addDriveForm.get('startOdometer').hasError(validation.type) && (addDriveForm.get('startOdometer').dirty || addDriveForm.get('startOdometer').touched)\">\n              {{ validation.message }}\n            </div>\n          </ng-container>\n        </div>\n        <ion-item>\n          <ion-label position=\"floating\">Time</ion-label>\n          <ion-datetime formControlName=\"startTime\" displayFormat=\"HH:mm\"></ion-datetime>\n        </ion-item>\n        <div class=\"validation-errors\">\n          <ng-container *ngFor=\"let validation of validationMessages.startTime\">\n            <div class=\"error-message\"\n              *ngIf=\"addDriveForm.get('startTime').hasError(validation.type) && (addDriveForm.get('startTime').dirty || addDriveForm.get('startTime').touched)\">\n              {{ validation.message }}\n            </div>\n          </ng-container>\n        </div>\n      </ion-card-content>\n    </ion-card>\n\n    <ion-card *ngIf=(drive)>\n      <ion-card-content>\n        <ion-item lines=\"none\" no-padding>\n          <ion-icon name=\"pin\" size=\"large\" color=\"success\"></ion-icon>\n          <ion-label> End Drive Details </ion-label>\n        </ion-item>\n        <ion-item>\n          <ion-label position=\"floating\">Location</ion-label>\n          <ion-input type=\"text\" onkeyup=\"this.value = this.value.toUpperCase()\" formControlName=\"endLocation\" placeholder=\"End Location\"></ion-input>\n        </ion-item>\n        <div class=\"validation-errors\">\n          <ng-container *ngFor=\"let validation of validationMessages.endLocation\">\n            <div class=\"error-message\"\n              *ngIf=\"addDriveForm.get('endLocation').hasError(validation.type) && (addDriveForm.get('endLocation').dirty || addDriveForm.get('endLocation').touched)\">\n              {{ validation.message }}\n            </div>\n          </ng-container>\n        </div>\n        <ion-item>\n          <ion-label position=\"floating\">Odometer</ion-label>\n          <ion-input type=\"number\" inputmode=\"numeric\" formControlName=\"endOdometer\" placeholder=\"Input Current Odometer Reading\"></ion-input>\n        </ion-item>\n        <div class=\"validation-errors\">\n          <ng-container *ngFor=\"let validation of validationMessages.endOdometer\">\n            <div class=\"error-message\"\n              *ngIf=\"addDriveForm.get('endOdometer').hasError(validation.type) && (addDriveForm.get('endOdometer').dirty || addDriveForm.get('endOdometer').touched)\">\n              {{ validation.message }}\n            </div>\n          </ng-container>\n        </div>\n        <ion-item>\n          <ion-label position=\"floating\">Time</ion-label>\n          <ion-datetime formControlName=\"endTime\" displayFormat=\"HH:mm\"></ion-datetime>\n        </ion-item>\n        <div class=\"validation-errors\">\n          <ng-container *ngFor=\"let validation of validationMessages.endTime\">\n            <div class=\"error-message\"\n              *ngIf=\"addDriveForm.get('endTime').hasError(validation.type) && (addDriveForm.get('endTime').dirty || addDriveForm.get('endTime').touched)\">\n              {{ validation.message }}\n            </div>\n          </ng-container>\n        </div>\n        <ion-item>\n          <ion-label>Fuel Level</ion-label>\n          <ion-label>{{addDriveForm.get('fuelLevel').value}}%</ion-label>\n          <ion-range min='0' max='100' color=\"secondary\" step='25' snaps=\"true\" ticks=\"true\" formControlName=\"fuelLevel\">\n            <ion-label slot=\"start\">empty</ion-label>\n            <ion-label slot=\"end\">full</ion-label>\n          </ion-range>\n        </ion-item>\n        <div class=\"validation-errors\">\n          <ng-container *ngFor=\"let validation of validationMessages.fuelLevel\">\n            <div class=\"error-message\"\n              *ngIf=\"addDriveForm.get('fuelLevel').hasError(validation.type) && (addDriveForm.get('fuelLevel').dirty || addDriveForm.get('fuelLevel').touched)\">\n              {{ validation.message }}\n            </div>\n          </ng-container>\n        </div>\n        <ion-item>\n          <ion-label>Maintenance Drive</ion-label>\n          <ion-toggle slot=\"start\" formControlName=\"maintenance\" (ionChange)=\"onToggle()\" [checked]=\"isToggled\"></ion-toggle>\n        </ion-item>\n\n        <ion-item>\n          <ion-label floating>Comments</ion-label>\n          <ion-textarea onkeyup=\"this.value = this.value.toUpperCase()\" formControlName=\"driveComments\"></ion-textarea>\n        </ion-item>\n      </ion-card-content>\n    </ion-card>\n   <ion-card *ngIf=(showStatus)>\n      <ion-list>\n      <ion-radio-group formControlName=\"driveStatus\">\n        <ion-item>\n          <ion-label>Verified Drive</ion-label>\n          <ion-radio value='verified' formControlName='radioVerify'>Verify drive</ion-radio>\n        </ion-item>\n        <ion-item>\n          <ion-label>Reject Drive</ion-label>\n          <ion-radio value='rejected' formControlName='radioReject'>Reject Drive</ion-radio>\n        </ion-item>\n      </ion-radio-group>\n      </ion-list>\n    </ion-card>\n\n    <div class=\"btn-wrapper\">\n      <div *ngIf = showSubmit()>\n        <ion-button *ngIf = this.database.current.user.is_commander routerLink=\"/tabs/commander\">Cancel</ion-button>\n        <ion-button *ngIf = !this.database.current.user.is_commander routerLink=\"/tabs/summary\">Cancel</ion-button>\n        <ion-button *ngIf = this.database.current.user.is_commander class=\"submit-btn\" type=\"submit\" routerLink=\"/tabs/commander\" [disabled]=\"!addDriveForm.valid || addDriveForm.get('driveStatus').value == null \" style=\"padding-right:10px\">Submit\n        </ion-button>\n        <ion-button *ngIf = !this.database.current.user.is_commander class=\"submit-btn\" type=\"submit\" routerLink=\"/tabs/summary\" [disabled]=\"!addDriveForm.valid\" style=\"padding-right:10px\">\n          Submit\n        </ion-button>\n      </div>\n      <div *ngIf = !showSubmit()>\n            <ion-button *ngIf = !this.database.current.user.is_commander expand=\"block\" routerLink=\"/tabs/summary\">OK</ion-button>\n            <ion-button *ngIf = this.database.current.user.is_commander expand=\"block\" routerLink=\"/tabs/commander\">OK</ion-button>\n\n      </div>\n    </div>\n  </form>\n</ion-content>";
     /***/
   },
 
@@ -119,7 +119,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     /* harmony default export */
 
 
-    __webpack_exports__["default"] = "ion-input {\n  text-transform: uppercase;\n  color: primary !important;\n}\n\nion-card-title {\n  --color:--ion-color-primary-contrast-rgb;\n}\n\n.btn-wrapper {\n  text-align: center;\n}\n\n.input[type=number] {\n  -moz-appearance: textfield;\n}\n\n.input[type=number]::-webkit-inner-spin-button {\n  display: none;\n}\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9Vc2Vycy9tb2phdmUvRGVza3RvcC9FbmdpbmVlcnNMb2dib29rMi9zcmMvYXBwL2FkZC1kcml2ZS9hZGQtZHJpdmUucGFnZS5zY3NzIiwic3JjL2FwcC9hZGQtZHJpdmUvYWRkLWRyaXZlLnBhZ2Uuc2NzcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiQUFLQTtFQUNFLHlCQUFBO0VBQ0EseUJBQUE7QUNKRjs7QURPQTtFQUNFLHdDQUFBO0FDSkY7O0FET0E7RUFDRSxrQkFBQTtBQ0pGOztBRFFBO0VBRUUsMEJBQUE7QUNORjs7QURLRTtFQUE4QixhQUFBO0FDRmhDIiwiZmlsZSI6InNyYy9hcHAvYWRkLWRyaXZlL2FkZC1kcml2ZS5wYWdlLnNjc3MiLCJzb3VyY2VzQ29udGVudCI6WyJcbioge1xuLy8gIG9wYWNpdHk6IDEgIWltcG9ydGFudDsgIC8vIGRpc2FibGVkIGl0ZW1zIHdpbGwgbm90IGJlIGdyZXkgb3V0LlxufVxuXG5pb24taW5wdXR7XG4gIHRleHQtdHJhbnNmb3JtOiB1cHBlcmNhc2U7XG4gIGNvbG9yOiBwcmltYXJ5IWltcG9ydGFudDtcbn1cblxuaW9uLWNhcmQtdGl0bGV7XG4gIC0tY29sb3I6LS1pb24tY29sb3ItcHJpbWFyeS1jb250cmFzdC1yZ2I7XG59XG5cbi5idG4td3JhcHBlciB7XG4gIHRleHQtYWxpZ246IGNlbnRlcjtcbn1cblxuLy8gZG8gbm90IHNob3cgc3Bpbm5lciBmb3IgbnVtYmVyIGlucHV0c1xuLmlucHV0W3R5cGU9bnVtYmVyXSB7ICBcbiAgJjo6LXdlYmtpdC1pbm5lci1zcGluLWJ1dHRvbnsgZGlzcGxheTogbm9uZTsgfVxuICAtbW96LWFwcGVhcmFuY2U6dGV4dGZpZWxkO1xufSIsImlvbi1pbnB1dCB7XG4gIHRleHQtdHJhbnNmb3JtOiB1cHBlcmNhc2U7XG4gIGNvbG9yOiBwcmltYXJ5ICFpbXBvcnRhbnQ7XG59XG5cbmlvbi1jYXJkLXRpdGxlIHtcbiAgLS1jb2xvcjotLWlvbi1jb2xvci1wcmltYXJ5LWNvbnRyYXN0LXJnYjtcbn1cblxuLmJ0bi13cmFwcGVyIHtcbiAgdGV4dC1hbGlnbjogY2VudGVyO1xufVxuXG4uaW5wdXRbdHlwZT1udW1iZXJdIHtcbiAgLW1vei1hcHBlYXJhbmNlOiB0ZXh0ZmllbGQ7XG59XG4uaW5wdXRbdHlwZT1udW1iZXJdOjotd2Via2l0LWlubmVyLXNwaW4tYnV0dG9uIHtcbiAgZGlzcGxheTogbm9uZTtcbn0iXX0= */";
+    __webpack_exports__["default"] = "ion-input {\n  text-transform: uppercase;\n  color: primary !important;\n}\n\nion-card-title {\n  --color:--ion-color-primary-contrast-rgb;\n}\n\n.btn-wrapper {\n  text-align: center;\n}\n\n.input[type=number] {\n  -moz-appearance: textfield;\n}\n\n.input[type=number]::-webkit-inner-spin-button {\n  display: none;\n}\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9Vc2Vycy9sZXdpc3RoYW0vR2l0SHViL0VuZ2luZWVyc0xvZ2Jvb2syL3NyYy9hcHAvYWRkLWRyaXZlL2FkZC1kcml2ZS5wYWdlLnNjc3MiLCJzcmMvYXBwL2FkZC1kcml2ZS9hZGQtZHJpdmUucGFnZS5zY3NzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQUtBO0VBQ0UseUJBQUE7RUFDQSx5QkFBQTtBQ0pGOztBRE9BO0VBQ0Usd0NBQUE7QUNKRjs7QURPQTtFQUNFLGtCQUFBO0FDSkY7O0FEUUE7RUFFRSwwQkFBQTtBQ05GOztBREtFO0VBQThCLGFBQUE7QUNGaEMiLCJmaWxlIjoic3JjL2FwcC9hZGQtZHJpdmUvYWRkLWRyaXZlLnBhZ2Uuc2NzcyIsInNvdXJjZXNDb250ZW50IjpbIlxuKiB7XG4vLyAgb3BhY2l0eTogMSAhaW1wb3J0YW50OyAgLy8gZGlzYWJsZWQgaXRlbXMgd2lsbCBub3QgYmUgZ3JleSBvdXQuXG59XG5cbmlvbi1pbnB1dHtcbiAgdGV4dC10cmFuc2Zvcm06IHVwcGVyY2FzZTtcbiAgY29sb3I6IHByaW1hcnkhaW1wb3J0YW50O1xufVxuXG5pb24tY2FyZC10aXRsZXtcbiAgLS1jb2xvcjotLWlvbi1jb2xvci1wcmltYXJ5LWNvbnRyYXN0LXJnYjtcbn1cblxuLmJ0bi13cmFwcGVyIHtcbiAgdGV4dC1hbGlnbjogY2VudGVyO1xufVxuXG4vLyBkbyBub3Qgc2hvdyBzcGlubmVyIGZvciBudW1iZXIgaW5wdXRzXG4uaW5wdXRbdHlwZT1udW1iZXJdIHsgIFxuICAmOjotd2Via2l0LWlubmVyLXNwaW4tYnV0dG9ueyBkaXNwbGF5OiBub25lOyB9XG4gIC1tb3otYXBwZWFyYW5jZTp0ZXh0ZmllbGQ7XG59IiwiaW9uLWlucHV0IHtcbiAgdGV4dC10cmFuc2Zvcm06IHVwcGVyY2FzZTtcbiAgY29sb3I6IHByaW1hcnkgIWltcG9ydGFudDtcbn1cblxuaW9uLWNhcmQtdGl0bGUge1xuICAtLWNvbG9yOi0taW9uLWNvbG9yLXByaW1hcnktY29udHJhc3QtcmdiO1xufVxuXG4uYnRuLXdyYXBwZXIge1xuICB0ZXh0LWFsaWduOiBjZW50ZXI7XG59XG5cbi5pbnB1dFt0eXBlPW51bWJlcl0ge1xuICAtbW96LWFwcGVhcmFuY2U6IHRleHRmaWVsZDtcbn1cbi5pbnB1dFt0eXBlPW51bWJlcl06Oi13ZWJraXQtaW5uZXItc3Bpbi1idXR0b24ge1xuICBkaXNwbGF5OiBub25lO1xufSJdfQ== */";
     /***/
   },
 
@@ -304,8 +304,9 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
             vtypes = vtypes.filter(function (vtype) {
               return vtype != 'BELREX';
             });
-            return vtypes;
           }
+
+          return vtypes;
         }
       }, {
         key: "ngOnInit",
@@ -355,40 +356,41 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
             this.drive = this.database.current.drive_in_progress;
           }
 
-          if (this.drive) {
+          if (this.drive != null) {
             console.log('drive status: ' + this.drive.status);
             console.log('is commander: ' + this.database.current.user.is_commander);
           }
 
           if (this.drive == null) {
             // start a new drive
+            this.mtrac = this.database.current.mtrac_to_edit;
             this.startDriveControls();
             this.updateStatus = false;
             this.isDisabled = false;
             this.showStatus = false;
           } else {
             // retrieving an existing drive
-            if (this.database.current.user.is_admin) {
+            if (this.drive.driver != this.database.current.user.email && this.database.current.user.is_admin) {
               console.log('editing drive info - admin user');
               this.editDriveControls();
               this.updateStatus = true;
               this.showStatus = true;
               this.isDisabled = false;
-            } else if (this.drive.status === 'pending' || this.drive.status === 'verified' || (this.drive.status === 'in-progress' || this.drive.status === 'rejected') && this.database.current.user.is_commander) {
+            } else if (this.drive.status === 'pending' || this.drive.status === 'verified' || (this.drive.status === 'in-progress' || this.drive.status === 'rejected') && this.drive.commander == this.database.current.user.email) {
               // view only
               console.log('viewing a drive');
               this.updateStatus = false;
               this.showStatus = true;
               this.isDisabled = true;
               this.viewDriveControls();
-            } else if (this.drive.status === 'in-progress' && !this.database.current.user.is_commander) {
+            } else if (this.drive.status === 'in-progress' && this.drive.driver == this.database.current.user.email) {
               // driver enter details to complete drive
               console.log('completing an in-progress drive - driver');
               this.updateStatus = false;
               this.isDisabled = false;
               this.showStatus = false;
               this.endDriveControls();
-            } else if (this.drive.status === 'rejected' && !this.database.current.user.is_commander) {
+            } else if (this.drive.status === 'rejected' && this.drive.driver == this.database.current.user.email) {
               console.log('editing rejected drive info - driver'); // driver edit details for rejected drive
 
               this.updateStatus = false;
@@ -410,7 +412,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
           this.setDriveStatusControls(); // if commander and drive status is pending, add verified and reject controls
           // else display ok button
 
-          if (this.database.current.user.is_commander && this.drive.status === 'pending') {
+          if (this.drive.commander == this.database.current.user.email && this.drive.status === 'pending') {
             console.log('commander need to approve/reject drive');
             this.updateStatus = true;
             this.addDriveForm.get('driveStatus').setValidators(_angular_forms__WEBPACK_IMPORTED_MODULE_2__["Validators"].required);
@@ -422,7 +424,11 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
         key: "startDriveControls",
         value: function startDriveControls() {
           this.addDriveForm.get('date').setValue(this.today);
-          this.addDriveForm.get('startTime').setValue(this.today); // clear validators for end drive controls
+          this.addDriveForm.get('startTime').setValue(this.today);
+          this.addDriveForm.get('incamp').setValue(this.mtrac.incamp);
+          this.addDriveForm.get('vehicleNumber').setValue(this.mtrac.vehicleNumber);
+          this.addDriveForm.get('vehicleCommander').setValue(this.mtrac.commander);
+          this.addDriveForm.get('startLocation').setValue(this.mtrac.startLocation); // clear validators for end drive controls
 
           this.addDriveForm.get('endLocation').clearValidators();
           this.addDriveForm.get('endOdometer').clearValidators();
@@ -470,6 +476,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
           this.addDriveForm.get('endOdometer').setValue(this.drive.end_odometer);
           this.addDriveForm.get('endTime').setValue(this.drive.end_time);
           console.log('end time: ' + this.addDriveForm.value.endTime);
+          this.addDriveForm.get('fuelLevel').setValue(this.drive.fuel_level);
           this.addDriveForm.get('driveComments').setValue(this.drive.comments.toUpperCase()); // set the maintenance toggle to check
 
           this.isToggled = this.drive.is_maintenance;
@@ -479,6 +486,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
         value: function setDriveStatusControls() {
           if (this.showStatus) {
             this.addDriveForm.get('driveStatus').setValue(this.drive.status);
+            console.log(this.addDriveForm.get('driveStatus').value);
           }
         }
       }, {
@@ -503,10 +511,15 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
                     return _context.abrupt("return");
 
                   case 5:
-                    _context.prev = 5;
+                    if (!(this.drive.commander != this.database.current.user.email)) {
+                      _context.next = 39;
+                      break;
+                    }
+
+                    _context.prev = 6;
                     currentDrive = this.database.current.drive_history[0]; // Stage 1 details : the user may made some changes to these info
 
-                    currentDrive.start_location = this.addDriveForm.value.vehicleNumber.toUpperCase();
+                    currentDrive.vehicle = this.addDriveForm.value.vehicleNumber.toUpperCase();
                     currentDrive.vehicle_type = this.addDriveForm.value.vehicleType;
                     currentDrive.commander = this.addDriveForm.value.vehicleCommander;
                     currentDrive.date = this.addDriveForm.value.date.split('T')[0];
@@ -527,30 +540,30 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
                     console.log('Fuel level (UI): ' + currentDrive.fuel_level);
                     currentDrive.comments = this.addDriveForm.value.driveComments;
                     currentDrive.status = 'pending';
-                    _context.next = 27;
+                    _context.next = 28;
                     return this.database.write('drive', currentDrive.id, currentDrive);
 
-                  case 27:
+                  case 28:
                     this.errorMessage = '';
                     this.successMessage = 'Your drive has been updated.';
                     this.showToast(this.successMessage);
-                    _context.next = 38;
+                    _context.next = 39;
                     break;
 
-                  case 32:
-                    _context.prev = 32;
-                    _context.t0 = _context["catch"](5);
+                  case 33:
+                    _context.prev = 33;
+                    _context.t0 = _context["catch"](6);
                     console.log(_context.t0);
                     this.errorMessage = 'Update drive error: ${err}';
                     this.successMessage = '';
                     this.showToast(this.errorMessage);
 
-                  case 38:
+                  case 39:
                   case "end":
                     return _context.stop();
                 }
               }
-            }, _callee, this, [[5, 32]]);
+            }, _callee, this, [[6, 33]]);
           }));
         }
       }, {
@@ -566,7 +579,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
                   case 0:
                     console.log('is Commander: ' + this.database.current.user.is_commander);
 
-                    if (!this.database.current.user.is_commander) {
+                    if (!(this.drive.commander == this.database.current.user.email)) {
                       _context2.next = 11;
                       break;
                     }
@@ -582,7 +595,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
                     this.errorMessage = '';
                     this.successMessage = 'The drive status has been updated successfully.';
                     this.showToast(this.successMessage);
-                    _context2.next = 33;
+                    _context2.next = 38;
                     break;
 
                   case 11:
@@ -594,11 +607,12 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
                     // the submit is to complete the drive information
                     console.log('Updating start and end drive details...');
                     this.endDrive(value);
-                    _context2.next = 33;
+                    _context2.next = 38;
                     break;
 
                   case 16:
                     _context2.prev = 16;
+                    this.mtrac = this.database.current.mtrac_to_edit;
                     time = dayjs__WEBPACK_IMPORTED_MODULE_6__(new Date(this.addDriveForm.value.startTime)).format('HH:mm');
                     new_drive = {
                       created: this.database.getTimeStamp(),
@@ -617,30 +631,36 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
                       incamp: this.addDriveForm.value.incamp
                     };
                     console.log('new_drive=${JSON.stringify(new_drive)}');
-                    _context2.next = 22;
-                    return this.database.add('drive', new_drive);
+                    _context2.next = 23;
+                    return this.database.write('drive', this.mtrac.id, new_drive);
 
-                  case 22:
+                  case 23:
+                    this.mtrac.status = "completed";
+                    _context2.next = 26;
+                    return this.database.write('mtrac', this.mtrac.id, this.mtrac);
+
+                  case 26:
                     this.errorMessage = '';
                     this.successMessage = 'Your drive has been added.';
                     this.showToast(this.successMessage);
-                    _context2.next = 33;
+                    _context2.next = 38;
                     break;
 
-                  case 27:
-                    _context2.prev = 27;
+                  case 31:
+                    _context2.prev = 31;
                     _context2.t0 = _context2["catch"](16);
                     this.errorMessage = "Add drive error: ".concat(_context2.t0);
                     this.successMessage = '';
-                    this.showToast(this.errorMessage);
-                    this.navCtrl.pop();
+                    console.log(this.errorMessage);
+                    console.log(this.addDriveForm.value.startLocation);
+                    this.showToast(this.errorMessage); //this.navCtrl.pop();
 
-                  case 33:
+                  case 38:
                   case "end":
                     return _context2.stop();
                 }
               }
-            }, _callee2, this, [[16, 27]]);
+            }, _callee2, this, [[16, 31]]);
           }));
         }
       }, {

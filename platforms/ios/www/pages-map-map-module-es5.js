@@ -21,7 +21,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     /* harmony default export */
 
 
-    __webpack_exports__["default"] = "<ion-content padding>\n    <script src=\"https://maps.googleapis.com/maps/api/js?key=AIzaSyCZ71jPdOF6e02nQmca2WrbJw_QeXZBh5Q\"></script>\n    <div #map id=\"map\" style=\"height: 100%;width: 100%;overflow: auto;background-color: transparent;\"></div>\n</ion-content>";
+    __webpack_exports__["default"] = "<ion-content>\n    <script src=\"https://maps.googleapis.com/maps/api/js?key=AIzaSyCZ71jPdOF6e02nQmca2WrbJw_QeXZBh5Q\"></script>\n    <div #map id=\"map\" style=\"height: 100%;width: 100%;overflow: auto;background-color: transparent;\"></div>\n        <!-- fab placed to the top end -->\n    <ion-fab vertical=\"top\" horizontal=\"end\" slot=\"fixed\">\n        <ion-fab-button size=\"small\" color=\"danger\" (click)=\"click()\">\n            <ion-icon name=\"alert\"></ion-icon>\n        </ion-fab-button>\n    </ion-fab>\n</ion-content>";
     /***/
   },
 
@@ -269,16 +269,14 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
             _this2.deleteMarkers();
 
-            var image = 'assets/car.png';
-
-            _this2.addMarker(updatelocation, image);
-
-            _this2.setMapOnAll(_this2.map);
-
-            _this2.map.panTo(updatelocation);
+            if (_this2.map) {
+              _this2.updatemap();
+            }
           });
-          var cloc = new google.maps.LatLng(this.database.current.user.location.lat, this.database.current.user.location.lng);
-          this.map.panTo(cloc);
+
+          if (this.map) {
+            this.updatemap();
+          }
         }
       }, {
         key: "addMarker",
@@ -289,6 +287,15 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
             icon: image
           });
           this.markers.push(marker);
+        }
+      }, {
+        key: "updatemap",
+        value: function updatemap() {
+          var image = 'assets/car.png';
+          var updatelocation = new google.maps.LatLng(this.database.current.user.location.lat, this.database.current.user.location.lng);
+          this.addMarker(updatelocation, image);
+          this.setMapOnAll(this.map);
+          this.map.panTo(updatelocation);
         }
       }, {
         key: "setMapOnAll",
@@ -307,6 +314,26 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
         value: function deleteMarkers() {
           this.clearMarkers();
           this.markers = [];
+        }
+      }, {
+        key: "click",
+        value: function click() {
+          this.drive = this.getPendingDrives();
+          console.log(this.drive);
+          this.database.current.drive_to_edit = this.drive[0];
+          console.log("> Navigating to AddDrivePage for drive id=".concat(this.drive.id));
+          this.navCtrl.navigateForward(['/reportvehicle']);
+        }
+      }, {
+        key: "getPendingDrives",
+        value: function getPendingDrives() {
+          var _this3 = this;
+
+          return this.database.current.drive_history.filter(function (drive) {
+            if (_this3.database.current.user.email === drive.driver) {
+              return drive.status === 'in-progress';
+            }
+          });
         }
       }]);
 

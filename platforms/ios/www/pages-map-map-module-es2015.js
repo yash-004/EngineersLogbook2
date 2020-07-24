@@ -9,7 +9,7 @@
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony default export */ __webpack_exports__["default"] = ("<ion-content padding>\n    <script src=\"https://maps.googleapis.com/maps/api/js?key=AIzaSyCZ71jPdOF6e02nQmca2WrbJw_QeXZBh5Q\"></script>\n    <div #map id=\"map\" style=\"height: 100%;width: 100%;overflow: auto;background-color: transparent;\"></div>\n</ion-content>");
+/* harmony default export */ __webpack_exports__["default"] = ("<ion-content>\n    <script src=\"https://maps.googleapis.com/maps/api/js?key=AIzaSyCZ71jPdOF6e02nQmca2WrbJw_QeXZBh5Q\"></script>\n    <div #map id=\"map\" style=\"height: 100%;width: 100%;overflow: auto;background-color: transparent;\"></div>\n        <!-- fab placed to the top end -->\n    <ion-fab vertical=\"top\" horizontal=\"end\" slot=\"fixed\">\n        <ion-fab-button size=\"small\" color=\"danger\" (click)=\"click()\">\n            <ion-icon name=\"alert\"></ion-icon>\n        </ion-fab-button>\n    </ion-fab>\n</ion-content>");
 
 /***/ }),
 
@@ -144,13 +144,13 @@ let MapPage = class MapPage {
                 this.database.write('user', this.database.current.user.email, this.database.current.user);
             }
             this.deleteMarkers();
-            let image = 'assets/car.png';
-            this.addMarker(updatelocation, image);
-            this.setMapOnAll(this.map);
-            this.map.panTo(updatelocation);
+            if (this.map) {
+                this.updatemap();
+            }
         });
-        var cloc = new google.maps.LatLng(this.database.current.user.location.lat, this.database.current.user.location.lng);
-        this.map.panTo(cloc);
+        if (this.map) {
+            this.updatemap();
+        }
     }
     addMarker(location, image) {
         let marker = new google.maps.Marker({
@@ -159,6 +159,13 @@ let MapPage = class MapPage {
             icon: image
         });
         this.markers.push(marker);
+    }
+    updatemap() {
+        let image = 'assets/car.png';
+        var updatelocation = new google.maps.LatLng(this.database.current.user.location.lat, this.database.current.user.location.lng);
+        this.addMarker(updatelocation, image);
+        this.setMapOnAll(this.map);
+        this.map.panTo(updatelocation);
     }
     setMapOnAll(map) {
         for (var i = 0; i < this.markers.length; i++) {
@@ -171,6 +178,20 @@ let MapPage = class MapPage {
     deleteMarkers() {
         this.clearMarkers();
         this.markers = [];
+    }
+    click() {
+        this.drive = this.getPendingDrives();
+        console.log(this.drive);
+        this.database.current.drive_to_edit = this.drive[0];
+        console.log(`> Navigating to AddDrivePage for drive id=${this.drive.id}`);
+        this.navCtrl.navigateForward(['/reportvehicle']);
+    }
+    getPendingDrives() {
+        return this.database.current.drive_history.filter((drive) => {
+            if (this.database.current.user.email === drive.driver) {
+                return drive.status === 'in-progress';
+            }
+        });
     }
 };
 MapPage.ctorParameters = () => [

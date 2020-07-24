@@ -71,7 +71,7 @@ SignupPageModule = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony default export */ __webpack_exports__["default"] = ("ion-content {\n  --padding-start: 10%;\n  --padding-end: 10%;\n  --padding-top: 5px;\n}\nion-content .error-message {\n  color: red;\n  font-size: 0.8em;\n}\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9Vc2Vycy9tb2phdmUvRGVza3RvcC9FbmdpbmVlcnNMb2dib29rMi9zcmMvYXBwL3NpZ251cC9zaWdudXAucGFnZS5zY3NzIiwic3JjL2FwcC9zaWdudXAvc2lnbnVwLnBhZ2Uuc2NzcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiQUFBQTtFQUVFLG9CQUFBO0VBQ0Esa0JBQUE7RUFDQSxrQkFBQTtBQ0FGO0FERUU7RUFDRSxVQUFBO0VBQ0EsZ0JBQUE7QUNBSiIsImZpbGUiOiJzcmMvYXBwL3NpZ251cC9zaWdudXAucGFnZS5zY3NzIiwic291cmNlc0NvbnRlbnQiOlsiaW9uLWNvbnRlbnQge1xuXG4gIC0tcGFkZGluZy1zdGFydDogMTAlO1xuICAtLXBhZGRpbmctZW5kOiAxMCU7XG4gIC0tcGFkZGluZy10b3A6IDVweDtcblxuICAuZXJyb3ItbWVzc2FnZSB7XG4gICAgY29sb3I6IHJlZDtcbiAgICBmb250LXNpemU6IDAuOGVtO1xuICB9XG59XG4iLCJpb24tY29udGVudCB7XG4gIC0tcGFkZGluZy1zdGFydDogMTAlO1xuICAtLXBhZGRpbmctZW5kOiAxMCU7XG4gIC0tcGFkZGluZy10b3A6IDVweDtcbn1cbmlvbi1jb250ZW50IC5lcnJvci1tZXNzYWdlIHtcbiAgY29sb3I6IHJlZDtcbiAgZm9udC1zaXplOiAwLjhlbTtcbn0iXX0= */");
+/* harmony default export */ __webpack_exports__["default"] = ("ion-content {\n  --padding-start: 10%;\n  --padding-end: 10%;\n  --padding-top: 5px;\n}\nion-content .error-message {\n  color: red;\n  font-size: 0.8em;\n}\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9Vc2Vycy9sZXdpc3RoYW0vR2l0SHViL0VuZ2luZWVyc0xvZ2Jvb2syL3NyYy9hcHAvc2lnbnVwL3NpZ251cC5wYWdlLnNjc3MiLCJzcmMvYXBwL3NpZ251cC9zaWdudXAucGFnZS5zY3NzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQUFBO0VBRUUsb0JBQUE7RUFDQSxrQkFBQTtFQUNBLGtCQUFBO0FDQUY7QURFRTtFQUNFLFVBQUE7RUFDQSxnQkFBQTtBQ0FKIiwiZmlsZSI6InNyYy9hcHAvc2lnbnVwL3NpZ251cC5wYWdlLnNjc3MiLCJzb3VyY2VzQ29udGVudCI6WyJpb24tY29udGVudCB7XG5cbiAgLS1wYWRkaW5nLXN0YXJ0OiAxMCU7XG4gIC0tcGFkZGluZy1lbmQ6IDEwJTtcbiAgLS1wYWRkaW5nLXRvcDogNXB4O1xuXG4gIC5lcnJvci1tZXNzYWdlIHtcbiAgICBjb2xvcjogcmVkO1xuICAgIGZvbnQtc2l6ZTogMC44ZW07XG4gIH1cbn1cbiIsImlvbi1jb250ZW50IHtcbiAgLS1wYWRkaW5nLXN0YXJ0OiAxMCU7XG4gIC0tcGFkZGluZy1lbmQ6IDEwJTtcbiAgLS1wYWRkaW5nLXRvcDogNXB4O1xufVxuaW9uLWNvbnRlbnQgLmVycm9yLW1lc3NhZ2Uge1xuICBjb2xvcjogcmVkO1xuICBmb250LXNpemU6IDAuOGVtO1xufSJdfQ== */");
 
 /***/ }),
 
@@ -191,9 +191,11 @@ let SignupPage = class SignupPage {
                         mss_certified: false,
                         flb_certified: false,
                         belrex_certified: false,
+                        m3g_certified: false,
                         is_driver: value.isCommander.toLowerCase() === 'false',
                         is_commander: value.isCommander.toLowerCase() === 'true',
-                        location: { lat: navigator.geolocation.getCurrentPosition((position) => { position.coords.latitude; }), lng: navigator.geolocation.getCurrentPosition((position) => { position.coords.longitude; }) }
+                        location: { lat: 0, lng: 0 },
+                        admin_level: 1,
                     };
                     yield this.database.write('user', res.user.email, new_user);
                     this.errorMessage = '';
