@@ -96,10 +96,9 @@
   <ion-slides pager='true' no-padding>
     <!--<ion-slide><canvas #chartCanvas1></canvas></ion-slide>-->
     <ion-slide style="padding: 0 5px"><ion-col>
-      <canvas #chartCanvas4 responsive="true"></canvas>
-      <ion-label position="stacked" style="padding-left: 125px" text-right>{{database.current.stats.mileage_km}} km</ion-label>
+      <canvas #chartCanvas2 responsive="true"></canvas>
     </ion-col></ion-slide>
-    <ion-slide  style="padding: 0 5px" responsive="true"><canvas #chartCanvas3></canvas></ion-slide>
+    <ion-slide  style="padding: 0 5px" responsive="true"><canvas #chartCanvas5></canvas></ion-slide>
     <ion-slide > <ion-grid>
       <ion-label><h1 class="underline">Platform Currency</h1></ion-label>
       <ion-item *ngFor="let vehicle of database.current.stats.most_recent_drive_by_vehicle_type | keyvalue">

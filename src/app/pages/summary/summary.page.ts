@@ -200,8 +200,8 @@ export class SummaryPage implements OnInit {
   // References: https://www.joshmorony.com/adding-responsive-charts-graphs-to-ionic-2-applications/  
 
   @ViewChild("chartCanvas1", {static:true}) chartCanvas1: ElementRef;
-  @ViewChild("chartCanvas4", {static:true}) chartCanvas4: ElementRef;
-  @ViewChild("chartCanvas3", {static:true}) chartCanvas3: ElementRef;
+  @ViewChild("chartCanvas2", {static:true}) chartCanvas2: ElementRef;
+  @ViewChild("chartCanvas5", {static:true}) chartCanvas5: ElementRef;
 
   private initCharts(): void {
 
@@ -213,15 +213,15 @@ export class SummaryPage implements OnInit {
     //this.makeChart2(this.chartCanvas2, this.database.current.stats.mileage_by_vehicle_type);
     this.getStatus();
 
-    this.makeChart4(this.chartCanvas4, this.database.current.stats.mileage_by_vehicle_type, this.database.current.stats.mileage_km);
+    this.makeChart2(this.chartCanvas2, this.database.current.stats.mileage_by_vehicle_type, this.database.current.stats.mileage_km);
     if (this.database.current.stats.mileage_km > 1000 && this.database.current.stats.mileage_km < 4000) {
       var maxVal= 4000-this.database.current.stats.mileage_km;
-      this.makeChart3(this.chartCanvas3, this.database.current.stats.mileage_km, maxVal, 0);
+      this.makeChart5(this.chartCanvas3, this.database.current.stats.mileage_km, maxVal, 0);
     }
     else if (this.database.current.stats.mileage_km < 1000 && this.database.current.stats.mileage_km < 4000) {
       var overseas= 1000-this.database.current.stats.mileage_km;
       var maxVal= 4000-this.database.current.stats.mileage_km;
-      this.makeChart3(this.chartCanvas3, this.database.current.stats.mileage_km, maxVal, overseas);
+      this.makeChart5(this.chartCanvas3, this.database.current.stats.mileage_km, maxVal, overseas);
     }
     }
 
@@ -306,6 +306,11 @@ export class SummaryPage implements OnInit {
       ]
       },
       options: {
+        plugins: {
+          labels: {
+              render: () => {}
+            }
+          },
         title: {
           display: true,
           text: 'Your Mileage by Vehicle Types'
@@ -457,6 +462,53 @@ export class SummaryPage implements OnInit {
         cutoutPercentage : 33,
         maintainAspectRatio: true,
         responsive: true,
+      }
+    });
+  }
+  private makeChart5(canvas: ElementRef, value: number, max_value: number, overseas: number): Chart {
+    return new Chart(canvas.nativeElement, {
+      type: "horizontalBar",
+      data: {
+        labels: ["Overseas" ,"Conversion"],
+        datasets: [
+        {
+            label: "Mileage",
+            borderWidth: 1,
+            data : [value, value],
+            backgroundColor: [
+              "rgb(255, 99, 132)",
+              "rgb(255, 99, 132)",]
+        },{
+            label: "Conversion",
+            borderWidth: 1,
+            data : [overseas, max_value],
+            backgroundColor: [
+              "rgb(255, 205, 86)",
+              "rgb(54, 162, 235)",
+              ]
+        }
+      ]
+      },
+      options: {
+        plugins: {
+          labels: {
+            }
+          },
+        title: {
+          display: true,
+          text: 'Licence Conversion'
+        },
+        legend: {
+          display: true
+        },
+        scales: {
+          xAxes: [{
+            stacked: true
+          }],
+          yAxes: [{
+            stacked: true
+          }]
+        }
       }
     });
   }
