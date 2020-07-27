@@ -31,6 +31,24 @@ export class CmdHistoryPage implements OnInit {
     });
   }
 
+  public getMileage() {
+    var mileage = 0;
+    var drives = this.getDrives();
+    for (var d of drives) {
+      mileage += d.end_odometer - d.start_odometer }
+    return mileage;
+  }
+
+  getMileagebyVehicleType(vehicle: string) {
+    var mileage = 0;
+    var drives = this.getDrives();
+    for (var d of drives) {
+      if (d.vehicle_type == vehicle) {
+        mileage += d.end_odometer - d.start_odometer }
+      }
+    return mileage;
+  }
+
   public getDrives() : Drive[] {
 
     var drives = this.database.current.drive_history;
@@ -159,24 +177,31 @@ export class CmdHistoryPage implements OnInit {
   }
 
   // Build Doughnut chart of mileage per VehicleType
-  public chartLabels:string[] = VehicleTypes;
+  public chartLabels:string[] = Object.keys(this.database.current.stats.most_recent_drive_by_vehicle_type);
   public chartData:number[] = [ 0,0,0,0 ];
   public chartType:string = 'doughnut';
   public chartColors:any[] = [{backgroundColor: [
-            "rgba(255,99,132,1)",
+            "rgba(255,99,132,0.2)",
+            "rgba(54, 162, 235,0.2)",
+            "rgba(255, 206, 86,0.2)",
+            "rgba(75, 192, 192,0.2)",
+            "rgba(153, 102, 255,0.2)",],
+            borderColor: [
+            "rgba(255,99,132, 1)",
             "rgba(54, 162, 235, 1)",
             "rgba(255, 206, 86, 1)",
             "rgba(75, 192, 192, 1)",
-            "rgba(153, 102, 255, 1)",]}];
+            "rgba(153, 102, 255, 1)",]
+            }];
 
   private buildChart(): void {
 
-    var count:number[] = Array(VehicleTypes.length).fill(0)
+    var count:number[] = Array(this.chartLabels.length).fill(0)
     
     this.getDrives().map( (trip) => {
       var valid_type = false;
-      for (let i=0; i<VehicleTypes.length; i++) {
-        if (trip.vehicle_type === VehicleTypes[i]) {
+      for (let i=0; i<this.chartLabels.length; i++) {
+        if (trip.vehicle_type === this.chartLabels[i]) {
           count[i] += this.database.distance(trip);
           valid_type = true;
         }

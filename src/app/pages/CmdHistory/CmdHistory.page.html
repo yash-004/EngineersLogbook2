@@ -59,6 +59,17 @@
                 (chartClick)="chartClicked($event)"></canvas>
   </div>
 
+  <ion-card>
+    <div class="ion-text-center" style="width: 100%;">
+      <ion-icon name="speedometer" size="small"></ion-icon>
+      <ion-label class="slide_num" *ngIf="getFilterPeriodString()=='All'"> Total Mileage: {{getMileage()}} km</ion-label>
+      <ion-label *ngIf="getFilterPeriodString()!='All'" class="slide_num"> {{getFilterPeriodString()}} Total Mileage: {{getMileage()}} km</ion-label><br>
+      <ion-col *ngFor="let vehicle of database.current.stats.most_recent_drive_by_vehicle_type | keyvalue">
+        {{vehicle.key}} : {{getMileagebyVehicleType(vehicle.key)}}
+      </ion-col>
+    </div>
+  </ion-card>
+
   <ion-card *ngFor="let trip of getDrives()">
     <br>
     <app-drive-view expandHeight='150px' expandWidth='100px' [drive]="trip"></app-drive-view>

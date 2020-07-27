@@ -44,7 +44,7 @@
         <ion-card (click)="showmileage()">
           <div class="ion-text-center" style="width: 100%;">
             <ion-icon name="speedometer" size="large"></ion-icon><br>
-            <div class="shift_up">Distance</div>
+            <div class="shift_up">Mileage</div>
             <div class="slide_num">{{database.current.stats.mileage_km}}</div>
             <div class="slide_label shift_up">km</div>
             <ion-label *ngIf="checkMileageStatus()">
@@ -52,7 +52,7 @@
                 {{vehicle.key}} : {{getMileagebyVehicleType(database.current.stats.mileage_by_vehicle_type, vehicle.key)}}
               </h6>
             </ion-label>
-          </div>  
+          </div>
         </ion-card>
       </ion-col>
       

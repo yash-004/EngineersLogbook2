@@ -270,20 +270,23 @@ export class SummaryPage implements OnInit {
       return false;
   }
 
+
   private makeChart2(canvas: ElementRef, data: any): Chart {
-
-    var mileage = [];
-    for (var type of VehicleTypes) {
-      mileage.push(data[type]);
-    }
-
+  var mileage = [];
+  var vtypes = this.database.current.stats.most_recent_drive_by_vehicle_type;
+  vtypes = Object.keys(vtypes);
+  console.log(vtypes);
+  for (var vehicle of vtypes) {
+    mileage.push(this.getMileagebyVehicleType(this.database.current.stats.mileage_by_vehicle_type, vehicle).replace(" km", ""));
+  }
+  console.log(mileage);
     return new Chart(canvas.nativeElement, {
       type: "bar",
       data: {
-        labels: VehicleTypes,
+        labels: vtypes,
         datasets: [
         {
-          label: "Your Mileage by Vehicle Types",
+          label: "Mileage (km)",
 //          data: [54, 13, 227, 136],
           data: mileage,
           borderWidth: 2,
@@ -307,11 +310,21 @@ export class SummaryPage implements OnInit {
       ]
       },
       options: {
+        responsive: true,
+        tooltips: {
+          enabled: true
+        },
         plugins: {
           labels: {
-              render: () => {}
+              render: function (args) {return args.value + ' km';},},
+          datalabels: {
+            anchor: 'end',
+            align: 'bottom',
+            font: {
+            weight: 'bold'
             }
-          },
+          }
+        },
         title: {
           display: true,
           text: 'Your Mileage by Vehicle Types'
@@ -343,15 +356,33 @@ export class SummaryPage implements OnInit {
             borderWidth: 1,
             data : [value, value],
             backgroundColor: [
-              "rgb(255, 99, 132)",
-              "rgb(255, 99, 132)",]
+              "rgb(255, 99, 132, 0.2)",
+              "rgb(255, 99, 132, 0.2)",],
+            borderColor: [
+              "rgb(255, 99, 132, 1)",
+              "rgb(255, 99, 132, 1)",]
         },{
+            label: "Overseas",
+            borderWidth: 1,
+            data : [overseas, 0],
+            backgroundColor: [
+              "rgb(255, 205, 86, 0.2)",
+              ],
+            borderColor: [
+              "rgb(255, 205, 86, 1)",
+              ]
+        },
+        {
             label: "Conversion",
             borderWidth: 1,
-            data : [overseas, max_value],
+            data : [0, max_value],
             backgroundColor: [
-              "rgb(255, 205, 86)",
-              "rgb(54, 162, 235)",
+              "rgb(54, 162, 235, 0.2)",
+              "rgb(54, 162, 235, 0.2)",
+              ],
+            borderColor: [
+              "rgb(54, 162, 235, 1)",
+              "rgb(54, 162, 235, 1)",
               ]
         }
       ]
@@ -359,8 +390,15 @@ export class SummaryPage implements OnInit {
       options: {
         plugins: {
           labels: {
-            }
+            render: 'value'},
+          datalabels: {
+            anchor: 'end',
+            align: 'left',
+            font: {
+            weight: 'bold'
+            },
           },
+        },
         title: {
           display: true,
           text: 'Licence Conversion'
@@ -370,11 +408,13 @@ export class SummaryPage implements OnInit {
         },
         scales: {
           xAxes: [{
-            stacked: true
+            stacked: true,
+            ticks: {mirror: true}
+
           }],
           yAxes: [{
-            stacked: true
-          }]
+            stacked: true,
+          }],
         }
       }
     });
