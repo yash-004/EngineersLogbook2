@@ -48,6 +48,7 @@ www/
 
 # Trash data
 $RECYCLE.BIN/
+.vscode/
 .DS_Store
 Thumbs.db
 UserInterfaceState.xcuserstate
