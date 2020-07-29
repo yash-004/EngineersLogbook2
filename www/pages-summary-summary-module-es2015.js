@@ -9,7 +9,7 @@
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony default export */ __webpack_exports__["default"] = ("<ion-header>\n  <ion-toolbar>\n    <ion-title>Home</ion-title>\n    <ion-buttons slot=\"primary\">\n      <ion-button left routerLink=\"/\" routerDirection=\"root\" fill=\"clear\" slot=\"primary\">\n        Logout<ion-icon name=\"log-out\"></ion-icon>\n      </ion-button>\n    </ion-buttons>\n  </ion-toolbar>\n</ion-header>\n\n<ion-content>\n\n  <ion-grid class=\"table\" no-padding>\n\n    <!-- Top section (Total Distance, Time and Drives) ------------------------------------------->\n\n    <ion-row *ngIf=\"!getnmtimemorning()\">\n      <ion-col no-padding>\n        <ion-item text-center color=\"danger\">\n          <ion-label><h1><strong>NO MOVE TIMING TILL 0930</strong></h1></ion-label>\n        </ion-item>\n      </ion-col>\n    </ion-row>\n    <ion-row *ngIf=\"!getnmtimenight()\">\n      <ion-col no-padding>\n        <ion-item text-center color=\"danger\">\n          <ion-label><h1><strong>NO MOVE TIMING TILL 1930</strong></h1></ion-label>\n        </ion-item>\n      </ion-col>\n    </ion-row>\n\n    <ion-row>\n      <ion-col no-padding>\n        <ion-item text-center>\n        <ion-label style=\"margin-bottom: 0;\"><h1>Fleet:<strong>{{database.current.user.fleet}}/{{database.current.user.company}}</strong></h1></ion-label>\n        </ion-item>\n      </ion-col>\n    </ion-row>\n\n    <ion-row>\n      <ion-col size=\"4\" class=\"bubble-text\" no-padding> \n\n        <ion-card (click)=\"showmileage()\">\n          <div class=\"ion-text-center\" style=\"width: 100%;\">\n            <ion-icon name=\"speedometer\" size=\"large\"></ion-icon><br>\n            <div class=\"shift_up\">Distance</div>\n            <div class=\"slide_num\">{{database.current.stats.mileage_km}}</div>\n            <div class=\"slide_label shift_up\">km</div>\n            <ion-label *ngIf=\"checkMileageStatus()\">\n              <h6 *ngFor=\"let vehicle of database.current.stats.most_recent_drive_by_vehicle_type | keyvalue\">\n                {{vehicle.key}} : {{getMileagebyVehicleType(database.current.stats.mileage_by_vehicle_type, vehicle.key)}}\n              </h6>\n            </ion-label>\n          </div>  \n        </ion-card>\n      </ion-col>\n      \n      <ion-col size=\"4\" class=\"bubble-text\">          \n        <ion-card (click)=\"showdrives()\">\n          <div class=\"ion-text-center\" style=\"width: 100%;\">\n            <ion-icon name=\"car\" size=\"large\">\n            </ion-icon><br>\n              <ion-label>\n                <div class=\"shift_up\">Drives</div>\n              </ion-label>\n              <ion-label>\n                <div class=\"slide_num\">{{database.current.stats.drive_count}}</div>\n              </ion-label>\n              <ion-label>\n                <div class=\"slide_label shift_up\">Trips</div>\n              </ion-label>\n            <ion-label *ngIf=\"checkDriveStatus()\">\n              <h6 *ngFor=\"let vehicle of database.current.stats.most_recent_drive_by_vehicle_type | keyvalue\">\n                {{vehicle.key}} : {{getDrivesbyVehicleType(vehicle.key)}}\n              </h6>\n            </ion-label>\n          </div>\n        </ion-card>\n      </ion-col>\n\n      <ion-col size=\"4\" class=\"bubble-text\">\n        <ion-card>\n          <div class=\"ion-text-center\" style=\"width: 100%;\">\n            <ion-icon name=\"clock\" size=\"large\"></ion-icon><br>\n            <div class=\"shift_up\">Time</div>\n            <div class=\"slide_num\">{{database.current.stats.duration_minutes / 60 | number : '1.0-1' }}</div>\n            <div class=\"slide_label shift_up\">Hours</div>\n          </div>\n        </ion-card>\n      </ion-col>\n    </ion-row>\n  </ion-grid>\n\n  <!-- Third section (Chart slides) ------------------------------------------->\n  <ion-slides pager='true' no-padding>\n    <!--<ion-slide><canvas #chartCanvas1></canvas></ion-slide>-->\n    <ion-slide style=\"padding: 0 5px\"><ion-col>\n      <canvas #chartCanvas4 responsive=\"true\"></canvas>\n      <ion-label position=\"stacked\" style=\"padding-left: 125px\" text-right>{{database.current.stats.mileage_km}} km</ion-label>\n    </ion-col></ion-slide>\n    <ion-slide  style=\"padding: 0 5px\" responsive=\"true\"><canvas #chartCanvas3></canvas></ion-slide>\n    <ion-slide > <ion-grid>\n      <ion-label><h1 class=\"underline\">Platform Currency</h1></ion-label>\n      <ion-item *ngFor=\"let vehicle of database.current.stats.most_recent_drive_by_vehicle_type | keyvalue\">\n\n\n     <ion-col>\n       <ion-label>\n         <h2 *ngIf=\"checkOperatorCurrencyValid(database.current.stats.most_recent_drive_by_vehicle_type[vehicle.key])\">{{vehicle.key}} :</h2>\n       </ion-label>\n       <ion-label  color='danger'>\n          <h2 *ngIf=\"checkOperatorCurrencyInvalid(database.current.stats.most_recent_drive_by_vehicle_type[vehicle.key])\">{{vehicle.key}} :</h2>\n       </ion-label>\n\n      Last Drive: {{database.current.stats.most_recent_drive_by_vehicle_type[vehicle.key] | date: \"dd/MM/yyyy\"}}\n      ({{database.current.stats.most_recent_drive_by_vehicle_type[vehicle.key] | daysAgo}} days ago)</ion-col>\n\n    </ion-item> </ion-grid> </ion-slide>\n  </ion-slides>\n\n\n<!--\n      <ion-slide> <ion-grid>\n\n         <ion-label><h1>Platform Currency</h1></ion-label>\n         <ion-item *ngFor=\"let vehicle of database.current.stats.most_recent_drive_by_vehicle_type | keyvalue\">\n\n        <ion-col>\n          <ion-label color='danger'>\n            <h2 *ngIf=\"checkOperatorCurrencyInvalid(database.current.stats.most_recent_drive[vehicle.key])\">{{vehicle.key}} : {{checkOperatordaysCurrencyValid(database.current.stats.most_recent_drive_by_vehicle_type[vehicle.key])}}</h2>\n          </ion-label>\n\n          <ion-label>\n            <h2 *ngIf=\"checkOperatorCurrencyValid(database.current.stats.most_recent_drive_by_vehicle_type[vehicle.key])\">{{vehicle.key}} : {{checkOperatordaysCurrencyValid(database.current.stats.most_recent_drive_by_vehicle_type[vehicle.key])}}</h2>\n          </ion-label>\n\n         Last Drive: {{database.current.stats.most_recent_drive_by_vehicle_type[vehicle.key] | date: \"dd/MM/yyyy\"}}\n         ({{database.current.stats.most_recent_drive_by_vehicle_type[vehicle.key] | daysAgo}} days ago)</ion-col>\n     </ion-item></ion-grid></ion-slide>\n     -->\n\n\n  <!-- Second section (Last Drive, Operator Currency) ------------------------------------------->\n  <ion-card padding text-center>\n    <ion-grid>\n    <ion-row><ion-col><ion-card-title text-center>\n      <strong>JIT Countdown</strong>\n    </ion-card-title></ion-col></ion-row>\n\n    <ion-row><ion-col><ion-card-subtitle>\n\n      <ion-label *ngIf=\"checkTimelefttoJIT(database.current.stats.most_recent_drive) == false\" color='danger' text-center>\n        <strong><h2>\n          DO JIT NOW!\n        </h2></strong>\n      </ion-label>\n\n      <ion-item *ngIf=\"checkTimelefttoJIT(database.current.stats.most_recent_drive) == true\" text-center>\n        <ion-grid><ion-row><ion-col><countdown [config]=\"{leftTime: getTimelefttoJIT(database.current.stats.most_recent_drive), format: 'dd'}\"></countdown>\n          <h6 style=\"padding-bottom: 5px\">days</h6></ion-col>\n        <ion-col><countdown [config]=\"{leftTime: getTimelefttoJIT(database.current.stats.most_recent_drive), format: 'HH'}\"></countdown>\n          <h6 style=\"padding-bottom: 5px\">hrs</h6></ion-col>\n        <ion-col><countdown [config]=\"{leftTime: getTimelefttoJIT(database.current.stats.most_recent_drive), format: 'mm'}\"></countdown>\n          <h6 style=\"padding-bottom: 5px\">mins</h6></ion-col>\n        <ion-col><countdown [config]=\"{leftTime: getTimelefttoJIT(database.current.stats.most_recent_drive), format: 'ss'}\"></countdown>\n          <h6 style=\"padding-bottom: 5px\">sec</h6></ion-col></ion-row></ion-grid>\n      </ion-item>\n\n    </ion-card-subtitle></ion-col></ion-row></ion-grid>\n  </ion-card>\n\n  <!--\n  <ion-card padding>\n  <ion-card-subtitle><strong>Operator Currency</strong></ion-card-subtitle>\n  <ion-card-title>Most Recent Drive:</ion-card-title>\n  <ion-card-content class=\"ion-no-padding\">\n    {{database.current.stats.most_recent_drive | date: \"dd/MM/yyyy hh:mm\"}} ({{database.current.stats.most_recent_drive | daysAgo}} days ago)\n  </ion-card-content>\n</ion-card>\n-->\n\n\n  <!-- Bottom section (Notifications) ------------------------------------------->\n\n  <ion-item text-center>\n    <ion-label><h1><strong>Notifications</strong></h1></ion-label>\n  </ion-item>\n\n  <!--ion-card *ngFor=\"let trip of database.current.drive_history\">\n    <app-drive-view expandHeight='150px' [drive]=\"trip\"></app-drive-view>\n  </ion-card-->\n\n  <ion-card *ngFor=\"let message of getNotifications()\" padding>\n\n    <ion-fab vertical=\"top\" horizontal=\"end\">\n      <ion-fab-button size=\"small\" (click)=\"click(message.trip)\"><ion-icon name='end-drive'></ion-icon></ion-fab-button>\n    </ion-fab>\n\n    <ion-card-subtitle color='danger'><strong>{{message.subtitle}}</strong></ion-card-subtitle>\n    <ion-card-title>{{message.title}}</ion-card-title>\n\n    <ion-card-content class=\"ion-no-padding\">{{message.text}}</ion-card-content>\n\n  </ion-card>\n  <ion-card *ngFor=\"let form of getVerifiedMTRAC()\" padding>\n    <ion-fab vertical=\"top\" horizontal=\"end\">\n      <!--ion-fab-button size=\"small\" (click)=\"click(drive)\">View</ion-fab-button-->\n      <ion-fab-button size=\"small\" (click)=\"clickmtrac(form)\"><ion-icon name='share-alt'></ion-icon></ion-fab-button>\n      <!--ion-button fill=\"outline\" size=\"small\" (click)=\"click(drive)\">View</ion-button-->\n    </ion-fab>\n    <ion-card-title>Continue to add drive</ion-card-title>\n  </ion-card>\n\n</ion-content>\n");
+/* harmony default export */ __webpack_exports__["default"] = ("<ion-header>\n  <ion-toolbar>\n    <ion-title>Home</ion-title>\n    <ion-buttons slot=\"primary\">\n      <ion-button left routerLink=\"/\" routerDirection=\"root\" fill=\"clear\" slot=\"primary\">\n        Logout<ion-icon name=\"log-out\"></ion-icon>\n      </ion-button>\n    </ion-buttons>\n  </ion-toolbar>\n</ion-header>\n\n<ion-content>\n\n  <ion-grid class=\"table\" no-padding>\n\n    <!-- Top section (Total Distance, Time and Drives) ------------------------------------------->\n\n    <ion-row *ngIf=\"!getnmtimemorning()\">\n      <ion-col no-padding>\n        <ion-item text-center color=\"danger\">\n          <ion-label><h1><strong>NO MOVE TIMING TILL 0930</strong></h1></ion-label>\n        </ion-item>\n      </ion-col>\n    </ion-row>\n    <ion-row *ngIf=\"!getnmtimenight()\">\n      <ion-col no-padding>\n        <ion-item text-center color=\"danger\">\n          <ion-label><h1><strong>NO MOVE TIMING TILL 1930</strong></h1></ion-label>\n        </ion-item>\n      </ion-col>\n    </ion-row>\n\n    <ion-row>\n      <ion-col no-padding>\n        <ion-item text-center>\n        <ion-label style=\"margin-bottom: 0;\"><h1>Fleet:<strong>{{database.current.user.fleet}}/{{database.current.user.company}}</strong></h1></ion-label>\n        </ion-item>\n      </ion-col>\n    </ion-row>\n\n    <ion-row>\n      <ion-col size=\"4\" class=\"bubble-text\" no-padding> \n\n        <ion-card (click)=\"showmileage()\">\n          <div class=\"ion-text-center\" style=\"width: 100%;\">\n            <ion-icon name=\"speedometer\" size=\"large\"></ion-icon><br>\n            <div class=\"shift_up\">Mileage</div>\n            <div class=\"slide_num\">{{database.current.stats.mileage_km}}</div>\n            <div class=\"slide_label shift_up\">km</div>\n            <ion-label *ngIf=\"checkMileageStatus()\">\n              <h6 *ngFor=\"let vehicle of database.current.stats.most_recent_drive_by_vehicle_type | keyvalue\">\n                {{vehicle.key}} : {{getMileagebyVehicleType(database.current.stats.mileage_by_vehicle_type, vehicle.key)}}\n              </h6>\n            </ion-label>\n          </div>\n        </ion-card>\n      </ion-col>\n      \n      <ion-col size=\"4\" class=\"bubble-text\">          \n        <ion-card (click)=\"showdrives()\">\n          <div class=\"ion-text-center\" style=\"width: 100%;\">\n            <ion-icon name=\"car\" size=\"large\">\n            </ion-icon><br>\n              <ion-label>\n                <div class=\"shift_up\">Drives</div>\n              </ion-label>\n              <ion-label>\n                <div class=\"slide_num\">{{database.current.stats.drive_count}}</div>\n              </ion-label>\n              <ion-label>\n                <div class=\"slide_label shift_up\">Trips</div>\n              </ion-label>\n            <ion-label *ngIf=\"checkDriveStatus()\">\n              <h6 *ngFor=\"let vehicle of database.current.stats.most_recent_drive_by_vehicle_type | keyvalue\">\n                {{vehicle.key}} : {{getDrivesbyVehicleType(vehicle.key)}}\n              </h6>\n            </ion-label>\n          </div>\n        </ion-card>\n      </ion-col>\n\n      <ion-col size=\"4\" class=\"bubble-text\">\n        <ion-card>\n          <div class=\"ion-text-center\" style=\"width: 100%;\">\n            <ion-icon name=\"clock\" size=\"large\"></ion-icon><br>\n            <div class=\"shift_up\">Time</div>\n            <div class=\"slide_num\">{{database.current.stats.duration_minutes / 60 | number : '1.0-1' }}</div>\n            <div class=\"slide_label shift_up\">Hours</div>\n          </div>\n        </ion-card>\n      </ion-col>\n    </ion-row>\n  </ion-grid>\n\n  <!-- Third section (Chart slides) ------------------------------------------->\n  <ion-slides pager='true' no-padding>\n    <!--<ion-slide><canvas #chartCanvas1></canvas></ion-slide>-->\n    <ion-slide style=\"padding: 0 5px\"><ion-col>\n      <canvas #chartCanvas2 responsive=\"true\"></canvas>\n    </ion-col></ion-slide>\n    <ion-slide  style=\"padding: 0 5px\" responsive=\"true\"><canvas #chartCanvas5></canvas></ion-slide>\n    <ion-slide > <ion-grid>\n      <ion-label><h1 class=\"underline\">Platform Currency</h1></ion-label>\n      <ion-item *ngFor=\"let vehicle of database.current.stats.most_recent_drive_by_vehicle_type | keyvalue\">\n\n\n     <ion-col>\n       <ion-label>\n         <h2 *ngIf=\"checkOperatorCurrencyValid(database.current.stats.most_recent_drive_by_vehicle_type[vehicle.key])\">{{vehicle.key}} :</h2>\n       </ion-label>\n       <ion-label  color='danger'>\n          <h2 *ngIf=\"checkOperatorCurrencyInvalid(database.current.stats.most_recent_drive_by_vehicle_type[vehicle.key])\">{{vehicle.key}} :</h2>\n       </ion-label>\n\n      Last Drive: {{database.current.stats.most_recent_drive_by_vehicle_type[vehicle.key] | date: \"dd/MM/yyyy\"}}\n      ({{database.current.stats.most_recent_drive_by_vehicle_type[vehicle.key] | daysAgo}} days ago)</ion-col>\n\n    </ion-item> </ion-grid> </ion-slide>\n  </ion-slides>\n\n\n<!--\n      <ion-slide> <ion-grid>\n\n         <ion-label><h1>Platform Currency</h1></ion-label>\n         <ion-item *ngFor=\"let vehicle of database.current.stats.most_recent_drive_by_vehicle_type | keyvalue\">\n\n        <ion-col>\n          <ion-label color='danger'>\n            <h2 *ngIf=\"checkOperatorCurrencyInvalid(database.current.stats.most_recent_drive[vehicle.key])\">{{vehicle.key}} : {{checkOperatordaysCurrencyValid(database.current.stats.most_recent_drive_by_vehicle_type[vehicle.key])}}</h2>\n          </ion-label>\n\n          <ion-label>\n            <h2 *ngIf=\"checkOperatorCurrencyValid(database.current.stats.most_recent_drive_by_vehicle_type[vehicle.key])\">{{vehicle.key}} : {{checkOperatordaysCurrencyValid(database.current.stats.most_recent_drive_by_vehicle_type[vehicle.key])}}</h2>\n          </ion-label>\n\n         Last Drive: {{database.current.stats.most_recent_drive_by_vehicle_type[vehicle.key] | date: \"dd/MM/yyyy\"}}\n         ({{database.current.stats.most_recent_drive_by_vehicle_type[vehicle.key] | daysAgo}} days ago)</ion-col>\n     </ion-item></ion-grid></ion-slide>\n     -->\n\n\n  <!-- Second section (Last Drive, Operator Currency) ------------------------------------------->\n  <ion-card padding text-center>\n    <ion-grid>\n    <ion-row><ion-col><ion-card-title text-center>\n      <strong>JIT Countdown</strong>\n    </ion-card-title></ion-col></ion-row>\n\n    <ion-row><ion-col><ion-card-subtitle>\n\n      <ion-label *ngIf=\"checkTimelefttoJIT(database.current.stats.most_recent_drive) == false\" color='danger' text-center>\n        <strong><h2>\n          DO JIT NOW!\n        </h2></strong>\n      </ion-label>\n\n      <ion-item *ngIf=\"checkTimelefttoJIT(database.current.stats.most_recent_drive) == true\" text-center>\n        <ion-grid><ion-row><ion-col><countdown [config]=\"{leftTime: getTimelefttoJIT(database.current.stats.most_recent_drive), format: 'dd'}\"></countdown>\n          <h6 style=\"padding-bottom: 5px\">days</h6></ion-col>\n        <ion-col><countdown [config]=\"{leftTime: getTimelefttoJIT(database.current.stats.most_recent_drive), format: 'HH'}\"></countdown>\n          <h6 style=\"padding-bottom: 5px\">hrs</h6></ion-col>\n        <ion-col><countdown [config]=\"{leftTime: getTimelefttoJIT(database.current.stats.most_recent_drive), format: 'mm'}\"></countdown>\n          <h6 style=\"padding-bottom: 5px\">mins</h6></ion-col>\n        <ion-col><countdown [config]=\"{leftTime: getTimelefttoJIT(database.current.stats.most_recent_drive), format: 'ss'}\"></countdown>\n          <h6 style=\"padding-bottom: 5px\">sec</h6></ion-col></ion-row></ion-grid>\n      </ion-item>\n\n    </ion-card-subtitle></ion-col></ion-row></ion-grid>\n  </ion-card>\n\n  <!--\n  <ion-card padding>\n  <ion-card-subtitle><strong>Operator Currency</strong></ion-card-subtitle>\n  <ion-card-title>Most Recent Drive:</ion-card-title>\n  <ion-card-content class=\"ion-no-padding\">\n    {{database.current.stats.most_recent_drive | date: \"dd/MM/yyyy hh:mm\"}} ({{database.current.stats.most_recent_drive | daysAgo}} days ago)\n  </ion-card-content>\n</ion-card>\n-->\n\n\n  <!-- Bottom section (Notifications) ------------------------------------------->\n\n  <ion-item text-center>\n    <ion-label><h1><strong>Notifications</strong></h1></ion-label>\n  </ion-item>\n\n  <!--ion-card *ngFor=\"let trip of database.current.drive_history\">\n    <app-drive-view expandHeight='150px' [drive]=\"trip\"></app-drive-view>\n  </ion-card-->\n\n  <ion-card *ngFor=\"let message of getNotifications()\" padding>\n\n    <ion-fab vertical=\"top\" horizontal=\"end\">\n      <ion-fab-button size=\"small\" (click)=\"click(message.trip)\" color=\"danger\"><ion-icon name='end-drive'></ion-icon></ion-fab-button>\n    </ion-fab>\n\n    <ion-card-subtitle color='danger'><strong>{{message.subtitle}}</strong></ion-card-subtitle>\n    <ion-card-title>{{message.title}}</ion-card-title>\n\n    <ion-card-content class=\"ion-no-padding\">{{message.text}}</ion-card-content>\n\n  </ion-card>\n  <ion-card *ngFor=\"let form of getVerifiedMTRAC()\" padding>\n    <ion-fab vertical=\"top\" horizontal=\"end\">\n      <!--ion-fab-button size=\"small\" (click)=\"click(drive)\">View</ion-fab-button-->\n      <ion-fab-button size=\"small\" (click)=\"clickmtrac(form)\"><ion-icon name='share-alt'></ion-icon></ion-fab-button>\n      <!--ion-button fill=\"outline\" size=\"small\" (click)=\"click(drive)\">View</ion-button-->\n    </ion-fab>\n    <ion-card-title>Continue to add drive</ion-card-title>\n  </ion-card>\n\n</ion-content>\n");
 
 /***/ }),
 
@@ -163,7 +163,7 @@ let SummaryPage = class SummaryPage {
     checkOperatordaysCurrencyValid(date, vehicletype) {
         const today = dayjs__WEBPACK_IMPORTED_MODULE_4__();
         //var period = vehicletype==="BELREX" ? 30 : 7;
-        var period = 8;
+        var period = 10;
         var left = period - today.diff(date, "day");
         if (left < 0) {
             return "JIT OVERDUE by " + Math.abs(left).toString() + " days";
@@ -174,7 +174,7 @@ let SummaryPage = class SummaryPage {
     }
     checkOperatorCurrencyInvalid(date) {
         const today = dayjs__WEBPACK_IMPORTED_MODULE_4__();
-        var period = 8;
+        var period = 10;
         return today.diff(date, "day") > period;
     }
     showdrives() {
@@ -280,17 +280,17 @@ let SummaryPage = class SummaryPage {
         /*
            this.makeChart1(this.chartCanvas1);
         */
-        //this.makeChart2(this.chartCanvas2, this.database.current.stats.mileage_by_vehicle_type);
+        this.makeChart2(this.chartCanvas2, this.database.current.stats.mileage_by_vehicle_type);
         this.getStatus();
-        this.makeChart4(this.chartCanvas4, this.database.current.stats.mileage_by_vehicle_type, this.database.current.stats.mileage_km);
+        //this.makeChart4(this.chartCanvas4, this.database.current.stats.mileage_by_vehicle_type, this.database.current.stats.mileage_km);
         if (this.database.current.stats.mileage_km > 1000 && this.database.current.stats.mileage_km < 4000) {
             var maxVal = 4000 - this.database.current.stats.mileage_km;
-            this.makeChart3(this.chartCanvas3, this.database.current.stats.mileage_km, maxVal, 0);
+            this.makeChart5(this.chartCanvas5, this.database.current.stats.mileage_km, maxVal, 0);
         }
         else if (this.database.current.stats.mileage_km < 1000 && this.database.current.stats.mileage_km < 4000) {
             var overseas = 1000 - this.database.current.stats.mileage_km;
             var maxVal = 4000 - this.database.current.stats.mileage_km;
-            this.makeChart3(this.chartCanvas3, this.database.current.stats.mileage_km, maxVal, overseas);
+            this.makeChart5(this.chartCanvas5, this.database.current.stats.mileage_km, maxVal, overseas);
         }
     }
     /*private makeChart1(canvas: ElementRef): Chart {
@@ -337,16 +337,20 @@ let SummaryPage = class SummaryPage {
     }
     makeChart2(canvas, data) {
         var mileage = [];
-        for (var type of _services_database_service__WEBPACK_IMPORTED_MODULE_3__["VehicleTypes"]) {
-            mileage.push(data[type]);
+        var vtypes = this.database.current.stats.most_recent_drive_by_vehicle_type;
+        vtypes = Object.keys(vtypes);
+        console.log(vtypes);
+        for (var vehicle of vtypes) {
+            mileage.push(this.getMileagebyVehicleType(this.database.current.stats.mileage_by_vehicle_type, vehicle).replace(" km", ""));
         }
+        console.log(mileage);
         return new chart_js__WEBPACK_IMPORTED_MODULE_5__["Chart"](canvas.nativeElement, {
             type: "bar",
             data: {
-                labels: _services_database_service__WEBPACK_IMPORTED_MODULE_3__["VehicleTypes"],
+                labels: vtypes,
                 datasets: [
                     {
-                        label: "Your Mileage by Vehicle Types",
+                        label: "Mileage (km)",
                         //          data: [54, 13, 227, 136],
                         data: mileage,
                         borderWidth: 2,
@@ -370,6 +374,22 @@ let SummaryPage = class SummaryPage {
                 ]
             },
             options: {
+                responsive: true,
+                tooltips: {
+                    enabled: true
+                },
+                plugins: {
+                    labels: {
+                        render: function (args) { return args.value + ' km'; },
+                    },
+                    datalabels: {
+                        anchor: 'end',
+                        align: 'bottom',
+                        font: {
+                            weight: 'bold'
+                        }
+                    }
+                },
                 title: {
                     display: true,
                     text: 'Your Mileage by Vehicle Types'
@@ -385,6 +405,82 @@ let SummaryPage = class SummaryPage {
                             }
                         }
                     ]
+                }
+            }
+        });
+    }
+    makeChart5(canvas, value, max_value, overseas) {
+        return new chart_js__WEBPACK_IMPORTED_MODULE_5__["Chart"](canvas.nativeElement, {
+            type: "horizontalBar",
+            data: {
+                labels: ["Overseas", "Conversion"],
+                datasets: [
+                    {
+                        label: "Mileage",
+                        borderWidth: 1,
+                        data: [value, value],
+                        backgroundColor: [
+                            "rgb(255, 99, 132, 0.2)",
+                            "rgb(255, 99, 132, 0.2)",
+                        ],
+                        borderColor: [
+                            "rgb(255, 99, 132, 1)",
+                            "rgb(255, 99, 132, 1)",
+                        ]
+                    }, {
+                        label: "Overseas",
+                        borderWidth: 1,
+                        data: [overseas, 0],
+                        backgroundColor: [
+                            "rgb(255, 205, 86, 0.2)",
+                        ],
+                        borderColor: [
+                            "rgb(255, 205, 86, 1)",
+                        ]
+                    },
+                    {
+                        label: "Conversion",
+                        borderWidth: 1,
+                        data: [0, max_value],
+                        backgroundColor: [
+                            "rgb(54, 162, 235, 0.2)",
+                            "rgb(54, 162, 235, 0.2)",
+                        ],
+                        borderColor: [
+                            "rgb(54, 162, 235, 1)",
+                            "rgb(54, 162, 235, 1)",
+                        ]
+                    }
+                ]
+            },
+            options: {
+                plugins: {
+                    labels: {
+                        render: 'value'
+                    },
+                    datalabels: {
+                        anchor: 'end',
+                        align: 'left',
+                        font: {
+                            weight: 'bold'
+                        },
+                    },
+                },
+                title: {
+                    display: true,
+                    text: 'Licence Conversion'
+                },
+                legend: {
+                    display: true
+                },
+                scales: {
+                    xAxes: [{
+                            stacked: true,
+                            ticks: { mirror: true }
+                        }],
+                    yAxes: [{
+                            stacked: true,
+                        }],
                 }
             }
         });
@@ -449,86 +545,6 @@ let SummaryPage = class SummaryPage {
             }
         });
     }
-    makeChart4(canvas, data, total_mileage) {
-        var mileage = [];
-        var i = -1;
-        var drives = [];
-        var values = [];
-        var data_array = [0, 0, 0, 0, 0, total_mileage];
-        for (var type of _services_database_service__WEBPACK_IMPORTED_MODULE_3__["VehicleTypes"]) {
-            var data_array = [0, 0, 0, 0, 0, total_mileage];
-            if (data[type] != null) {
-                i += 1;
-                data_array[i] = data[type];
-                values.push(data[type]);
-                data_array.pop();
-                data_array.push(total_mileage - data[type]);
-                drives.push(type);
-                var newDataset = {
-                    backgroundColor: [
-                        "rgba(255,99,132,1)",
-                        "rgba(54, 162, 235, 1)",
-                        "rgba(255, 206, 86, 1)",
-                        "rgba(75, 192, 192, 1)",
-                        "rgba(153, 102, 255, 1)",
-                    ],
-                    borderColor: [
-                        "rgba(255,99,132,1)",
-                        "rgba(54, 162, 235, 1)",
-                        "rgba(255, 206, 86, 1)",
-                        "rgba(75, 192, 192, 1)",
-                        "rgba(153, 102, 255, 1)",
-                    ],
-                    data: data_array,
-                    label: type,
-                    borderWidth: 1,
-                    responsive: true,
-                };
-                mileage.push(newDataset);
-            }
-            ;
-        }
-        ;
-        return new chart_js__WEBPACK_IMPORTED_MODULE_5__["Chart"](canvas.nativeElement, {
-            type: "doughnut",
-            data: {
-                datasets: mileage,
-                labels: drives,
-            },
-            options: {
-                //showMarkers: true,
-                legend: {
-                    display: true,
-                    position: "right",
-                },
-                title: {
-                    display: true,
-                    text: 'Your Mileage by Vehicle Types',
-                    fontSize: 14,
-                },
-                plugins: {
-                    labels: {
-                        render: function (args) {
-                            if (values.findIndex(x => x === args.value) != -1) {
-                                return args.value + ' km';
-                            }
-                            ;
-                        },
-                        arc: true,
-                        textShadow: true,
-                        shadowBlur: 10,
-                        shadowColor: 'rgba(0,0,0,0.4)',
-                        fontColor: 'rgba(0,0,0,1)',
-                    },
-                },
-                circumference: Math.PI,
-                rotation: Math.PI,
-                cutoutPercentage: 33,
-                maintainAspectRatio: true,
-                responsive: true,
-            }
-        });
-    }
 };
 SummaryPage.ctorParameters = () => [
     { type: _services_database_service__WEBPACK_IMPORTED_MODULE_3__["DatabaseService"] },
@@ -547,6 +563,14 @@ tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
     Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["ViewChild"])("chartCanvas3", { static: true }),
     tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:type", _angular_core__WEBPACK_IMPORTED_MODULE_1__["ElementRef"])
 ], SummaryPage.prototype, "chartCanvas3", void 0);
+tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
+    Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["ViewChild"])("chartCanvas2", { static: true }),
+    tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:type", _angular_core__WEBPACK_IMPORTED_MODULE_1__["ElementRef"])
+], SummaryPage.prototype, "chartCanvas2", void 0);
+tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
+    Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["ViewChild"])("chartCanvas5", { static: true }),
+    tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:type", _angular_core__WEBPACK_IMPORTED_MODULE_1__["ElementRef"])
+], SummaryPage.prototype, "chartCanvas5", void 0);
 SummaryPage = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
     Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"])({
         selector: 'app-summary',

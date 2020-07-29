@@ -28,6 +28,7 @@
       <excludeFolder url="file://$MODULE_DIR$/README.md" />
       <excludeFolder url="file://$MODULE_DIR$/angular.json" />
       <excludeFolder url="file://$MODULE_DIR$/browserlist" />
+      <excludeFolder url="file://$MODULE_DIR$/capacitor.config.json" />
       <excludeFolder url="file://$MODULE_DIR$/config.xml" />
       <excludeFolder url="file://$MODULE_DIR$/e2e" />
       <excludeFolder url="file://$MODULE_DIR$/firebase.json" />
@@ -37,6 +38,7 @@
       <excludeFolder url="file://$MODULE_DIR$/gradle.properties" />
       <excludeFolder url="file://$MODULE_DIR$/gradlew" />
       <excludeFolder url="file://$MODULE_DIR$/ionic.config.json" />
+      <excludeFolder url="file://$MODULE_DIR$/ios" />
       <excludeFolder url="file://$MODULE_DIR$/karma.conf.js" />
       <excludeFolder url="file://$MODULE_DIR$/node_modules" />
       <excludeFolder url="file://$MODULE_DIR$/package-lock.json" />

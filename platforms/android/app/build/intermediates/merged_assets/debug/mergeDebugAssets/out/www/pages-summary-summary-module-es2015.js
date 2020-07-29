@@ -9,7 +9,7 @@
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony default export */ __webpack_exports__["default"] = ("<ion-header>\n  <ion-toolbar>\n    <ion-title>Home</ion-title>\n    <ion-buttons slot=\"primary\">\n      <ion-button left routerLink=\"/\" routerDirection=\"root\" fill=\"clear\" slot=\"primary\">\n        Logout<ion-icon name=\"log-out\"></ion-icon>\n      </ion-button>\n    </ion-buttons>\n  </ion-toolbar>\n</ion-header>\n\n<ion-content>\n\n  <ion-grid class=\"table\" no-padding>\n\n    <!-- Top section (Total Distance, Time and Drives) ------------------------------------------->\n\n    <ion-row *ngIf=\"!getnmtimemorning()\">\n      <ion-col no-padding>\n        <ion-item text-center color=\"danger\">\n          <ion-label><h1><strong>NO MOVE TIMING TILL 0930</strong></h1></ion-label>\n        </ion-item>\n      </ion-col>\n    </ion-row>\n    <ion-row *ngIf=\"!getnmtimenight()\">\n      <ion-col no-padding>\n        <ion-item text-center color=\"danger\">\n          <ion-label><h1><strong>NO MOVE TIMING TILL 1930</strong></h1></ion-label>\n        </ion-item>\n      </ion-col>\n    </ion-row>\n\n    <ion-row>\n      <ion-col no-padding>\n        <ion-item text-center>\n        <ion-label style=\"margin-bottom: 0;\"><h1>Fleet:<strong>{{database.current.user.fleet}}/{{database.current.user.company}}</strong></h1></ion-label>\n        </ion-item>\n      </ion-col>\n    </ion-row>\n\n    <ion-row>\n      <ion-col size=\"4\" class=\"bubble-text\" no-padding> \n\n        <ion-card (click)=\"showmileage()\">\n          <div class=\"ion-text-center\" style=\"width: 100%;\">\n            <ion-icon name=\"speedometer\" size=\"large\"></ion-icon><br>\n            <div class=\"shift_up\">Distance</div>\n            <div class=\"slide_num\">{{database.current.stats.mileage_km}}</div>\n            <div class=\"slide_label shift_up\">km</div>\n            <ion-label *ngIf=\"checkMileageStatus()\">\n              <h6 *ngFor=\"let vehicle of database.current.stats.most_recent_drive_by_vehicle_type | keyvalue\">\n                {{vehicle.key}} : {{getMileagebyVehicleType(database.current.stats.mileage_by_vehicle_type, vehicle.key)}}\n              </h6>\n            </ion-label>\n          </div>  \n        </ion-card>\n      </ion-col>\n      \n      <ion-col size=\"4\" class=\"bubble-text\">          \n        <ion-card (click)=\"showdrives()\">\n          <div class=\"ion-text-center\" style=\"width: 100%;\">\n            <ion-icon name=\"car\" size=\"large\">\n            </ion-icon><br>\n              <ion-label>\n                <div class=\"shift_up\">Drives</div>\n              </ion-label>\n              <ion-label>\n                <div class=\"slide_num\">{{database.current.stats.drive_count}}</div>\n              </ion-label>\n              <ion-label>\n                <div class=\"slide_label shift_up\">Trips</div>\n              </ion-label>\n            <ion-label *ngIf=\"checkDriveStatus()\">\n              <h6 *ngFor=\"let vehicle of database.current.stats.most_recent_drive_by_vehicle_type | keyvalue\">\n                {{vehicle.key}} : {{getDrivesbyVehicleType(vehicle.key)}}\n              </h6>\n            </ion-label>\n          </div>\n        </ion-card>\n      </ion-col>\n\n      <ion-col size=\"4\" class=\"bubble-text\">\n        <ion-card>\n          <div class=\"ion-text-center\" style=\"width: 100%;\">\n            <ion-icon name=\"clock\" size=\"large\"></ion-icon><br>\n            <div class=\"shift_up\">Time</div>\n            <div class=\"slide_num\">{{database.current.stats.duration_minutes / 60 | number : '1.0-1' }}</div>\n            <div class=\"slide_label shift_up\">Hours</div>\n          </div>\n        </ion-card>\n      </ion-col>\n    </ion-row>\n  </ion-grid>\n\n  <!-- Third section (Chart slides) ------------------------------------------->\n  <ion-slides pager='true' no-padding>\n    <!--<ion-slide><canvas #chartCanvas1></canvas></ion-slide>-->\n    <ion-slide style=\"padding: 0 5px\"><ion-col>\n      <canvas #chartCanvas4 responsive=\"true\"></canvas>\n      <ion-label position=\"stacked\" style=\"padding-left: 125px\" text-right>{{database.current.stats.mileage_km}} km</ion-label>\n    </ion-col></ion-slide>\n    <ion-slide  style=\"padding: 0 5px\" responsive=\"true\"><canvas #chartCanvas3></canvas></ion-slide>\n    <ion-slide > <ion-grid>\n      <ion-label><h1 class=\"underline\">Platform Currency</h1></ion-label>\n      <ion-item *ngFor=\"let vehicle of database.current.stats.most_recent_drive_by_vehicle_type | keyvalue\">\n\n\n     <ion-col>\n       <ion-label>\n         <h2 *ngIf=\"checkOperatorCurrencyValid(database.current.stats.most_recent_drive_by_vehicle_type[vehicle.key])\">{{vehicle.key}} :</h2>\n       </ion-label>\n       <ion-label  color='danger'>\n          <h2 *ngIf=\"checkOperatorCurrencyInvalid(database.current.stats.most_recent_drive_by_vehicle_type[vehicle.key])\">{{vehicle.key}} :</h2>\n       </ion-label>\n\n      Last Drive: {{database.current.stats.most_recent_drive_by_vehicle_type[vehicle.key] | date: \"dd/MM/yyyy\"}}\n      ({{database.current.stats.most_recent_drive_by_vehicle_type[vehicle.key] | daysAgo}} days ago)</ion-col>\n\n    </ion-item> </ion-grid> </ion-slide>\n  </ion-slides>\n\n\n<!--\n      <ion-slide> <ion-grid>\n\n         <ion-label><h1>Platform Currency</h1></ion-label>\n         <ion-item *ngFor=\"let vehicle of database.current.stats.most_recent_drive_by_vehicle_type | keyvalue\">\n\n        <ion-col>\n          <ion-label color='danger'>\n            <h2 *ngIf=\"checkOperatorCurrencyInvalid(database.current.stats.most_recent_drive[vehicle.key])\">{{vehicle.key}} : {{checkOperatordaysCurrencyValid(database.current.stats.most_recent_drive_by_vehicle_type[vehicle.key])}}</h2>\n          </ion-label>\n\n          <ion-label>\n            <h2 *ngIf=\"checkOperatorCurrencyValid(database.current.stats.most_recent_drive_by_vehicle_type[vehicle.key])\">{{vehicle.key}} : {{checkOperatordaysCurrencyValid(database.current.stats.most_recent_drive_by_vehicle_type[vehicle.key])}}</h2>\n          </ion-label>\n\n         Last Drive: {{database.current.stats.most_recent_drive_by_vehicle_type[vehicle.key] | date: \"dd/MM/yyyy\"}}\n         ({{database.current.stats.most_recent_drive_by_vehicle_type[vehicle.key] | daysAgo}} days ago)</ion-col>\n     </ion-item></ion-grid></ion-slide>\n     -->\n\n\n  <!-- Second section (Last Drive, Operator Currency) ------------------------------------------->\n  <ion-card padding text-center>\n    <ion-grid>\n    <ion-row><ion-col><ion-card-title text-center>\n      <strong>JIT Countdown</strong>\n    </ion-card-title></ion-col></ion-row>\n\n    <ion-row><ion-col><ion-card-subtitle>\n\n      <ion-label *ngIf=\"checkTimelefttoJIT(database.current.stats.most_recent_drive) == false\" color='danger' text-center>\n        <strong><h2>\n          DO JIT NOW!\n        </h2></strong>\n      </ion-label>\n\n      <ion-item *ngIf=\"checkTimelefttoJIT(database.current.stats.most_recent_drive) == true\" text-center>\n        <ion-grid><ion-row><ion-col><countdown [config]=\"{leftTime: getTimelefttoJIT(database.current.stats.most_recent_drive), format: 'dd'}\"></countdown>\n          <h6 style=\"padding-bottom: 5px\">days</h6></ion-col>\n        <ion-col><countdown [config]=\"{leftTime: getTimelefttoJIT(database.current.stats.most_recent_drive), format: 'HH'}\"></countdown>\n          <h6 style=\"padding-bottom: 5px\">hrs</h6></ion-col>\n        <ion-col><countdown [config]=\"{leftTime: getTimelefttoJIT(database.current.stats.most_recent_drive), format: 'mm'}\"></countdown>\n          <h6 style=\"padding-bottom: 5px\">mins</h6></ion-col>\n        <ion-col><countdown [config]=\"{leftTime: getTimelefttoJIT(database.current.stats.most_recent_drive), format: 'ss'}\"></countdown>\n          <h6 style=\"padding-bottom: 5px\">sec</h6></ion-col></ion-row></ion-grid>\n      </ion-item>\n\n    </ion-card-subtitle></ion-col></ion-row></ion-grid>\n  </ion-card>\n\n  <!--\n  <ion-card padding>\n  <ion-card-subtitle><strong>Operator Currency</strong></ion-card-subtitle>\n  <ion-card-title>Most Recent Drive:</ion-card-title>\n  <ion-card-content class=\"ion-no-padding\">\n    {{database.current.stats.most_recent_drive | date: \"dd/MM/yyyy hh:mm\"}} ({{database.current.stats.most_recent_drive | daysAgo}} days ago)\n  </ion-card-content>\n</ion-card>\n-->\n\n\n  <!-- Bottom section (Notifications) ------------------------------------------->\n\n  <ion-item text-center>\n    <ion-label><h1><strong>Notifications</strong></h1></ion-label>\n  </ion-item>\n\n  <!--ion-card *ngFor=\"let trip of database.current.drive_history\">\n    <app-drive-view expandHeight='150px' [drive]=\"trip\"></app-drive-view>\n  </ion-card-->\n\n  <ion-card *ngFor=\"let message of getNotifications()\" padding>\n\n    <ion-fab vertical=\"top\" horizontal=\"end\">\n      <ion-fab-button size=\"small\" (click)=\"click(message.trip)\"><ion-icon name='share-alt'></ion-icon></ion-fab-button>\n    </ion-fab>\n\n    <ion-card-subtitle color='danger'><strong>{{message.subtitle}}</strong></ion-card-subtitle>\n    <ion-card-title>{{message.title}}</ion-card-title>\n\n    <ion-card-content class=\"ion-no-padding\">{{message.text}}</ion-card-content>\n\n  </ion-card>\n  <ion-card *ngFor=\"let form of getVerifiedMTRAC()\" padding>\n    <ion-fab vertical=\"top\" horizontal=\"end\">\n      <!--ion-fab-button size=\"small\" (click)=\"click(drive)\">View</ion-fab-button-->\n      <ion-fab-button size=\"small\" (click)=\"clickmtrac(form)\"><ion-icon name='share-alt'></ion-icon></ion-fab-button>\n      <!--ion-button fill=\"outline\" size=\"small\" (click)=\"click(drive)\">View</ion-button-->\n    </ion-fab>\n    <ion-card-title>Continue to add drive</ion-card-title>\n  </ion-card>\n\n</ion-content>\n");
+/* harmony default export */ __webpack_exports__["default"] = ("<ion-header>\n  <ion-toolbar>\n    <ion-title>Home</ion-title>\n    <ion-buttons slot=\"primary\">\n      <ion-button left routerLink=\"/\" routerDirection=\"root\" fill=\"clear\" slot=\"primary\">\n        Logout<ion-icon name=\"log-out\"></ion-icon>\n      </ion-button>\n    </ion-buttons>\n  </ion-toolbar>\n</ion-header>\n\n<ion-content>\n\n  <ion-grid class=\"table\" no-padding>\n\n    <!-- Top section (Total Distance, Time and Drives) ------------------------------------------->\n\n    <ion-row *ngIf=\"!getnmtimemorning()\">\n      <ion-col no-padding>\n        <ion-item text-center color=\"danger\">\n          <ion-label><h1><strong>NO MOVE TIMING TILL 0930</strong></h1></ion-label>\n        </ion-item>\n      </ion-col>\n    </ion-row>\n    <ion-row *ngIf=\"!getnmtimenight()\">\n      <ion-col no-padding>\n        <ion-item text-center color=\"danger\">\n          <ion-label><h1><strong>NO MOVE TIMING TILL 1930</strong></h1></ion-label>\n        </ion-item>\n      </ion-col>\n    </ion-row>\n\n    <ion-row>\n      <ion-col no-padding>\n        <ion-item text-center>\n        <ion-label style=\"margin-bottom: 0;\"><h1>Fleet:<strong>{{database.current.user.fleet}}/{{database.current.user.company}}</strong></h1></ion-label>\n        </ion-item>\n      </ion-col>\n    </ion-row>\n\n    <ion-row>\n      <ion-col size=\"4\" class=\"bubble-text\" no-padding> \n\n        <ion-card (click)=\"showmileage()\">\n          <div class=\"ion-text-center\" style=\"width: 100%;\">\n            <ion-icon name=\"speedometer\" size=\"large\"></ion-icon><br>\n            <div class=\"shift_up\">Mileage</div>\n            <div class=\"slide_num\">{{database.current.stats.mileage_km}}</div>\n            <div class=\"slide_label shift_up\">km</div>\n            <ion-label *ngIf=\"checkMileageStatus()\">\n              <h6 *ngFor=\"let vehicle of database.current.stats.most_recent_drive_by_vehicle_type | keyvalue\">\n                {{vehicle.key}} : {{getMileagebyVehicleType(database.current.stats.mileage_by_vehicle_type, vehicle.key)}}\n              </h6>\n            </ion-label>\n          </div>\n        </ion-card>\n      </ion-col>\n      \n      <ion-col size=\"4\" class=\"bubble-text\">          \n        <ion-card (click)=\"showdrives()\">\n          <div class=\"ion-text-center\" style=\"width: 100%;\">\n            <ion-icon name=\"car\" size=\"large\">\n            </ion-icon><br>\n              <ion-label>\n                <div class=\"shift_up\">Drives</div>\n              </ion-label>\n              <ion-label>\n                <div class=\"slide_num\">{{database.current.stats.drive_count}}</div>\n              </ion-label>\n              <ion-label>\n                <div class=\"slide_label shift_up\">Trips</div>\n              </ion-label>\n            <ion-label *ngIf=\"checkDriveStatus()\">\n              <h6 *ngFor=\"let vehicle of database.current.stats.most_recent_drive_by_vehicle_type | keyvalue\">\n                {{vehicle.key}} : {{getDrivesbyVehicleType(vehicle.key)}}\n              </h6>\n            </ion-label>\n          </div>\n        </ion-card>\n      </ion-col>\n\n      <ion-col size=\"4\" class=\"bubble-text\">\n        <ion-card>\n          <div class=\"ion-text-center\" style=\"width: 100%;\">\n            <ion-icon name=\"clock\" size=\"large\"></ion-icon><br>\n            <div class=\"shift_up\">Time</div>\n            <div class=\"slide_num\">{{database.current.stats.duration_minutes / 60 | number : '1.0-1' }}</div>\n            <div class=\"slide_label shift_up\">Hours</div>\n          </div>\n        </ion-card>\n      </ion-col>\n    </ion-row>\n  </ion-grid>\n\n  <!-- Third section (Chart slides) ------------------------------------------->\n  <ion-slides pager='true' no-padding>\n    <!--<ion-slide><canvas #chartCanvas1></canvas></ion-slide>-->\n    <ion-slide style=\"padding: 0 5px\"><ion-col>\n      <canvas #chartCanvas2 responsive=\"true\"></canvas>\n    </ion-col></ion-slide>\n    <ion-slide  style=\"padding: 0 5px\" responsive=\"true\"><canvas #chartCanvas5></canvas></ion-slide>\n    <ion-slide > <ion-grid>\n      <ion-label><h1 class=\"underline\">Platform Currency</h1></ion-label>\n      <ion-item *ngFor=\"let vehicle of database.current.stats.most_recent_drive_by_vehicle_type | keyvalue\">\n\n\n     <ion-col>\n       <ion-label>\n         <h2 *ngIf=\"checkOperatorCurrencyValid(database.current.stats.most_recent_drive_by_vehicle_type[vehicle.key])\">{{vehicle.key}} :</h2>\n       </ion-label>\n       <ion-label  color='danger'>\n          <h2 *ngIf=\"checkOperatorCurrencyInvalid(database.current.stats.most_recent_drive_by_vehicle_type[vehicle.key])\">{{vehicle.key}} :</h2>\n       </ion-label>\n\n      Last Drive: {{database.current.stats.most_recent_drive_by_vehicle_type[vehicle.key] | date: \"dd/MM/yyyy\"}}\n      ({{database.current.stats.most_recent_drive_by_vehicle_type[vehicle.key] | daysAgo}} days ago)</ion-col>\n\n    </ion-item> </ion-grid> </ion-slide>\n  </ion-slides>\n\n\n<!--\n      <ion-slide> <ion-grid>\n\n         <ion-label><h1>Platform Currency</h1></ion-label>\n         <ion-item *ngFor=\"let vehicle of database.current.stats.most_recent_drive_by_vehicle_type | keyvalue\">\n\n        <ion-col>\n          <ion-label color='danger'>\n            <h2 *ngIf=\"checkOperatorCurrencyInvalid(database.current.stats.most_recent_drive[vehicle.key])\">{{vehicle.key}} : {{checkOperatordaysCurrencyValid(database.current.stats.most_recent_drive_by_vehicle_type[vehicle.key])}}</h2>\n          </ion-label>\n\n          <ion-label>\n            <h2 *ngIf=\"checkOperatorCurrencyValid(database.current.stats.most_recent_drive_by_vehicle_type[vehicle.key])\">{{vehicle.key}} : {{checkOperatordaysCurrencyValid(database.current.stats.most_recent_drive_by_vehicle_type[vehicle.key])}}</h2>\n          </ion-label>\n\n         Last Drive: {{database.current.stats.most_recent_drive_by_vehicle_type[vehicle.key] | date: \"dd/MM/yyyy\"}}\n         ({{database.current.stats.most_recent_drive_by_vehicle_type[vehicle.key] | daysAgo}} days ago)</ion-col>\n     </ion-item></ion-grid></ion-slide>\n     -->\n\n\n  <!-- Second section (Last Drive, Operator Currency) ------------------------------------------->\n  <ion-card padding text-center>\n    <ion-grid>\n    <ion-row><ion-col><ion-card-title text-center>\n      <strong>JIT Countdown</strong>\n    </ion-card-title></ion-col></ion-row>\n\n    <ion-row><ion-col><ion-card-subtitle>\n\n      <ion-label *ngIf=\"checkTimelefttoJIT(database.current.stats.most_recent_drive) == false\" color='danger' text-center>\n        <strong><h2>\n          DO JIT NOW!\n        </h2></strong>\n      </ion-label>\n\n      <ion-item *ngIf=\"checkTimelefttoJIT(database.current.stats.most_recent_drive) == true\" text-center>\n        <ion-grid><ion-row><ion-col><countdown [config]=\"{leftTime: getTimelefttoJIT(database.current.stats.most_recent_drive), format: 'dd'}\"></countdown>\n          <h6 style=\"padding-bottom: 5px\">days</h6></ion-col>\n        <ion-col><countdown [config]=\"{leftTime: getTimelefttoJIT(database.current.stats.most_recent_drive), format: 'HH'}\"></countdown>\n          <h6 style=\"padding-bottom: 5px\">hrs</h6></ion-col>\n        <ion-col><countdown [config]=\"{leftTime: getTimelefttoJIT(database.current.stats.most_recent_drive), format: 'mm'}\"></countdown>\n          <h6 style=\"padding-bottom: 5px\">mins</h6></ion-col>\n        <ion-col><countdown [config]=\"{leftTime: getTimelefttoJIT(database.current.stats.most_recent_drive), format: 'ss'}\"></countdown>\n          <h6 style=\"padding-bottom: 5px\">sec</h6></ion-col></ion-row></ion-grid>\n      </ion-item>\n\n    </ion-card-subtitle></ion-col></ion-row></ion-grid>\n  </ion-card>\n\n  <!--\n  <ion-card padding>\n  <ion-card-subtitle><strong>Operator Currency</strong></ion-card-subtitle>\n  <ion-card-title>Most Recent Drive:</ion-card-title>\n  <ion-card-content class=\"ion-no-padding\">\n    {{database.current.stats.most_recent_drive | date: \"dd/MM/yyyy hh:mm\"}} ({{database.current.stats.most_recent_drive | daysAgo}} days ago)\n  </ion-card-content>\n</ion-card>\n-->\n\n\n  <!-- Bottom section (Notifications) ------------------------------------------->\n\n  <ion-item text-center>\n    <ion-label><h1><strong>Notifications</strong></h1></ion-label>\n  </ion-item>\n\n  <!--ion-card *ngFor=\"let trip of database.current.drive_history\">\n    <app-drive-view expandHeight='150px' [drive]=\"trip\"></app-drive-view>\n  </ion-card-->\n\n  <ion-card *ngFor=\"let message of getNotifications()\" padding>\n\n    <ion-fab vertical=\"top\" horizontal=\"end\">\n      <ion-fab-button size=\"small\" (click)=\"click(message.trip)\" color=\"danger\"><ion-icon name='end-drive'></ion-icon></ion-fab-button>\n    </ion-fab>\n\n    <ion-card-subtitle color='danger'><strong>{{message.subtitle}}</strong></ion-card-subtitle>\n    <ion-card-title>{{message.title}}</ion-card-title>\n\n    <ion-card-content class=\"ion-no-padding\">{{message.text}}</ion-card-content>\n\n  </ion-card>\n  <ion-card *ngFor=\"let form of getVerifiedMTRAC()\" padding>\n    <ion-fab vertical=\"top\" horizontal=\"end\">\n      <!--ion-fab-button size=\"small\" (click)=\"click(drive)\">View</ion-fab-button-->\n      <ion-fab-button size=\"small\" (click)=\"clickmtrac(form)\"><ion-icon name='share-alt'></ion-icon></ion-fab-button>\n      <!--ion-button fill=\"outline\" size=\"small\" (click)=\"click(drive)\">View</ion-button-->\n    </ion-fab>\n    <ion-card-title>Continue to add drive</ion-card-title>\n  </ion-card>\n\n</ion-content>\n");
 
 /***/ }),
 
@@ -80,7 +80,7 @@ SummaryPageModule = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony default export */ __webpack_exports__["default"] = ("ion-item {\n  --border-style: none;\n}\n\n.underline {\n  text-decoration: underline;\n}\n\n.shift_up {\n  position: relative;\n  top: -5px;\n}\n\n.slide_num {\n  font-size: 200%;\n  font-weight: 900;\n  text-align: center;\n  letter-spacing: 2px;\n}\n\n.slide_label {\n  font-size: small;\n  letter-spacing: 2px;\n  font-weight: bolder;\n}\n\n.slide_time {\n  font-size: 180%;\n  font-weight: 900;\n  text-align: center;\n  letter-spacing: 3px;\n}\n\n.gauge_value {\n  font-weight: 900;\n}\n\n.top_stats {\n  font-size: 150%;\n  font-weight: 900;\n  text-align: center;\n}\n\n.top_inputs {\n  font-size: 20px;\n}\n\n.top_labels {\n  font-size: 25px;\n  padding-bottom: 5px;\n}\n\n.scrollable {\n  height: auto;\n  overflow-y: auto;\n}\n\n.table {\n  width: 100%;\n  display: -webkit-box;\n  display: flex;\n  -webkit-box-orient: vertical;\n  -webkit-box-direction: normal;\n          flex-flow: column;\n  padding-bottom: 0px;\n  margin-bottom: 0px;\n}\n\n.bubble-text {\n  padding: 0px;\n}\n\n.vertical-align-content > * {\n  display: -webkit-box !important;\n  display: flex !important;\n  align-content: center !important;\n  -webkit-box-align: center !important;\n          align-items: center !important;\n}\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9Vc2Vycy95YXNoZGl4aXQvRG93bmxvYWRzL0VuZ2luZWVyc0xvZ2Jvb2syL3NyYy9hcHAvcGFnZXMvc3VtbWFyeS9zdW1tYXJ5LnBhZ2Uuc2NzcyIsInNyYy9hcHAvcGFnZXMvc3VtbWFyeS9zdW1tYXJ5LnBhZ2Uuc2NzcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiQUFRQTtFQUNJLG9CQUFBO0FDUEo7O0FEVUE7RUFDSSwwQkFBQTtBQ1BKOztBRFVBO0VBQ0Usa0JBQUE7RUFDQSxTQUFBO0FDUEY7O0FEVUE7RUFDSSxlQUFBO0VBQ0EsZ0JBQUE7RUFDQSxrQkFBQTtFQUNBLG1CQUFBO0FDUEo7O0FEV0E7RUFDSSxnQkFBQTtFQUNBLG1CQUFBO0VBQ0EsbUJBQUE7QUNSSjs7QURXQTtFQUNJLGVBQUE7RUFDQSxnQkFBQTtFQUNBLGtCQUFBO0VBQ0EsbUJBQUE7QUNSSjs7QURXQTtFQUNJLGdCQUFBO0FDUko7O0FEVUE7RUFDSSxlQUFBO0VBQ0EsZ0JBQUE7RUFDQSxrQkFBQTtBQ1BKOztBRFVBO0VBRUksZUFBQTtBQ1JKOztBRFVBO0VBQ0ksZUFBQTtFQUNBLG1CQUFBO0FDUEo7O0FEVUE7RUFDSSxZQUFBO0VBQ0EsZ0JBQUE7QUNQSjs7QURVQTtFQUVRLFdBQUE7RUFHQSxvQkFBQTtFQUFBLGFBQUE7RUFBZSw0QkFBQTtFQUFBLDZCQUFBO1VBQUEsaUJBQUE7RUFDbkIsbUJBQUE7RUFDQSxrQkFBQTtBQ1RKOztBRFlBO0VBRUUsWUFBQTtBQ1ZGOztBRGdCQTtFQUVLLCtCQUFBO0VBQUEsd0JBQUE7RUFDQSxnQ0FBQTtFQUNBLG9DQUFBO1VBQUEsOEJBQUE7QUNkTCIsImZpbGUiOiJzcmMvYXBwL3BhZ2VzL3N1bW1hcnkvc3VtbWFyeS5wYWdlLnNjc3MiLCJzb3VyY2VzQ29udGVudCI6WyJpb24tcm93IHtcbiAgLy9jb2xvcjogYmxhY2s7IC0tYmFja2dyb3VuZDogd2hpdGU7IGJhY2tncm91bmQ6IHdoaXRlO1xuICAvL2NvbG9yOiB3aGl0ZTsgLS1iYWNrZ3JvdW5kOiBibGFjazsgYmFja2dyb3VuZDogYmxhY2s7XG4gIC8vY29sb3I6IHdoaXRlOyAtLWJhY2tncm91bmQ6IG5vbmU7IGJhY2tncm91bmQ6IG5vbmU7XG4vLyAgLS1taW4taGVpZ2h0OiAxZW07ICAvLyBPdGhlcndpc2UsIGlvbi1pdGVtcyBoYXMgaW1wbGljaXQgb3V0ZXIgcGFkZGluZ3MhXG4vLyAgYmFja2dyb3VuZDogcmVkO1xufVxuXG5pb24taXRlbXtcbiAgICAtLWJvcmRlci1zdHlsZTogbm9uZTtcbn1cblxuLnVuZGVybGluZXtcbiAgICB0ZXh0LWRlY29yYXRpb246IHVuZGVybGluZTtcbn1cblxuLnNoaWZ0X3VwIHsgIC8vIFNoaWZ0IHRleHQgdXB3YXJkcywgc3RpY2tpbmcgdGhlIGxhYmVsIGNsb3NlciB0byBpY29uXG4gIHBvc2l0aW9uOiByZWxhdGl2ZTsgXG4gIHRvcDogLTVweDtcbn1cblxuLnNsaWRlX251bXtcbiAgICBmb250LXNpemU6IDIwMCU7XG4gICAgZm9udC13ZWlnaHQ6IDkwMDsgLy9CbGFjayAoSGVhdnkpIFxuICAgIHRleHQtYWxpZ246IGNlbnRlcjtcbiAgICBsZXR0ZXItc3BhY2luZzogMnB4O1xuICAgIC8vY29sb3I6IGJsYWNrO1xufVxuXG4uc2xpZGVfbGFiZWx7XG4gICAgZm9udC1zaXplOiBzbWFsbDtcbiAgICBsZXR0ZXItc3BhY2luZzogMnB4O1xuICAgIGZvbnQtd2VpZ2h0OiBib2xkZXI7IFxufVxuXG4uc2xpZGVfdGltZXtcbiAgICBmb250LXNpemU6IDE4MCU7XG4gICAgZm9udC13ZWlnaHQ6IDkwMDsgLy9CbGFjayAoSGVhdnkpIFxuICAgIHRleHQtYWxpZ246IGNlbnRlcjtcbiAgICBsZXR0ZXItc3BhY2luZzogM3B4O1xufVxuXG4uZ2F1Z2VfdmFsdWV7XG4gICAgZm9udC13ZWlnaHQ6OTAwO1xufVxuLnRvcF9zdGF0c3tcbiAgICBmb250LXNpemU6IDE1MCU7XG4gICAgZm9udC13ZWlnaHQ6IDkwMDsgXG4gICAgdGV4dC1hbGlnbjogY2VudGVyO1xufVxuXG4udG9wX2lucHV0c3tcbi8vICAgIC0taW9uLWJhY2tncm91bmQtY29sb3I6IzAwNTc1MDtcbiAgICBmb250LXNpemU6IDIwcHg7ICBcbn1cbi50b3BfbGFiZWxze1xuICAgIGZvbnQtc2l6ZTogMjVweDtcbiAgICBwYWRkaW5nLWJvdHRvbTogNXB4O1xuXG59XG4uc2Nyb2xsYWJsZXtcbiAgICBoZWlnaHQ6YXV0bztcbiAgICBvdmVyZmxvdy15OiBhdXRvO1xufVxuXG4udGFibGV7XG4vLyAgICAgICAgdGFibGUtbGF5b3V0OiBmaXhlZDtcbiAgICAgICAgd2lkdGg6IDEwMCU7ICBcbi8vICAgICAgICBiYWNrZ3JvdW5kOiBncmVlbjtcbi8vICAgICAgICBoZWlnaHQ6IDEwMCU7XG4gICAgICAgIGRpc3BsYXk6IGZsZXg7IGZsZXgtZmxvdzogY29sdW1uO1xuICAgIHBhZGRpbmctYm90dG9tOiAwcHg7XG4gICAgbWFyZ2luLWJvdHRvbTogMHB4O1xufVxuXG4uYnViYmxlLXRleHQge1xuICAvL2JhY2tncm91bmQ6IHJlZDtcbiAgcGFkZGluZzogMHB4O1xuLy8gIGJvcmRlci1yYWRpdXM6IDEwcHg7XG4vLyAgbWFyZ2luLWJvdHRvbTogNHB4O1xuLy8gIHdoaXRlLXNwYWNlOiBwcmUtd3JhcDtcbn1cblxuLnZlcnRpY2FsLWFsaWduLWNvbnRlbnQgPiAqXG57XG4gICAgIGRpc3BsYXk6IGZsZXghaW1wb3J0YW50O1xuICAgICBhbGlnbi1jb250ZW50OiBjZW50ZXIhaW1wb3J0YW50O1xuICAgICBhbGlnbi1pdGVtczogY2VudGVyIWltcG9ydGFudDtcbn0iLCJpb24taXRlbSB7XG4gIC0tYm9yZGVyLXN0eWxlOiBub25lO1xufVxuXG4udW5kZXJsaW5lIHtcbiAgdGV4dC1kZWNvcmF0aW9uOiB1bmRlcmxpbmU7XG59XG5cbi5zaGlmdF91cCB7XG4gIHBvc2l0aW9uOiByZWxhdGl2ZTtcbiAgdG9wOiAtNXB4O1xufVxuXG4uc2xpZGVfbnVtIHtcbiAgZm9udC1zaXplOiAyMDAlO1xuICBmb250LXdlaWdodDogOTAwO1xuICB0ZXh0LWFsaWduOiBjZW50ZXI7XG4gIGxldHRlci1zcGFjaW5nOiAycHg7XG59XG5cbi5zbGlkZV9sYWJlbCB7XG4gIGZvbnQtc2l6ZTogc21hbGw7XG4gIGxldHRlci1zcGFjaW5nOiAycHg7XG4gIGZvbnQtd2VpZ2h0OiBib2xkZXI7XG59XG5cbi5zbGlkZV90aW1lIHtcbiAgZm9udC1zaXplOiAxODAlO1xuICBmb250LXdlaWdodDogOTAwO1xuICB0ZXh0LWFsaWduOiBjZW50ZXI7XG4gIGxldHRlci1zcGFjaW5nOiAzcHg7XG59XG5cbi5nYXVnZV92YWx1ZSB7XG4gIGZvbnQtd2VpZ2h0OiA5MDA7XG59XG5cbi50b3Bfc3RhdHMge1xuICBmb250LXNpemU6IDE1MCU7XG4gIGZvbnQtd2VpZ2h0OiA5MDA7XG4gIHRleHQtYWxpZ246IGNlbnRlcjtcbn1cblxuLnRvcF9pbnB1dHMge1xuICBmb250LXNpemU6IDIwcHg7XG59XG5cbi50b3BfbGFiZWxzIHtcbiAgZm9udC1zaXplOiAyNXB4O1xuICBwYWRkaW5nLWJvdHRvbTogNXB4O1xufVxuXG4uc2Nyb2xsYWJsZSB7XG4gIGhlaWdodDogYXV0bztcbiAgb3ZlcmZsb3cteTogYXV0bztcbn1cblxuLnRhYmxlIHtcbiAgd2lkdGg6IDEwMCU7XG4gIGRpc3BsYXk6IGZsZXg7XG4gIGZsZXgtZmxvdzogY29sdW1uO1xuICBwYWRkaW5nLWJvdHRvbTogMHB4O1xuICBtYXJnaW4tYm90dG9tOiAwcHg7XG59XG5cbi5idWJibGUtdGV4dCB7XG4gIHBhZGRpbmc6IDBweDtcbn1cblxuLnZlcnRpY2FsLWFsaWduLWNvbnRlbnQgPiAqIHtcbiAgZGlzcGxheTogZmxleCAhaW1wb3J0YW50O1xuICBhbGlnbi1jb250ZW50OiBjZW50ZXIgIWltcG9ydGFudDtcbiAgYWxpZ24taXRlbXM6IGNlbnRlciAhaW1wb3J0YW50O1xufSJdfQ== */");
+/* harmony default export */ __webpack_exports__["default"] = ("ion-item {\n  --border-style: none;\n}\n\n.underline {\n  text-decoration: underline;\n}\n\n.shift_up {\n  position: relative;\n  top: -5px;\n}\n\n.slide_num {\n  font-size: 200%;\n  font-weight: 900;\n  text-align: center;\n  letter-spacing: 2px;\n}\n\n.slide_label {\n  font-size: small;\n  letter-spacing: 2px;\n  font-weight: bolder;\n}\n\n.slide_time {\n  font-size: 180%;\n  font-weight: 900;\n  text-align: center;\n  letter-spacing: 3px;\n}\n\n.gauge_value {\n  font-weight: 900;\n}\n\n.top_stats {\n  font-size: 150%;\n  font-weight: 900;\n  text-align: center;\n}\n\n.top_inputs {\n  font-size: 20px;\n}\n\n.top_labels {\n  font-size: 25px;\n  padding-bottom: 5px;\n}\n\n.scrollable {\n  height: auto;\n  overflow-y: auto;\n}\n\n.table {\n  width: 100%;\n  display: -webkit-box;\n  display: flex;\n  -webkit-box-orient: vertical;\n  -webkit-box-direction: normal;\n          flex-flow: column;\n  padding-bottom: 0px;\n  margin-bottom: 0px;\n}\n\n.bubble-text {\n  padding: 0px;\n}\n\n.vertical-align-content > * {\n  display: -webkit-box !important;\n  display: flex !important;\n  align-content: center !important;\n  -webkit-box-align: center !important;\n          align-items: center !important;\n}\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9Vc2Vycy9sZXdpc3RoYW0vR2l0SHViL0VuZ2luZWVyc0xvZ2Jvb2syL3NyYy9hcHAvcGFnZXMvc3VtbWFyeS9zdW1tYXJ5LnBhZ2Uuc2NzcyIsInNyYy9hcHAvcGFnZXMvc3VtbWFyeS9zdW1tYXJ5LnBhZ2Uuc2NzcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiQUFRQTtFQUNJLG9CQUFBO0FDUEo7O0FEVUE7RUFDSSwwQkFBQTtBQ1BKOztBRFVBO0VBQ0Usa0JBQUE7RUFDQSxTQUFBO0FDUEY7O0FEVUE7RUFDSSxlQUFBO0VBQ0EsZ0JBQUE7RUFDQSxrQkFBQTtFQUNBLG1CQUFBO0FDUEo7O0FEV0E7RUFDSSxnQkFBQTtFQUNBLG1CQUFBO0VBQ0EsbUJBQUE7QUNSSjs7QURXQTtFQUNJLGVBQUE7RUFDQSxnQkFBQTtFQUNBLGtCQUFBO0VBQ0EsbUJBQUE7QUNSSjs7QURXQTtFQUNJLGdCQUFBO0FDUko7O0FEVUE7RUFDSSxlQUFBO0VBQ0EsZ0JBQUE7RUFDQSxrQkFBQTtBQ1BKOztBRFVBO0VBRUksZUFBQTtBQ1JKOztBRFVBO0VBQ0ksZUFBQTtFQUNBLG1CQUFBO0FDUEo7O0FEVUE7RUFDSSxZQUFBO0VBQ0EsZ0JBQUE7QUNQSjs7QURVQTtFQUVRLFdBQUE7RUFHQSxvQkFBQTtFQUFBLGFBQUE7RUFBZSw0QkFBQTtFQUFBLDZCQUFBO1VBQUEsaUJBQUE7RUFDbkIsbUJBQUE7RUFDQSxrQkFBQTtBQ1RKOztBRFlBO0VBRUUsWUFBQTtBQ1ZGOztBRGdCQTtFQUVLLCtCQUFBO0VBQUEsd0JBQUE7RUFDQSxnQ0FBQTtFQUNBLG9DQUFBO1VBQUEsOEJBQUE7QUNkTCIsImZpbGUiOiJzcmMvYXBwL3BhZ2VzL3N1bW1hcnkvc3VtbWFyeS5wYWdlLnNjc3MiLCJzb3VyY2VzQ29udGVudCI6WyJpb24tcm93IHtcbiAgLy9jb2xvcjogYmxhY2s7IC0tYmFja2dyb3VuZDogd2hpdGU7IGJhY2tncm91bmQ6IHdoaXRlO1xuICAvL2NvbG9yOiB3aGl0ZTsgLS1iYWNrZ3JvdW5kOiBibGFjazsgYmFja2dyb3VuZDogYmxhY2s7XG4gIC8vY29sb3I6IHdoaXRlOyAtLWJhY2tncm91bmQ6IG5vbmU7IGJhY2tncm91bmQ6IG5vbmU7XG4vLyAgLS1taW4taGVpZ2h0OiAxZW07ICAvLyBPdGhlcndpc2UsIGlvbi1pdGVtcyBoYXMgaW1wbGljaXQgb3V0ZXIgcGFkZGluZ3MhXG4vLyAgYmFja2dyb3VuZDogcmVkO1xufVxuXG5pb24taXRlbXtcbiAgICAtLWJvcmRlci1zdHlsZTogbm9uZTtcbn1cblxuLnVuZGVybGluZXtcbiAgICB0ZXh0LWRlY29yYXRpb246IHVuZGVybGluZTtcbn1cblxuLnNoaWZ0X3VwIHsgIC8vIFNoaWZ0IHRleHQgdXB3YXJkcywgc3RpY2tpbmcgdGhlIGxhYmVsIGNsb3NlciB0byBpY29uXG4gIHBvc2l0aW9uOiByZWxhdGl2ZTsgXG4gIHRvcDogLTVweDtcbn1cblxuLnNsaWRlX251bXtcbiAgICBmb250LXNpemU6IDIwMCU7XG4gICAgZm9udC13ZWlnaHQ6IDkwMDsgLy9CbGFjayAoSGVhdnkpIFxuICAgIHRleHQtYWxpZ246IGNlbnRlcjtcbiAgICBsZXR0ZXItc3BhY2luZzogMnB4O1xuICAgIC8vY29sb3I6IGJsYWNrO1xufVxuXG4uc2xpZGVfbGFiZWx7XG4gICAgZm9udC1zaXplOiBzbWFsbDtcbiAgICBsZXR0ZXItc3BhY2luZzogMnB4O1xuICAgIGZvbnQtd2VpZ2h0OiBib2xkZXI7IFxufVxuXG4uc2xpZGVfdGltZXtcbiAgICBmb250LXNpemU6IDE4MCU7XG4gICAgZm9udC13ZWlnaHQ6IDkwMDsgLy9CbGFjayAoSGVhdnkpIFxuICAgIHRleHQtYWxpZ246IGNlbnRlcjtcbiAgICBsZXR0ZXItc3BhY2luZzogM3B4O1xufVxuXG4uZ2F1Z2VfdmFsdWV7XG4gICAgZm9udC13ZWlnaHQ6OTAwO1xufVxuLnRvcF9zdGF0c3tcbiAgICBmb250LXNpemU6IDE1MCU7XG4gICAgZm9udC13ZWlnaHQ6IDkwMDsgXG4gICAgdGV4dC1hbGlnbjogY2VudGVyO1xufVxuXG4udG9wX2lucHV0c3tcbi8vICAgIC0taW9uLWJhY2tncm91bmQtY29sb3I6IzAwNTc1MDtcbiAgICBmb250LXNpemU6IDIwcHg7ICBcbn1cbi50b3BfbGFiZWxze1xuICAgIGZvbnQtc2l6ZTogMjVweDtcbiAgICBwYWRkaW5nLWJvdHRvbTogNXB4O1xuXG59XG4uc2Nyb2xsYWJsZXtcbiAgICBoZWlnaHQ6YXV0bztcbiAgICBvdmVyZmxvdy15OiBhdXRvO1xufVxuXG4udGFibGV7XG4vLyAgICAgICAgdGFibGUtbGF5b3V0OiBmaXhlZDtcbiAgICAgICAgd2lkdGg6IDEwMCU7ICBcbi8vICAgICAgICBiYWNrZ3JvdW5kOiBncmVlbjtcbi8vICAgICAgICBoZWlnaHQ6IDEwMCU7XG4gICAgICAgIGRpc3BsYXk6IGZsZXg7IGZsZXgtZmxvdzogY29sdW1uO1xuICAgIHBhZGRpbmctYm90dG9tOiAwcHg7XG4gICAgbWFyZ2luLWJvdHRvbTogMHB4O1xufVxuXG4uYnViYmxlLXRleHQge1xuICAvL2JhY2tncm91bmQ6IHJlZDtcbiAgcGFkZGluZzogMHB4O1xuLy8gIGJvcmRlci1yYWRpdXM6IDEwcHg7XG4vLyAgbWFyZ2luLWJvdHRvbTogNHB4O1xuLy8gIHdoaXRlLXNwYWNlOiBwcmUtd3JhcDtcbn1cblxuLnZlcnRpY2FsLWFsaWduLWNvbnRlbnQgPiAqXG57XG4gICAgIGRpc3BsYXk6IGZsZXghaW1wb3J0YW50O1xuICAgICBhbGlnbi1jb250ZW50OiBjZW50ZXIhaW1wb3J0YW50O1xuICAgICBhbGlnbi1pdGVtczogY2VudGVyIWltcG9ydGFudDtcbn0iLCJpb24taXRlbSB7XG4gIC0tYm9yZGVyLXN0eWxlOiBub25lO1xufVxuXG4udW5kZXJsaW5lIHtcbiAgdGV4dC1kZWNvcmF0aW9uOiB1bmRlcmxpbmU7XG59XG5cbi5zaGlmdF91cCB7XG4gIHBvc2l0aW9uOiByZWxhdGl2ZTtcbiAgdG9wOiAtNXB4O1xufVxuXG4uc2xpZGVfbnVtIHtcbiAgZm9udC1zaXplOiAyMDAlO1xuICBmb250LXdlaWdodDogOTAwO1xuICB0ZXh0LWFsaWduOiBjZW50ZXI7XG4gIGxldHRlci1zcGFjaW5nOiAycHg7XG59XG5cbi5zbGlkZV9sYWJlbCB7XG4gIGZvbnQtc2l6ZTogc21hbGw7XG4gIGxldHRlci1zcGFjaW5nOiAycHg7XG4gIGZvbnQtd2VpZ2h0OiBib2xkZXI7XG59XG5cbi5zbGlkZV90aW1lIHtcbiAgZm9udC1zaXplOiAxODAlO1xuICBmb250LXdlaWdodDogOTAwO1xuICB0ZXh0LWFsaWduOiBjZW50ZXI7XG4gIGxldHRlci1zcGFjaW5nOiAzcHg7XG59XG5cbi5nYXVnZV92YWx1ZSB7XG4gIGZvbnQtd2VpZ2h0OiA5MDA7XG59XG5cbi50b3Bfc3RhdHMge1xuICBmb250LXNpemU6IDE1MCU7XG4gIGZvbnQtd2VpZ2h0OiA5MDA7XG4gIHRleHQtYWxpZ246IGNlbnRlcjtcbn1cblxuLnRvcF9pbnB1dHMge1xuICBmb250LXNpemU6IDIwcHg7XG59XG5cbi50b3BfbGFiZWxzIHtcbiAgZm9udC1zaXplOiAyNXB4O1xuICBwYWRkaW5nLWJvdHRvbTogNXB4O1xufVxuXG4uc2Nyb2xsYWJsZSB7XG4gIGhlaWdodDogYXV0bztcbiAgb3ZlcmZsb3cteTogYXV0bztcbn1cblxuLnRhYmxlIHtcbiAgd2lkdGg6IDEwMCU7XG4gIGRpc3BsYXk6IGZsZXg7XG4gIGZsZXgtZmxvdzogY29sdW1uO1xuICBwYWRkaW5nLWJvdHRvbTogMHB4O1xuICBtYXJnaW4tYm90dG9tOiAwcHg7XG59XG5cbi5idWJibGUtdGV4dCB7XG4gIHBhZGRpbmc6IDBweDtcbn1cblxuLnZlcnRpY2FsLWFsaWduLWNvbnRlbnQgPiAqIHtcbiAgZGlzcGxheTogZmxleCAhaW1wb3J0YW50O1xuICBhbGlnbi1jb250ZW50OiBjZW50ZXIgIWltcG9ydGFudDtcbiAgYWxpZ24taXRlbXM6IGNlbnRlciAhaW1wb3J0YW50O1xufSJdfQ== */");
 
 /***/ }),
 
@@ -163,7 +163,7 @@ let SummaryPage = class SummaryPage {
     checkOperatordaysCurrencyValid(date, vehicletype) {
         const today = dayjs__WEBPACK_IMPORTED_MODULE_4__();
         //var period = vehicletype==="BELREX" ? 30 : 7;
-        var period = 8;
+        var period = 10;
         var left = period - today.diff(date, "day");
         if (left < 0) {
             return "JIT OVERDUE by " + Math.abs(left).toString() + " days";
@@ -174,7 +174,7 @@ let SummaryPage = class SummaryPage {
     }
     checkOperatorCurrencyInvalid(date) {
         const today = dayjs__WEBPACK_IMPORTED_MODULE_4__();
-        var period = 8;
+        var period = 10;
         return today.diff(date, "day") > period;
     }
     showdrives() {
@@ -280,17 +280,17 @@ let SummaryPage = class SummaryPage {
         /*
            this.makeChart1(this.chartCanvas1);
         */
-        //this.makeChart2(this.chartCanvas2, this.database.current.stats.mileage_by_vehicle_type);
+        this.makeChart2(this.chartCanvas2, this.database.current.stats.mileage_by_vehicle_type);
         this.getStatus();
-        this.makeChart4(this.chartCanvas4, this.database.current.stats.mileage_by_vehicle_type, this.database.current.stats.mileage_km);
+        //this.makeChart4(this.chartCanvas4, this.database.current.stats.mileage_by_vehicle_type, this.database.current.stats.mileage_km);
         if (this.database.current.stats.mileage_km > 1000 && this.database.current.stats.mileage_km < 4000) {
             var maxVal = 4000 - this.database.current.stats.mileage_km;
-            this.makeChart3(this.chartCanvas3, this.database.current.stats.mileage_km, maxVal, 0);
+            this.makeChart5(this.chartCanvas5, this.database.current.stats.mileage_km, maxVal, 0);
         }
         else if (this.database.current.stats.mileage_km < 1000 && this.database.current.stats.mileage_km < 4000) {
             var overseas = 1000 - this.database.current.stats.mileage_km;
             var maxVal = 4000 - this.database.current.stats.mileage_km;
-            this.makeChart3(this.chartCanvas3, this.database.current.stats.mileage_km, maxVal, overseas);
+            this.makeChart5(this.chartCanvas5, this.database.current.stats.mileage_km, maxVal, overseas);
         }
     }
     /*private makeChart1(canvas: ElementRef): Chart {
@@ -337,16 +337,20 @@ let SummaryPage = class SummaryPage {
     }
     makeChart2(canvas, data) {
         var mileage = [];
-        for (var type of _services_database_service__WEBPACK_IMPORTED_MODULE_3__["VehicleTypes"]) {
-            mileage.push(data[type]);
+        var vtypes = this.database.current.stats.most_recent_drive_by_vehicle_type;
+        vtypes = Object.keys(vtypes);
+        console.log(vtypes);
+        for (var vehicle of vtypes) {
+            mileage.push(this.getMileagebyVehicleType(this.database.current.stats.mileage_by_vehicle_type, vehicle).replace(" km", ""));
         }
+        console.log(mileage);
         return new chart_js__WEBPACK_IMPORTED_MODULE_5__["Chart"](canvas.nativeElement, {
             type: "bar",
             data: {
-                labels: _services_database_service__WEBPACK_IMPORTED_MODULE_3__["VehicleTypes"],
+                labels: vtypes,
                 datasets: [
                     {
-                        label: "Your Mileage by Vehicle Types",
+                        label: "Mileage (km)",
                         //          data: [54, 13, 227, 136],
                         data: mileage,
                         borderWidth: 2,
@@ -370,6 +374,22 @@ let SummaryPage = class SummaryPage {
                 ]
             },
             options: {
+                responsive: true,
+                tooltips: {
+                    enabled: true
+                },
+                plugins: {
+                    labels: {
+                        render: function (args) { return args.value + ' km'; },
+                    },
+                    datalabels: {
+                        anchor: 'end',
+                        align: 'bottom',
+                        font: {
+                            weight: 'bold'
+                        }
+                    }
+                },
                 title: {
                     display: true,
                     text: 'Your Mileage by Vehicle Types'
@@ -385,6 +405,82 @@ let SummaryPage = class SummaryPage {
                             }
                         }
                     ]
+                }
+            }
+        });
+    }
+    makeChart5(canvas, value, max_value, overseas) {
+        return new chart_js__WEBPACK_IMPORTED_MODULE_5__["Chart"](canvas.nativeElement, {
+            type: "horizontalBar",
+            data: {
+                labels: ["Overseas", "Conversion"],
+                datasets: [
+                    {
+                        label: "Mileage",
+                        borderWidth: 1,
+                        data: [value, value],
+                        backgroundColor: [
+                            "rgb(255, 99, 132, 0.2)",
+                            "rgb(255, 99, 132, 0.2)",
+                        ],
+                        borderColor: [
+                            "rgb(255, 99, 132, 1)",
+                            "rgb(255, 99, 132, 1)",
+                        ]
+                    }, {
+                        label: "Overseas",
+                        borderWidth: 1,
+                        data: [overseas, 0],
+                        backgroundColor: [
+                            "rgb(255, 205, 86, 0.2)",
+                        ],
+                        borderColor: [
+                            "rgb(255, 205, 86, 1)",
+                        ]
+                    },
+                    {
+                        label: "Conversion",
+                        borderWidth: 1,
+                        data: [0, max_value],
+                        backgroundColor: [
+                            "rgb(54, 162, 235, 0.2)",
+                            "rgb(54, 162, 235, 0.2)",
+                        ],
+                        borderColor: [
+                            "rgb(54, 162, 235, 1)",
+                            "rgb(54, 162, 235, 1)",
+                        ]
+                    }
+                ]
+            },
+            options: {
+                plugins: {
+                    labels: {
+                        render: 'value'
+                    },
+                    datalabels: {
+                        anchor: 'end',
+                        align: 'left',
+                        font: {
+                            weight: 'bold'
+                        },
+                    },
+                },
+                title: {
+                    display: true,
+                    text: 'Licence Conversion'
+                },
+                legend: {
+                    display: true
+                },
+                scales: {
+                    xAxes: [{
+                            stacked: true,
+                            ticks: { mirror: true }
+                        }],
+                    yAxes: [{
+                            stacked: true,
+                        }],
                 }
             }
         });
@@ -449,86 +545,6 @@ let SummaryPage = class SummaryPage {
             }
         });
     }
-    makeChart4(canvas, data, total_mileage) {
-        var mileage = [];
-        var i = -1;
-        var drives = [];
-        var values = [];
-        var data_array = [0, 0, 0, 0, 0, total_mileage];
-        for (var type of _services_database_service__WEBPACK_IMPORTED_MODULE_3__["VehicleTypes"]) {
-            var data_array = [0, 0, 0, 0, 0, total_mileage];
-            if (data[type] != null) {
-                i += 1;
-                data_array[i] = data[type];
-                values.push(data[type]);
-                data_array.pop();
-                data_array.push(total_mileage - data[type]);
-                drives.push(type);
-                var newDataset = {
-                    backgroundColor: [
-                        "rgba(255,99,132,1)",
-                        "rgba(54, 162, 235, 1)",
-                        "rgba(255, 206, 86, 1)",
-                        "rgba(75, 192, 192, 1)",
-                        "rgba(153, 102, 255, 1)",
-                    ],
-                    borderColor: [
-                        "rgba(255,99,132,1)",
-                        "rgba(54, 162, 235, 1)",
-                        "rgba(255, 206, 86, 1)",
-                        "rgba(75, 192, 192, 1)",
-                        "rgba(153, 102, 255, 1)",
-                    ],
-                    data: data_array,
-                    label: type,
-                    borderWidth: 1,
-                    responsive: true,
-                };
-                mileage.push(newDataset);
-            }
-            ;
-        }
-        ;
-        return new chart_js__WEBPACK_IMPORTED_MODULE_5__["Chart"](canvas.nativeElement, {
-            type: "doughnut",
-            data: {
-                datasets: mileage,
-                labels: drives,
-            },
-            options: {
-                //showMarkers: true,
-                legend: {
-                    display: true,
-                    position: "right",
-                },
-                title: {
-                    display: true,
-                    text: 'Your Mileage by Vehicle Types',
-                    fontSize: 14,
-                },
-                plugins: {
-                    labels: {
-                        render: function (args) {
-                            if (values.findIndex(x => x === args.value) != -1) {
-                                return args.value + ' km';
-                            }
-                            ;
-                        },
-                        arc: true,
-                        textShadow: true,
-                        shadowBlur: 10,
-                        shadowColor: 'rgba(0,0,0,0.4)',
-                        fontColor: 'rgba(0,0,0,1)',
-                    },
-                },
-                circumference: Math.PI,
-                rotation: Math.PI,
-                cutoutPercentage: 33,
-                maintainAspectRatio: true,
-                responsive: true,
-            }
-        });
-    }
 };
 SummaryPage.ctorParameters = () => [
     { type: _services_database_service__WEBPACK_IMPORTED_MODULE_3__["DatabaseService"] },
@@ -547,6 +563,14 @@ tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
     Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["ViewChild"])("chartCanvas3", { static: true }),
     tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:type", _angular_core__WEBPACK_IMPORTED_MODULE_1__["ElementRef"])
 ], SummaryPage.prototype, "chartCanvas3", void 0);
+tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
+    Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["ViewChild"])("chartCanvas2", { static: true }),
+    tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:type", _angular_core__WEBPACK_IMPORTED_MODULE_1__["ElementRef"])
+], SummaryPage.prototype, "chartCanvas2", void 0);
+tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
+    Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["ViewChild"])("chartCanvas5", { static: true }),
+    tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:type", _angular_core__WEBPACK_IMPORTED_MODULE_1__["ElementRef"])
+], SummaryPage.prototype, "chartCanvas5", void 0);
 SummaryPage = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
     Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"])({
         selector: 'app-summary',

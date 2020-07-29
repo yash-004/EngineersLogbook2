@@ -1,27 +1,10 @@
 {
     "logs": [
         {
-            "outputFile": "/Users/yashdixit/Downloads/EngineersLogbook2/platforms/android/app/build/intermediates/incremental/mergeDebugResources/merged.dir/values-ky/values-ky.xml",
+            "outputFile": "/Users/lewistham/GitHub/EngineersLogbook2/platforms/android/app/build/intermediates/incremental/mergeDebugResources/merged.dir/values-ky/values-ky.xml",
             "map": [
                 {
-                    "source": "/Users/yashdixit/.gradle/caches/transforms-1/files-1.1/jetified-firebase-messaging-18.0.0.aar/45d7d33f4e9f81938bf172f3e3371874/res/values-ky/values.xml",
-                    "from": {
-                        "startLines": "4",
-                        "startColumns": "0",
-                        "startOffsets": "205",
-                        "endColumns": "100",
-                        "endOffsets": "305"
-                    },
-                    "to": {
-                        "startLines": "20",
-                        "startColumns": "4",
-                        "startOffsets": "2805",
-                        "endColumns": "104",
-                        "endOffsets": "2905"
-                    }
-                },
-                {
-                    "source": "/Users/yashdixit/.gradle/caches/transforms-1/files-1.1/jetified-play-services-base-16.0.1.aar/bfc17058b903a8c2c1fcfa5fe2903f78/res/values-ky/values.xml",
+                    "source": "/Users/lewistham/.gradle/caches/transforms-1/files-1.1/jetified-play-services-base-16.0.1.aar/cbeeba3042d6ebd30c8ac6f9d133f50a/res/values-ky/values.xml",
                     "from": {
                         "startLines": "4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20",
                         "startColumns": "0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0",
@@ -38,24 +21,7 @@
                     }
                 },
                 {
-                    "source": "/Users/yashdixit/.gradle/caches/transforms-1/files-1.1/core-1.0.0.aar/4f133595a2d3d0e890a24bcd4f538458/res/values-ky/values-ky.xml",
-                    "from": {
-                        "startLines": "2",
-                        "startColumns": "4",
-                        "startOffsets": "55",
-                        "endColumns": "100",
-                        "endOffsets": "151"
-                    },
-                    "to": {
-                        "startLines": "21",
-                        "startColumns": "4",
-                        "startOffsets": "2910",
-                        "endColumns": "100",
-                        "endOffsets": "3006"
-                    }
-                },
-                {
-                    "source": "/Users/yashdixit/.gradle/caches/transforms-1/files-1.1/jetified-play-services-basement-16.2.0.aar/93c074fbcbeb4d1707e1774b9103deb2/res/values-ky/values.xml",
+                    "source": "/Users/lewistham/.gradle/caches/transforms-1/files-1.1/jetified-play-services-basement-16.2.0.aar/1762a08a0b4ea85f0da666a55ebc6757/res/values-ky/values.xml",
                     "from": {
                         "startLines": "4",
                         "startColumns": "0",
@@ -69,6 +35,40 @@
                         "startOffsets": "1250",
                         "endColumns": "220",
                         "endOffsets": "1466"
+                    }
+                },
+                {
+                    "source": "/Users/lewistham/.gradle/caches/transforms-1/files-1.1/jetified-firebase-messaging-18.0.0.aar/f051a741c18922b589b18408023fede0/res/values-ky/values.xml",
+                    "from": {
+                        "startLines": "4",
+                        "startColumns": "0",
+                        "startOffsets": "205",
+                        "endColumns": "100",
+                        "endOffsets": "305"
+                    },
+                    "to": {
+                        "startLines": "20",
+                        "startColumns": "4",
+                        "startOffsets": "2805",
+                        "endColumns": "104",
+                        "endOffsets": "2905"
+                    }
+                },
+                {
+                    "source": "/Users/lewistham/.gradle/caches/transforms-1/files-1.1/core-1.0.0.aar/65bb30761e890b55ae089aa93ae5f766/res/values-ky/values-ky.xml",
+                    "from": {
+                        "startLines": "2",
+                        "startColumns": "4",
+                        "startOffsets": "55",
+                        "endColumns": "100",
+                        "endOffsets": "151"
+                    },
+                    "to": {
+                        "startLines": "21",
+                        "startColumns": "4",
+                        "startOffsets": "2910",
+                        "endColumns": "100",
+                        "endOffsets": "3006"
                     }
                 }
             ]

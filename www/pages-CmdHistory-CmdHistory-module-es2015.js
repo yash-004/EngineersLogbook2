@@ -9,7 +9,7 @@
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony default export */ __webpack_exports__["default"] = ("<ion-header >\n  <ion-toolbar>\n    <ion-title>History</ion-title>\n    <ion-buttons slot=\"primary\">\n      <ion-button left routerLink=\"/\" routerDirection=\"root\" fill=\"clear\" slot=\"primary\">\n        Logout<ion-icon name=\"log-out\"></ion-icon>\n      </ion-button>\n    </ion-buttons>\n  </ion-toolbar>\n</ion-header>\n\n<ion-card>\n  <ion-list>\n    <ion-item>\n      <ion-label position=\"stacked\">Driver</ion-label>\n      <ion-select id=\"drvr\" interface=\"popover\" value=\"ALL\" class=\"full-width-select\">\n        <ion-select-option value=\"ALL\">ALL</ion-select-option>\n        <ion-select-option text-wrap *ngFor=\"let driver of database.current.all_drivers_of_commander\" value={{driver.email}} class=\"custom-font-size\">{{driver.email}}</ion-select-option>\n      </ion-select>\n      <ion-label position=\"stacked\">Vehicle Type</ion-label>\n        <ion-select id=\"vehitype\" interface=\"popover\" value=\"ALL\" class=\"full-width-select\">\n          <ion-select-option value=\"ALL\">ALL</ion-select-option>\n          <ion-select-option text-wrap *ngFor =\"let vehicle of database.current.stats.most_recent_drive_by_vehicle_type | keyvalue\" value={{vehicle.key}} class=\"custom-font-size\">{{vehicle.key}}</ion-select-option>\n        </ion-select>\n    </ion-item>\n  </ion-list>\n</ion-card>\n\n<ion-content>\n\n  <!-- Month/date Selector (Sticky header) -->\n\n  <ion-item-divider sticky>\n    <ion-grid>\n      <ion-row class=\"vertical-align-content\">\n        <ion-col no-padding text-center size=3>\n            <ion-button size=\"small\" (click)=\"incrementFilterPeriod(-1)\"><ion-icon name=\"return-left\"></ion-icon></ion-button>\n        </ion-col>\n\n        <ion-col no-padding text-center>\n          <h4>{{getFilterPeriodString()}}</h4>\n        </ion-col>\n\n        <ion-col no-padding text-center size=3>\n            <ion-button size=\"small\" (click)=\"incrementFilterPeriod(+1)\"><ion-icon name=\"return-right\"></ion-icon></ion-button>\n        </ion-col>\n\n      </ion-row>\n    </ion-grid>\n  </ion-item-divider>\n\n  <div style=\"display: block\">\n    <canvas baseChart\n                [data]=\"chartData\"\n                [labels]=\"chartLabels\"\n                [chartType]=\"chartType\"\n                [colors]=\"chartColors\"\n                (chartHover)=\"chartHovered($event)\"\n                (chartClick)=\"chartClicked($event)\"></canvas>\n  </div>\n\n  <ion-card *ngFor=\"let trip of getDrives()\">\n    <br>\n    <app-drive-view expandHeight='150px' expandWidth='100px' [drive]=\"trip\"></app-drive-view>\n  </ion-card>\n\n<!--\n    <ion-row >\n      <ion-col align=\"center\">\n      <ion-card >\n    <ion-card-header>\n      <ion-card-subtitle>\n          <ion-item class=\"card\">\n          <ion-label position=\"floating\"></ion-label>\n          <ion-input disabled type=\"date\" name=\"text_drivedate\" color=\"success\">  </ion-input>\n            </ion-item>\n        </ion-card-subtitle>\n      <ion-card-title>\n        <ion-item class=\"card\" >\n          <ion-label color=\"success\" position=\"floating\">VehicleType</ion-label>\n          <ion-input color=\"success\" disabled type=\"number\" name=\"text_drivevehicletype\">  </ion-input>\n            </ion-item>\n    </ion-card-title>\n    </ion-card-header>\n\n    <ion-card-content>\n\n      <ion-grid>\n        <ion-row>\n          <ion-col >\n            <ion-item class=\"card\">\n          <ion-label color=\"success\" position=\"floating\">Total Time Driven</ion-label>\n          <ion-input disabled type=\"number\" name=\"text_driveduration\" color=\"success\">  </ion-input>\n            </ion-item>\n          </ion-col>\n          <ion-col>\n            <ion-item class=\"card\">\n          <ion-label color=\"success\" position=\"floating\">Total Mileage</ion-label>\n          <ion-input disabled type=\"number\" name=\"text_drivemileage\" color=\"success\">  </ion-input>\n            </ion-item>\n          </ion-col>\n        </ion-row>\n      </ion-grid>\n\n    </ion-card-content>\n  </ion-card>\n\n      </ion-col>\n    </ion-row>\n-->\n\n</ion-content>\n");
+/* harmony default export */ __webpack_exports__["default"] = ("<ion-header >\n  <ion-toolbar>\n    <ion-title>History</ion-title>\n    <ion-buttons slot=\"primary\">\n      <ion-button left routerLink=\"/\" routerDirection=\"root\" fill=\"clear\" slot=\"primary\">\n        Logout<ion-icon name=\"log-out\"></ion-icon>\n      </ion-button>\n    </ion-buttons>\n  </ion-toolbar>\n</ion-header>\n\n<ion-card>\n  <ion-list>\n    <ion-item>\n      <ion-label position=\"stacked\">Driver</ion-label>\n      <ion-select id=\"drvr\" interface=\"popover\" value=\"ALL\" class=\"full-width-select\">\n        <ion-select-option value=\"ALL\">ALL</ion-select-option>\n        <ion-select-option text-wrap *ngFor=\"let driver of database.current.all_drivers_of_commander\" value={{driver.email}} class=\"custom-font-size\">{{driver.email}}</ion-select-option>\n      </ion-select>\n      <ion-label position=\"stacked\">Vehicle Type</ion-label>\n        <ion-select id=\"vehitype\" interface=\"popover\" value=\"ALL\" class=\"full-width-select\">\n          <ion-select-option value=\"ALL\">ALL</ion-select-option>\n          <ion-select-option text-wrap *ngFor =\"let vehicle of database.current.stats.most_recent_drive_by_vehicle_type | keyvalue\" value={{vehicle.key}} class=\"custom-font-size\">{{vehicle.key}}</ion-select-option>\n        </ion-select>\n    </ion-item>\n  </ion-list>\n</ion-card>\n\n<ion-content>\n\n  <!-- Month/date Selector (Sticky header) -->\n\n  <ion-item-divider sticky>\n    <ion-grid>\n      <ion-row class=\"vertical-align-content\">\n        <ion-col no-padding text-center size=3>\n            <ion-button size=\"small\" (click)=\"incrementFilterPeriod(-1)\"><ion-icon name=\"return-left\"></ion-icon></ion-button>\n        </ion-col>\n\n        <ion-col no-padding text-center>\n          <h4>{{getFilterPeriodString()}}</h4>\n        </ion-col>\n\n        <ion-col no-padding text-center size=3>\n            <ion-button size=\"small\" (click)=\"incrementFilterPeriod(+1)\"><ion-icon name=\"return-right\"></ion-icon></ion-button>\n        </ion-col>\n\n      </ion-row>\n    </ion-grid>\n  </ion-item-divider>\n\n  <div style=\"display: block\">\n    <canvas baseChart\n                [data]=\"chartData\"\n                [labels]=\"chartLabels\"\n                [chartType]=\"chartType\"\n                [colors]=\"chartColors\"\n                (chartHover)=\"chartHovered($event)\"\n                (chartClick)=\"chartClicked($event)\"></canvas>\n  </div>\n\n  <ion-card>\n    <div class=\"ion-text-center\" style=\"width: 100%;\">\n      <ion-icon name=\"speedometer\" size=\"small\"></ion-icon>\n      <ion-label class=\"slide_num\" *ngIf=\"getFilterPeriodString()=='All'\"> Total Mileage: {{getMileage()}} km</ion-label>\n      <ion-label *ngIf=\"getFilterPeriodString()!='All'\" class=\"slide_num\"> {{getFilterPeriodString()}} Total Mileage: {{getMileage()}} km</ion-label><br>\n      <ion-col *ngFor=\"let vehicle of database.current.stats.most_recent_drive_by_vehicle_type | keyvalue\">\n        {{vehicle.key}} : {{getMileagebyVehicleType(vehicle.key)}}\n      </ion-col>\n    </div>\n  </ion-card>\n\n  <ion-card *ngFor=\"let trip of getDrives()\">\n    <br>\n    <app-drive-view expandHeight='150px' expandWidth='100px' [drive]=\"trip\"></app-drive-view>\n  </ion-card>\n\n<!--\n    <ion-row >\n      <ion-col align=\"center\">\n      <ion-card >\n    <ion-card-header>\n      <ion-card-subtitle>\n          <ion-item class=\"card\">\n          <ion-label position=\"floating\"></ion-label>\n          <ion-input disabled type=\"date\" name=\"text_drivedate\" color=\"success\">  </ion-input>\n            </ion-item>\n        </ion-card-subtitle>\n      <ion-card-title>\n        <ion-item class=\"card\" >\n          <ion-label color=\"success\" position=\"floating\">VehicleType</ion-label>\n          <ion-input color=\"success\" disabled type=\"number\" name=\"text_drivevehicletype\">  </ion-input>\n            </ion-item>\n    </ion-card-title>\n    </ion-card-header>\n\n    <ion-card-content>\n\n      <ion-grid>\n        <ion-row>\n          <ion-col >\n            <ion-item class=\"card\">\n          <ion-label color=\"success\" position=\"floating\">Total Time Driven</ion-label>\n          <ion-input disabled type=\"number\" name=\"text_driveduration\" color=\"success\">  </ion-input>\n            </ion-item>\n          </ion-col>\n          <ion-col>\n            <ion-item class=\"card\">\n          <ion-label color=\"success\" position=\"floating\">Total Mileage</ion-label>\n          <ion-input disabled type=\"number\" name=\"text_drivemileage\" color=\"success\">  </ion-input>\n            </ion-item>\n          </ion-col>\n        </ion-row>\n      </ion-grid>\n\n    </ion-card-content>\n  </ion-card>\n\n      </ion-col>\n    </ion-row>\n-->\n\n</ion-content>\n");
 
 /***/ }),
 
@@ -109,16 +109,24 @@ let CmdHistoryPage = class CmdHistoryPage {
         this.select_month = 0;
         this.select_year = 0;
         // Build Doughnut chart of mileage per VehicleType
-        this.chartLabels = _services_database_service__WEBPACK_IMPORTED_MODULE_2__["VehicleTypes"];
+        this.chartLabels = Object.keys(this.database.current.stats.most_recent_drive_by_vehicle_type);
         this.chartData = [0, 0, 0, 0];
         this.chartType = 'doughnut';
         this.chartColors = [{ backgroundColor: [
-                    "rgba(255,99,132,1)",
+                    "rgba(255,99,132,0.2)",
+                    "rgba(54, 162, 235,0.2)",
+                    "rgba(255, 206, 86,0.2)",
+                    "rgba(75, 192, 192,0.2)",
+                    "rgba(153, 102, 255,0.2)",
+                ],
+                borderColor: [
+                    "rgba(255,99,132, 1)",
                     "rgba(54, 162, 235, 1)",
                     "rgba(255, 206, 86, 1)",
                     "rgba(75, 192, 192, 1)",
                     "rgba(153, 102, 255, 1)",
-                ] }];
+                ]
+            }];
     }
     ngOnInit() {
         this.buildChart();
@@ -131,6 +139,24 @@ let CmdHistoryPage = class CmdHistoryPage {
                 this.database.write('user', this.database.current.user.email, this.database.current.user);
             }
         });
+    }
+    getMileage() {
+        var mileage = 0;
+        var drives = this.getDrives();
+        for (var d of drives) {
+            mileage += d.end_odometer - d.start_odometer;
+        }
+        return mileage;
+    }
+    getMileagebyVehicleType(vehicle) {
+        var mileage = 0;
+        var drives = this.getDrives();
+        for (var d of drives) {
+            if (d.vehicle_type == vehicle) {
+                mileage += d.end_odometer - d.start_odometer;
+            }
+        }
+        return mileage;
     }
     getDrives() {
         var drives = this.database.current.drive_history;
@@ -258,11 +284,11 @@ let CmdHistoryPage = class CmdHistoryPage {
             this.buildChart();
     }
     buildChart() {
-        var count = Array(_services_database_service__WEBPACK_IMPORTED_MODULE_2__["VehicleTypes"].length).fill(0);
+        var count = Array(this.chartLabels.length).fill(0);
         this.getDrives().map((trip) => {
             var valid_type = false;
-            for (let i = 0; i < _services_database_service__WEBPACK_IMPORTED_MODULE_2__["VehicleTypes"].length; i++) {
-                if (trip.vehicle_type === _services_database_service__WEBPACK_IMPORTED_MODULE_2__["VehicleTypes"][i]) {
+            for (let i = 0; i < this.chartLabels.length; i++) {
+                if (trip.vehicle_type === this.chartLabels[i]) {
                     count[i] += this.database.distance(trip);
                     valid_type = true;
                 }
