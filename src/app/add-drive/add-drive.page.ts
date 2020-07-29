@@ -103,19 +103,16 @@ export class AddDrivePage implements OnInit {
           // check license 
           if (value == 'MSS') {
             if (this.database.current.user.mss_certified == false){
-              console.log("No license")
               canDrive.push({text: value + " - NO LICENSE", ready: false})
             }
           }
           else if (value == 'FLB') {
             if (this.database.current.user.flb_certified == false){
-              console.log("No license")
               canDrive.push({text: value + " - NO LICENSE", ready: false})
             }
           }
           else if (value == 'BELREX') {
             if (this.database.current.user.belrex_certified == false){
-              console.log("No license")
               canDrive.push({text: value + " - NO LICENSE", ready: false})
             }
           }
@@ -123,32 +120,12 @@ export class AddDrivePage implements OnInit {
           // check currency / JIT test
           var daysLastDriven = this.calculateDiff(this.database.current.stats.most_recent_drive_by_vehicle_type[value].$d);
           if (daysLastDriven <= 10){ // || this.database.current.stats.JIT==true){
-              console.log("Current")
               canDrive.push({text: value, ready: true});
           }
           else {
-            console.log("Not current")
             canDrive.push({text: value + " - NOT CURRENT", ready: false});         
           }
         });
-/*
-            if (value == 'MSS') {
-                if (this.database.current.user.mss_certified == true 
-                  canDrive = canDrive.filter( vtype => vtype == 'MSS');
-                }
-            }
-
-            else if (value == 'FLB') {
-                if (this.database.current.user.flb_certified != true || this.calculateDiff(this.database.current.stats.most_recent_drive_by_vehicle_type['FLB'].date) < 10) {
-                  canDrive = canDrive.filter( vtype => vtype == 'FLB');
-                }
-            }
-            else if (value == 'BELREX') {
-                if (this.database.current.user.belrex_certified != true || this.calculateDiff(this.database.current.stats.most_recent_drive_by_vehicle_type['BELREX'].date) <    10) {
-                  canDrive = canDrive.filter( vtype => vtype == 'BELREX');
-                }
-            }
-        });*/
 
         console.log(canDrive)
         return canDrive;
