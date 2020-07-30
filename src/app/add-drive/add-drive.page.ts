@@ -22,7 +22,7 @@ export class AddDrivePage implements OnInit {
   today = new Date().toISOString();
   drive;
   updateStatus;
-  showStatus = true;
+  showStatus = true;ƒ
   isToggled = false;
   isDisabled;
   mtrac;
@@ -89,20 +89,59 @@ export class AddDrivePage implements OnInit {
     }
     return true;
   }
-
-  public getapprovedvtypes(): string[] {
+  // prevent user from selecting vehicle types that they are not current in - 10 days?
+  public getapprovedvtypes(): Array<{text:string, ready: boolean}>[] {
         var vtypes =  VehicleTypes
-        if (this.database.current.user.mss_certified != true) {
-            vtypes = vtypes.filter( vtype => vtype != 'MSS');
-        }
-        if (this.database.current.user.flb_certified != true) {
-            vtypes = vtypes.filter( vtype => vtype != 'FLB');
-        }
-        if (this.database.current.user.belrex_certified != true) {
-            vtypes = vtypes.filter( vtype => vtype != 'BELREX');
-        }
-        return vtypes
 
+        var driven = Object.keys(this.database.current.stats.most_recent_drive_by_vehicle_type);
+
+        var canDrive = [];
+
+        console.log(canDrive);
+
+        driven.forEach((value) => {
+          // check license 
+          if (value == 'MSS') {
+            if (this.database.current.user.mss_certified == false){
+              canDrive.push({text: value + " - NO LICENSE", ready: false})
+            }
+          }
+          else if (value == 'FLB') {
+            if (this.database.current.user.flb_certified == false){
+              canDrive.push({text: value + " - NO LICENSE", ready: false})
+            }
+          }
+          else if (value == 'BELREX') {
+            if (this.database.current.user.belrex_certified == false){
+              canDrive.push({text: value + " - NO LICENSE", ready: false})
+            }
+          }
+
+          // check currency / JIT test
+          var daysLastDriven = this.calculateDiff(this.database.current.stats.most_recent_drive_by_vehicle_type[value].$d);
+          if (daysLastDriven <= 10){ // || this.database.current.stats.JIT==true){
+              canDrive.push({text: value, ready: true});
+          }
+          else {
+            canDrive.push({text: value + " - NOT CURRENT", ready: false});         
+          }
+        });
+
+        console.log(canDrive)
+        return canDrive;
+  }
+
+  calculateDiff(dateSent){
+    let currentDate = new Date();
+    dateSent = new Date(dateSent);
+
+    return Math.floor((Date.UTC(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate()) - Date.UTC(dateSent.getFullYear(), dateSent.getMonth(), dateSent.getDate()) ) /(1000 * 60 * 60 * 24));
+    }
+
+  checkOperatorCurrencyValid(date:any){
+    const today = dayjs();
+    var period = 10;
+    return today.diff(date,"day") < period ;
   }
 
   ngOnInit() {
@@ -322,20 +361,23 @@ export class AddDrivePage implements OnInit {
 
   async addDrive(value) {
     console.log('is Commander: ' + this.database.current.user.is_commander);
-    if (this.drive.commander == this.database.current.user.email) {
-      // commander has verified/rejected drive, update drive status.
-      this.drive.status = this.addDriveForm.get('driveStatus').value;
-      console.log('Drive status: ' + this.drive.status);
-      // update status in database
-      await this.database.write('drive', this.drive.id, this.drive);
-      this.errorMessage = '';
-      this.successMessage = 'The drive status has been updated successfully.';
-      this.showToast(this.successMessage);
+    if (this.drive!=null) {
+      if (this.drive.commander == this.database.current.user.email) {
+        // commander has verified/rejected drive, update drive status.
+        this.drive.status = this.addDriveForm.get('driveStatus').value;
+        console.log('Drive status: ' + this.drive.status);
+        // update status in database
+        await this.database.write('drive', this.drive.id, this.drive);
+        this.errorMessage = '';
+        this.successMessage = 'The drive status has been updated successfully.';
+        this.showToast(this.successMessage);
+        }
 
-    } else if (this.database.current.drive_in_progress != null || this.drive != null) {
-      // the submit is to complete the drive information
-      console.log('Updating start and end drive details...');
-      this.endDrive(value);
+      else if (this.database.current.drive_in_progress != null || this.drive != null) {
+        // the submit is to complete the drive information
+        console.log('Updating start and end drive details...');
+        this.endDrive(value);
+    }
     } else { // the submit is to capture start drive information
       try {
         this.mtrac = this.database.current.mtrac_to_edit;

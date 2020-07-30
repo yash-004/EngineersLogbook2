@@ -61,7 +61,7 @@
           <ion-item>
             <ion-label position="floating">Vehicle Type</ion-label>
             <ion-select formControlName="vehicleType" interface="popover">
-              <ion-select-option text-wrap *ngFor="let vty of getapprovedvtypes()" value={{vty}}>{{vty}}</ion-select-option>
+              <ion-select-option text-wrap *ngFor="let vty of getapprovedvtypes()" value={{vty.text}} disabled={{!vty.ready}}>{{vty.text}}</ion-select-option>
             </ion-select>
           </ion-item>
           <div class="validation-errors">

@@ -30,7 +30,6 @@ log.txt
 
 # NPM (Node Package Manager) files
 npm-debug.log*
-node_modules/
 tmp/
 temp/
 
@@ -49,6 +48,7 @@ www/
 
 # Trash data
 $RECYCLE.BIN/
+.vscode/
 .DS_Store
 Thumbs.db
 UserInterfaceState.xcuserstate
