@@ -21,7 +21,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     /* harmony default export */
 
 
-    __webpack_exports__["default"] = "<ion-header >\n  <ion-toolbar>\n    <ion-title>History</ion-title>\n    <ion-buttons slot=\"primary\">\n      <ion-button left routerLink=\"/\" routerDirection=\"root\" fill=\"clear\" slot=\"primary\">\n        Logout<ion-icon name=\"log-out\"></ion-icon>\n      </ion-button>\n    </ion-buttons>\n  </ion-toolbar>\n</ion-header>\n\n<ion-card>\n  <ion-list>\n    <ion-item>\n      <ion-label position=\"stacked\">Vehicle Type</ion-label>\n      <ion-select id=\"vehitype\" interface=\"popover\" value=\"ALL\">\n        <ion-select-option value=\"ALL\">ALL</ion-select-option>\n        <ion-select-option *ngFor =\"let vehicle of database.current.stats.most_recent_drive_by_vehicle_type | keyvalue\" value={{vehicle.key}} class=\"custom-font-size\">{{vehicle.key}}</ion-select-option>\n      </ion-select>\n    </ion-item>\n  </ion-list>\n</ion-card>\n\n<ion-content>\n\n  <!-- Month/date Selector (Sticky header) -->\n\n  <ion-item-divider sticky>\n    <ion-grid>\n      <ion-row class=\"vertical-align-content\">\n        <ion-col no-padding text-center size=3>\n            <ion-button size=\"small\" (click)=\"incrementFilterPeriod(-1)\"><ion-icon name=\"return-left\"></ion-icon></ion-button>\n        </ion-col>\n\n        <ion-col no-padding text-center>\n          <h4>{{getFilterPeriodString()}}</h4>\n        </ion-col>\n\n        <ion-col no-padding text-center size=3>\n            <ion-button size=\"small\" (click)=\"incrementFilterPeriod(+1)\"><ion-icon name=\"return-right\"></ion-icon></ion-button>\n        </ion-col>\n\n      </ion-row>\n    </ion-grid>\n  </ion-item-divider>\n\n  <div style=\"display: block\">\n    <canvas baseChart\n                [data]=\"chartData\"\n                [labels]=\"chartLabels\"\n                [chartType]=\"chartType\"\n                [colors]=\"chartColors\"\n                (chartHover)=\"chartHovered($event)\"\n                (chartClick)=\"chartClicked($event)\"></canvas>\n  </div>\n\n\n\n  <ion-card *ngFor=\"let trip of getDrives()\">\n    <br>\n    <app-drive-view expandHeight='150px' expandWidth='100px' [drive]=\"trip\"></app-drive-view>\n  </ion-card>\n\n</ion-content>\n<!--\n    <ion-row >\n      <ion-col align=\"center\">\n      <ion-card >\n    <ion-card-header>\n      <ion-card-subtitle>\n          <ion-item class=\"card\">\n          <ion-label position=\"floating\"></ion-label>\n          <ion-input disabled type=\"date\" name=\"text_drivedate\" color=\"success\">  </ion-input>\n            </ion-item>\n        </ion-card-subtitle>\n      <ion-card-title>\n        <ion-item class=\"card\" >\n          <ion-label color=\"success\" position=\"floating\">VehicleType</ion-label>\n          <ion-input color=\"success\" disabled type=\"number\" name=\"text_drivevehicletype\">  </ion-input>\n            </ion-item>\n    </ion-card-title>\n    </ion-card-header>\n  \n    <ion-card-content>\n      \n      <ion-grid>\n        <ion-row>\n          <ion-col >\n            <ion-item class=\"card\">\n          <ion-label color=\"success\" position=\"floating\">Total Time Driven</ion-label>\n          <ion-input disabled type=\"number\" name=\"text_driveduration\" color=\"success\">  </ion-input>\n            </ion-item>\n          </ion-col>\n          <ion-col>\n            <ion-item class=\"card\">\n          <ion-label color=\"success\" position=\"floating\">Total Mileage</ion-label>\n          <ion-input disabled type=\"number\" name=\"text_drivemileage\" color=\"success\">  </ion-input>\n            </ion-item>\n          </ion-col>\n        </ion-row>\n      </ion-grid>\n\n    </ion-card-content>\n  </ion-card>\n\n      </ion-col>\n    </ion-row>\n-->\n\n";
+    __webpack_exports__["default"] = "<ion-header >\r\n  <ion-toolbar>\r\n    <ion-title>History</ion-title>\r\n    <ion-buttons slot=\"primary\">\r\n      <ion-button left routerLink=\"/\" routerDirection=\"root\" fill=\"clear\" slot=\"primary\">\r\n        Logout<ion-icon name=\"log-out\"></ion-icon>\r\n      </ion-button>\r\n    </ion-buttons>\r\n  </ion-toolbar>\r\n</ion-header>\r\n\r\n<ion-card>\r\n  <ion-list>\r\n    <ion-item>\r\n      <ion-label position=\"stacked\">Vehicle Type</ion-label>\r\n      <ion-select id=\"vehitype\" interface=\"popover\" value=\"ALL\">\r\n        <ion-select-option value=\"ALL\">ALL</ion-select-option>\r\n        <ion-select-option *ngFor =\"let vehicle of database.current.stats.most_recent_drive_by_vehicle_type | keyvalue\" value={{vehicle.key}} class=\"custom-font-size\">{{vehicle.key}}</ion-select-option>\r\n      </ion-select>\r\n    </ion-item>\r\n  </ion-list>\r\n</ion-card>\r\n\r\n<ion-content>\r\n\r\n  <!-- Month/date Selector (Sticky header) -->\r\n\r\n  <ion-item-divider sticky>\r\n    <ion-grid>\r\n      <ion-row class=\"vertical-align-content\">\r\n        <ion-col no-padding text-center size=3>\r\n            <ion-button size=\"small\" (click)=\"incrementFilterPeriod(-1)\"><ion-icon name=\"return-left\"></ion-icon></ion-button>\r\n        </ion-col>\r\n\r\n        <ion-col no-padding text-center>\r\n          <h4>{{getFilterPeriodString()}}</h4>\r\n        </ion-col>\r\n\r\n        <ion-col no-padding text-center size=3>\r\n            <ion-button size=\"small\" (click)=\"incrementFilterPeriod(+1)\"><ion-icon name=\"return-right\"></ion-icon></ion-button>\r\n        </ion-col>\r\n\r\n      </ion-row>\r\n    </ion-grid>\r\n  </ion-item-divider>\r\n\r\n  <div style=\"display: block\">\r\n    <canvas baseChart\r\n                [data]=\"chartData\"\r\n                [labels]=\"chartLabels\"\r\n                [chartType]=\"chartType\"\r\n                [colors]=\"chartColors\"\r\n                (chartHover)=\"chartHovered($event)\"\r\n                (chartClick)=\"chartClicked($event)\"></canvas>\r\n  </div>\r\n\r\n  <ion-card>\r\n      <div class=\"ion-text-center\" style=\"width: 100%;\">\r\n        <ion-icon name=\"speedometer\" size=\"small\"></ion-icon>\r\n        <ion-label class=\"slide_num\" *ngIf=\"getFilterPeriodString()=='All'\"> Total Mileage: {{getMileage()}} km</ion-label>\r\n        <ion-label *ngIf=\"getFilterPeriodString()!='All'\" class=\"slide_num\"> {{getFilterPeriodString()}} Total Mileage: {{getMileage()}} km</ion-label><br>\r\n        <ion-col *ngFor=\"let vehicle of database.current.stats.most_recent_drive_by_vehicle_type | keyvalue\">\r\n          {{vehicle.key}} : {{getMileagebyVehicleType(vehicle.key)}}\r\n        </ion-col>\r\n      </div>\r\n  </ion-card>\r\n\r\n  <ion-card *ngFor=\"let trip of getDrives()\">\r\n    <br>\r\n    <app-drive-view expandHeight='150px' expandWidth='100px' [drive]=\"trip\"></app-drive-view>\r\n  </ion-card>\r\n\r\n</ion-content>\r\n<!--\r\n    <ion-row >\r\n      <ion-col align=\"center\">\r\n      <ion-card >\r\n    <ion-card-header>\r\n      <ion-card-subtitle>\r\n          <ion-item class=\"card\">\r\n          <ion-label position=\"floating\"></ion-label>\r\n          <ion-input disabled type=\"date\" name=\"text_drivedate\" color=\"success\">  </ion-input>\r\n            </ion-item>\r\n        </ion-card-subtitle>\r\n      <ion-card-title>\r\n        <ion-item class=\"card\" >\r\n          <ion-label color=\"success\" position=\"floating\">VehicleType</ion-label>\r\n          <ion-input color=\"success\" disabled type=\"number\" name=\"text_drivevehicletype\">  </ion-input>\r\n            </ion-item>\r\n    </ion-card-title>\r\n    </ion-card-header>\r\n  \r\n    <ion-card-content>\r\n      \r\n      <ion-grid>\r\n        <ion-row>\r\n          <ion-col >\r\n            <ion-item class=\"card\">\r\n          <ion-label color=\"success\" position=\"floating\">Total Time Driven</ion-label>\r\n          <ion-input disabled type=\"number\" name=\"text_driveduration\" color=\"success\">  </ion-input>\r\n            </ion-item>\r\n          </ion-col>\r\n          <ion-col>\r\n            <ion-item class=\"card\">\r\n          <ion-label color=\"success\" position=\"floating\">Total Mileage</ion-label>\r\n          <ion-input disabled type=\"number\" name=\"text_drivemileage\" color=\"success\">  </ion-input>\r\n            </ion-item>\r\n          </ion-col>\r\n        </ion-row>\r\n      </ion-grid>\r\n\r\n    </ion-card-content>\r\n  </ion-card>\r\n\r\n      </ion-col>\r\n    </ion-row>\r\n-->\r\n\r\n";
     /***/
   },
 
@@ -131,7 +131,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     /* harmony default export */
 
 
-    __webpack_exports__["default"] = ".vertical-align-content > * {\n  display: -webkit-box !important;\n  display: flex !important;\n  align-content: center !important;\n  -webkit-box-align: center !important;\n          align-items: center !important;\n  -webkit-box-pack: center !important;\n          justify-content: center !important;\n}\n\n.custom-font-size {\n  font-size: 0.8em;\n}\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9Vc2Vycy9sZXdpc3RoYW0vR2l0SHViL0VuZ2luZWVyc0xvZ2Jvb2syL3NyYy9hcHAvcGFnZXMvaGlzdG9yeS9oaXN0b3J5LnBhZ2Uuc2NzcyIsInNyYy9hcHAvcGFnZXMvaGlzdG9yeS9oaXN0b3J5LnBhZ2Uuc2NzcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiQUFBQTtFQUVLLCtCQUFBO0VBQUEsd0JBQUE7RUFDQSxnQ0FBQTtFQUNBLG9DQUFBO1VBQUEsOEJBQUE7RUFDQSxtQ0FBQTtVQUFBLGtDQUFBO0FDQUw7O0FERUE7RUFDSSxnQkFBQTtBQ0NKIiwiZmlsZSI6InNyYy9hcHAvcGFnZXMvaGlzdG9yeS9oaXN0b3J5LnBhZ2Uuc2NzcyIsInNvdXJjZXNDb250ZW50IjpbIi52ZXJ0aWNhbC1hbGlnbi1jb250ZW50ID4gKlxue1xuICAgICBkaXNwbGF5OiBmbGV4IWltcG9ydGFudDtcbiAgICAgYWxpZ24tY29udGVudDogY2VudGVyIWltcG9ydGFudDtcbiAgICAgYWxpZ24taXRlbXM6IGNlbnRlciFpbXBvcnRhbnQ7ICAvLyB2ZXJ0aWNhbCBhbGlnbm1lbnRcbiAgICAganVzdGlmeS1jb250ZW50OiBjZW50ZXIgIWltcG9ydGFudDsgIC8vIGhvcml6b250YWwgYWxpZ25tZW50XG59XG4uY3VzdG9tLWZvbnQtc2l6ZSB7XG4gICAgZm9udC1zaXplOiAwLjhlbTtcbn0iLCIudmVydGljYWwtYWxpZ24tY29udGVudCA+ICoge1xuICBkaXNwbGF5OiBmbGV4ICFpbXBvcnRhbnQ7XG4gIGFsaWduLWNvbnRlbnQ6IGNlbnRlciAhaW1wb3J0YW50O1xuICBhbGlnbi1pdGVtczogY2VudGVyICFpbXBvcnRhbnQ7XG4gIGp1c3RpZnktY29udGVudDogY2VudGVyICFpbXBvcnRhbnQ7XG59XG5cbi5jdXN0b20tZm9udC1zaXplIHtcbiAgZm9udC1zaXplOiAwLjhlbTtcbn0iXX0= */";
+    __webpack_exports__["default"] = ".vertical-align-content > * {\n  display: -webkit-box !important;\n  display: flex !important;\n  align-content: center !important;\n  -webkit-box-align: center !important;\n          align-items: center !important;\n  -webkit-box-pack: center !important;\n          justify-content: center !important; }\n\n.custom-font-size {\n  font-size: 0.8em; }\n\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInNyYy9hcHAvcGFnZXMvaGlzdG9yeS9DOlxcVXNlcnNcXFJ1aVxcQW5kcm9pZFN0dWRpb1Byb2plY3RzXFxFbmdpbmVlcnNMb2dib29rMi9zcmNcXGFwcFxccGFnZXNcXGhpc3RvcnlcXGhpc3RvcnkucGFnZS5zY3NzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQUFBO0VBRUssK0JBQXVCO0VBQXZCLHdCQUF1QjtFQUN2QixnQ0FBK0I7RUFDL0Isb0NBQTZCO1VBQTdCLDhCQUE2QjtFQUM3QixtQ0FBa0M7VUFBbEMsa0NBQWtDLEVBQUE7O0FBRXZDO0VBQ0ksZ0JBQWdCLEVBQUEiLCJmaWxlIjoic3JjL2FwcC9wYWdlcy9oaXN0b3J5L2hpc3RvcnkucGFnZS5zY3NzIiwic291cmNlc0NvbnRlbnQiOlsiLnZlcnRpY2FsLWFsaWduLWNvbnRlbnQgPiAqXHJcbntcclxuICAgICBkaXNwbGF5OiBmbGV4IWltcG9ydGFudDtcclxuICAgICBhbGlnbi1jb250ZW50OiBjZW50ZXIhaW1wb3J0YW50O1xyXG4gICAgIGFsaWduLWl0ZW1zOiBjZW50ZXIhaW1wb3J0YW50OyAgLy8gdmVydGljYWwgYWxpZ25tZW50XHJcbiAgICAganVzdGlmeS1jb250ZW50OiBjZW50ZXIgIWltcG9ydGFudDsgIC8vIGhvcml6b250YWwgYWxpZ25tZW50XHJcbn1cclxuLmN1c3RvbS1mb250LXNpemUge1xyXG4gICAgZm9udC1zaXplOiAwLjhlbTtcclxufSJdfQ== */";
     /***/
   },
 
@@ -239,11 +239,12 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
         this.select_month = 0;
         this.select_year = 0; // Build Doughnut chart of mileage per VehicleType
 
-        this.chartLabels = _services_database_service__WEBPACK_IMPORTED_MODULE_2__["VehicleTypes"];
+        this.chartLabels = Object.keys(this.database.current.stats.most_recent_drive_by_vehicle_type);
         this.chartData = [0, 0, 0, 0];
         this.chartType = 'doughnut';
         this.chartColors = [{
-          backgroundColor: ["rgba(255,99,132,1)", "rgba(54, 162, 235, 1)", "rgba(255, 206, 86, 1)", "rgba(75, 192, 192, 1)", "rgba(153, 102, 255, 1)"]
+          backgroundColor: ["rgba(255,99,132,0.2)", "rgba(54, 162, 235,0.2)", "rgba(255, 206, 86,0.2)", "rgba(75, 192, 192,0.2)", "rgba(153, 102, 255,0.2)"],
+          borderColor: ["rgba(255,99,132, 1)", "rgba(54, 162, 235, 1)", "rgba(255, 206, 86, 1)", "rgba(75, 192, 192, 1)", "rgba(153, 102, 255, 1)"]
         }];
       }
 
@@ -266,6 +267,71 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
               _this.database.write('user', _this.database.current.user.email, _this.database.current.user);
             }
           });
+        }
+      }, {
+        key: "getMileage",
+        value: function getMileage() {
+          var mileage = 0;
+          var drives = this.getDrives();
+          var _iteratorNormalCompletion = true;
+          var _didIteratorError = false;
+          var _iteratorError = undefined;
+
+          try {
+            for (var _iterator = drives[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+              var d = _step.value;
+              mileage += d.end_odometer - d.start_odometer;
+            }
+          } catch (err) {
+            _didIteratorError = true;
+            _iteratorError = err;
+          } finally {
+            try {
+              if (!_iteratorNormalCompletion && _iterator["return"] != null) {
+                _iterator["return"]();
+              }
+            } finally {
+              if (_didIteratorError) {
+                throw _iteratorError;
+              }
+            }
+          }
+
+          return mileage;
+        }
+      }, {
+        key: "getMileagebyVehicleType",
+        value: function getMileagebyVehicleType(vehicle) {
+          var mileage = 0;
+          var drives = this.getDrives();
+          var _iteratorNormalCompletion2 = true;
+          var _didIteratorError2 = false;
+          var _iteratorError2 = undefined;
+
+          try {
+            for (var _iterator2 = drives[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
+              var d = _step2.value;
+
+              if (d.vehicle_type == vehicle) {
+                mileage += d.end_odometer - d.start_odometer;
+              }
+            }
+          } catch (err) {
+            _didIteratorError2 = true;
+            _iteratorError2 = err;
+          } finally {
+            try {
+              if (!_iteratorNormalCompletion2 && _iterator2["return"] != null) {
+                _iterator2["return"]();
+              }
+            } finally {
+              if (_didIteratorError2) {
+                throw _iteratorError2;
+              }
+            }
+          }
+
+          return mileage;
         }
       }, {
         key: "getDrives",
@@ -301,9 +367,9 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
           }
         }
         /*public getDrives() : Drive[] {
-             var drives = this.database.current.drive_history;
-             if (!this.select_month && !this.select_year) return drives; // No filter
-             return drives.filter( (drive) => {
+              var drives = this.database.current.drive_history;
+              if (!this.select_month && !this.select_year) return drives; // No filter
+              return drives.filter( (drive) => {
             var elem = drive.date.split("-");
             return (!this.select_year||parseInt(elem[0])==this.select_year)
               && (!this.select_month||parseInt(elem[1])==this.select_month);
@@ -368,12 +434,12 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
         value: function buildChart() {
           var _this3 = this;
 
-          var count = Array(_services_database_service__WEBPACK_IMPORTED_MODULE_2__["VehicleTypes"].length).fill(0);
+          var count = Array(this.chartLabels.length).fill(0);
           this.getDrives().map(function (trip) {
             var valid_type = false;
 
-            for (var i = 0; i < _services_database_service__WEBPACK_IMPORTED_MODULE_2__["VehicleTypes"].length; i++) {
-              if (trip.vehicle_type === _services_database_service__WEBPACK_IMPORTED_MODULE_2__["VehicleTypes"][i]) {
+            for (var i = 0; i < _this3.chartLabels.length; i++) {
+              if (trip.vehicle_type === _this3.chartLabels[i]) {
                 count[i] += _this3.database.distance(trip);
                 valid_type = true;
               }
