@@ -234,14 +234,14 @@ export class AddDrivePage implements OnInit {
     console.log('update status? ' + this.updateStatus);
     this.setStartDriveDetails();
     this.setEndDriveDetails();
-    this.setDriveStatusControls();
+  //  this.setDriveStatusControls();
 
     // if commander and drive status is pending, add verified and reject controls
     // else display ok button
     if (this.drive.commander == this.database.current.user.email && this.drive.status === 'pending') {
       console.log('commander need to approve/reject drive');
       this.updateStatus = true;
-      this.addDriveForm.get('driveStatus').setValidators(Validators.required);
+      //this.addDriveForm.get('driveStatus').setValidators(Validators.required);
       this.addDriveForm.get('radioVerify').enable();
       this.addDriveForm.get('radioReject').enable();
     }
@@ -273,7 +273,7 @@ export class AddDrivePage implements OnInit {
     this.addDriveForm.reset();
     this.setStartDriveDetails();
     this.setEndDriveDetails();
-    this.setDriveStatusControls();
+    //this.setDriveStatusControls();
   }
 
   setStartDriveDetails() {
@@ -303,12 +303,13 @@ export class AddDrivePage implements OnInit {
     this.isToggled = this.drive.is_maintenance;
   }
 
+  /*
   setDriveStatusControls() {
     if (this.showStatus) {
       this.addDriveForm.get('driveStatus').setValue(this.drive.status);
       console.log(this.addDriveForm.get('driveStatus').value);
     }
-  }
+  }*/
 
   async endDrive(value) {
     // added this check as end drive details can be saved despite missing info.
@@ -364,7 +365,7 @@ export class AddDrivePage implements OnInit {
     if (this.drive!=null) {
       if (this.drive.commander == this.database.current.user.email) {
         // commander has verified/rejected drive, update drive status.
-        this.drive.status = this.addDriveForm.get('driveStatus').value;
+        //this.drive.status = this.addDriveForm.get('driveStatus').value;
         console.log('Drive status: ' + this.drive.status);
         // update status in database
         await this.database.write('drive', this.drive.id, this.drive);
@@ -447,5 +448,12 @@ export class AddDrivePage implements OnInit {
   showSubmit() {
     if (this.updateStatus || !this.isDisabled) { return true; }
     return false;
+  }
+
+  accept() {
+    this.drive.status="verified"
+  }
+  reject() {
+    this.drive.status="rejected"
   }
 }

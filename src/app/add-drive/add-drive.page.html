@@ -210,26 +210,14 @@
         </ion-item>
       </ion-card-content>
     </ion-card>
-   <ion-card *ngIf=(showStatus)>
-      <ion-list>
-      <ion-radio-group formControlName="driveStatus">
-        <ion-item>
-          <ion-label>Verified Drive</ion-label>
-          <ion-radio value='verified' formControlName='radioVerify'>Verify drive</ion-radio>
-        </ion-item>
-        <ion-item>
-          <ion-label>Reject Drive</ion-label>
-          <ion-radio value='rejected' formControlName='radioReject'>Reject Drive</ion-radio>
-        </ion-item>
-      </ion-radio-group>
-      </ion-list>
-    </ion-card>
 
     <div class="btn-wrapper">
       <div *ngIf = showSubmit()>
-        <ion-button *ngIf = this.database.current.user.is_commander routerLink="/tabs/commander">Cancel</ion-button>
+        <ion-button *ngIf = this.database.current.user.is_commander routerLink="/tabs/commander" s>Cancel</ion-button>
         <ion-button *ngIf = !this.database.current.user.is_commander routerLink="/tabs/summary">Cancel</ion-button>
-        <ion-button *ngIf = this.database.current.user.is_commander class="submit-btn" type="submit" routerLink="/tabs/commander" [disabled]="!addDriveForm.valid || addDriveForm.get('driveStatus').value == null " style="padding-right:10px">Submit
+        <ion-button *ngIf = this.database.current.user.is_commander class="submit-btn" color="danger" (click)="reject()" type="submit" routerLink="/tabs/commander" [disabled]="!addDriveForm.valid ">Reject Drive
+        </ion-button>           
+        <ion-button *ngIf = this.database.current.user.is_commander class="submit-btn" color="success" (click)="accept()" type="submit" routerLink="/tabs/commander" [disabled]="!addDriveForm.valid " style="padding-right:10px">Verify Drive
         </ion-button>
         <ion-button *ngIf = !this.database.current.user.is_commander class="submit-btn" type="submit" routerLink="/tabs/summary" [disabled]="!addDriveForm.valid" style="padding-right:10px">
           Submit

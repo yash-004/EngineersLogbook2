@@ -11,7 +11,7 @@
 @import '../font-lato.css';
 
 * {
-  opacity: 1 !important;  // disabled form items will not be grey out. (this needs to be global)
+  --checkbox-ios-disabled-opacity: 1 !important; --checkbox-md-disabled-opacity: 1 !important;
 }
 
 /** Ionic CSS Variables **/
