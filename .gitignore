@@ -32,6 +32,7 @@ log.txt
 npm-debug.log*
 tmp/
 temp/
+node_modules/
 
 # Preprocessors cache files
 .sourcemaps/
