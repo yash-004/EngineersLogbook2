@@ -1,10 +1,16 @@
-FROM node:13-alpine as build
-WORKDIR /app
+FROM node:13.3.0 AS compile-image
+
 RUN npm install -g yarn
-RUN yarn add ionic
-RUN yarn add
-COPY ./ /app/
-RUN npm run-script build:prod
-FROM nginx:alpine
-RUN rm -rf /usr/share/nginx/html/*
-COPY --from=build /app/www/ /usr/share/nginx/html/
+
+WORKDIR /opt/ng
+COPY .npmrc package.json yarn.lock ./
+RUN yarn install
+
+ENV PATH="./node_modules/.bin:$PATH" 
+
+COPY . ./
+RUN ng build --prod
+
+FROM nginx
+COPY docker/nginx/default.conf /etc/nginx/conf.d/default.conf
+COPY --from=compile-image /opt/ng/dist/app-name /usr/share/nginx/html
