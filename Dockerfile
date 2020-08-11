@@ -1,5 +1,7 @@
 FROM node:13-alpine as build
+RUN ls
 WORKDIR /app
+RUN ls
 RUN rm package-lock.json
 COPY package*.json /app/
 RUN npm install -g yarn
