@@ -291,12 +291,12 @@ export class SummaryPage implements OnInit {
           data: mileage,
           borderWidth: 2,
           backgroundColor: [
-            "rgba(255, 99, 132, 0.2)",
-            "rgba(54, 162, 235, 0.2)",
-            "rgba(255, 206, 86, 0.2)",
-            "rgba(75, 192, 192, 0.2)",
-            "rgba(153, 102, 255, 0.2)",
-            "rgba(255, 159, 64, 0.2)"
+            "rgba(255, 99, 132, 0.5)",
+            "rgba(54, 162, 235, 0.5)",
+            "rgba(255, 206, 86, 0.5)",
+            "rgba(75, 192, 192, 0.5)",
+            "rgba(153, 102, 255, 0.5)",
+            "rgba(255, 159, 64, 0.5)"
           ],
           borderColor: [
             "rgba(255,99,132,1)",
@@ -356,20 +356,20 @@ export class SummaryPage implements OnInit {
             borderWidth: 1,
             data : [value, value],
             backgroundColor: [
-              "rgb(255, 99, 132, 0.2)",
-              "rgb(255, 99, 132, 0.2)",],
+              "rgb(54, 162, 235, 0.5)",
+              "rgb(255, 205, 86, 0.5)",],
             borderColor: [
-              "rgb(255, 99, 132, 1)",
-              "rgb(255, 99, 132, 1)",]
+              "rgb(54, 162, 235, 1)",
+              "rgb(255, 205, 86, 1)",]
         },{
             label: "Overseas",
             borderWidth: 1,
             data : [overseas, 0],
             backgroundColor: [
-              "rgb(255, 205, 86, 0.2)",
+              "rgb(155, 155, 155, 0.5)",
               ],
             borderColor: [
-              "rgb(255, 205, 86, 1)",
+              "rgb(155, 155, 155, 1)",
               ]
         },
         {
@@ -377,12 +377,12 @@ export class SummaryPage implements OnInit {
             borderWidth: 1,
             data : [0, max_value],
             backgroundColor: [
-              "rgb(54, 162, 235, 0.2)",
-              "rgb(54, 162, 235, 0.2)",
+              "rgb(155, 155, 155, 0.5)",
+              "rgb(155, 155, 155, 0.5)",
               ],
             borderColor: [
-              "rgb(54, 162, 235, 1)",
-              "rgb(54, 162, 235, 1)",
+              "rgb(255, 205, 86, 1)",
+              "rgb(155, 155, 155, 1)",
               ]
         }
       ]
