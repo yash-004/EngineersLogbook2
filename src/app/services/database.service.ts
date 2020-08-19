@@ -167,8 +167,8 @@ export interface Login
   detach_bind_user?: any;
   snapshot_wait: number;
 }
-
-export const VehicleTypes: string[] = [ 'BELREX', 'MSS', '5TON', 'OUV', 'FLB', 'M3G' ];
+//Vehicle Type B for BELREX,MS for MSS,T for 5TON, O for OUV, F for FLB, M3 for M3G
+export const VehicleTypes: string[] = [ 'B', 'MS', 'T', 'O', 'F', 'M3' ];
 
 @Injectable()
 export class DatabaseService {
