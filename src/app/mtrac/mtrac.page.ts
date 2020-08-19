@@ -51,13 +51,38 @@ export class mtracPage implements OnInit {
         { type: 'required', message: 'select drive area' },],
 };
 
+  public licenseTypes = [{value:"L",text:"CAT A, B"},{value:"M",text:"CAT C"},{value:"H",text:"CAT D"},{value:"N",text:"Have never been trained and familiarized in the vehicle that you will be driving"}] 
+  public selectedLicense;
+
   constructor(
     private navCtrl: NavController,
     private formBuilder: FormBuilder,
     public toastController: ToastController,
     public database: DatabaseService,
     public route: ActivatedRoute
-  ) { }
+  ) {
+      // Autoselect correct license
+      this.selectLicenseType();
+      console.log(this.selectedLicense)
+  }
+
+
+  public selectLicenseType() {
+    // Autofill Driving Experience License Type based on Cat status from driver's licensetype
+    console.log(this.database.current.user.licence_type)
+    if (this.database.current.user.licence_type == "A" || this.database.current.user.licence_type == "B"){
+      this.selectedLicense = this.licenseTypes[0].value
+    } 
+    else if (this.database.current.user.licence_type == "C"){
+      this.selectedLicense = this.licenseTypes[1].value
+    } 
+    else if (this.database.current.user.licence_type == "D"){
+      this.selectedLicense = this.licenseTypes[2].value
+    } 
+    else{
+      this.selectedLicense = this.licenseTypes[3].value
+    }
+  }
 
   ngOnInit() {
       this.mtracForm = this.formBuilder.group({
@@ -187,6 +212,9 @@ export class mtracPage implements OnInit {
     this.mtracForm.get('commandermtrac').setValue(this.mtrac.commandermtrac);
     this.mtracForm.get('drivermtrac').setValue(this.mtrac.drivermtrac);
     }
+
+
+ 
 
   gettime() {
     var cd = new Date(); // for now

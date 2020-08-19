@@ -119,7 +119,7 @@ export class AddDrivePage implements OnInit {
 
           // check currency / JIT test
           var daysLastDriven = this.calculateDiff(this.database.current.stats.most_recent_drive_by_vehicle_type[value].$d);
-          if (daysLastDriven <= 10){ // || this.database.current.stats.JIT==true){
+          if (daysLastDriven <= 100){ // || this.database.current.stats.JIT==true){
               canDrive.push({text: value, ready: true});
           }
           else {
