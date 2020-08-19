@@ -61,11 +61,8 @@
 
       <ion-col><ion-item>
         <ion-label ><strong>Driving Experience</strong></ion-label>
-        <ion-select [ngStyle]="{'color': 'black'}"  formControlName="licenseType" interface="popover" text-left>
-          <ion-select-option text-wrap value="L">CAT A, B</ion-select-option>
-          <ion-select-option text-wrap value="M">CAT C</ion-select-option>
-          <ion-select-option text-wrap value="H">CAT D</ion-select-option>
-          <ion-select-option text-wrap value="N">Have never been trained and familiarized in the vehicle that you will be driving</ion-select-option>
+        <ion-select [ngModel]="selectedLicense" [ngStyle]="{'color': 'black'}"  formControlName="licenseType" interface="popover" text-left>
+          <ion-select-option text-wrap *ngFor="let licenseType of licenseTypes" [value]=licenseType.value>{{licenseType.text}}</ion-select-option>
         </ion-select></ion-item>
         <div class="validation-errors">
           <ng-container *ngFor="let validation of validationMessages.licenseType">
