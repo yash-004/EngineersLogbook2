@@ -585,7 +585,7 @@ export class DatabaseService {
         driver: 'sample@test.com',
         commander: 'commander_name',
         vehicle: '1234MID',
-        vehicle_type: '5TON',
+        vehicle_type: 'T',
         date: '2019-08-10',
         start_time: '13:00',
         start_location: 'NSC',
