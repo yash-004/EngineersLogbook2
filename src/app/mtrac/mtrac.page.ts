@@ -68,6 +68,15 @@ export class mtracPage implements OnInit {
       console.log(this.selectedLicense)
   }
 
+  checklistcmd = [
+    {listID: 1, name:"To be responsible for the discipline and safety of all passengers/crew in the assigned transport detail."},
+    {listID: 2, name:"To assist to look out for obstruction, hazard or danger. If the driver is reversing, there is no requirement for the vehiucle commander to guide the driver. However, VC should render assistance to the driver when requested."},
+    {listID: 3, name:"Go through intended route with the driver."},
+    {listID: 4, name:"If unsure of route or lost, to instruct the driver to stop the vehicle at a safe place to re-orientate or seek further instructions."},
+    {listID: 5, name:"If involved in an accident, to inform unit about the accident and assit the driver to manage the accident."},
+    {listID: 6, name:"To check and endorse the MT-RAC."},
+    ];
+
   public getapprovedvtypes(): Array<{text:string, ready: boolean}>[] {
     var vtypes =  VehicleTypes
 
@@ -427,6 +436,7 @@ export class mtracPage implements OnInit {
           driver: this.database.current.user.email,
           commander: this.mtracForm.value.commander,
           status: "pending",
+          is_jit: false,
           // Stage-1 details
           vehicleNumber: this.mtracForm.value.vehicleNumber,
           vehicle_type: this.mtracForm.value.vehicleType,

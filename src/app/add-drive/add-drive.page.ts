@@ -77,6 +77,8 @@ export class AddDrivePage implements OnInit {
     public database: DatabaseService,
     public route: ActivatedRoute
   ) { }
+  
+  selectedArray : any = [];
 
   gettime() {
     var cd = new Date(); // for now
@@ -149,6 +151,14 @@ export class AddDrivePage implements OnInit {
     const today = dayjs();
     var period = 10;
     return today.diff(date,"day") < period ;
+  }
+
+  onChange(name) {
+    if(this.selectedArray.includes(name)) {
+        this.selectedArray = this.selectedArray.filter((value)=>value!=name);
+    } else {
+        this.selectedArray.push(name)
+    }
   }
 
   ngOnInit() {
@@ -259,7 +269,7 @@ export class AddDrivePage implements OnInit {
     this.addDriveForm.get('startTime').setValue(this.today);
     this.addDriveForm.get('incamp').setValue(this.mtrac.incamp);
     this.addDriveForm.get('vehicleNumber').setValue(this.mtrac.vehicleNumber);
-    this.addDriveForm.get('vehicleType').setValue(this.mtrac.vehicleType);
+    this.addDriveForm.get('vehicleType').setValue(this.mtrac.vehicle_type);
     this.addDriveForm.get('vehicleCommander').setValue(this.mtrac.commander);
     this.addDriveForm.get('startLocation').setValue(this.mtrac.startLocation);
     // clear validators for end drive controls
@@ -395,10 +405,10 @@ export class AddDrivePage implements OnInit {
           created: this.database.getTimeStamp(),
           driver: this.database.current.user.email,
           status: "in-progress",
-
+          is_jit: this.mtrac.is_jit,
           // Stage-1 details
           vehicle: this.addDriveForm.value.vehicleNumber.toUpperCase(),
-          vehicle_type: this.addDriveForm.value.vehicleType,
+          vehicle_type: this.mtrac.vehicle_type,
           commander: this.addDriveForm.value.vehicleCommander,
           date: (this.addDriveForm.value.date).split('T')[0],
           start_location: this.addDriveForm.value.startLocation.toUpperCase(),

@@ -141,6 +141,16 @@
       </ion-card-content>
     </ion-card>
 
+    <ion-card *ngIf="this.mtrac.is_jit==true">
+      <ion-list>
+        <ion-item *ngFor="let list of checklist">
+          <ion-label>{{list.listID}}. {{list.name}}
+          </ion-label>
+              <ion-checkbox slot="end" [(ngModel)]="list.isChecked" [ngModelOptions]="{standalone: true}" (click)="onChange(list)"></ion-checkbox>
+        </ion-item>
+      </ion-list>
+    </ion-card>
+
     <ion-card *ngIf=(drive)>
       <ion-card-content>
         <ion-item lines="none" no-padding>
@@ -213,13 +223,13 @@
 
     <div class="btn-wrapper">
       <div *ngIf = showSubmit()>
-        <ion-button *ngIf = this.database.current.user.is_commander routerLink="/tabs/commander" s>Cancel</ion-button>
+        <ion-button *ngIf = this.database.current.user.is_commander routerLink="/tabs/commander">Cancel</ion-button>
         <ion-button *ngIf = !this.database.current.user.is_commander routerLink="/tabs/summary">Cancel</ion-button>
         <ion-button *ngIf = this.database.current.user.is_commander class="submit-btn" color="danger" (click)="reject()" type="submit" routerLink="/tabs/commander" [disabled]="!addDriveForm.valid ">Reject Drive
         </ion-button>           
         <ion-button *ngIf = this.database.current.user.is_commander class="submit-btn" color="success" (click)="accept()" type="submit" routerLink="/tabs/commander" [disabled]="!addDriveForm.valid " style="padding-right:10px">Verify Drive
         </ion-button>
-        <ion-button *ngIf = !this.database.current.user.is_commander class="submit-btn" type="submit" routerLink="/tabs/summary" [disabled]="!addDriveForm.valid" style="padding-right:10px">
+        <ion-button *ngIf = !this.database.current.user.is_commander class="submit-btn" type="submit" routerLink="/tabs/summary" [disabled]="!addDriveForm.valid||selectedArray.length <= 3" style="padding-right:10px">
           Submit
         </ion-button>
       </div>

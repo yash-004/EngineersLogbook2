@@ -61,6 +61,7 @@ created: string;
 id?: string;  // random identifier created by Firestore
 status: string;  // valid values: 'in-progress', 'pending', 'verified', 'rejected'
 incamp: boolean;
+is_jit?: boolean;
 // Stage-1 details (Start journey)
 driver: string;
 commander: string;
@@ -88,6 +89,7 @@ created: string;
 id?: string;  // random identifier created by Firestore
 status: string;  // valid values: 'in-progress', 'pending', 'verified', 'rejected'
 incamp: boolean;
+is_jit?: boolean;
 // Stage-1 details (Start journey)
 driver: string;
 commander: string;
@@ -594,6 +596,7 @@ export class DatabaseService {
         company: 'C',
         fleet: 'C',
         incamp: true,
+        is_jit:true
       },
       {
         created: '',
