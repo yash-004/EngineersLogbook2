@@ -29,6 +29,8 @@ export class mtracPage implements OnInit {
     vehicleNumber: [
         { type: 'required', message: 'Vehicle Number is required.' },
         { type: 'minlength', message: 'Vehicle number must be at least 5 characters long.' }],
+    vehicleType: [
+        { type: 'required', message: 'Select a type of vehicle' },],
     licenseType: [
         { type: 'required', message: 'choose license type' },],
     rest: [
@@ -66,6 +68,53 @@ export class mtracPage implements OnInit {
       console.log(this.selectedLicense)
   }
 
+  public getapprovedvtypes(): Array<{text:string, ready: boolean}>[] {
+    var vtypes =  VehicleTypes
+
+    var driven = Object.keys(this.database.current.stats.most_recent_drive_by_vehicle_type);
+
+    var canDrive = [];
+
+    console.log(canDrive);
+
+    driven.forEach((value) => {
+      // check license 
+      if (value == 'MSS') {
+        if (this.database.current.user.mss_certified == false){
+          canDrive.push({text: value + " - NO LICENSE", ready: false})
+        }
+      }
+      else if (value == 'FLB') {
+        if (this.database.current.user.flb_certified == false){
+          canDrive.push({text: value + " - NO LICENSE", ready: false})
+        }
+      }
+      else if (value == 'BELREX') {
+        if (this.database.current.user.belrex_certified == false){
+          canDrive.push({text: value + " - NO LICENSE", ready: false})
+        }
+      }
+
+      // check currency / JIT test
+      var daysLastDriven = this.calculateDiff(this.database.current.stats.most_recent_drive_by_vehicle_type[value].$d);
+      if (daysLastDriven <= 100){ // || this.database.current.stats.JIT==true){
+          canDrive.push({text: value, ready: true});
+      }
+      else {
+        canDrive.push({text: value + " - NOT CURRENT", ready: false});         
+      }
+    });
+
+    console.log(canDrive)
+    return canDrive;
+  }
+
+  calculateDiff(dateSent){
+    let currentDate = new Date();
+    dateSent = new Date(dateSent);
+
+    return Math.floor((Date.UTC(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate()) - Date.UTC(dateSent.getFullYear(), dateSent.getMonth(), dateSent.getDate()) ) /(1000 * 60 * 60 * 24));
+  }
 
   public selectLicenseType() {
     // Autofill Driving Experience License Type based on Cat status from driver's licensetype
@@ -88,6 +137,7 @@ export class mtracPage implements OnInit {
       this.mtracForm = this.formBuilder.group({
         vehicleNumber: new FormControl('', Validators.compose([Validators.minLength(5), Validators.required])),
         licenseType: new FormControl('', Validators.compose([Validators.required])),
+        vehicleType: new FormControl('', Validators.compose([Validators.required])),
         vehicleType2: new FormControl('', Validators.compose([Validators.required])),
         rest: new FormControl('', Validators.compose([Validators.required])),
         health: new FormControl('', Validators.compose([Validators.required])),
@@ -174,6 +224,7 @@ export class mtracPage implements OnInit {
     // populate values of start mtrac fields
     this.mtracForm.get('commander').setValue(this.mtrac.commander);
     this.mtracForm.get('vehicleNumber').setValue(this.mtrac.vehicleNumber.toUpperCase());
+    this.mtracForm.get('vehicleType').setValue(this.mtrac.vehicle_type);
     this.mtracForm.get('vehicleType2').setValue(this.mtrac.vehicleType2);
     this.mtracForm.get('licenseType').setValue(this.mtrac.licenseType);
     this.mtracForm.get('incamp').setValue(this.mtrac.incamp);
@@ -378,7 +429,7 @@ export class mtracPage implements OnInit {
           status: "pending",
           // Stage-1 details
           vehicleNumber: this.mtracForm.value.vehicleNumber,
-          //vehicle_type: this.mtracForm.value.vehicleType,
+          vehicle_type: this.mtracForm.value.vehicleType,
           startLocation: this.mtracForm.value.startLocation,
           endLocation: this.mtracForm.value.endLocation,
           fleet: this.database.current.user.fleet,

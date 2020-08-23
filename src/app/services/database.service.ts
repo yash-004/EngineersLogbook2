@@ -95,7 +95,7 @@ fleet: string;
 company: string;
 vehicleNumber: string,
 licenseType: string;
-//vehicleType: string;
+vehicle_type: string;
 vehicleType2: string;
 rest: string;
 health: string;

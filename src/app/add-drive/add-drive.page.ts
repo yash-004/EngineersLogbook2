@@ -63,6 +63,13 @@ export class AddDrivePage implements OnInit {
     ]
   };
 
+  checklist = [
+    {listID: 1, name:"In Camp Driving",ischecked: false},
+    {listID: 2, name:"3 Point Turn",ischecked: false},
+    {listID: 3, name:"Reversing Drill",ischecked: false},
+    {listID: 4, name:"Parking Drill",ischecked: false},
+    ];
+
   constructor(
     private navCtrl: NavController,
     private formBuilder: FormBuilder,
@@ -252,6 +259,7 @@ export class AddDrivePage implements OnInit {
     this.addDriveForm.get('startTime').setValue(this.today);
     this.addDriveForm.get('incamp').setValue(this.mtrac.incamp);
     this.addDriveForm.get('vehicleNumber').setValue(this.mtrac.vehicleNumber);
+    this.addDriveForm.get('vehicleType').setValue(this.mtrac.vehicleType);
     this.addDriveForm.get('vehicleCommander').setValue(this.mtrac.commander);
     this.addDriveForm.get('startLocation').setValue(this.mtrac.startLocation);
     // clear validators for end drive controls
