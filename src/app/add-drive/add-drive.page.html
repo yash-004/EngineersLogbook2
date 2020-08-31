@@ -141,7 +141,7 @@
       </ion-card-content>
     </ion-card>
 
-    <ion-card *ngIf="this.mtrac.is_jit==true">
+    <ion-card *ngIf="this.is_jit==true">
       <ion-list>
         <ion-item *ngFor="let list of checklist">
           <ion-label>{{list.listID}}. {{list.name}}

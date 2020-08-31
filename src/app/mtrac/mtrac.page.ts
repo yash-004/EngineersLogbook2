@@ -84,7 +84,7 @@ export class mtracPage implements OnInit {
 
     var canDrive = [];
 
-    console.log(canDrive);
+    //console.log(canDrive);
 
     driven.forEach((value) => {
       // check license 
@@ -114,7 +114,7 @@ export class mtracPage implements OnInit {
       }
     });
 
-    console.log(canDrive)
+    //console.log(canDrive)
     return canDrive;
   }
 

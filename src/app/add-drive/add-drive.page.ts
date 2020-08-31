@@ -21,6 +21,7 @@ export class AddDrivePage implements OnInit {
   toast: any;
   today = new Date().toISOString();
   drive;
+  is_jit: boolean;
   updateStatus;
   showStatus = true;ƒ
   isToggled = false;
@@ -106,7 +107,7 @@ export class AddDrivePage implements OnInit {
 
         var canDrive = [];
 
-        console.log(canDrive);
+        //console.log(canDrive);
 
         driven.forEach((value) => {
           // check license 
@@ -136,7 +137,7 @@ export class AddDrivePage implements OnInit {
           }
         });
 
-        console.log(canDrive)
+        //console.log(canDrive)
         return canDrive;
   }
 
@@ -206,6 +207,7 @@ export class AddDrivePage implements OnInit {
     }
     if (this.drive == null) { // start a new drive
       this.mtrac = this.database.current.mtrac_to_edit;
+      this.is_jit = this.mtrac.is_jit;
       this.startDriveControls();
       this.updateStatus = false;
       this.isDisabled = false;
@@ -214,6 +216,7 @@ export class AddDrivePage implements OnInit {
       if (this.drive.driver != this.database.current.user.email && this.database.current.user.is_admin) {
         console.log('editing drive info - admin user');
         this.editDriveControls();
+        this.is_jit = this.drive.is_jit;
         this.updateStatus = true;
         this.showStatus = true;
         this.isDisabled = false;
@@ -221,6 +224,7 @@ export class AddDrivePage implements OnInit {
       (this.drive.status === 'pending' || this.drive.status === 'verified' || ((this.drive.status === 'in-progress' || this.drive.status === 'rejected') && this.drive.commander == this.database.current.user.email)) {
         // view only
         console.log('viewing a drive');
+        this.is_jit = this.drive.is_jit;
         this.updateStatus = false;
         this.showStatus = true;
         this.isDisabled = true;
@@ -228,12 +232,14 @@ export class AddDrivePage implements OnInit {
       } else if (this.drive.status === 'in-progress' && this.drive.driver == this.database.current.user.email) {
         // driver enter details to complete drive
         console.log('completing an in-progress drive - driver');
+        this.is_jit = this.drive.is_jit;
         this.updateStatus = false;
         this.isDisabled = false;
         this.showStatus = false;
         this.endDriveControls();
       } else if ((this.drive.status === 'rejected' && this.drive.driver == this.database.current.user.email)) {
         console.log('editing rejected drive info - driver')
+        this.is_jit = this.drive.is_jit;
         // driver edit details for rejected drive
         this.updateStatus = false;
         this.showStatus = true;
