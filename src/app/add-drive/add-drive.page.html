@@ -61,7 +61,7 @@
           <ion-item>
             <ion-label position="floating">Vehicle Type</ion-label>
             <ion-select formControlName="vehicleType" interface="popover">
-              <ion-select-option text-wrap *ngFor="let vty of getapprovedvtypes()" value={{vty.text}} disabled={{!vty.ready}}>{{vty.text}}</ion-select-option>
+              <ion-select-option text-wrap *ngFor="let vty of getapprovedvtypes()" value={{vty.text}} disabled=true>{{vty.text}}</ion-select-option>
             </ion-select>
           </ion-item>
           <div class="validation-errors">
@@ -142,13 +142,26 @@
     </ion-card>
 
     <ion-card *ngIf="this.is_jit==true">
-      <ion-list>
-        <ion-item *ngFor="let list of checklist">
-          <ion-label>{{list.listID}}. {{list.name}}
-          </ion-label>
-              <ion-checkbox slot="end" [(ngModel)]="list.isChecked" [ngModelOptions]="{standalone: true}" (click)="onChange(list)"></ion-checkbox>
-        </ion-item>
-      </ion-list>
+      <ng-container *ngIf="this.drive!=null; then oldDrive; else newDrive">
+      </ng-container>
+      <ng-template #oldDrive>
+        <ion-list>
+          <ion-item *ngFor="let list of checklistt">
+            <ion-label>{{list.listID}}. {{list.name}}
+            </ion-label>
+                <ion-checkbox slot="end" checked></ion-checkbox>
+          </ion-item>
+        </ion-list>
+      </ng-template>
+      <ng-template #newDrive>
+        <ion-list>
+          <ion-item *ngFor="let list of checklistf">
+            <ion-label>{{list.listID}}. {{list.name}}
+            </ion-label>
+                <ion-checkbox slot="end" [(ngModel)]="list.isChecked" [ngModelOptions]="{standalone: true}" (click)="onChange(list)"></ion-checkbox>
+          </ion-item>
+        </ion-list>
+      </ng-template>
     </ion-card>
 
     <ion-card *ngIf=(drive)>
@@ -229,7 +242,13 @@
         </ion-button>           
         <ion-button *ngIf = this.database.current.user.is_commander class="submit-btn" color="success" (click)="accept()" type="submit" routerLink="/tabs/commander" [disabled]="!addDriveForm.valid " style="padding-right:10px">Verify Drive
         </ion-button>
-        <ion-button *ngIf = !this.database.current.user.is_commander class="submit-btn" type="submit" routerLink="/tabs/summary" [disabled]="!addDriveForm.valid||selectedArray.length <= 3" style="padding-right:10px">
+        <ion-button *ngIf = "!this.database.current.user.is_commander&&this.drive==null&&this.drive.is_jit" class="submit-btn" type="submit" routerLink="/tabs/summary" [disabled]="!addDriveForm.valid||selectedArray.length <= 3" style="padding-right:10px">
+          Submit
+        </ion-button>
+        <ion-button *ngIf = "!this.database.current.user.is_commander&&this.drive==null&&!this.drive.is_jit" class="submit-btn" type="submit" routerLink="/tabs/summary" [disabled]="!addDriveForm.valid||selectedArray.length <= 3" style="padding-right:10px">
+          Submit
+        </ion-button>
+        <ion-button *ngIf = "!this.database.current.user.is_commander&&this.drive!=null" class="submit-btn" type="submit" routerLink="/tabs/summary" [disabled]="!addDriveForm.valid" style="padding-right:10px">
           Submit
         </ion-button>
       </div>

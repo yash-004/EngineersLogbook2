@@ -35,9 +35,6 @@ export class AddDrivePage implements OnInit {
       { type: 'required', message: 'Vehicle Number is required.' },
       { type: 'minlength', message: 'Vehicle number must be at least 5 characters long.' }
     ],
-    vehicleType: [
-      { type: 'required', message: 'Select a type of vehicle' },
-    ],
     vehicleCommander: [
       { type: 'required', message: 'Select the Vehicle Commanders Name' },
     ],
@@ -64,12 +61,19 @@ export class AddDrivePage implements OnInit {
     ]
   };
 
-  checklist = [
+  checklistf = [
     {listID: 1, name:"In Camp Driving",ischecked: false},
     {listID: 2, name:"3 Point Turn",ischecked: false},
     {listID: 3, name:"Reversing Drill",ischecked: false},
     {listID: 4, name:"Parking Drill",ischecked: false},
     ];
+
+  checklistt = [
+      {listID: 1, name:"In Camp Driving",ischecked: true},
+      {listID: 2, name:"3 Point Turn",ischecked: true},
+      {listID: 3, name:"Reversing Drill",ischecked: true},
+      {listID: 4, name:"Parking Drill",ischecked: true},
+      ];
 
   constructor(
     private navCtrl: NavController,
@@ -133,7 +137,7 @@ export class AddDrivePage implements OnInit {
               canDrive.push({text: value, ready: true});
           }
           else {
-            canDrive.push({text: value + " - NOT CURRENT", ready: false});         
+            canDrive.push({text: value, ready: true});         
           }
         });
 
@@ -167,7 +171,7 @@ export class AddDrivePage implements OnInit {
     this.addDriveForm = this.formBuilder.group({
       date: new FormControl(this.today, Validators.compose([Validators.required])),
       vehicleNumber: new FormControl('', Validators.compose([Validators.minLength(5), Validators.required])),
-      vehicleType: new FormControl('', Validators.compose([Validators.required])),
+      vehicleType: new FormControl(''),
       vehicleCommander: new FormControl('', Validators.compose([Validators.required])),
       startLocation: new FormControl('', Validators.compose([Validators.required])),
       startOdometer: new FormControl('', Validators.compose([Validators.required])),
@@ -212,6 +216,7 @@ export class AddDrivePage implements OnInit {
       this.updateStatus = false;
       this.isDisabled = false;
       this.showStatus = false;
+      this.addDriveForm.get('vehicleType').disable();
     } else {  // retrieving an existing drive
       if (this.drive.driver != this.database.current.user.email && this.database.current.user.is_admin) {
         console.log('editing drive info - admin user');
@@ -229,6 +234,7 @@ export class AddDrivePage implements OnInit {
         this.showStatus = true;
         this.isDisabled = true;
         this.viewDriveControls();
+        this.addDriveForm.get('vehicleType').disable();
       } else if (this.drive.status === 'in-progress' && this.drive.driver == this.database.current.user.email) {
         // driver enter details to complete drive
         console.log('completing an in-progress drive - driver');
@@ -237,6 +243,7 @@ export class AddDrivePage implements OnInit {
         this.isDisabled = false;
         this.showStatus = false;
         this.endDriveControls();
+        this.addDriveForm.get('vehicleType').disable();
       } else if ((this.drive.status === 'rejected' && this.drive.driver == this.database.current.user.email)) {
         console.log('editing rejected drive info - driver')
         this.is_jit = this.drive.is_jit;
@@ -245,6 +252,7 @@ export class AddDrivePage implements OnInit {
         this.showStatus = true;
         this.isDisabled = false;
         this.editDriveControls();
+        this.addDriveForm.get('vehicleType').disable();
       }
     }
   }
@@ -350,7 +358,6 @@ export class AddDrivePage implements OnInit {
 
       // Stage 1 details : the user may made some changes to these info
       currentDrive.vehicle = this.addDriveForm.value.vehicleNumber.toUpperCase();
-      currentDrive.vehicle_type = this.addDriveForm.value.vehicleType;
       currentDrive.commander =  this.addDriveForm.value.vehicleCommander;
       currentDrive.date = (this.addDriveForm.value.date).split('T')[0];
       currentDrive.start_location = this.addDriveForm.value.startLocation.toUpperCase();

@@ -84,7 +84,7 @@ export class jitmtracPage implements OnInit {
 
     var canDrive = [];
 
-    console.log(canDrive);
+    //console.log(canDrive);
 
     driven.forEach((value) => {
       // check license 
@@ -107,14 +107,14 @@ export class jitmtracPage implements OnInit {
       // check currency / JIT test
       var daysLastDriven = this.calculateDiff(this.database.current.stats.most_recent_drive_by_vehicle_type[value].$d);
       if (daysLastDriven <= 100){ // || this.database.current.stats.JIT==true){
-          canDrive.push({text: value + " - CURRENT", ready: false});
+          canDrive.push({text: value, ready: true});
       }
       else {
-        canDrive.push({text: value + " - NOT CURRENT", ready: true});         
+        canDrive.push({text: value, ready: true});         
       }
     });
 
-    console.log(canDrive)
+    //console.log(canDrive)
     return canDrive;
   }
 

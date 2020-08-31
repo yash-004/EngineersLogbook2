@@ -191,9 +191,14 @@ export class SummaryPage implements OnInit {
   }
 
  public clickmtrac(form: Mtrac): void {
-    this.database.current.mtrac_to_edit = form;
-    console.log(`> Navigating to mtracPage for mtrac id=${form.id}`);
-    this.navCtrl.navigateForward(['/mtrac']);
+  this.database.current.mtrac_to_edit = form;
+  console.log(`> Navigating to mtracPage for mtrac id=${form.id}`);
+    if (form.is_jit == true){
+      this.navCtrl.navigateForward(['/jitmtrac']);
+    }
+    else {
+      this.navCtrl.navigateForward(['/mtrac']);
+    }
   }
 
   // Charts

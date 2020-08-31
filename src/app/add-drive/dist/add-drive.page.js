@@ -67,9 +67,6 @@ var AddDrivePage = /** @class */ (function () {
                 { type: 'required', message: 'Vehicle Number is required.' },
                 { type: 'minlength', message: 'Vehicle number must be at least 5 characters long.' }
             ],
-            vehicleType: [
-                { type: 'required', message: 'Select a type of vehicle' },
-            ],
             vehicleCommander: [
                 { type: 'required', message: 'Select the Vehicle Commanders Name' },
             ],
@@ -95,11 +92,17 @@ var AddDrivePage = /** @class */ (function () {
                 { type: 'required', message: 'Indicate final fuel level' },
             ]
         };
-        this.checklist = [
+        this.checklistf = [
             { listID: 1, name: "In Camp Driving", ischecked: false },
             { listID: 2, name: "3 Point Turn", ischecked: false },
             { listID: 3, name: "Reversing Drill", ischecked: false },
             { listID: 4, name: "Parking Drill", ischecked: false },
+        ];
+        this.checklistt = [
+            { listID: 1, name: "In Camp Driving", ischecked: true },
+            { listID: 2, name: "3 Point Turn", ischecked: true },
+            { listID: 3, name: "Reversing Drill", ischecked: true },
+            { listID: 4, name: "Parking Drill", ischecked: true },
         ];
         this.selectedArray = [];
     }
@@ -151,7 +154,7 @@ var AddDrivePage = /** @class */ (function () {
                 canDrive.push({ text: value, ready: true });
             }
             else {
-                canDrive.push({ text: value + " - NOT CURRENT", ready: false });
+                canDrive.push({ text: value, ready: true });
             }
         });
         //console.log(canDrive)
@@ -180,7 +183,7 @@ var AddDrivePage = /** @class */ (function () {
         this.addDriveForm = this.formBuilder.group({
             date: new forms_1.FormControl(this.today, forms_1.Validators.compose([forms_1.Validators.required])),
             vehicleNumber: new forms_1.FormControl('', forms_1.Validators.compose([forms_1.Validators.minLength(5), forms_1.Validators.required])),
-            vehicleType: new forms_1.FormControl('', forms_1.Validators.compose([forms_1.Validators.required])),
+            vehicleType: new forms_1.FormControl(''),
             vehicleCommander: new forms_1.FormControl('', forms_1.Validators.compose([forms_1.Validators.required])),
             startLocation: new forms_1.FormControl('', forms_1.Validators.compose([forms_1.Validators.required])),
             startOdometer: new forms_1.FormControl('', forms_1.Validators.compose([forms_1.Validators.required])),
@@ -222,6 +225,7 @@ var AddDrivePage = /** @class */ (function () {
             this.updateStatus = false;
             this.isDisabled = false;
             this.showStatus = false;
+            this.addDriveForm.get('vehicleType').disable();
         }
         else { // retrieving an existing drive
             if (this.drive.driver != this.database.current.user.email && this.database.current.user.is_admin) {
@@ -240,6 +244,7 @@ var AddDrivePage = /** @class */ (function () {
                 this.showStatus = true;
                 this.isDisabled = true;
                 this.viewDriveControls();
+                this.addDriveForm.get('vehicleType').disable();
             }
             else if (this.drive.status === 'in-progress' && this.drive.driver == this.database.current.user.email) {
                 // driver enter details to complete drive
@@ -249,6 +254,7 @@ var AddDrivePage = /** @class */ (function () {
                 this.isDisabled = false;
                 this.showStatus = false;
                 this.endDriveControls();
+                this.addDriveForm.get('vehicleType').disable();
             }
             else if ((this.drive.status === 'rejected' && this.drive.driver == this.database.current.user.email)) {
                 console.log('editing rejected drive info - driver');
@@ -258,6 +264,7 @@ var AddDrivePage = /** @class */ (function () {
                 this.showStatus = true;
                 this.isDisabled = false;
                 this.editDriveControls();
+                this.addDriveForm.get('vehicleType').disable();
             }
         }
     };
@@ -359,7 +366,6 @@ var AddDrivePage = /** @class */ (function () {
                         currentDrive = this.database.current.drive_history[0];
                         // Stage 1 details : the user may made some changes to these info
                         currentDrive.vehicle = this.addDriveForm.value.vehicleNumber.toUpperCase();
-                        currentDrive.vehicle_type = this.addDriveForm.value.vehicleType;
                         currentDrive.commander = this.addDriveForm.value.vehicleCommander;
                         currentDrive.date = (this.addDriveForm.value.date).split('T')[0];
                         currentDrive.start_location = this.addDriveForm.value.startLocation.toUpperCase();
