@@ -3,16 +3,16 @@
 }
 
 ion-toolbar {
-  --background:	#b4fbb4;
+  --background:	#bafbba;
 }
 
 ion-content {
-  --ion-background-color:	#b4fbb4;
+  --ion-background-color:	#bafbba;
   --ion-text-color: black;
 }
 
 ion-card {
-  --background:	#b4fbb4;
+  --background:	#bafbba;
 }
 
 ion-item {
@@ -21,7 +21,7 @@ ion-item {
 }
 
 ion-grid {
-  --background:	#b4fbb4;
+  --background:	#bafbba;
 }
 
 ion-input {
@@ -67,7 +67,7 @@ ion-select {
   border-color: black;
   border-width: 0.01em;
   border-style: solid;
-  background: #b4fbb4;
+  background: #bafbba;
 }
 
 .row {
@@ -101,9 +101,9 @@ div {
 
 .invalid-div {
   color: black;
-  background-color: #b4fbb4;
+  background-color: #bafbba;
 }
 
 .checkbox-div {
-  background-color: #b4fbb4;
+  background-color: #bafbba;
 }
