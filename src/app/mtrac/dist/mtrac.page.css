@@ -1,0 +1,109 @@
+* {
+  --ion-text-color: black;
+}
+
+ion-toolbar {
+  --background:	#b4fbb4;
+}
+
+ion-content {
+  --ion-background-color:	#b4fbb4;
+  --ion-text-color: black;
+}
+
+ion-card {
+  --background:	#b4fbb4;
+}
+
+ion-item {
+  height: auto;
+  min-height: auto;
+}
+
+ion-grid {
+  --background:	#b4fbb4;
+}
+
+ion-input {
+  text-transform: uppercase;
+  color: primary !important;
+}
+
+ion-select {
+  --padding-start: 0px;
+  --inner-padding-end: 0px;
+  min-width: auto;
+  max-width: 70%;
+  height: auto;
+  min-height: auto;
+  max-height: 100%;
+}
+
+.btn-wrapper {
+  text-align: center;
+}
+
+.input[type=number] {
+  -moz-appearance: textfield;
+}
+.input[type=number]::-webkit-inner-spin-button {
+  display: none;
+}
+
+.toolbar-title {
+  text-overflow: inherit;
+  white-space: normal;
+  text-align: left;
+  font-size: 1.3em;
+}
+
+.cell-class {
+  border-color: black;
+  border-width: 0.01em;
+  border-style: solid;
+}
+
+.invalid-class {
+  border-color: black;
+  border-width: 0.01em;
+  border-style: solid;
+  background: #b4fbb4;
+}
+
+.row {
+  height: 100%;
+}
+
+.col {
+  height: 100%;
+  border: solid black;
+}
+
+.sc-ion-popover-md-h {
+  min-width: auto;
+  min-height: auto;
+  max-width: 100%;
+  height: 50%;
+}
+
+.popover-content.sc-ion-popover-md {
+  position: inherit;
+  min-width: auto;
+  max-width: 100%;
+  height: auto;
+  min-height: auto;
+  max-height: 100%;
+}
+
+div {
+  color: black;
+}
+
+.invalid-div {
+  color: black;
+  background-color: #b4fbb4;
+}
+
+.checkbox-div {
+  background-color: #b4fbb4;
+}

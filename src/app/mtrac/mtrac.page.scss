@@ -4,27 +4,25 @@
 }
 
 ion-toolbar{
-    --background:#FFFF66;
+    --background:	#b4fbb4;
 }
 
 ion-content{
-  --ion-background-color:#FFFF66;
-  --color:black;
+  --ion-background-color:	#b4fbb4;
   --ion-text-color: black;
 }
 
 ion-card{
-  --background:#FFFF66;
+  --background:	#b4fbb4;
 }
 
 ion-item{
-  --background:#FFFF66;
   height: auto;
   min-height: auto;
 }
 
 ion-grid{
-  --background:#FFFF66;
+  --background:	#b4fbb4;
 }
 
 ion-input{
@@ -32,13 +30,7 @@ ion-input{
   color: primary!important;
 }
 
-ion-card-title{
-  --color:black;
-}
-
 ion-select{
-  --placeholder-color:black;
-  --color:black;
   --padding-start: 0px;
   --inner-padding-end: 0px;
   min-width: auto;
@@ -46,10 +38,6 @@ ion-select{
   height: auto;
   min-height: auto;
   max-height: 100%;
-}
-
-label{
-  color:black;
 }
 
 .btn-wrapper {
@@ -79,7 +67,7 @@ label{
   border-color: black;
   border-width: .01em;
   border-style:solid;
-  background:#c9c966;
+  background:#b4fbb4;
 }
 
 .row {
@@ -114,9 +102,9 @@ div{
 
 .invalid-div{
     color: black;
-    background-color: #c9c966;
+    background-color: #b4fbb4;
 }
 
 .checkbox-div{
-    background-color: #FFFF66;
+    background-color:	#b4fbb4;
 }
