@@ -4,8 +4,9 @@
     "\\src",
     "\\src\\app",
     "\\src\\app\\drive-view",
+    "\\src\\app\\services",
     "\\src\\app\\tabs"
   ],
-  "SelectedNode": "\\src\\app\\drive-view",
+  "SelectedNode": "\\src\\app\\services\\anime.js",
   "PreviewInSolutionExplorer": false
 }
