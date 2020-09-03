@@ -40,6 +40,11 @@
       <!--ion-button fill="outline" size="small" (click)="click(drive)">View</ion-button-->
     </ion-fab>
     <ion-card-title>Complete MT-RAC</ion-card-title>
+    <ion-card-content no-padding>
+      Your MTRAC on <b>{{form.created}}</b> with <b>{{form.driver}} ({{form.vehicleNumber}})</b>
+      is pending review.
+    </ion-card-content>
+
   </ion-card>
 
 
