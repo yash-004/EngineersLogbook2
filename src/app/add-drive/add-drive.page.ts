@@ -216,7 +216,6 @@ export class AddDrivePage implements OnInit {
       this.updateStatus = false;
       this.isDisabled = false;
       this.showStatus = false;
-      this.addDriveForm.get('vehicleType').disable();
     } else {  // retrieving an existing drive
       if (this.drive.driver != this.database.current.user.email && this.database.current.user.is_admin) {
         console.log('editing drive info - admin user');
@@ -234,7 +233,6 @@ export class AddDrivePage implements OnInit {
         this.showStatus = true;
         this.isDisabled = true;
         this.viewDriveControls();
-        this.addDriveForm.get('vehicleType').disable();
       } else if (this.drive.status === 'in-progress' && this.drive.driver == this.database.current.user.email) {
         // driver enter details to complete drive
         console.log('completing an in-progress drive - driver');
@@ -243,7 +241,6 @@ export class AddDrivePage implements OnInit {
         this.isDisabled = false;
         this.showStatus = false;
         this.endDriveControls();
-        this.addDriveForm.get('vehicleType').disable();
       } else if ((this.drive.status === 'rejected' && this.drive.driver == this.database.current.user.email)) {
         console.log('editing rejected drive info - driver')
         this.is_jit = this.drive.is_jit;
@@ -252,7 +249,6 @@ export class AddDrivePage implements OnInit {
         this.showStatus = true;
         this.isDisabled = false;
         this.editDriveControls();
-        this.addDriveForm.get('vehicleType').disable();
       }
     }
   }

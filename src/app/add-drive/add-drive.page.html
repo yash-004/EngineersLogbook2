@@ -242,7 +242,7 @@
         </ion-button>           
         <ion-button *ngIf = this.database.current.user.is_commander class="submit-btn" color="success" (click)="accept()" type="submit" routerLink="/tabs/commander" [disabled]="!addDriveForm.valid " style="padding-right:10px">Verify Drive
         </ion-button>
-        <ion-button *ngIf = "!this.database.current.user.is_commander&&this.drive==null" class="submit-btn" type="submit" routerLink="/tabs/summary" [disabled]="!addDriveForm.valid||selectedArray.length <= 3" style="padding-right:10px">
+        <ion-button *ngIf = "!this.database.current.user.is_commander&&this.drive==null" class="submit-btn" type="submit" routerLink="/tabs/summary" [disabled]="!addDriveForm.valid" style="padding-right:10px">
           Submit 
         </ion-button>
         <ion-button *ngIf = "!this.database.current.user.is_commander&&this.drive!=null" class="submit-btn" type="submit" routerLink="/tabs/summary" [disabled]="!addDriveForm.valid" style="padding-right:10px">

@@ -12,17 +12,19 @@ ion-content{
   --ion-text-color: black;
 }
 
-ion-card{
-  --background:	#bafbba;
-}
-
 ion-item{
   height: auto;
   min-height: auto;
+  --background:	#bafbba;
+
 }
 
 ion-grid{
   --background:	#bafbba;
+}
+
+ion-card-title{
+  --color: black;
 }
 
 ion-input{
@@ -96,15 +98,14 @@ ion-select{
     max-height: 100%;
 }
 
-div{
-    color: black;
-}
-
 .invalid-div{
-    color: black;
     background-color: #bafbba;
 }
 
 .checkbox-div{
     background-color:	#bafbba;
+}
+
+.sc-ion-card-md-h {
+  --background: #bafbba;
 }
