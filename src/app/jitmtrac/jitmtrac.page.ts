@@ -66,6 +66,7 @@ export class jitmtracPage implements OnInit {
       // Autoselect correct license
       this.selectLicenseType();
       console.log(this.selectedLicense)
+      this.mtrac = this.database.current.mtrac_to_edit;
   }
 
   checklistcmd = [
@@ -127,18 +128,37 @@ export class jitmtracPage implements OnInit {
 
   public selectLicenseType() {
     // Autofill Driving Experience License Type based on Cat status from driver's licensetype
-    console.log(this.database.current.user.licence_type)
-    if (this.database.current.user.licence_type == "A" || this.database.current.user.licence_type == "B"){
-      this.selectedLicense = this.licenseTypes[0].value
-    } 
-    else if (this.database.current.user.licence_type == "C"){
-      this.selectedLicense = this.licenseTypes[1].value
-    } 
-    else if (this.database.current.user.licence_type == "D"){
-      this.selectedLicense = this.licenseTypes[2].value
-    } 
-    else{
-      this.selectedLicense = this.licenseTypes[3].value
+    this.mtrac = this.database.current.mtrac_to_edit;
+    if (this.mtrac != null) {
+      console.log(this.database.current.user.licence_type)
+      if (this.database.current.user.email == this.mtrac.driver){
+        if (this.database.current.user.licence_type == "A" || this.database.current.user.licence_type == "B"){
+          this.selectedLicense = this.licenseTypes[0].value
+        } 
+        else if (this.database.current.user.licence_type == "C"){
+          this.selectedLicense = this.licenseTypes[1].value
+        } 
+        else if (this.database.current.user.licence_type == "D"){
+          this.selectedLicense = this.licenseTypes[2].value
+        } 
+        else{
+          this.selectedLicense = this.licenseTypes[3].value
+        }
+      }
+    }
+    else {
+      if (this.database.current.user.licence_type == "A" || this.database.current.user.licence_type == "B"){
+        this.selectedLicense = this.licenseTypes[0].value
+      } 
+      else if (this.database.current.user.licence_type == "C"){
+        this.selectedLicense = this.licenseTypes[1].value
+      } 
+      else if (this.database.current.user.licence_type == "D"){
+        this.selectedLicense = this.licenseTypes[2].value
+      } 
+      else{
+        this.selectedLicense = this.licenseTypes[3].value
+      }
     }
   }
 
