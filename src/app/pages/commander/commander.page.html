@@ -42,7 +42,7 @@
     <ion-card-title>Complete MT-RAC</ion-card-title>
     <ion-card-content no-padding>
       Your MTRAC on <b>{{form.created}}</b> with <b>{{form.driver}} ({{form.vehicleNumber}})</b>
-      is pending review.
+      is pending review. {{getMTRACDriverName(form)}}
     </ion-card-content>
 
   </ion-card>

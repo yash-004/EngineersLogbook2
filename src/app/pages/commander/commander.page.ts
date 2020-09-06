@@ -186,6 +186,13 @@ export class CommanderPage implements OnInit {
     });
   }
 
+  async getMTRACDriverName(form) {
+    var result = await this.database.read('user',form.driver)
+    var driver = result.data() as User
+
+    return driver.name;
+  }
+
   public getApprovedDrives() : Drive[] {
     return this.database.current.drive_history.filter( (drive) => {
       return drive.status === 'verified';
