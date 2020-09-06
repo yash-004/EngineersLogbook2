@@ -141,35 +141,6 @@
      -->
 
 
-  <!-- Second section (Last Drive, Operator Currency) ------------------------------------------->
-  <ion-card padding text-center>
-    <ion-grid>
-    <ion-row><ion-col><ion-card-title text-center>
-      <strong>JIT Countdown</strong>
-    </ion-card-title></ion-col></ion-row>
-
-    <ion-row><ion-col><ion-card-subtitle>
-
-      <ion-label *ngIf="checkTimelefttoJIT(database.current.stats.most_recent_drive) == false" color='danger' text-center>
-        <strong><h2>
-          DO JIT NOW!
-        </h2></strong>
-      </ion-label>
-
-      <ion-item *ngIf="checkTimelefttoJIT(database.current.stats.most_recent_drive) == true" text-center>
-        <ion-grid><ion-row><ion-col><countdown [config]="{leftTime: getTimelefttoJIT(database.current.stats.most_recent_drive), format: 'dd'}"></countdown>
-          <h6 style="padding-bottom: 5px">days</h6></ion-col>
-        <ion-col><countdown [config]="{leftTime: getTimelefttoJIT(database.current.stats.most_recent_drive), format: 'HH'}"></countdown>
-          <h6 style="padding-bottom: 5px">hrs</h6></ion-col>
-        <ion-col><countdown [config]="{leftTime: getTimelefttoJIT(database.current.stats.most_recent_drive), format: 'mm'}"></countdown>
-          <h6 style="padding-bottom: 5px">mins</h6></ion-col>
-        <ion-col><countdown [config]="{leftTime: getTimelefttoJIT(database.current.stats.most_recent_drive), format: 'ss'}"></countdown>
-          <h6 style="padding-bottom: 5px">sec</h6></ion-col></ion-row></ion-grid>
-      </ion-item>
-
-    </ion-card-subtitle></ion-col></ion-row></ion-grid>
-  </ion-card>
-
   <!--
   <ion-card padding>
   <ion-card-subtitle><strong>Operator Currency</strong></ion-card-subtitle>
