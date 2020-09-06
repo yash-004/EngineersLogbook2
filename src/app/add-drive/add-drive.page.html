@@ -141,29 +141,6 @@
       </ion-card-content>
     </ion-card>
 
-    <ion-card *ngIf="this.is_jit==true">
-      <ng-container *ngIf="this.drive!=null; then oldDrive; else newDrive">
-      </ng-container>
-      <ng-template #oldDrive>
-        <ion-list>
-          <ion-item *ngFor="let list of checklistt">
-            <ion-label>{{list.listID}}. {{list.name}}
-            </ion-label>
-                <ion-checkbox slot="end" checked></ion-checkbox>
-          </ion-item>
-        </ion-list>
-      </ng-template>
-      <ng-template #newDrive>
-        <ion-list>
-          <ion-item *ngFor="let list of checklistf">
-            <ion-label>{{list.listID}}. {{list.name}}
-            </ion-label>
-                <ion-checkbox slot="end" [(ngModel)]="list.isChecked" [ngModelOptions]="{standalone: true}" (click)="onChange(list)"></ion-checkbox>
-          </ion-item>
-        </ion-list>
-      </ng-template>
-    </ion-card>
-
     <ion-card *ngIf=(drive)>
       <ion-card-content>
         <ion-item lines="none" no-padding>
@@ -210,8 +187,6 @@
           <ion-label>Fuel Level</ion-label>
           <ion-label>{{addDriveForm.get('fuelLevel').value}}%</ion-label>
           <ion-range min='0' max='100' color="secondary" step='25' snaps="true" ticks="true" formControlName="fuelLevel">
-            <ion-label slot="start">empty</ion-label>
-            <ion-label slot="end">full</ion-label>
           </ion-range>
         </ion-item>
         <div class="validation-errors">
@@ -232,6 +207,29 @@
           <ion-textarea onkeyup="this.value = this.value.toUpperCase()" formControlName="driveComments"></ion-textarea>
         </ion-item>
       </ion-card-content>
+    </ion-card>
+
+    <ion-card *ngIf="this.is_jit==true && (drive)">
+      <ng-container *ngIf="this.drive!=null; then oldDrive; else newDrive">
+      </ng-container>
+      <ng-template #oldDrive>
+        <ion-list>
+          <ion-item *ngFor="let list of checklistt">
+            <ion-label>{{list.name}}
+            </ion-label>
+                <ion-checkbox slot="end"></ion-checkbox>
+          </ion-item>
+        </ion-list>
+      </ng-template>
+      <ng-template #newDrive>
+        <ion-list>
+          <ion-item *ngFor="let list of checklistf">
+            <ion-label>{{list.name}}
+            </ion-label>
+                <ion-checkbox slot="end" [(ngModel)]="list.isChecked" (click)="onChange(list)"></ion-checkbox>
+          </ion-item>
+        </ion-list>
+      </ng-template>
     </ion-card>
 
     <div class="btn-wrapper">

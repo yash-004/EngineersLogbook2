@@ -62,17 +62,11 @@ export class AddDrivePage implements OnInit {
   };
 
   checklistf = [
-    {listID: 1, name:"In Camp Driving",ischecked: false},
-    {listID: 2, name:"3 Point Turn",ischecked: false},
-    {listID: 3, name:"Reversing Drill",ischecked: false},
-    {listID: 4, name:"Parking Drill",ischecked: false},
+    {listID: 1, name:"I have completed my JIT training.",ischecked: false},
     ];
 
   checklistt = [
-      {listID: 1, name:"In Camp Driving",ischecked: true},
-      {listID: 2, name:"3 Point Turn",ischecked: true},
-      {listID: 3, name:"Reversing Drill",ischecked: true},
-      {listID: 4, name:"Parking Drill",ischecked: true},
+    {listID: 1, name:"I have completed my JIT training.",ischecked: false},
       ];
 
   constructor(
