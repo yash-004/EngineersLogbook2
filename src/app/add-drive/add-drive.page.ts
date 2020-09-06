@@ -179,7 +179,8 @@ export class AddDrivePage implements OnInit {
       driveStatus: new FormControl(''),
       radioVerify: new FormControl({ value: '', disabled: true }),
       radioReject: new FormControl({ value: '', disabled: true }),
-      incamp: new FormControl ('')
+      incamp: new FormControl (''),
+      jit_complete: new FormControl ({ value: false, disabled: false })
     });
 
   //  this.updateStatus = false;
@@ -321,6 +322,7 @@ export class AddDrivePage implements OnInit {
     console.log('end time: ' +   this.addDriveForm.value.endTime);
     this.addDriveForm.get('fuelLevel').setValue(this.drive.fuel_level);
     this.addDriveForm.get('driveComments').setValue(this.drive.comments.toUpperCase());
+    this.addDriveForm.get('jit_complete').setValue(true);
     // set the maintenance toggle to check
     this.isToggled = this.drive.is_maintenance;
   }

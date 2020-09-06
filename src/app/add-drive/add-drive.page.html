@@ -215,20 +215,16 @@
       <ng-template #oldDrive>
         <ion-list>
           <ion-item *ngFor="let list of checklistt">
-            <ion-label>{{list.name}}
-            </ion-label>
-                <ion-checkbox slot="end"></ion-checkbox>
+            <ion-label>{{list.name}}</ion-label>
+            <ion-checkbox formControlName="jit_complete" name="jit_complete"></ion-checkbox>
           </ion-item>
         </ion-list>
       </ng-template>
       <ng-template #newDrive>
-        <ion-list>
-          <ion-item *ngFor="let list of checklistf">
-            <ion-label>{{list.name}}
-            </ion-label>
-                <ion-checkbox slot="end" [(ngModel)]="list.isChecked" (click)="onChange(list)"></ion-checkbox>
-          </ion-item>
-        </ion-list>
+        <ion-item *ngFor="let list of checklistt">
+        <ion-label>{{list.name}}</ion-label>
+        <ion-checkbox formControlName="jit_complete" name="jit_complete"></ion-checkbox>
+        </ion-item>
       </ng-template>
     </ion-card>
 
@@ -243,9 +239,13 @@
         <ion-button *ngIf = "!this.database.current.user.is_commander&&this.drive==null" class="submit-btn" type="submit" routerLink="/tabs/summary" [disabled]="!addDriveForm.valid" style="padding-right:10px">
           Submit 
         </ion-button>
-        <ion-button *ngIf = "!this.database.current.user.is_commander&&this.drive!=null" class="submit-btn" type="submit" routerLink="/tabs/summary" [disabled]="!addDriveForm.valid" style="padding-right:10px">
+        <ion-button *ngIf = "!this.database.current.user.is_commander&&this.drive!=null&&this.drive.is_jit" class="submit-btn" type="submit" routerLink="/tabs/summary" [disabled]="!addDriveForm.valid||!addDriveForm.get('jit_complete').value||this.drive.status=='pending'" style="padding-right:10px">
           Submit
         </ion-button>
+          <ion-button *ngIf = "!this.database.current.user.is_commander&&this.drive!=null&&!this.drive.is_jit" class="submit-btn" type="submit" routerLink="/tabs/summary" [disabled]="!addDriveForm.valid||this.drive.status=='pending'" style="padding-right:10px">
+          Submit
+        </ion-button>
+
       </div>
       <div *ngIf = !showSubmit()>
             <ion-button *ngIf = !this.database.current.user.is_commander expand="block" routerLink="/tabs/summary">OK</ion-button>

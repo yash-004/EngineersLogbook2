@@ -286,7 +286,7 @@
           <ion-select-option text-wrap value="H">CAT D</ion-select-option>
           <ion-select-option text-wrap value="N">Have never been trained and familiarized in the vehicle that you will be driving</ion-select-option>
         </ion-select></ng-template>
-      </ion-item>
+        </ion-item>
         <div class="validation-errors">
           <ng-container *ngFor="let validation of validationMessages.licenseType">
             <div class="error-message"
@@ -297,7 +297,6 @@
         </div>
       </ion-col>
       <ion-col><ion-item>
-        <ion-col><ion-item>
         <ion-label *ngIf="mtracForm.get('vehicleType2').value=='H'||mtracForm.get('vehicleType2').value=='N'" color="danger"><strong>Vehicle Type</strong></ion-label>
         <ion-label *ngIf="mtracForm.get('vehicleType2').value=='M'" color="warning"><strong>Vehicle Type</strong></ion-label>
         <ion-label *ngIf="mtracForm.get('vehicleType2').value==''||mtracForm.get('vehicleType2').value=='L'"><strong>Vehicle Type</strong></ion-label>
@@ -306,7 +305,7 @@
           <ion-select-option text-wrap value="M">Different (Class 3)</ion-select-option>
           <ion-select-option text-wrap value="H">Different (Class 4 and above)</ion-select-option>
         </ion-select>
-      </ion-item>
+        </ion-item>
         <div class="validation-errors">
           <ng-container *ngFor="let validation of validationMessages.vehicleType">
             <div class="error-message"
