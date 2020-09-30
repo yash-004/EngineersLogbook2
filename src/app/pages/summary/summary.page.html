@@ -165,7 +165,9 @@
   <ion-card *ngFor="let message of getNotifications()" padding>
 
     <ion-fab vertical="top" horizontal="end">
-      <ion-fab-button size="small" (click)="click(message.trip)" color="danger"><ion-icon name='end-drive'></ion-icon></ion-fab-button>
+      <ion-fab-button *ngIf="message.subtitle=='Drive-In-Progress'" size="small" (click)="click(message.trip)" color="danger"><ion-icon name='end-drive'></ion-icon></ion-fab-button>
+      <ion-fab-button *ngIf="message.subtitle=='Awaiting Review'" size="small" (click)="click(message.trip)" color="warning">View</ion-fab-button>
+      <ion-fab-button *ngIf="message.subtitle=='Drive Rejected (Action Required)'" size="small" (click)="click(message.trip)" color="danger">Redo</ion-fab-button>
     </ion-fab>
 
     <ion-card-subtitle color='danger'><strong>{{message.subtitle}}</strong></ion-card-subtitle>
