@@ -1,10 +1,10 @@
 * {
-  //  opacity: 1 !important;  // disabled items will not be grey out.
-      --ion-text-color: black;
+    opacity: 1 !important;  // disabled items will not be grey out.
+    --ion-text-color: black;
   }
   
   ion-toolbar{
-      --background:	#bafbba;
+    --background:	#bafbba;
   }
   
   ion-content{
