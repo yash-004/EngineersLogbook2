@@ -354,7 +354,7 @@ export class SummaryPage implements OnInit {
     return new Chart(canvas.nativeElement, {
       type: "horizontalBar",
       data: {
-        labels: [],
+        labels: ["remaining mileage to target"],
         
         datasets: [{
             label: "Mileage",
@@ -388,11 +388,13 @@ export class SummaryPage implements OnInit {
         },
         scales: {
           xAxes: [{
+            ticks: {
+              mirror: true
+            },
             stacked: true,
-            ticks: {mirror: true}
-
           }],
           yAxes: [{
+            display: false, //this will remove only the label
             stacked: true,
           }],
         }
