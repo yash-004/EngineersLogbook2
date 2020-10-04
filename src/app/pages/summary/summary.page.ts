@@ -220,15 +220,15 @@ export class SummaryPage implements OnInit {
     this.makeChart2(this.chartCanvas2, this.database.current.stats.mileage_by_vehicle_type);
     this.getStatus();
     //this.makeChart4(this.chartCanvas4, this.database.current.stats.mileage_by_vehicle_type, this.database.current.stats.mileage_km);
-    if (this.database.current.stats.mileage_km > 1000 && this.database.current.stats.mileage_km < 4000) {
-      var maxVal= 4000-this.database.current.stats.mileage_km;
-      this.makeChart5(this.chartCanvas5, this.database.current.stats.mileage_km, maxVal, 0);
+    var max_value = 4000;
+    var overseas = 1000;
+    if (this.database.current.stats.mileage_km > overseas){
+      var overseas = this.database.current.stats.mileage_km;
     }
-    else if (this.database.current.stats.mileage_km < 1000 && this.database.current.stats.mileage_km < 4000) {
-      var overseas= 1000-this.database.current.stats.mileage_km;
-      var maxVal= 4000-this.database.current.stats.mileage_km;
-      this.makeChart5(this.chartCanvas5, this.database.current.stats.mileage_km, maxVal, overseas);
+    if (this.database.current.stats.mileage_km > max_value){
+      var max_value = this.database.current.stats.mileage_km;
     }
+    this.makeChart5(this.chartCanvas5, this.database.current.stats.mileage_km, max_value, overseas);
     }
 
   /*private makeChart1(canvas: ElementRef): Chart {
@@ -354,55 +354,30 @@ export class SummaryPage implements OnInit {
     return new Chart(canvas.nativeElement, {
       type: "horizontalBar",
       data: {
-        labels: ["Overseas" ,"Conversion"],
-        datasets: [
-        {
+        labels: [],
+        
+        datasets: [{
             label: "Mileage",
             borderWidth: 1,
-            data : [value, value],
-            backgroundColor: [
-              "rgb(54, 162, 235, 0.5)",
-              "rgb(255, 205, 86, 0.5)",],
-            borderColor: [
-              "rgb(54, 162, 235, 1)",
-              "rgb(255, 205, 86, 1)",]
+            data: [value],
+            backgroundColor:"rgb(54, 162, 235, 0.5)",
+            borderColor:"rgb(54, 162, 235, 1)",
         },{
             label: "Overseas",
             borderWidth: 1,
-            data : [overseas, 0],
-            backgroundColor: [
-              "rgb(155, 155, 155, 0.5)",
-              ],
-            borderColor: [
-              "rgb(155, 155, 155, 1)",
-              ]
-        },
-        {
-            label: "Conversion",
-            borderWidth: 1,
-            data : [0, max_value],
-            backgroundColor: [
-              "rgb(155, 155, 155, 0.5)",
-              "rgb(155, 155, 155, 0.5)",
-              ],
-            borderColor: [
-              "rgb(255, 205, 86, 1)",
-              "rgb(155, 155, 155, 1)",
-              ]
-        }
-      ]
+            data: [overseas-value],
+            backgroundColor:"rgb(255, 205, 86, 0.5)",
+            borderColor:"rgb(255, 205, 86, 1)",
+        },{
+          label: "Conversion",
+          borderWidth: 1,
+          data: [max_value-value],
+          backgroundColor:"rgb(155, 155, 155, 0.5)",
+          borderColor:"rgb(155, 155, 155, 1)",
+        }]
       },
       options: {
         plugins: {
-          labels: {
-            render: 'value'},
-          datalabels: {
-            anchor: 'end',
-            align: 'left',
-            font: {
-            weight: 'bold'
-            },
-          },
         },
         title: {
           display: true,
