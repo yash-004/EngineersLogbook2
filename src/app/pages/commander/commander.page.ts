@@ -189,7 +189,7 @@ export class CommanderPage implements OnInit {
   public getDriverName(driver: string) {
     for (let d of this.database.current.all_drivers_of_commander){
       if (d.email == driver) {
-        console.log(d.name);
+        //console.log(d.name);
         return d.name;
       }
     }
