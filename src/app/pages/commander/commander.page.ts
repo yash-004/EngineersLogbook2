@@ -186,12 +186,14 @@ export class CommanderPage implements OnInit {
     });
   }
 
-  /* async getMTRACDriverName(form) {
-    var result = await this.database.read('user',form.driver)
-    var driver = result.data() as User
-
-    return driver.name;
-  } */
+  public getDriverName(driver: string) {
+    for (let d of this.database.current.all_drivers_of_commander){
+      if (d.email == driver) {
+        console.log(d.name);
+        return d.name;
+      }
+    }
+  }
 
   public getApprovedDrives() : Drive[] {
     return this.database.current.drive_history.filter( (drive) => {
