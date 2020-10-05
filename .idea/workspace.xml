@@ -15,10 +15,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="3cdf076c-df2b-4277-9f47-69f51d413bc6" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/EngineersLogbook2.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/EngineersLogbook2.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/pages/summary/summary.page.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/pages/summary/summary.page.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/pages/summary/summary.page.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/pages/summary/summary.page.ts" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
