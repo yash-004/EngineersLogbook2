@@ -203,16 +203,13 @@ export class SummaryPage implements OnInit {
 
   // Charts
   // References: https://www.joshmorony.com/adding-responsive-charts-graphs-to-ionic-2-applications/
-
+  @ViewChild("chartCanvas2", {static:true}) chartCanvas2: ElementRef;
   @ViewChild("chartCanvas1", {static:true}) chartCanvas1: ElementRef;
   @ViewChild("chartCanvas4", {static:true}) chartCanvas4: ElementRef;
   @ViewChild("chartCanvas3", {static:true}) chartCanvas3: ElementRef;
-  @ViewChild("chartCanvas2", {static:true}) chartCanvas2: ElementRef;
   @ViewChild("chartCanvas5", {static:true}) chartCanvas5: ElementRef;
 
   private initCharts(): void {
-
-
 
 /*
    this.makeChart1(this.chartCanvas1);
@@ -277,14 +274,14 @@ export class SummaryPage implements OnInit {
 
 
   private makeChart2(canvas: ElementRef, data: any): Chart {
-  var mileage = [];
-  var vtypes = this.database.current.stats.most_recent_drive_by_vehicle_type;
-  vtypes = Object.keys(vtypes);
-  console.log(vtypes);
-  for (var vehicle of vtypes) {
-    mileage.push(this.getMileagebyVehicleType(this.database.current.stats.mileage_by_vehicle_type, vehicle).replace(" km", ""));
-  }
-  console.log(mileage);
+    var mileage = [];
+    var vtypes = this.database.current.stats.most_recent_drive_by_vehicle_type;
+    vtypes = Object.keys(vtypes);
+    console.log(vtypes);
+    for (var vehicle of vtypes) {
+      mileage.push(this.getMileagebyVehicleType(this.database.current.stats.mileage_by_vehicle_type, vehicle).replace(" km", ""));
+    }
+    console.log(mileage);
     return new Chart(canvas.nativeElement, {
       type: "bar",
       data: {
@@ -292,7 +289,6 @@ export class SummaryPage implements OnInit {
         datasets: [
         {
           label: "Mileage (km)",
-//          data: [54, 13, 227, 136],
           data: mileage,
           borderWidth: 2,
           backgroundColor: [
@@ -312,7 +308,7 @@ export class SummaryPage implements OnInit {
             "rgba(255, 159, 64, 1)"
           ],
         },
-      ]
+        ]
       },
       options: {
         responsive: true,
@@ -321,18 +317,18 @@ export class SummaryPage implements OnInit {
         },
         plugins: {
           labels: {
-              render: function (args) {return args.value + ' km';},},
+            render: function (args) {return args.value + ' km';},},
           datalabels: {
             anchor: 'end',
             align: 'bottom',
             font: {
-            weight: 'bold'
+              weight: 'bold'
             }
           }
         },
         title: {
           display: true,
-          text: 'Your Mileage by Vehicle Types'
+            text: 'Your Mileage by Vehicle Types'
         },
         legend: {
           display: false

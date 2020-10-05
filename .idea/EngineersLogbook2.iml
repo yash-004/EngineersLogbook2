@@ -46,6 +46,7 @@
       <excludeFolder url="file://$MODULE_DIR$/package.json" />
       <excludeFolder url="file://$MODULE_DIR$/platforms" />
       <excludeFolder url="file://$MODULE_DIR$/plugins" />
+      <excludeFolder url="file://$MODULE_DIR$/releases" />
       <excludeFolder url="file://$MODULE_DIR$/resources" />
       <excludeFolder url="file://$MODULE_DIR$/src" />
       <excludeFolder url="file://$MODULE_DIR$/tsconfig.app.json" />

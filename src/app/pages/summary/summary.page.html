@@ -1,0 +1,188 @@
+<ion-header>
+    <ion-toolbar>
+        <ion-title>Home</ion-title>
+        <ion-buttons slot="primary">
+            <ion-button left routerLink="/" routerDirection="root" fill="clear" slot="primary">
+                Logout<ion-icon name="log-out"></ion-icon>
+            </ion-button>
+        </ion-buttons>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+    <ion-grid class="table" no-padding>
+
+        <!-- Top section (Total Distance, Time and Drives) ------------------------------------------->
+
+        <ion-row *ngIf="!getnmtimemorning()">
+            <ion-col no-padding>
+                <ion-item text-center color="danger">
+                    <ion-label><h1><strong>NO MOVE TIMING TILL 0930</strong></h1></ion-label>
+                </ion-item>
+            </ion-col>
+        </ion-row>
+        <ion-row *ngIf="!getnmtimenight()">
+            <ion-col no-padding>
+                <ion-item text-center color="danger">
+                    <ion-label><h1><strong>NO MOVE TIMING TILL 1930</strong></h1></ion-label>
+                </ion-item>
+            </ion-col>
+        </ion-row>
+
+        <ion-row>
+            <ion-col no-padding>
+                <ion-item text-center>
+                    <ion-label style="margin-bottom: 0;"><h1>Fleet:<strong>{{database.current.user.fleet}}/{{database.current.user.company}}</strong></h1></ion-label>
+                </ion-item>
+            </ion-col>
+        </ion-row>
+
+        <ion-row>
+            <ion-col size="4" class="bubble-text" no-padding>
+
+                <ion-card (click)="showmileage()">
+                    <div class="ion-text-center" style="width: 100%;">
+                        <ion-icon name="speedometer" size="large"></ion-icon><br>
+                        <div class="shift_up">Mileage</div>
+                        <div class="slide_num">{{database.current.stats.mileage_km}}</div>
+                        <div class="slide_label shift_up">km</div>
+                        <ion-label *ngIf="checkMileageStatus()">
+                            <h6 *ngFor="let vehicle of database.current.stats.most_recent_drive_by_vehicle_type | keyvalue">
+                                {{vehicle.key}} : {{getMileagebyVehicleType(database.current.stats.mileage_by_vehicle_type, vehicle.key)}}
+                            </h6>
+                        </ion-label>
+                    </div>
+                </ion-card>
+            </ion-col>
+
+            <ion-col size="4" class="bubble-text">
+                <ion-card (click)="showdrives()">
+                    <div class="ion-text-center" style="width: 100%;">
+                        <ion-icon name="car" size="large">
+                        </ion-icon><br>
+                        <ion-label>
+                            <div class="shift_up">Drives</div>
+                        </ion-label>
+                        <ion-label>
+                            <div class="slide_num">{{database.current.stats.drive_count}}</div>
+                        </ion-label>
+                        <ion-label>
+                            <div class="slide_label shift_up">Trips</div>
+                        </ion-label>
+                        <ion-label *ngIf="checkDriveStatus()">
+                            <h6 *ngFor="let vehicle of database.current.stats.most_recent_drive_by_vehicle_type | keyvalue">
+                                {{vehicle.key}} : {{getDrivesbyVehicleType(vehicle.key)}}
+                            </h6>
+                        </ion-label>
+                    </div>
+                </ion-card>
+            </ion-col>
+
+            <ion-col size="4" class="bubble-text">
+                <ion-card>
+                    <div class="ion-text-center" style="width: 100%;">
+                        <ion-icon name="clock" size="large"></ion-icon><br>
+                        <div class="shift_up">Time</div>
+                        <div class="slide_num">{{database.current.stats.duration_minutes / 60 | number : '1.0-1' }}</div>
+                        <div class="slide_label shift_up">Hours</div>
+                    </div>
+                </ion-card>
+            </ion-col>
+        </ion-row>
+    </ion-grid>
+
+    <!-- Third section (Chart slides) ------------------------------------------->
+    <ion-slides pager='true' no-padding>
+        <!--<ion-slide><canvas #chartCanvas1></canvas></ion-slide>-->
+        <ion-slide > <ion-grid>
+            <ion-label><h1 class="underline">Platform Currency</h1></ion-label>
+            <ion-item *ngFor="let vehicle of database.current.stats.most_recent_drive_by_vehicle_type | keyvalue">
+
+
+                <ion-col>
+                    <ion-label>
+                        <h2 *ngIf="checkOperatorCurrencyValid(database.current.stats.most_recent_drive_by_vehicle_type[vehicle.key])">{{vehicle.key}} :</h2>
+                    </ion-label>
+                    <ion-label  color='danger'>
+                        <h2 *ngIf="checkOperatorCurrencyInvalid(database.current.stats.most_recent_drive_by_vehicle_type[vehicle.key])">{{vehicle.key}} :</h2>
+                    </ion-label>
+
+                    Last Drive: {{database.current.stats.most_recent_drive_by_vehicle_type[vehicle.key] | date: "dd/MM/yyyy"}}
+                    ({{database.current.stats.most_recent_drive_by_vehicle_type[vehicle.key] | daysAgo}} days ago)</ion-col>
+
+            </ion-item> </ion-grid> </ion-slide>
+        <ion-slide style="padding: 0 5px"><ion-col>
+            <canvas #chartCanvas2 responsive="true"></canvas>
+        </ion-col></ion-slide>
+        <ion-slide  style="padding: 0 5px" responsive="true"><canvas #chartCanvas5></canvas></ion-slide>
+
+    </ion-slides>
+
+
+    <!--
+          <ion-slide> <ion-grid>
+
+             <ion-label><h1>Platform Currency</h1></ion-label>
+             <ion-item *ngFor="let vehicle of database.current.stats.most_recent_drive_by_vehicle_type | keyvalue">
+
+            <ion-col>
+              <ion-label color='danger'>
+                <h2 *ngIf="checkOperatorCurrencyInvalid(database.current.stats.most_recent_drive[vehicle.key])">{{vehicle.key}} : {{checkOperatordaysCurrencyValid(database.current.stats.most_recent_drive_by_vehicle_type[vehicle.key])}}</h2>
+              </ion-label>
+
+              <ion-label>
+                <h2 *ngIf="checkOperatorCurrencyValid(database.current.stats.most_recent_drive_by_vehicle_type[vehicle.key])">{{vehicle.key}} : {{checkOperatordaysCurrencyValid(database.current.stats.most_recent_drive_by_vehicle_type[vehicle.key])}}</h2>
+              </ion-label>
+
+             Last Drive: {{database.current.stats.most_recent_drive_by_vehicle_type[vehicle.key] | date: "dd/MM/yyyy"}}
+             ({{database.current.stats.most_recent_drive_by_vehicle_type[vehicle.key] | daysAgo}} days ago)</ion-col>
+         </ion-item></ion-grid></ion-slide>
+         -->
+
+
+    <!--
+    <ion-card padding>
+    <ion-card-subtitle><strong>Operator Currency</strong></ion-card-subtitle>
+    <ion-card-title>Most Recent Drive:</ion-card-title>
+    <ion-card-content class="ion-no-padding">
+      {{database.current.stats.most_recent_drive | date: "dd/MM/yyyy hh:mm"}} ({{database.current.stats.most_recent_drive | daysAgo}} days ago)
+    </ion-card-content>
+  </ion-card>
+  -->
+
+
+    <!-- Bottom section (Notifications) ------------------------------------------->
+
+    <ion-item text-center>
+        <ion-label><h1><strong>Notifications</strong></h1></ion-label>
+    </ion-item>
+
+    <!--ion-card *ngFor="let trip of database.current.drive_history">
+      <app-drive-view expandHeight='150px' [drive]="trip"></app-drive-view>
+    </ion-card-->
+
+    <ion-card *ngFor="let message of getNotifications()" padding>
+
+        <ion-fab vertical="top" horizontal="end">
+            <ion-fab-button *ngIf="message.subtitle=='Drive-In-Progress'" size="small" (click)="click(message.trip)" color="danger"><ion-icon name='end-drive'></ion-icon></ion-fab-button>
+            <ion-fab-button *ngIf="message.subtitle=='Awaiting Review'" size="small" (click)="click(message.trip)" color="warning">View</ion-fab-button>
+            <ion-fab-button *ngIf="message.subtitle=='Drive Rejected (Action Required)'" size="small" (click)="click(message.trip)" color="danger">Redo</ion-fab-button>
+        </ion-fab>
+
+        <ion-card-subtitle color='danger'><strong>{{message.subtitle}}</strong></ion-card-subtitle>
+        <ion-card-title>{{message.title}}</ion-card-title>
+
+        <ion-card-content class="ion-no-padding">{{message.text}}</ion-card-content>
+
+    </ion-card>
+    <ion-card *ngFor="let form of getVerifiedMTRAC()" padding>
+        <ion-fab vertical="top" horizontal="end">
+            <!--ion-fab-button size="small" (click)="click(drive)">View</ion-fab-button-->
+            <ion-fab-button size="small" (click)="clickmtrac(form)"><ion-icon name='share-alt'></ion-icon></ion-fab-button>
+            <!--ion-button fill="outline" size="small" (click)="click(drive)">View</ion-button-->
+        </ion-fab>
+        <ion-card-title>Continue to add drive</ion-card-title>
+    </ion-card>
+
+</ion-content>
