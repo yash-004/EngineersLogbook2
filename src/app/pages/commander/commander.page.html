@@ -66,35 +66,11 @@
     <ion-card-header>
       <ion-card-subtitle><ion-icon name="person" text-center (click)="showother()"></ion-icon> <strong> {{driver.name}} ({{driver.email}})</strong></ion-card-subtitle>
       <ion-card-subtitle (click)="showother()">Last drive: {{driver.summary.most_recent_drive | date: "dd/MM/yyyy hh:mm"}}, {{driver.summary.most_recent_drive | daysAgo}} days ago</ion-card-subtitle>
+      <br/>
       <ion-label position="stacked" *ngIf="checkAll()==true"><h2>Certifications</h2></ion-label>
       <ion-button *ngIf="checkAll()==false" (click)="showEdit()">Certifications <ion-icon name="settings"></ion-icon></ion-button>
-      <ion-grid>
-        <ion-row>
-          <ion-col>
-            <ion-label color="success"> OUV </ion-label>
-          </ion-col>
-          <ion-col offset-4>
-            <ion-label color="success"> 5TON </ion-label>
-          </ion-col>
-        </ion-row>
-        <ion-row>
-          <ion-col>
-            <ion-label *ngIf="driver.mss_certified == true" color="success" > MSS </ion-label>
-          </ion-col>
-          <ion-col offset-4 >
-            <ion-label *ngIf="driver.flb_certified == true" color="success"> FLB </ion-label>
-          </ion-col>
-        </ion-row>
-        <ion-row>
-          <ion-col>
-            <ion-label *ngIf="driver.belrex_certified == true" color="success"> BELREX </ion-label>
-          </ion-col>
-          <ion-col offset-4>
-            <ion-label *ngIf="driver.m3g_certified == true" color="success"> M3G </ion-label>
-          </ion-col>
-        </ion-row>
-      </ion-grid>
-
+      <ion-label color="success">{{getCertifications(driver)}}</ion-label>
+      
       <ion-card *ngIf="checkEditDriverStatus()==true">
         <ion-list>
           <ion-item>

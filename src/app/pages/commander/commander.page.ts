@@ -195,6 +195,24 @@ export class CommanderPage implements OnInit {
     }
   }
 
+  public getCertifications(driver: User) {
+    var certifications = []
+    if (driver.mss_certified) {
+      certifications.push("MSS")
+    }
+    if (driver.flb_certified) {
+      certifications.push("FLB")
+    }
+    if (driver.belrex_certified) {
+      certifications.push("BELREX")
+    }
+    if (driver.m3g_certified) {
+      certifications.push("M3G")
+    }
+    return certifications.join(", ")
+  }
+
+
   public getApprovedDrives() : Drive[] {
     return this.database.current.drive_history.filter( (drive) => {
       return drive.status === 'verified';
