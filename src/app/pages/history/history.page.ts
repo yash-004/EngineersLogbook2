@@ -161,6 +161,12 @@ export class HistoryPage implements OnInit {
             "rgba(75, 192, 192, 1)",
             "rgba(153, 102, 255, 1)",]
             }];
+  public chartOptions = {
+    responsive: true,
+    legend: {
+      onClick: (e) => e.stopPropagation()
+    }
+  };
 
   private buildChart(): void {
 

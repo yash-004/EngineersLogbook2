@@ -216,7 +216,7 @@
   <form class="form" [formGroup]="mtracForm" (submit)="addmtrac(mtracForm.value)">
   <ion-card><ion-card-content>
     <ion-item lines="none">
-      <ion-label  position="floating">driving area</ion-label>
+      <ion-label  position="floating">Driving Area</ion-label>
       <ion-select [ngStyle]="{'color': 'black'}" formControlName="incamp" interface="popover">
         <ion-select-option [ngStyle]="{'color': 'black'}" text-wrap value=true>In Camp</ion-select-option>
         <ion-select-option [ngStyle]="{'color': 'black'}" text-wrap value=false *ngIf="gettime()">Out of Camp</ion-select-option>

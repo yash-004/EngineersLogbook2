@@ -11,7 +11,7 @@
   <ion-col size='4' class='left'>
     <ion-item text-center lines="none" *ngIf="drive.status!='in-progress'">
       <ion-label position="stacked">Distance</ion-label>
-      <ion-text style="margin-bottom:8px; font-size: 120%; font-weight:bold;">{{database.distance(drive)}}km</ion-text>
+      <ion-text style="margin-bottom:8px; ">{{database.distance(drive)}}km</ion-text>
       <ion-text><ion-icon name="clock"></ion-icon>{{database.formatMinutesToString(database.duration(drive))}}</ion-text>
     </ion-item>
 

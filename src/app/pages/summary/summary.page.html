@@ -95,7 +95,7 @@
     <!-- Third section (Chart slides) ------------------------------------------->
     <ion-slides pager='true' no-padding>
         <!--<ion-slide><canvas #chartCanvas1></canvas></ion-slide>-->
-        <ion-slide > <ion-grid>
+        <ion-slide style="padding: 0 5px"> <ion-grid>
             <ion-label><h1 class="underline">Platform Currency</h1></ion-label>
             <ion-item *ngFor="let vehicle of database.current.stats.most_recent_drive_by_vehicle_type | keyvalue">
 
@@ -116,7 +116,6 @@
             <canvas #chartCanvas2 responsive="true"></canvas>
         </ion-col></ion-slide>
         <ion-slide  style="padding: 0 5px" responsive="true"><canvas #chartCanvas5></canvas></ion-slide>
-
     </ion-slides>
 
 
