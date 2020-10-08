@@ -5,6 +5,7 @@ import { DatabaseService, VehicleTypes, Mtrac } from '../services/database.servi
 import { ToastController } from '@ionic/angular';
 import { ActivatedRoute } from '@angular/router';
 import * as dayjs from 'dayjs'; // Datetime utility, See http://zetcode.com/javascript/dayjs/
+import SignaturePad from 'signature_pad';
 
 @Component({
   selector: 'app-mtrac',

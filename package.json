@@ -58,6 +58,7 @@
     "ngx-countdown": "^9.0.0",
     "rxjs": "6.5.4",
     "sharp": "^0.25.2",
+    "signature_pad": "^3.0.0-beta.4",
     "sprintf-js": "^1.1.2",
     "tslib": "^1.10.0",
     "zone.js": "^0.9.1"
