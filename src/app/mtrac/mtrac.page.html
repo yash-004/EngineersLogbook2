@@ -555,7 +555,7 @@
   <div class="signature-box">
     <h2>COUNTERSIGNING OFFICER SIGNATURE</h2>
     <signature-pad #countersig [options]="signaturePadOptions" (onBeginEvent)="drawStart()" (onEndEvent)="drawComplete()"></signature-pad>
-    <div class="btn-wrapper">
+    <div *ngIf="this.mtrac == null" class="btn-wrapper">
       <ion-button (click)='this.counterSignature.clear()'>Reset</ion-button>
     </div>
   </div>
@@ -563,7 +563,7 @@
   <div class="signature-box">
     <h2>FRONT PASSENGER SIGNATURE</h2>
     <signature-pad #frontsig [options]="signaturePadOptions"></signature-pad>
-    <div class="btn-wrapper">
+    <div *ngIf="this.mtrac == null" class="btn-wrapper">
       <ion-button (click)='this.frontSignature.clear()'>Reset</ion-button>
     </div>
   </div>

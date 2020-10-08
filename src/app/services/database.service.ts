@@ -108,6 +108,8 @@ vc: string;
 vehicleServiceability: string;
 startLocation: string;
 endLocation: string;
+counterSignature: any;
+frontSignature: any;
 
 cmdlicense: boolean;
 cmdspeedlimit: boolean;

@@ -175,7 +175,15 @@ export class mtracPage implements OnInit {
   }
   ionViewDidEnter(){
     // this.signaturePad is now available
-    this.counterSignature.clear(); // invoke functions from szimek/signature_pad API
+    //this.counterSignature.clear(); // invoke functions from szimek/signature_pad API
+    
+    //disable signatures after first submission
+    if (this.mtrac != null){
+      this.counterSignature.off();
+      this.frontSignature.off();
+      this.counterSignature.fromData(this.convertArrayFromFirebase(this.mtrac.counterSignature))
+      this.frontSignature.fromData(this.convertArrayFromFirebase(this.mtrac.frontSignature))
+    }
   }
 
   ngOnInit() {
@@ -492,6 +500,9 @@ export class mtracPage implements OnInit {
           vehicleServiceability: this.mtracForm.value.vehicleServiceability,
           incamp: this.mtracForm.value.incamp,
 
+          counterSignature: this.convertArrayForFirebase(this.counterSignature.toData()),
+          frontSignature: this.convertArrayForFirebase(this.frontSignature.toData()),
+
           cmdlicense: false,
           cmdspeedlimit: false,
           cmddanger: false,
@@ -562,11 +573,28 @@ export class mtracPage implements OnInit {
 
   drawComplete() {
     // will be notified of szimek/signature_pad's onEnd event
-    console.log(this.signaturePad.toData());
+    console.log(this.counterSignature.toData());
+    console.log(this.convertArrayForFirebase(this.counterSignature.toData()))
   }
 
   drawStart() {
     // will be notified of szimek/signature_pad's onBegin event
     console.log('begin drawing');
+  }
+
+  convertArrayForFirebase(nested){
+    var indirect = []
+    for (var array in nested){
+      indirect.push({"contents": nested[array]})
+    }
+    return indirect
+  }
+
+  convertArrayFromFirebase(indirect){
+    var array = []
+    indirect.forEach((obj,i) => {
+      array.push(obj.contents)
+    })
+    return array
   }
 }

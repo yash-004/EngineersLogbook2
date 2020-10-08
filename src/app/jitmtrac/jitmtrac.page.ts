@@ -1,10 +1,11 @@
-import { Component, OnInit, wtfStartTimeRange } from '@angular/core';
+import { Component, OnInit, ViewChild, wtfStartTimeRange } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 import { NavController } from '@ionic/angular';
 import { DatabaseService, VehicleTypes, Mtrac } from '../services/database.service';
 import { ToastController } from '@ionic/angular';
 import { ActivatedRoute } from '@angular/router';
 import * as dayjs from 'dayjs'; // Datetime utility, See http://zetcode.com/javascript/dayjs/
+import { SignaturePad } from 'angular2-signaturepad/signature-pad';
 
 @Component({
   selector: 'app-mtrac',
@@ -13,6 +14,15 @@ import * as dayjs from 'dayjs'; // Datetime utility, See http://zetcode.com/java
 })
 
 export class jitmtracPage implements OnInit {
+  @ViewChild('countersig', {static: true}) counterSignature: SignaturePad
+  @ViewChild('frontsig', {static: true}) frontSignature: SignaturePad
+  private signaturePadOptions: Object = { // passed through to szimek/signature_pad constructor
+    'minWidth': 0.75,
+    'maxWidth': 1.5,
+    'canvasWidth': 500,
+    'canvasHeight': 300,
+    'backgroundColor': '#ffffff'
+  };
 
   mtracForm: FormGroup;
   errorMessage = '';
@@ -159,6 +169,18 @@ export class jitmtracPage implements OnInit {
       else{
         this.selectedLicense = this.licenseTypes[3].value
       }
+    }
+  }
+  ionViewDidEnter(){
+    // this.signaturePad is now available
+    //this.counterSignature.clear(); // invoke functions from szimek/signature_pad API
+    
+    //disable signatures after first submission
+    if (this.mtrac != null){
+      this.counterSignature.off();
+      this.frontSignature.off();
+      this.counterSignature.fromData(this.convertArrayFromFirebase(this.mtrac.counterSignature))
+      this.frontSignature.fromData(this.convertArrayFromFirebase(this.mtrac.frontSignature))
     }
   }
 
@@ -475,6 +497,9 @@ export class jitmtracPage implements OnInit {
           vehicleServiceability: this.mtracForm.value.vehicleServiceability,
           incamp: this.mtracForm.value.incamp,
 
+          counterSignature: this.convertArrayForFirebase(this.counterSignature.toData()),
+          frontSignature: this.convertArrayForFirebase(this.frontSignature.toData()),
+
           cmdlicense: false,
           cmdspeedlimit: false,
           cmddanger: false,
@@ -541,5 +566,31 @@ export class jitmtracPage implements OnInit {
         this.successMessage = 'The MT-RAC Form is completed successfully.';
         this.showToast(this.successMessage);
     }
+  }
+  drawComplete() {
+    // will be notified of szimek/signature_pad's onEnd event
+    console.log(this.counterSignature.toData());
+    console.log(this.convertArrayForFirebase(this.counterSignature.toData()))
+  }
+
+  drawStart() {
+    // will be notified of szimek/signature_pad's onBegin event
+    console.log('begin drawing');
+  }
+
+  convertArrayForFirebase(nested){
+    var indirect = []
+    for (var array in nested){
+      indirect.push({"contents": nested[array]})
+    }
+    return indirect
+  }
+
+  convertArrayFromFirebase(indirect){
+    var array = []
+    indirect.forEach((obj,i) => {
+      array.push(obj.contents)
+    })
+    return array
   }
 }
