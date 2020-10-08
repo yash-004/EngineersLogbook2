@@ -552,7 +552,23 @@
     </div>
 
 -->
-    
+  <div class="signature-box">
+    <h2>COUNTERSIGNING OFFICER SIGNATURE</h2>
+    <signature-pad #countersig [options]="signaturePadOptions" (onBeginEvent)="drawStart()" (onEndEvent)="drawComplete()"></signature-pad>
+    <div class="btn-wrapper">
+      <ion-button (click)='this.counterSignature.clear()'>Reset</ion-button>
+    </div>
+  </div>
+
+  <div class="signature-box">
+    <h2>FRONT PASSENGER SIGNATURE</h2>
+    <signature-pad #frontsig [options]="signaturePadOptions"></signature-pad>
+    <div class="btn-wrapper">
+      <ion-button (click)='this.frontSignature.clear()'>Reset</ion-button>
+    </div>
+  </div>
+
+
     <ion-item>
       <ion-label text-wrap>I acknowledge that I, {{this.database.current.user.name}}, have read through, understood, and checked through the MT Risk Assessment (MT-RAC) Checklist on {{getcdt()}}.</ion-label>
       <ion-checkbox *ngIf="this.driver == this.database.current.user.email" slot="start" formControlName="drivermtrac" name="drivermtrac" style="background: transparent;"></ion-checkbox>

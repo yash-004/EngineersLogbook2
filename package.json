@@ -31,6 +31,7 @@
     "@ionic/angular": "^4.11.10",
     "@ionic/cli": "^6.11.11",
     "@ionic/storage": "^2.2.0",
+    "angular2-signaturepad": "^2.11.0",
     "canvas-gauges": "^2.1.5",
     "chart.js": "^2.9.3",
     "chartjs": "^0.3.24",
@@ -58,7 +59,6 @@
     "ngx-countdown": "^9.0.0",
     "rxjs": "6.5.4",
     "sharp": "^0.25.2",
-    "signature_pad": "^3.0.0-beta.4",
     "sprintf-js": "^1.1.2",
     "tslib": "^1.10.0",
     "zone.js": "^0.9.1"

@@ -5,14 +5,12 @@ import { Routes, RouterModule } from '@angular/router';
 
 import { IonicModule } from '@ionic/angular';
 
-import { mtracPage } from './mtrac.page';
-
-import { SignaturePadModule } from 'angular2-signaturepad'
+import { mtracinfoPage } from './mtracinfo.page';
 
 const routes: Routes = [
   {
     path: '',
-    component: mtracPage
+    component: mtracinfoPage
   }
 ];
 
@@ -22,9 +20,8 @@ const routes: Routes = [
     FormsModule,
     IonicModule,
     ReactiveFormsModule,
-    SignaturePadModule,
     RouterModule.forChild(routes)
   ],
-  declarations: [mtracPage]
+  declarations: [mtracinfoPage]
 })
-export class mtracPageModule {}
+export class mtracinfoPageModule {}

@@ -1,11 +1,12 @@
-import { Component, OnInit, wtfStartTimeRange } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 import { NavController } from '@ionic/angular';
 import { DatabaseService, VehicleTypes, Mtrac } from '../services/database.service';
 import { ToastController } from '@ionic/angular';
 import { ActivatedRoute } from '@angular/router';
 import * as dayjs from 'dayjs'; // Datetime utility, See http://zetcode.com/javascript/dayjs/
-import SignaturePad from 'signature_pad';
+import { SignaturePad } from 'angular2-signaturepad/signature-pad';
+
 
 @Component({
   selector: 'app-mtrac',
@@ -13,8 +14,18 @@ import SignaturePad from 'signature_pad';
   styleUrls: ['./mtrac.page.scss'],
 })
 
-export class mtracPage implements OnInit {
 
+export class mtracPage implements OnInit {
+  @ViewChild('countersig', {static: true}) counterSignature: SignaturePad
+  @ViewChild('frontsig', {static: true}) frontSignature: SignaturePad
+  private signaturePadOptions: Object = { // passed through to szimek/signature_pad constructor
+    'minWidth': 0.75,
+    'maxWidth': 1.5,
+    'canvasWidth': 500,
+    'canvasHeight': 300,
+    'backgroundColor': '#ffffff'
+  };
+  
   mtracForm: FormGroup;
   errorMessage = '';
   successMessage = '';
@@ -162,6 +173,10 @@ export class mtracPage implements OnInit {
       }
     }
   }
+  ionViewDidEnter(){
+    // this.signaturePad is now available
+    this.counterSignature.clear(); // invoke functions from szimek/signature_pad API
+  }
 
   ngOnInit() {
       this.mtracForm = this.formBuilder.group({
@@ -242,6 +257,7 @@ export class mtracPage implements OnInit {
             this.setmtracDetails();
             this.mtracForm.disable();
         }
+      
     }
     else
     {
@@ -542,5 +558,15 @@ export class mtracPage implements OnInit {
         this.successMessage = 'The MT-RAC Form is completed successfully.';
         this.showToast(this.successMessage);
     }
+  }
+
+  drawComplete() {
+    // will be notified of szimek/signature_pad's onEnd event
+    console.log(this.signaturePad.toData());
+  }
+
+  drawStart() {
+    // will be notified of szimek/signature_pad's onBegin event
+    console.log('begin drawing');
   }
 }
