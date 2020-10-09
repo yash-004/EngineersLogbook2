@@ -110,6 +110,9 @@ startLocation: string;
 endLocation: string;
 counterSignature: any;
 frontSignature: any;
+safetyMeasures: string;
+frontName: string;
+counterName: string;
 
 cmdlicense: boolean;
 cmdspeedlimit: boolean;
