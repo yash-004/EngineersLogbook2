@@ -61,6 +61,8 @@ export class jitmtracPage implements OnInit {
         { type: 'required', message: 'enter end location' },],
     incamp: [
         { type: 'required', message: 'select drive area' },],
+    counterName: [
+        { type: 'required', message: 'Enter a countersigning officer' },],
 };
 
   public licenseTypes = [{value:"L",text:"CAT A, B"},{value:"M",text:"CAT C"},{value:"H",text:"CAT D"},{value:"N",text:"Have never been trained and familiarized in the vehicle that you will be driving"}] 
@@ -201,6 +203,9 @@ export class jitmtracPage implements OnInit {
         startLocation: new FormControl('JIT', Validators.compose([Validators.required])),
         endLocation: new FormControl('JIT', Validators.compose([Validators.required])),
         commander: new FormControl('', Validators.compose([Validators.required])),
+        safetyMeasures: new FormControl(''),
+        frontName: new FormControl(''),
+        counterName: new FormControl('', Validators.compose([Validators.required])),
 
         cmdlicense: new FormControl({value: false, disabled: true }),
         cmdspeedlimit: new FormControl({value: false, disabled: true }),
@@ -288,6 +293,9 @@ export class jitmtracPage implements OnInit {
     this.mtracForm.get('vehicleServiceability').setValue(this.mtrac.vehicleServiceability);
     this.mtracForm.get('startLocation').setValue(this.mtrac.startLocation);
     this.mtracForm.get('endLocation').setValue(this.mtrac.endLocation);
+    this.mtracForm.get('safetyMeasures').setValue(this.mtrac.safetyMeasures);
+    this.mtracForm.get('frontName').setValue(this.mtrac.frontName);
+    this.mtracForm.get('counterName').setValue(this.mtrac.counterName);
 
     this.mtracForm.get('cmdlicense').setValue(this.mtrac.cmdlicense);
     this.mtracForm.get('cmdspeedlimit').setValue(this.mtrac.cmdspeedlimit);
@@ -496,6 +504,10 @@ export class jitmtracPage implements OnInit {
           vc: this.mtracForm.value.vc,
           vehicleServiceability: this.mtracForm.value.vehicleServiceability,
           incamp: this.mtracForm.value.incamp,
+          
+          safetyMeasures: this.mtracForm.value.safetyMeasures,
+          counterName: this.mtracForm.value.counterName,
+          frontName: this.mtracForm.value.frontName,
 
           counterSignature: this.convertArrayForFirebase(this.counterSignature.toData()),
           frontSignature: this.convertArrayForFirebase(this.frontSignature.toData()),
