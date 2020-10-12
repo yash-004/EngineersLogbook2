@@ -347,6 +347,12 @@ export class SummaryPage implements OnInit {
   }
 
   private makeChart5(canvas: ElementRef, value: number, max_value: number, overseas: number): Chart {
+    var xLabels = {
+      1000 : '1000km\noverseas',
+      2000 : '2000',
+      3000 : '3000',
+      4000 : '4000km\ncv licence',
+    };
     return new Chart(canvas.nativeElement, {
       type: "horizontalBar",
       data: {
@@ -385,7 +391,9 @@ export class SummaryPage implements OnInit {
         scales: {
           xAxes: [{
             ticks: {
-              mirror: true
+              mirror: true,
+              callback: function(value, index, values) {
+                return xLabels[value];}
             },
             stacked: true,
           }],
@@ -396,7 +404,7 @@ export class SummaryPage implements OnInit {
         }
       }
     });
-  }
+  }x6 
 
 
 
