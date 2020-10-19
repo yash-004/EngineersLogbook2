@@ -1,0 +1,110 @@
+* {
+  opacity: 1 !important;  // disabled items will not be grey out.
+  --ion-text-color: black;
+}
+
+ion-toolbar{
+    --background:	#bafbba;
+}
+
+ion-content{
+  --ion-background-color:	#bafbba;
+  --ion-text-color: black;
+}
+
+ion-item{
+  height: auto;
+  min-height: auto;
+  --background:	#bafbba;
+}
+
+ion-grid{
+  --background:	#bafbba;
+}
+
+ion-card-title{
+  --color: black;
+}
+
+ion-input{
+  text-transform: uppercase;
+  color: primary!important;
+}
+
+ion-select{
+  --padding-start: 0px;
+  --inner-padding-end: 0px;
+  min-width: auto;
+  max-width: 70%;
+  height: auto;
+  min-height: auto;
+  max-height: 100%;
+}
+
+.btn-wrapper {
+  text-align: center;
+}
+
+// do not show spinner for number inputs
+.input[type=number] {  
+  &::-webkit-inner-spin-button{ display: none; }
+  -moz-appearance:textfield;
+}
+
+.toolbar-title {
+   text-overflow: inherit;
+   white-space: normal;
+   text-align: left;
+   font-size:1.3em;
+}
+
+.cell-class {
+  border-color: black;
+  border-width: .01em;
+  border-style:solid;
+}
+
+.invalid-class {
+  border-color: black;
+  border-width: .01em;
+  border-style:solid;
+  background:#bafbba;
+}
+
+.row {
+  // Force grid to fill height of content as this is not set by default
+  height: 100%;
+}
+
+.col{
+  height: 100%;
+  border: solid black;
+}
+
+.sc-ion-popover-md-h {
+    min-width: auto;
+    min-height: auto;
+    max-width: 100%;
+    height: 50%;
+}
+
+.popover-content.sc-ion-popover-md {
+    position: inherit;
+    min-width: auto;
+    max-width: 100%;
+    height: auto;
+    min-height: auto;
+    max-height: 100%;
+}
+
+.invalid-div{
+    background-color: #bafbba;
+}
+
+.checkbox-div{
+    background-color:	#bafbba;
+}
+
+.sc-ion-card-md-h {
+  --background: #bafbba;
+}
