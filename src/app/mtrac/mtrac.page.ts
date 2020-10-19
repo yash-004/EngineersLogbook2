@@ -197,7 +197,6 @@ export class mtracPage implements OnInit {
           cmdroute: new FormControl({ value: false, disabled: true }),
 
         seatbeltdriver: new FormControl(false, Validators.compose([Validators.requiredTrue])),
-        seatingdriver: new FormControl(false, Validators.compose([Validators.requiredTrue])),
         safetystrapdriver: new FormControl(false),
         smokingdriver: new FormControl(false, Validators.compose([Validators.requiredTrue])),
         loaddriver: new FormControl(false, Validators.compose([Validators.requiredTrue])),
@@ -228,7 +227,6 @@ export class mtracPage implements OnInit {
             this.mtracForm.get('safetystrapcommander').enable();
             this.mtracForm.get('smokingcommander').enable();
             this.mtracForm.get('loadcommander').enable();
-            this.mtracForm.get('seatbelttroopscommander').enable();
             this.mtracForm.get('accidentcommander').enable();
             this.mtracForm.get('mtraccompletecommander').enable();
             this.mtracForm.get('cmdchecklistcomplete').enable();
@@ -413,7 +411,8 @@ export class mtracPage implements OnInit {
     this.mtracForm.get('mtraccompletecommander').value == false ||
         this.mtracForm.get('cmdchecklistcomplete').value == false ||
         this.mtracForm.get('admincommander').value == false ||
-    this.mtracForm.get('commandermtrac').value == false)
+        this.mtracForm.get('commandermtrac').value == false ||
+    this.mtracForm.get('cmdroute').value == false)
     {
     return false;
     }
@@ -444,7 +443,6 @@ export class mtracPage implements OnInit {
     this.mtracForm.get('safetystrapdriver').value == false ||
     this.mtracForm.get('smokingdriver').value == false ||
     this.mtracForm.get('loaddriver').value == false ||
-    this.mtracForm.get('seatbelttroopsdriver').value == false ||
     this.mtracForm.get('accidentdriver').value == false ||
         this.mtracForm.get('mtraccompletedriver').value == false ||
         this.mtracForm.get('admindriver').value == false ||
@@ -503,17 +501,14 @@ export class mtracPage implements OnInit {
           safetystrapcommander: false,
           smokingcommander: false,
           loadcommander: false,
-          seatbelttroopscommander: false,
           accidentcommander: false,
           mtraccompletecommander: false,
           cmdchecklistcomplete: false,
 
           seatbeltdriver: this.mtracForm.value.seatbeltdriver,
-          seatingdriver: this.mtracForm.value.seatingdriver,
           safetystrapdriver: this.mtracForm.value.safetystrapdriver,
           smokingdriver: this.mtracForm.value.smokingdriver,
           loaddriver: this.mtracForm.value.loaddriver,
-          seatbelttroopsdriver: this.mtracForm.value.seatbelttroopsdriver,
           accidentdriver: this.mtracForm.value.accidentdriver,
           mtraccompletedriver: this.mtracForm.value.mtraccompletedriver,
           drivermtrac: this.mtracForm.value.drivermtrac,
@@ -549,7 +544,6 @@ export class mtracPage implements OnInit {
         this.mtrac.safetystrapcommander= this.mtracForm.get('safetystrapcommander').value;
         this.mtrac.smokingcommander= this.mtracForm.get('smokingcommander').value;
         this.mtrac.loadcommander= this.mtracForm.get('loadcommander').value;
-        this.mtrac.seatbelttroopscommander= this.mtracForm.get('seatbelttroopscommander').value;
         this.mtrac.accidentcommander= this.mtracForm.get('accidentcommander').value;
         this.mtrac.mtraccompletecommander= this.mtracForm.get('mtraccompletecommander').value;
         this.mtrac.cmdchecklistcomplete= this.mtracForm.get('cmdchecklistcomplete').value;
