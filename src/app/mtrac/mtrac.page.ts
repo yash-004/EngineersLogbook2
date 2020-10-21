@@ -214,7 +214,6 @@ export class mtracPage implements OnInit {
         cmddanger: new FormControl({value: false, disabled: true }),
         cmdreverse: new FormControl({value: false, disabled: true }),
         seatbeltcommander: new FormControl({value: false, disabled: true }),
-        seatingcommander: new FormControl({value: false, disabled: true }),
         safetystrapcommander: new FormControl({value: false, disabled: true }),
         smokingcommander: new FormControl({value: false, disabled: true }),
         loadcommander: new FormControl({value: false, disabled: true }),
@@ -537,7 +536,6 @@ export class mtracPage implements OnInit {
           cmddanger: false,
           cmdreverse: false,
           seatbeltcommander: false,
-          seatingcommander: false,
           safetystrapcommander: false,
           smokingcommander: false,
           loadcommander: false,
@@ -589,7 +587,6 @@ export class mtracPage implements OnInit {
         this.mtrac.cmddanger= this.mtracForm.get('cmddanger').value;
         this.mtrac.cmdreverse= this.mtracForm.get('cmdreverse').value;
         this.mtrac.seatbeltcommander= this.mtracForm.get('seatbeltcommander').value;
-        this.mtrac.seatingcommander= this.mtracForm.get('seatingcommander').value;
         this.mtrac.safetystrapcommander= this.mtracForm.get('safetystrapcommander').value;
         this.mtrac.smokingcommander= this.mtracForm.get('smokingcommander').value;
         this.mtrac.loadcommander= this.mtracForm.get('loadcommander').value;

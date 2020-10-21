@@ -60,7 +60,7 @@
     </select>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3cdf076c-df2b-4277-9f47-69f51d413bc6" name="Default Changelist" comment="">
+    <list default="true" id="3cdf076c-df2b-4277-9f47-69f51d413bc6" name="Default Changelist" comment="deleted seatbelttroops in JIT">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/app/jitmtrac/jitmtrac.page.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/jitmtrac/jitmtrac.page.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/app/jitmtrac/jitmtrac.page.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/jitmtrac/jitmtrac.page.ts" afterDir="false" />
@@ -78,9 +78,6 @@
   <component name="ErrorTreeViewConfiguration">
     <option name="autoscrollToSource" value="true" />
     <option name="IS_AUTOSCROLL_TO_SOURCE" value="true" />
-  </component>
-  <component name="FavoritesManager">
-    <favorites_list name="EngineersLogbook2" />
   </component>
   <component name="GenerateSignedApkSettings">
     <option name="KEY_STORE_PATH" value="$USER_HOME$/keystore" />
@@ -293,7 +290,14 @@
       <option name="project" value="LOCAL" />
       <updated>1595415589505</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="deleted seatbelttroops in JIT">
+      <created>1603267570493</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1603267570493</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="UnknownFeatures">
@@ -305,7 +309,19 @@
       <map>
         <entry key="MAIN">
           <value>
-            <State />
+            <State>
+              <option name="FILTERS">
+                <map>
+                  <entry key="branch">
+                    <value>
+                      <list>
+                        <option value="origin/jit" />
+                      </list>
+                    </value>
+                  </entry>
+                </map>
+              </option>
+            </State>
           </value>
         </entry>
       </map>
@@ -328,21 +344,27 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="edited boc&#10;changed all to checkboxes&#10;will do the logic tomorrow" />
-    <option name="LAST_COMMIT_MESSAGE" value="edited boc&#10;changed all to checkboxes&#10;will do the logic tomorrow" />
+    <MESSAGE value="deleted seatbelttroops in JIT" />
+    <option name="LAST_COMMIT_MESSAGE" value="deleted seatbelttroops in JIT" />
   </component>
   <component name="WindowStateProjectService">
     <state x="251" y="0" key="CommitChangelistDialog2" timestamp="1596078526302">
       <screen x="0" y="0" width="1280" height="720" />
     </state>
     <state x="251" y="0" key="CommitChangelistDialog2/0.0.1280.720@0.0.1280.720" timestamp="1596078526302" />
+    <state x="147" y="69" key="DiffContextDialog" timestamp="1603267526231">
+      <screen x="0" y="0" width="1536" height="864" />
+    </state>
+    <state x="147" y="69" key="DiffContextDialog/0.0.1536.864@0.0.1536.864" timestamp="1603267526231" />
     <state x="221" y="103" key="IDE.errors.dialog" timestamp="1595393523610">
       <screen x="0" y="0" width="1280" height="720" />
     </state>
     <state x="221" y="103" key="IDE.errors.dialog/0.0.1280.720@0.0.1280.720" timestamp="1595393523610" />
-    <state x="233" y="94" key="Vcs.Push.Dialog.v2" timestamp="1595424282819">
-      <screen x="0" y="0" width="1280" height="720" />
+    <state x="280" y="113" key="Vcs.Push.Dialog.v2" timestamp="1603267577628">
+      <screen x="0" y="0" width="1536" height="864" />
     </state>
     <state x="233" y="94" key="Vcs.Push.Dialog.v2/0.0.1280.720@0.0.1280.720" timestamp="1595424282819" />
+    <state x="280" y="113" key="Vcs.Push.Dialog.v2/0.0.1536.864@0.0.1536.864" timestamp="1603267577628" />
     <state x="110" y="120" width="1060" height="480" key="com.android.tools.idea.avdmanager.AvdListDialog" timestamp="1595392907048">
       <screen x="0" y="0" width="1280" height="720" />
     </state>
@@ -351,9 +373,9 @@
       <screen x="0" y="0" width="1280" height="720" />
     </state>
     <state x="450" y="277" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.1280.720@0.0.1280.720" timestamp="1596078580238" />
-    <state x="472" y="221" key="git4idea.merge.GitPullDialog" timestamp="1603264904049">
+    <state x="472" y="221" key="git4idea.merge.GitPullDialog" timestamp="1603267486000">
       <screen x="0" y="0" width="1536" height="864" />
     </state>
-    <state x="472" y="221" key="git4idea.merge.GitPullDialog/0.0.1536.864@0.0.1536.864" timestamp="1603264904049" />
+    <state x="472" y="221" key="git4idea.merge.GitPullDialog/0.0.1536.864@0.0.1536.864" timestamp="1603267486000" />
   </component>
 </project>

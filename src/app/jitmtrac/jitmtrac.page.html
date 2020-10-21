@@ -313,11 +313,16 @@
               <h6 style="text-align:center"><strong>Veh Cmd</strong></h6>
             </div>
           </ion-col>
+          <ion-col class="cell-class" style="margin-right : -1px; text-align:center;">
+            <div>
+              <h6 style="text-align:center"><strong>front passenger</strong></h6>
+            </div>
+          </ion-col>
         </ion-row>
         <ion-row class="cell-class">
           <ion-col size="8">
             <div>
-              <h6 style="text-align:left">Ensure that the driver is <strong>licensed to operate</strong> the vehicle nad has displayed driving permit on dashboard</h6>
+              <h6 style="text-align:left">Ensure that the driver is <strong>licensed to operate</strong> the vehicle and has displayed driving permit on dashboard</h6>
             </div>
           </ion-col>
           <ion-col class="invalid-class" style="margin-left : -1px;">
@@ -330,11 +335,38 @@
               <ion-checkbox formControlName="cmdlicense" name="cmdlicense"></ion-checkbox>
             </div>
           </ion-col>
+          <ion-col class="cell-class" style="margin-left : -1px;">
+            <div class="checkbox-div" align="center">
+              <ion-checkbox formControlName="psgerlicense" name="psgerlicense"></ion-checkbox>
+            </div>
+          </ion-col>
         </ion-row>
         <ion-row class="cell-class">
           <ion-col size="8">
             <div>
-              <h6 style="text-align:left">Ensure that the driver <strong>does not exceed the vehicle or road speed limit</strong></h6>
+              <h6 style="text-align:left">Gone through <strong>intended route</strong> with driver</h6>
+            </div>
+          </ion-col>
+          <ion-col class="invalid-class" style="margin-left : -1px;">
+            <div class="invalid-div">
+              <h5 style="text-align:center"><strong>-</strong></h5>
+            </div>
+          </ion-col>
+          <ion-col align-items-center>
+            <div class="checkbox-div" align="center">
+              <ion-checkbox formControlName="cmdroute" name="cmdroute" ></ion-checkbox>
+            </div>
+          </ion-col>
+          <ion-col class="invalid-class" style="margin-left : -1px;">
+            <div class="invalid-div">
+              <h5 style="text-align:center"><strong>-</strong></h5>
+            </div>
+          </ion-col>
+        </ion-row>
+        <ion-row class="cell-class">
+          <ion-col size="8">
+            <div>
+              <h6 style="text-align:left">Ensure driver does not exceed the vehicle or road <strong>speed limit</strong></h6>
             </div>
           </ion-col>
           <ion-col class="invalid-class" style="margin-left : -1px;">
@@ -345,6 +377,11 @@
           <ion-col align-items-center>
             <div class="checkbox-div" align="center">
               <ion-checkbox formControlName="cmdspeedlimit" name="cmdspeedlimit" ></ion-checkbox>
+            </div>
+          </ion-col>
+          <ion-col class="cell-class" style="margin-left : -1px;">
+            <div class="checkbox-div" align="center">
+              <ion-checkbox formControlName="psgerspeedlimit" name="psgerspeedlimit" ></ion-checkbox>
             </div>
           </ion-col>
         </ion-row>
@@ -364,6 +401,11 @@
               <ion-checkbox formControlName="cmddanger" name="cmddanger" style="background: transparent;">></ion-checkbox>
             </div>
           </ion-col>
+          <ion-col class="cell-class" style="margin-left : -1px;">
+            <div class="checkbox-div" align="center">
+              <ion-checkbox formControlName="psgerdanger" name="psgerdanger" style="background: transparent;">></ion-checkbox>
+            </div>
+          </ion-col>
         </ion-row>
         <ion-row class="cell-class">
           <ion-col size="8">
@@ -379,6 +421,33 @@
           <ion-col align-items-center>
             <div class="checkbox-div" align="center">
               <ion-checkbox formControlName="cmdreverse" name="cmdreverse"></ion-checkbox>
+            </div>
+          </ion-col>
+          <ion-col class="invalid-class" style="margin-left : -1px;">
+            <div class="invalid-div">
+              <h5 style="text-align:center"><strong>-</strong></h5>
+            </div>
+          </ion-col>
+        </ion-row>
+        <ion-row class="cell-class">
+          <ion-col size="8">
+            <div>
+              <h6 style="text-align:left">Ensure <strong>no admin movement</strong> during no-move timings</h6>
+            </div>
+          </ion-col>
+          <ion-col class="cell-class" style="margin-left : -1px;">
+            <div class="checkbox-div" align="center">
+              <ion-checkbox formControlName="admindriver" name="admindriver"></ion-checkbox>
+            </div>
+          </ion-col>
+          <ion-col align-items-center>
+            <div class="checkbox-div" align="center">
+              <ion-checkbox formControlName="admincommander" name="admincommander"></ion-checkbox>
+            </div>
+          </ion-col>
+          <ion-col class="invalid-class" style="margin-left : -1px;">
+            <div class="invalid-div">
+              <h5 style="text-align:center"><strong>-</strong></h5>
             </div>
           </ion-col>
         </ion-row>
@@ -398,21 +467,9 @@
               <ion-checkbox formControlName="seatbeltcommander" name="seatbeltcommander"></ion-checkbox>
             </div>
           </ion-col>
-        </ion-row>
-        <ion-row class="cell-class">
-          <ion-col size="8">
-            <div>
-              <h6 style="text-align:left">Check and ensure <strong>seating or loading capacity of the vehicle is not exceeded</strong></h6>
-            </div>
-          </ion-col>
-          <ion-col class="cell-class" style="margin-left : -1px;">
-            <div class="checkbox-div" align="center">
-              <ion-checkbox formControlName="seatingdriver" name="seatingdriver"></ion-checkbox>
-            </div>
-          </ion-col>
-          <ion-col align-items-center>
-            <div class="checkbox-div" align="center">
-              <ion-checkbox formControlName="seatingcommander" name="seatingcommander"></ion-checkbox>
+          <ion-col class="invalid-class" style="margin-left : -1px;">
+            <div class="invalid-div">
+              <h5 style="text-align:center"><strong>-</strong></h5>
             </div>
           </ion-col>
         </ion-row>
@@ -432,6 +489,11 @@
               <ion-checkbox formControlName="safetystrapcommander" name="safetystrapcommander"></ion-checkbox>
             </div>
           </ion-col>
+          <ion-col class="invalid-class" style="margin-left : -1px;">
+            <div class="invalid-div">
+              <h5 style="text-align:center"><strong>-</strong></h5>
+            </div>
+          </ion-col>
         </ion-row>
         <ion-row class="cell-class">
           <ion-col size="8">
@@ -447,6 +509,11 @@
           <ion-col align-items-center>
             <div class="checkbox-div" align="center">
               <ion-checkbox formControlName="smokingcommander" name="smokingcommander"></ion-checkbox>
+            </div>
+          </ion-col>
+          <ion-col class="invalid-class" style="margin-left : -1px;">
+            <div class="invalid-div">
+              <h5 style="text-align:center"><strong>-</strong></h5>
             </div>
           </ion-col>
         </ion-row>
@@ -466,6 +533,11 @@
               <ion-checkbox formControlName="loadcommander" name="loadcommander"></ion-checkbox>
             </div>
           </ion-col>
+          <ion-col class="invalid-class" style="margin-left : -1px;">
+            <div class="invalid-div">
+              <h5 style="text-align:center"><strong>-</strong></h5>
+            </div>
+          </ion-col>
         </ion-row>
         <ion-row class="cell-class">
           <ion-col size="8">
@@ -481,6 +553,11 @@
           <ion-col align-items-center>
             <div class="checkbox-div" align="center">
               <ion-checkbox formControlName="accidentcommander" name="accidentcommander"></ion-checkbox>
+            </div>
+          </ion-col>
+          <ion-col class="cell-class" style="margin-left : -1px;">
+            <div class="checkbox-div" align="center">
+              <ion-checkbox formControlName="accidentpsger" name="accidentpsger"></ion-checkbox>
             </div>
           </ion-col>
         </ion-row>
@@ -500,6 +577,11 @@
               <ion-checkbox formControlName="mtraccompletecommander" name="mtraccompletecommander"></ion-checkbox>
             </div>
           </ion-col>
+          <ion-col class="invalid-class" style="margin-left : -1px;">
+            <div class="invalid-div">
+              <h5 style="text-align:center"><strong>-</strong></h5>
+            </div>
+          </ion-col>
         </ion-row>
         <ion-row class="cell-class">
           <ion-col size="8">
@@ -515,6 +597,11 @@
           <ion-col align-items-center>
             <div class="checkbox-div" align="center">
               <ion-checkbox formControlName="cmdchecklistcomplete" name="cmdchecklistcomplete"></ion-checkbox>
+            </div>
+          </ion-col>
+          <ion-col class="invalid-class" style="margin-left : -1px;">
+            <div class="invalid-div">
+              <h5 style="text-align:center"><strong>-</strong></h5>
             </div>
           </ion-col>
         </ion-row>
