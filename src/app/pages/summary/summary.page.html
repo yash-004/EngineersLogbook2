@@ -133,7 +133,6 @@
               <ion-label>
                 <h2 *ngIf="checkOperatorCurrencyValid(database.current.stats.most_recent_drive_by_vehicle_type[vehicle.key])">{{vehicle.key}} : {{checkOperatordaysCurrencyValid(database.current.stats.most_recent_drive_by_vehicle_type[vehicle.key])}}</h2>
               </ion-label>
-
              Last Drive: {{database.current.stats.most_recent_drive_by_vehicle_type[vehicle.key] | date: "dd/MM/yyyy"}}
              ({{database.current.stats.most_recent_drive_by_vehicle_type[vehicle.key] | daysAgo}} days ago)</ion-col>
          </ion-item></ion-grid></ion-slide>
