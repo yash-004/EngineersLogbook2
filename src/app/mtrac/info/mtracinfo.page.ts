@@ -17,4 +17,4 @@ export class mtracinfoPage implements OnInit {
   onCancel() {
     this.navCtrl.pop();
   }
-}
+} 

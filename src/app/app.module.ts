@@ -24,6 +24,7 @@ import { IonicStorageModule } from '@ionic/storage';
 import { CountdownModule } from 'ngx-countdown';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { Device } from '@ionic-native/device/ngx';
+import { SignaturePadModule } from 'angular2-signaturepad';
 
 import * as firebase from 'firebase/app';
 import 'firebase/auth';
@@ -45,6 +46,7 @@ firebase.initializeApp(environment.firebase);
     ,ChartsModule
     ,TabsPageModule
     ,IonicStorageModule.forRoot()
+    ,SignaturePadModule
     ],
   providers: [
     StatusBar,

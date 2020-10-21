@@ -7,6 +7,8 @@ import { IonicModule } from '@ionic/angular';
 
 import { mtracPage } from './mtrac.page';
 
+import { SignaturePadModule } from 'angular2-signaturepad'
+
 const routes: Routes = [
   {
     path: '',
@@ -20,6 +22,7 @@ const routes: Routes = [
     FormsModule,
     IonicModule,
     ReactiveFormsModule,
+    SignaturePadModule,
     RouterModule.forChild(routes)
   ],
   declarations: [mtracPage]

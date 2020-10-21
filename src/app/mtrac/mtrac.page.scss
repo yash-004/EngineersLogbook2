@@ -45,6 +45,9 @@ ion-select{
   text-align: center;
 }
 
+.signature-box {
+  text-align: center;
+}
 // do not show spinner for number inputs
 .input[type=number] {  
   &::-webkit-inner-spin-button{ display: none; }

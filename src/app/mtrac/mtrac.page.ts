@@ -1,10 +1,12 @@
-import { Component, OnInit, wtfStartTimeRange } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 import { NavController } from '@ionic/angular';
 import { DatabaseService, VehicleTypes, Mtrac } from '../services/database.service';
 import { ToastController } from '@ionic/angular';
 import { ActivatedRoute } from '@angular/router';
 import * as dayjs from 'dayjs'; // Datetime utility, See http://zetcode.com/javascript/dayjs/
+import { SignaturePad } from 'angular2-signaturepad/signature-pad';
+
 
 @Component({
   selector: 'app-mtrac',
@@ -12,8 +14,18 @@ import * as dayjs from 'dayjs'; // Datetime utility, See http://zetcode.com/java
   styleUrls: ['./mtrac.page.scss'],
 })
 
-export class mtracPage implements OnInit {
 
+export class mtracPage implements OnInit {
+  @ViewChild('countersig', {static: true}) counterSignature: SignaturePad
+  @ViewChild('frontsig', {static: true}) frontSignature: SignaturePad
+  private signaturePadOptions: Object = { // passed through to szimek/signature_pad constructor
+    'minWidth': 0.75,
+    'maxWidth': 1.5,
+    'canvasWidth': 500,
+    'canvasHeight': 300,
+    'backgroundColor': '#ffffff'
+  };
+  
   mtracForm: FormGroup;
   errorMessage = '';
   successMessage = '';
@@ -32,25 +44,27 @@ export class mtracPage implements OnInit {
     vehicleType: [
         { type: 'required', message: 'Select a type of vehicle' },],
     licenseType: [
-        { type: 'required', message: 'choose license type' },],
+        { type: 'required', message: 'Choose license type' },],
     rest: [
-        { type: 'required', message: 'choose rest' },],
+        { type: 'required', message: 'Choose rest' },],
     health: [
-        { type: 'required', message: 'choose health' },],
+        { type: 'required', message: 'Choose health' },],
     weather: [
-        { type: 'required', message: 'choose weather' },],
+        { type: 'required', message: 'Choose weather' },],
     route: [
-        { type: 'required', message: 'choose route' },],
+        { type: 'required', message: 'Choose route' },],
     detailType: [
-        { type: 'required', message: 'choose detail type' },],
+        { type: 'required', message: 'Choose detail type' },],
     vehicleServiceability: [
-        { type: 'required', message: 'choose vehicle serviceability' },],
+        { type: 'required', message: 'Choose vehicle serviceability' },],
     startLocation: [
-        { type: 'required', message: 'enter start location' },],
+        { type: 'required', message: 'Enter start location' },],
     endLocation: [
-        { type: 'required', message: 'enter end location' },],
+        { type: 'required', message: 'Enter end location' },],
     incamp: [
-        { type: 'required', message: 'select drive area' },],
+        { type: 'required', message: 'Select drive area' },],
+    counterName: [
+        { type: 'required', message: 'Enter a countersigning officer' },],
 };
 
   public licenseTypes = [{value:"L",text:"CAT A, B"},{value:"M",text:"CAT C"},{value:"H",text:"CAT D"},{value:"N",text:"Have never been trained and familiarized in the vehicle that you will be driving"}] 
@@ -161,6 +175,18 @@ export class mtracPage implements OnInit {
       }
     }
   }
+  ionViewDidEnter(){
+    // this.signaturePad is now available
+    //this.counterSignature.clear(); // invoke functions from szimek/signature_pad API
+    
+    //disable signatures after first submission
+    if (this.mtrac != null){
+      this.counterSignature.off();
+      this.frontSignature.off();
+      this.counterSignature.fromData(this.convertArrayFromFirebase(this.mtrac.counterSignature))
+      this.frontSignature.fromData(this.convertArrayFromFirebase(this.mtrac.frontSignature))
+    }
+  }
 
   ngOnInit() {
       this.mtracForm = this.formBuilder.group({
@@ -179,6 +205,9 @@ export class mtracPage implements OnInit {
         startLocation: new FormControl('', Validators.compose([Validators.required])),
         endLocation: new FormControl('', Validators.compose([Validators.required])),
         commander: new FormControl('', Validators.compose([Validators.required])),
+        safetyMeasures: new FormControl(''),
+        frontName: new FormControl(''),
+        counterName: new FormControl('', Validators.compose([Validators.required])),
 
         cmdlicense: new FormControl({value: false, disabled: true }),
         cmdspeedlimit: new FormControl({value: false, disabled: true }),
@@ -246,6 +275,7 @@ export class mtracPage implements OnInit {
             this.setmtracDetails();
             this.mtracForm.disable();
         }
+      
     }
     else
     {
@@ -271,6 +301,9 @@ export class mtracPage implements OnInit {
     this.mtracForm.get('vehicleServiceability').setValue(this.mtrac.vehicleServiceability);
     this.mtracForm.get('startLocation').setValue(this.mtrac.startLocation);
     this.mtracForm.get('endLocation').setValue(this.mtrac.endLocation);
+    this.mtracForm.get('safetyMeasures').setValue(this.mtrac.safetyMeasures);
+    this.mtracForm.get('frontName').setValue(this.mtrac.frontName);
+    this.mtracForm.get('counterName').setValue(this.mtrac.counterName);
 
     this.mtracForm.get('cmdlicense').setValue(this.mtrac.cmdlicense);
     this.mtracForm.get('cmdspeedlimit').setValue(this.mtrac.cmdspeedlimit);
@@ -491,6 +524,13 @@ export class mtracPage implements OnInit {
           vehicleServiceability: this.mtracForm.value.vehicleServiceability,
           incamp: this.mtracForm.value.incamp,
 
+          safetyMeasures: this.mtracForm.value.safetyMeasures,
+          counterName: this.mtracForm.value.counterName,
+          frontName: this.mtracForm.value.frontName,
+
+          counterSignature: this.convertArrayForFirebase(this.counterSignature.toData()),
+          frontSignature: this.convertArrayForFirebase(this.frontSignature.toData()),
+
           cmdlicense: false,
           cmdroute: false,
           cmdspeedlimit: false,
@@ -575,5 +615,32 @@ export class mtracPage implements OnInit {
     }
     console.log(invalid)
     return invalid;
+  }
+
+  drawComplete() {
+    // will be notified of szimek/signature_pad's onEnd event
+    console.log(this.counterSignature.toData());
+    console.log(this.convertArrayForFirebase(this.counterSignature.toData()))
+  }
+
+  drawStart() {
+    // will be notified of szimek/signature_pad's onBegin event
+    console.log('begin drawing');
+  }
+
+  convertArrayForFirebase(nested){
+    var indirect = []
+    for (var array in nested){
+      indirect.push({"contents": nested[array]})
+    }
+    return indirect
+  }
+
+  convertArrayFromFirebase(indirect){
+    var array = []
+    indirect.forEach((obj,i) => {
+      array.push(obj.contents)
+    })
+    return array
   }
 }
