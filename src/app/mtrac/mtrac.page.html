@@ -622,7 +622,55 @@
     </div>
 
 -->
-    
+  <ion-card><ion-card-content>
+    <ion-card-title text-center>SAFETY MEASURES</ion-card-title>
+    <ion-textarea [ngStyle]="{'color': 'black'}" type="text" formControlName="safetyMeasures" placeholder="Please elaborate on the safety or risk mitigating measures taken."></ion-textarea>
+  </ion-card-content></ion-card>
+
+  <ion-card>
+    <ion-card-title text-center>COUNTERSIGNING OFFICER</ion-card-title>
+    <ion-card-content>
+      <ion-col>
+        <ion-item>
+          <ion-label  position="floating" >Rank & Name</ion-label>
+          <ion-input [ngStyle]="{'color': 'black'}" type="text" onkeyup="this.value = this.value.toUpperCase()" formControlName="counterName" placeholder="Officer"></ion-input>
+          <div class="validation-errors">
+            <ng-container *ngFor="let validation of validationMessages.counterName">
+              <div class="error-message"
+                  *ngIf="mtracForm.get('counterName').hasError(validation.type) && (mtracForm.get('counterName').dirty || mtracForm.get('counterName').touched)">
+                {{ validation.message }}
+              </div>
+            </ng-container>
+          </div>
+
+        </ion-item>
+      </ion-col>
+      <br>
+      <label>Signature</label>
+      <signature-pad #countersig [options]="signaturePadOptions" (onBeginEvent)="drawStart()" (onEndEvent)="drawComplete()"></signature-pad>
+      <div *ngIf="this.mtrac == null" class="btn-wrapper">
+        <ion-button (click)='this.counterSignature.clear()'>Clear</ion-button>
+      </div>
+    </ion-card-content></ion-card>
+
+  <ion-card>
+    <ion-card-title text-center>FRONT PASSENGER</ion-card-title>
+    <ion-card-content>
+      <ion-col>
+        <ion-item>
+          <ion-label  position="floating" >Rank & Name</ion-label>
+          <ion-input [ngStyle]="{'color': 'black'}" type="text" onkeyup="this.value = this.value.toUpperCase()" formControlName="frontName" placeholder="Passenger"></ion-input>
+        </ion-item>
+      </ion-col>
+      <br>
+      <label>Signature</label>
+      <signature-pad #frontsig [options]="signaturePadOptions"></signature-pad>
+      <div *ngIf="this.mtrac == null" class="btn-wrapper">
+        <ion-button (click)='this.frontSignature.clear()'>Clear</ion-button>
+      </div>
+    </ion-card-content></ion-card>
+
+
     <ion-item>
       <ion-label text-wrap>I acknowledge that I, {{this.database.current.user.name}}, have read through, understood, and checked through the MT Risk Assessment (MT-RAC) Checklist on {{getcdt()}}.</ion-label>
       <ion-checkbox *ngIf="this.driver == this.database.current.user.email" slot="start" formControlName="drivermtrac" name="drivermtrac" style="background: transparent;"></ion-checkbox>
