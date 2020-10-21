@@ -61,6 +61,7 @@ created: string;
 id?: string;  // random identifier created by Firestore
 status: string;  // valid values: 'in-progress', 'pending', 'verified', 'rejected'
 incamp: boolean;
+is_jit?: boolean;
 // Stage-1 details (Start journey)
 driver: string;
 commander: string;
@@ -88,6 +89,7 @@ created: string;
 id?: string;  // random identifier created by Firestore
 status: string;  // valid values: 'in-progress', 'pending', 'verified', 'rejected'
 incamp: boolean;
+is_jit?: boolean;
 // Stage-1 details (Start journey)
 driver: string;
 commander: string;
@@ -95,7 +97,7 @@ fleet: string;
 company: string;
 vehicleNumber: string,
 licenseType: string;
-//vehicleType: string;
+vehicle_type: string;
 vehicleType2: string;
 rest: string;
 health: string;
@@ -108,6 +110,7 @@ startLocation: string;
 endLocation: string;
 
 cmdlicense: boolean;
+cmdroute: boolean;
 cmdspeedlimit: boolean;
 cmddanger: boolean;
 cmdreverse: boolean;
@@ -116,21 +119,26 @@ seatingcommander: boolean;
 safetystrapcommander: boolean;
 smokingcommander: boolean;
 loadcommander: boolean;
-seatbelttroopscommander: boolean;
 accidentcommander: boolean;
 mtraccompletecommander: boolean;
 cmdchecklistcomplete: boolean;
 
 seatbeltdriver: boolean;
-seatingdriver: boolean;
 safetystrapdriver: boolean;
 smokingdriver: boolean;
 loaddriver: boolean;
-seatbelttroopsdriver: boolean;
 accidentdriver: boolean;
 mtraccompletedriver: boolean;
 drivermtrac: boolean;
 commandermtrac: boolean;
+
+admindriver: boolean,
+admincommander: boolean;
+
+psgerlicense: boolean;
+psgerspeedlimit: boolean;
+psgerdanger: boolean;
+accidentpsger: boolean;
 }
 
 export interface Login
@@ -594,6 +602,7 @@ export class DatabaseService {
         company: 'C',
         fleet: 'C',
         incamp: true,
+        is_jit:true
       },
       {
         created: '',

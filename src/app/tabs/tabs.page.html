@@ -45,21 +45,27 @@
     <ion-icon name="add"></ion-icon>
   </ion-fab-button>
   <ion-fab-list side="end">
-    <ion-fab-button color="primary" *ngIf="this.database.current.drive_in_progress==null && this.database.current.mtrac_in_progress==null && this.getDrive().length==0;" routerLink = "/boc"><ion-icon name="speedometer"></ion-icon></ion-fab-button>
+    <ion-fab-button color="primary" *ngIf="this.database.current.drive_in_progress==null && this.database.current.mtrac_in_progress==null && this.getDrive().length==0;" routerLink = "/boc">Drive</ion-fab-button>
     <ng-container
             *ngIf="this.getDrive().length!=0 && this.getIncompleteMTRAC().length==0; then editdrive;">
     </ng-container>
     <ng-template #editdrive>
-      <ion-fab-button color="primary"  *ngFor="let drive of getDrive()" (click)="clickdrive(drive)"><ion-icon name="speedometer"></ion-icon></ion-fab-button>
+      <ion-fab-button color="primary"  *ngFor="let drive of getDrive()" (click)="clickdrive(drive)">Drive</ion-fab-button>
     </ng-template>
     <ng-container
             *ngIf="this.getIncompleteMTRAC().length!=0 && this.getDrive().length==0; then editmtrac;">
     </ng-container>
     <ng-template #editmtrac>
-      <ion-fab-button color="primary"  *ngFor="let form of getIncompleteMTRAC()" (click)="clickmtrac(form)"><ion-icon name="speedometer"></ion-icon></ion-fab-button>
+      <ion-fab-button color="primary"  *ngFor="let form of getIncompleteMTRAC()" (click)="clickmtrac(form)">Drive</ion-fab-button>
     </ng-template>
   </ion-fab-list>
   <ion-fab-list side="start">
-    <ion-fab-button color="primary" routerLink = "/add-fuel"><ion-icon name="color-fill"></ion-icon></ion-fab-button>
+    <ion-fab-button color="primary" routerLink = "/add-fuel">Fuel</ion-fab-button>
   </ion-fab-list>
+  <ion-fab-list side="top">
+    <ion-fab-button color="primary" *ngIf="this.database.current.drive_in_progress==null && this.database.current.mtrac_in_progress==null && this.getDrive().length==0;" routerLink = "/jitboc">
+      JIT
+    </ion-fab-button>
+  </ion-fab-list>
+
 </ion-fab>

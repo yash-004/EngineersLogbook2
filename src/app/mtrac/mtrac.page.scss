@@ -1,30 +1,29 @@
 * {
-//  opacity: 1 !important;  // disabled items will not be grey out.
-    --ion-text-color: black;
-}
-
-ion-toolbar{
-    --background:#FFFF66;
-}
-
-ion-content{
-  --ion-background-color:#FFFF66;
-  --color:black;
+  opacity: 1 !important;  // disabled items will not be grey out.
   --ion-text-color: black;
 }
 
-ion-card{
-  --background:#FFFF66;
+ion-toolbar{
+    --background:	#bafbba;
+}
+
+ion-content{
+  --ion-background-color:	#bafbba;
+  --ion-text-color: black;
 }
 
 ion-item{
-  --background:#FFFF66;
   height: auto;
   min-height: auto;
+  --background:	#bafbba;
 }
 
 ion-grid{
-  --background:#FFFF66;
+  --background:	#bafbba;
+}
+
+ion-card-title{
+  --color: black;
 }
 
 ion-input{
@@ -32,13 +31,7 @@ ion-input{
   color: primary!important;
 }
 
-ion-card-title{
-  --color:black;
-}
-
 ion-select{
-  --placeholder-color:black;
-  --color:black;
   --padding-start: 0px;
   --inner-padding-end: 0px;
   min-width: auto;
@@ -46,10 +39,6 @@ ion-select{
   height: auto;
   min-height: auto;
   max-height: 100%;
-}
-
-label{
-  color:black;
 }
 
 .btn-wrapper {
@@ -79,7 +68,7 @@ label{
   border-color: black;
   border-width: .01em;
   border-style:solid;
-  background:#c9c966;
+  background:#bafbba;
 }
 
 .row {
@@ -108,15 +97,14 @@ label{
     max-height: 100%;
 }
 
-div{
-    color: black;
-}
-
 .invalid-div{
-    color: black;
-    background-color: #c9c966;
+    background-color: #bafbba;
 }
 
 .checkbox-div{
-    background-color: #FFFF66;
+    background-color:	#bafbba;
+}
+
+.sc-ion-card-md-h {
+  --background: #bafbba;
 }

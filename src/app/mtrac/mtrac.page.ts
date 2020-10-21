@@ -29,6 +29,8 @@ export class mtracPage implements OnInit {
     vehicleNumber: [
         { type: 'required', message: 'Vehicle Number is required.' },
         { type: 'minlength', message: 'Vehicle number must be at least 5 characters long.' }],
+    vehicleType: [
+        { type: 'required', message: 'Select a type of vehicle' },],
     licenseType: [
         { type: 'required', message: 'choose license type' },],
     rest: [
@@ -64,23 +66,99 @@ export class mtracPage implements OnInit {
       // Autoselect correct license
       this.selectLicenseType();
       console.log(this.selectedLicense)
+      this.mtrac = this.database.current.mtrac_to_edit;
   }
 
+  checklistcmd = [
+    {listID: 1, name:"To be responsible for the discipline and safety of all passengers/crew in the assigned transport detail."},
+    {listID: 2, name:"To assist to look out for obstruction, hazard or danger. If the driver is reversing, there is no requirement for the vehiucle commander to guide the driver. However, VC should render assistance to the driver when requested."},
+    {listID: 3, name:"Go through intended route with the driver."},
+    {listID: 4, name:"If unsure of route or lost, to instruct the driver to stop the vehicle at a safe place to re-orientate or seek further instructions."},
+    {listID: 5, name:"If involved in an accident, to inform unit about the accident and assit the driver to manage the accident."},
+    {listID: 6, name:"To check and endorse the MT-RAC."},
+    ];
+
+  public getapprovedvtypes(): Array<{text:string, ready: boolean}>[] {
+    var vtypes =  VehicleTypes
+
+    var driven = Object.keys(this.database.current.stats.most_recent_drive_by_vehicle_type);
+
+    var canDrive = [];
+
+    //console.log(canDrive);
+
+    driven.forEach((value) => {
+      // check license 
+      if (value == 'MSS') {
+        if (this.database.current.user.mss_certified == false){
+          canDrive.push({text: value + " - NO LICENSE", ready: false})
+        }
+      }
+      else if (value == 'FLB') {
+        if (this.database.current.user.flb_certified == false){
+          canDrive.push({text: value + " - NO LICENSE", ready: false})
+        }
+      }
+      else if (value == 'BELREX') {
+        if (this.database.current.user.belrex_certified == false){
+          canDrive.push({text: value + " - NO LICENSE", ready: false})
+        }
+      }
+
+      // check currency / JIT test
+      var daysLastDriven = this.calculateDiff(this.database.current.stats.most_recent_drive_by_vehicle_type[value].$d);
+      if (daysLastDriven <= 7){ // || this.database.current.stats.JIT==true){
+          canDrive.push({text: value, ready: true});
+      }
+      else {
+        canDrive.push({text: value + " - NOT CURRENT", ready: false});         
+      }
+    });
+
+    //console.log(canDrive)
+    return canDrive;
+  }
+
+  calculateDiff(dateSent){
+    let currentDate = new Date();
+    dateSent = new Date(dateSent);
+
+    return Math.floor((Date.UTC(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate()) - Date.UTC(dateSent.getFullYear(), dateSent.getMonth(), dateSent.getDate()) ) /(1000 * 60 * 60 * 24));
+  }
 
   public selectLicenseType() {
     // Autofill Driving Experience License Type based on Cat status from driver's licensetype
-    console.log(this.database.current.user.licence_type)
-    if (this.database.current.user.licence_type == "A" || this.database.current.user.licence_type == "B"){
-      this.selectedLicense = this.licenseTypes[0].value
-    } 
-    else if (this.database.current.user.licence_type == "C"){
-      this.selectedLicense = this.licenseTypes[1].value
-    } 
-    else if (this.database.current.user.licence_type == "D"){
-      this.selectedLicense = this.licenseTypes[2].value
-    } 
-    else{
-      this.selectedLicense = this.licenseTypes[3].value
+    this.mtrac = this.database.current.mtrac_to_edit;
+    if (this.mtrac != null) {
+      console.log(this.database.current.user.licence_type)
+      if (this.database.current.user.email == this.mtrac.driver){
+        if (this.database.current.user.licence_type == "A" || this.database.current.user.licence_type == "B"){
+          this.selectedLicense = this.licenseTypes[0].value
+        } 
+        else if (this.database.current.user.licence_type == "C"){
+          this.selectedLicense = this.licenseTypes[1].value
+        } 
+        else if (this.database.current.user.licence_type == "D"){
+          this.selectedLicense = this.licenseTypes[2].value
+        } 
+        else{
+          this.selectedLicense = this.licenseTypes[3].value
+        }
+      }
+    }
+    else {
+      if (this.database.current.user.licence_type == "A" || this.database.current.user.licence_type == "B"){
+        this.selectedLicense = this.licenseTypes[0].value
+      } 
+      else if (this.database.current.user.licence_type == "C"){
+        this.selectedLicense = this.licenseTypes[1].value
+      } 
+      else if (this.database.current.user.licence_type == "D"){
+        this.selectedLicense = this.licenseTypes[2].value
+      } 
+      else{
+        this.selectedLicense = this.licenseTypes[3].value
+      }
     }
   }
 
@@ -88,6 +166,7 @@ export class mtracPage implements OnInit {
       this.mtracForm = this.formBuilder.group({
         vehicleNumber: new FormControl('', Validators.compose([Validators.minLength(5), Validators.required])),
         licenseType: new FormControl('', Validators.compose([Validators.required])),
+        vehicleType: new FormControl('', Validators.compose([Validators.required])),
         vehicleType2: new FormControl('', Validators.compose([Validators.required])),
         rest: new FormControl('', Validators.compose([Validators.required])),
         health: new FormControl('', Validators.compose([Validators.required])),
@@ -110,21 +189,26 @@ export class mtracPage implements OnInit {
         safetystrapcommander: new FormControl({value: false, disabled: true }),
         smokingcommander: new FormControl({value: false, disabled: true }),
         loadcommander: new FormControl({value: false, disabled: true }),
-        seatbelttroopscommander: new FormControl({value: false, disabled: true }),
         accidentcommander: new FormControl({value: false, disabled: true }),
         mtraccompletecommander: new FormControl({value: false, disabled: true }),
         cmdchecklistcomplete: new FormControl({value: false, disabled: true }),
-        commandermtrac: new FormControl({value: false, disabled: true }),
+          commandermtrac: new FormControl({ value: false, disabled: true }),
+          admincommander: new FormControl({ value: false, disabled: true }),
+          cmdroute: new FormControl({ value: false, disabled: true }),
 
         seatbeltdriver: new FormControl(false, Validators.compose([Validators.requiredTrue])),
-        seatingdriver: new FormControl(false, Validators.compose([Validators.requiredTrue])),
         safetystrapdriver: new FormControl(false),
         smokingdriver: new FormControl(false, Validators.compose([Validators.requiredTrue])),
         loaddriver: new FormControl(false, Validators.compose([Validators.requiredTrue])),
-        seatbelttroopsdriver: new FormControl(false, Validators.compose([Validators.requiredTrue])),
         accidentdriver: new FormControl(false, Validators.compose([Validators.requiredTrue])),
         mtraccompletedriver: new FormControl(false, Validators.compose([Validators.requiredTrue])),
-        drivermtrac: new FormControl(false, Validators.compose([Validators.requiredTrue])),
+          drivermtrac: new FormControl(false, Validators.compose([Validators.requiredTrue])),
+          admindriver: new FormControl(false, Validators.compose([Validators.requiredTrue])),
+
+          psgerlicense: new FormControl(false, Validators.compose([Validators.requiredTrue])),
+          psgerspeedlimit: new FormControl(false, Validators.compose([Validators.requiredTrue])),
+          psgerdanger: new FormControl(false, Validators.compose([Validators.requiredTrue])),
+          accidentpsger: new FormControl(false, Validators.compose([Validators.requiredTrue])),
     });
     this.mtrac = this.database.current.mtrac_to_edit;
     if (this.mtrac != null)
@@ -140,15 +224,15 @@ export class mtracPage implements OnInit {
             this.mtracForm.get('cmddanger').enable();
             this.mtracForm.get('cmdreverse').enable();
             this.mtracForm.get('seatbeltcommander').enable();
-            this.mtracForm.get('seatingcommander').enable();
             this.mtracForm.get('safetystrapcommander').enable();
             this.mtracForm.get('smokingcommander').enable();
             this.mtracForm.get('loadcommander').enable();
-            this.mtracForm.get('seatbelttroopscommander').enable();
             this.mtracForm.get('accidentcommander').enable();
             this.mtracForm.get('mtraccompletecommander').enable();
             this.mtracForm.get('cmdchecklistcomplete').enable();
             this.mtracForm.get('commandermtrac').enable();
+            this.mtracForm.get('admincommander').enable();
+            this.mtracForm.get('cmdroute').enable();
         }
         else if (this.database.current.user.email == this.mtrac.driver && this.mtrac.status === 'verified')
         {
@@ -174,6 +258,7 @@ export class mtracPage implements OnInit {
     // populate values of start mtrac fields
     this.mtracForm.get('commander').setValue(this.mtrac.commander);
     this.mtracForm.get('vehicleNumber').setValue(this.mtrac.vehicleNumber.toUpperCase());
+    this.mtracForm.get('vehicleType').setValue(this.mtrac.vehicle_type);
     this.mtracForm.get('vehicleType2').setValue(this.mtrac.vehicleType2);
     this.mtracForm.get('licenseType').setValue(this.mtrac.licenseType);
     this.mtracForm.get('incamp').setValue(this.mtrac.incamp);
@@ -192,25 +277,29 @@ export class mtracPage implements OnInit {
     this.mtracForm.get('cmddanger').setValue(this.mtrac.cmddanger);
     this.mtracForm.get('cmdreverse').setValue(this.mtrac.cmdreverse);
     this.mtracForm.get('seatbeltcommander').setValue(this.mtrac.seatbeltcommander);
-    this.mtracForm.get('seatingcommander').setValue(this.mtrac.seatingcommander);
     this.mtracForm.get('safetystrapcommander').setValue(this.mtrac.safetystrapcommander);
     this.mtracForm.get('smokingcommander').setValue(this.mtrac.smokingcommander);
     this.mtracForm.get('loadcommander').setValue(this.mtrac.loadcommander);
-    this.mtracForm.get('seatbelttroopscommander').setValue(this.mtrac.seatbelttroopscommander);
     this.mtracForm.get('accidentcommander').setValue(this.mtrac.accidentcommander);
     this.mtracForm.get('mtraccompletecommander').setValue(this.mtrac.mtraccompletecommander);
-    this.mtracForm.get('cmdchecklistcomplete').setValue(this.mtrac.cmdchecklistcomplete);
+      this.mtracForm.get('cmdchecklistcomplete').setValue(this.mtrac.cmdchecklistcomplete);
+      this.mtracForm.get('admincommander').setValue(this.mtrac.admincommander);
+      this.mtracForm.get('cmdroute').setValue(this.mtrac.cmdroute);
 
     this.mtracForm.get('seatbeltdriver').setValue(this.mtrac.seatbeltdriver);
-    this.mtracForm.get('seatingdriver').setValue(this.mtrac.seatingdriver);
     this.mtracForm.get('safetystrapdriver').setValue(this.mtrac.safetystrapdriver);
     this.mtracForm.get('smokingdriver').setValue(this.mtrac.smokingdriver);
     this.mtracForm.get('loaddriver').setValue(this.mtrac.loaddriver);
-    this.mtracForm.get('seatbelttroopsdriver').setValue(this.mtrac.seatbelttroopsdriver);
     this.mtracForm.get('accidentdriver').setValue(this.mtrac.accidentdriver);
     this.mtracForm.get('mtraccompletedriver').setValue(this.mtrac.mtraccompletedriver);
     this.mtracForm.get('commandermtrac').setValue(this.mtrac.commandermtrac);
-    this.mtracForm.get('drivermtrac').setValue(this.mtrac.drivermtrac);
+      this.mtracForm.get('drivermtrac').setValue(this.mtrac.drivermtrac);
+      this.mtracForm.get('admindriver').setValue(this.mtrac.admindriver);
+
+      this.mtracForm.get('psgerlicense').setValue(this.mtrac.psgerlicense);
+      this.mtracForm.get('psgerspeedlimit').setValue(this.mtrac.psgerspeedlimit);
+      this.mtracForm.get('psgerdanger').setValue(this.mtrac.psgerdanger);
+      this.mtracForm.get('accidentpsger').setValue(this.mtrac.accidentpsger);
     }
 
 
@@ -315,14 +404,13 @@ export class mtracPage implements OnInit {
     this.mtracForm.get('cmddanger').value == false ||
     this.mtracForm.get('cmdreverse').value == false ||
     this.mtracForm.get('seatbeltcommander').value == false ||
-    this.mtracForm.get('seatingcommander').value == false ||
     this.mtracForm.get('safetystrapcommander').value == false ||
     this.mtracForm.get('smokingcommander').value == false ||
     this.mtracForm.get('loadcommander').value == false ||
-    this.mtracForm.get('seatbelttroopscommander').value == false ||
     this.mtracForm.get('accidentcommander').value == false ||
     this.mtracForm.get('mtraccompletecommander').value == false ||
-    this.mtracForm.get('cmdchecklistcomplete').value == false ||
+        this.mtracForm.get('cmdchecklistcomplete').value == false ||
+        this.mtracForm.get('admincommander').value == false ||
     this.mtracForm.get('commandermtrac').value == false)
     {
     return false;
@@ -334,15 +422,14 @@ export class mtracPage implements OnInit {
     if (this.mtracForm.get('cmdlicense').value == false ||
     this.mtracForm.get('cmdspeedlimit').value == false ||
     this.mtracForm.get('cmddanger').value == false ||
-    this.mtracForm.get('cmdreverse').value == false ||
+        this.mtracForm.get('cmdreverse').value == false ||
+        this.mtracForm.get('cmdroute').value == false ||
     this.mtracForm.get('seatbeltcommander').value == false ||
-    this.mtracForm.get('seatingcommander').value == false ||
     this.mtracForm.get('safetystrapcommander').value == false ||
     this.mtracForm.get('smokingcommander').value == false ||
     this.mtracForm.get('loadcommander').value == false ||
-    this.mtracForm.get('seatbelttroopscommander').value == false ||
     this.mtracForm.get('accidentcommander').value == false ||
-    this.mtracForm.get('mtraccompletecommander').value == false ||
+        this.mtracForm.get('mtraccompletecommander').value == false ||
     this.mtracForm.get('cmdchecklistcomplete').value == false)
     {
     return false;
@@ -352,19 +439,28 @@ export class mtracPage implements OnInit {
 
   getdriverchecklistcomplete(){
     if (this.mtracForm.get('seatbeltdriver').value == false ||
-    this.mtracForm.get('seatingdriver').value == false ||
     this.mtracForm.get('safetystrapdriver').value == false ||
     this.mtracForm.get('smokingdriver').value == false ||
     this.mtracForm.get('loaddriver').value == false ||
-    this.mtracForm.get('seatbelttroopsdriver').value == false ||
     this.mtracForm.get('accidentdriver').value == false ||
-    this.mtracForm.get('mtraccompletedriver').value == false ||
+        this.mtracForm.get('mtraccompletedriver').value == false ||
+        this.mtracForm.get('admindriver').value == false ||
     this.mtracForm.get('drivermtrac').value == false )
     {
     return false;
     }
     return true;
-  }
+    }
+    getpassengerchecklistcomplete() {
+        if (this.mtracForm.get('psgerlicense').value == false ||
+            this.mtracForm.get('psgerspeedlimit').value == false ||
+            this.mtracForm.get('psgerdanger').value == false ||
+            this.mtracForm.get('accidentpsger').value == false)
+        {
+            return false;
+        }
+        return true;
+    }
 
   async addmtrac(value) {
     if (this.mtrac == null)
@@ -376,9 +472,10 @@ export class mtracPage implements OnInit {
           driver: this.database.current.user.email,
           commander: this.mtracForm.value.commander,
           status: "pending",
+          is_jit: false,
           // Stage-1 details
           vehicleNumber: this.mtracForm.value.vehicleNumber,
-          //vehicle_type: this.mtracForm.value.vehicleType,
+          vehicle_type: this.mtracForm.value.vehicleType,
           startLocation: this.mtracForm.value.startLocation,
           endLocation: this.mtracForm.value.endLocation,
           fleet: this.database.current.user.fleet,
@@ -403,21 +500,25 @@ export class mtracPage implements OnInit {
           safetystrapcommander: false,
           smokingcommander: false,
           loadcommander: false,
-          seatbelttroopscommander: false,
           accidentcommander: false,
           mtraccompletecommander: false,
           cmdchecklistcomplete: false,
 
           seatbeltdriver: this.mtracForm.value.seatbeltdriver,
-          seatingdriver: this.mtracForm.value.seatingdriver,
           safetystrapdriver: this.mtracForm.value.safetystrapdriver,
           smokingdriver: this.mtracForm.value.smokingdriver,
           loaddriver: this.mtracForm.value.loaddriver,
-          seatbelttroopsdriver: this.mtracForm.value.seatbelttroopsdriver,
           accidentdriver: this.mtracForm.value.accidentdriver,
           mtraccompletedriver: this.mtracForm.value.mtraccompletedriver,
           drivermtrac: this.mtracForm.value.drivermtrac,
           commandermtrac: false,
+
+          admindriver: this.mtracForm.value.admindriver,
+
+          psgerlicense: this.mtracForm.value.psgerlicense,
+          psgerspeedlimit: this.mtracForm.value.psgerspeedlimit,
+          psgerdanger: this.mtracForm.value.psgerdanger,
+          accidentpsger: this.mtracForm.value.accidentpsger,
         };
         let subAutoID = this.database.collection('mtrac').doc().id;
         new_mtrac.id = subAutoID
@@ -441,6 +542,7 @@ export class mtracPage implements OnInit {
         // commander has verified/rejected drive, update drive status.
         this.mtrac.status = "verified";
         this.mtrac.cmdlicense= this.mtracForm.get('cmdlicense').value;
+        this.mtrac.cmdroute= this.mtracForm.get('cmdroute').value;
         this.mtrac.cmdspeedlimit= this.mtracForm.get('cmdspeedlimit').value;
         this.mtrac.cmddanger= this.mtracForm.get('cmddanger').value;
         this.mtrac.cmdreverse= this.mtracForm.get('cmdreverse').value;
@@ -449,16 +551,27 @@ export class mtracPage implements OnInit {
         this.mtrac.safetystrapcommander= this.mtracForm.get('safetystrapcommander').value;
         this.mtrac.smokingcommander= this.mtracForm.get('smokingcommander').value;
         this.mtrac.loadcommander= this.mtracForm.get('loadcommander').value;
-        this.mtrac.seatbelttroopscommander= this.mtracForm.get('seatbelttroopscommander').value;
         this.mtrac.accidentcommander= this.mtracForm.get('accidentcommander').value;
         this.mtrac.mtraccompletecommander= this.mtracForm.get('mtraccompletecommander').value;
         this.mtrac.cmdchecklistcomplete= this.mtracForm.get('cmdchecklistcomplete').value;
         this.mtrac.commandermtrac= this.mtracForm.get('commandermtrac').value;
+        this.mtrac.admincommander= this.mtracForm.get('admincommander').value;
         // update status in database
         await this.database.write('mtrac', this.mtrac.id, this.mtrac);
         this.errorMessage = '';
         this.successMessage = 'The MT-RAC Form is completed successfully.';
         this.showToast(this.successMessage);
     }
+  }
+  public findInvalidControls() {
+    const invalid = [];
+    const controls = this.mtracForm.controls;
+    for (const name in controls) {
+        if (controls[name].invalid) {
+            invalid.push(name);
+        }
+    }
+    console.log(invalid)
+    return invalid;
   }
 }

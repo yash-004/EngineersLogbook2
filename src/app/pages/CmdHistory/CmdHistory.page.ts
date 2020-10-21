@@ -193,7 +193,13 @@ export class CmdHistoryPage implements OnInit {
             "rgba(75, 192, 192, 1)",
             "rgba(153, 102, 255, 1)",]
             }];
-
+  public chartOptions = {
+    responsive: true,
+    legend: {
+      onClick: (e) => e.stopPropagation()
+    }
+  };
+          
   private buildChart(): void {
 
     var count:number[] = Array(this.chartLabels.length).fill(0)

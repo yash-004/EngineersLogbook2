@@ -17,6 +17,7 @@
     <list default="true" id="3cdf076c-df2b-4277-9f47-69f51d413bc6" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
+    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -30,6 +31,7 @@
     <option name="autoscrollToSource" value="true" />
     <option name="IS_AUTOSCROLL_TO_SOURCE" value="true" />
   </component>
+  <component name="ExecutionTargetManager" SELECTED_TARGET="Pixel_3_API_29" />
   <component name="FavoritesManager">
     <favorites_list name="EngineersLogbook2" />
   </component>
@@ -49,10 +51,6 @@
         <option value="$PROJECT_DIR$/.idea" />
       </set>
     </option>
-  </component>
-  <component name="ProjectFrameBounds" extendedState="6">
-    <option name="width" value="1476" />
-    <option name="height" value="1080" />
   </component>
   <component name="ProjectId" id="1Zv82ETbXW8Z6HJTj0Sg7CwNQ6Y" />
   <component name="ProjectViewState">
@@ -77,7 +75,7 @@
     <property name="project.structure.side.proportion" value="0.2" />
     <property name="run.code.analysis.last.selected.profile" value="pProject Default" />
     <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
-    <property name="two.files.diff.last.used.file" value="$USER_HOME$/Desktop/EngineersLogbook2/src/app/add-drive/add-drive.page.ts" />
+    <property name="two.files.diff.last.used.file" value="$PROJECT_DIR$/src/app/mtrac/mtrac.page.scss" />
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
@@ -94,6 +92,18 @@
       <recent name="$PROJECT_DIR$/platforms/android/gradle" />
       <recent name="$PROJECT_DIR$/gradle" />
     </key>
+  </component>
+  <component name="RunDashboard">
+    <option name="ruleStates">
+      <list>
+        <RuleState>
+          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
+        </RuleState>
+        <RuleState>
+          <option name="name" value="StatusDashboardGroupingRule" />
+        </RuleState>
+      </list>
+    </option>
   </component>
   <component name="RunManager" selected="PhoneGap/Cordova.Run PhoneGap">
     <configuration name="Unnamed" type="AndroidRunConfigurationType" factoryName="Android App" nameIsGenerated="true">

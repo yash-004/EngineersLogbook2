@@ -80,20 +80,6 @@ if(this.selectedArray.includes(name)) {
     return this.checkboxstatus;
   }
 
-  public getapprovedvtypes(): string[] {
-        var vtypes =  VehicleTypes
-        if (this.database.current.user.mss_certified != true) {
-            vtypes = vtypes.filter( vtype => vtype != 'MSS');
-        }
-        if (this.database.current.user.flb_certified != true) {
-            vtypes = vtypes.filter( vtype => vtype != 'FLB');
-        }
-        if (this.database.current.user.belrex_certified != true) {
-            vtypes = vtypes.filter( vtype => vtype != 'BELREX');
-        return vtypes
-        }
-  }
-
   ngOnInit() {
   }
 

@@ -186,6 +186,33 @@ export class CommanderPage implements OnInit {
     });
   }
 
+  public getDriverName(driver: string) {
+    for (let d of this.database.current.all_drivers_of_commander){
+      if (d.email == driver) {
+        //console.log(d.name);
+        return d.name;
+      }
+    }
+  }
+
+  public getCertifications(driver: User) {
+    var certifications = []
+    if (driver.mss_certified) {
+      certifications.push("MSS")
+    }
+    if (driver.flb_certified) {
+      certifications.push("FLB")
+    }
+    if (driver.belrex_certified) {
+      certifications.push("BELREX")
+    }
+    if (driver.m3g_certified) {
+      certifications.push("M3G")
+    }
+    return certifications.join(", ")
+  }
+
+
   public getApprovedDrives() : Drive[] {
     return this.database.current.drive_history.filter( (drive) => {
       return drive.status === 'verified';
@@ -217,7 +244,12 @@ export class CommanderPage implements OnInit {
  public clickmtrac(form: Mtrac): void {
     this.database.current.mtrac_to_edit = form;
     console.log(`> Navigating to mtracPage for mtrac id=${form.id}`);
-    this.navCtrl.navigateForward(['/mtrac']);
+    if (form.is_jit == true){
+      this.navCtrl.navigateForward(['/jitmtrac']);
+    }
+    else {
+      this.navCtrl.navigateForward(['/mtrac']);
+    }
   }
 
 /*//  public click1(driver: User): void {

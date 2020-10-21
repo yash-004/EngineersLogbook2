@@ -21,6 +21,7 @@ export class AddDrivePage implements OnInit {
   toast: any;
   today = new Date().toISOString();
   drive;
+  is_jit: boolean;
   updateStatus;
   showStatus = true;ƒ
   isToggled = false;
@@ -33,9 +34,6 @@ export class AddDrivePage implements OnInit {
     vehicleNumber: [
       { type: 'required', message: 'Vehicle Number is required.' },
       { type: 'minlength', message: 'Vehicle number must be at least 5 characters long.' }
-    ],
-    vehicleType: [
-      { type: 'required', message: 'Select a type of vehicle' },
     ],
     vehicleCommander: [
       { type: 'required', message: 'Select the Vehicle Commanders Name' },
@@ -63,6 +61,14 @@ export class AddDrivePage implements OnInit {
     ]
   };
 
+  checklistf = [
+    {listID: 1, name:"I have completed my JIT training.",ischecked: false},
+    ];
+
+  checklistt = [
+    {listID: 1, name:"I have completed my JIT training.",ischecked: false},
+      ];
+
   constructor(
     private navCtrl: NavController,
     private formBuilder: FormBuilder,
@@ -70,6 +76,8 @@ export class AddDrivePage implements OnInit {
     public database: DatabaseService,
     public route: ActivatedRoute
   ) { }
+  
+  selectedArray : any = [];
 
   gettime() {
     var cd = new Date(); // for now
@@ -97,7 +105,7 @@ export class AddDrivePage implements OnInit {
 
         var canDrive = [];
 
-        console.log(canDrive);
+        //console.log(canDrive);
 
         driven.forEach((value) => {
           // check license 
@@ -123,11 +131,11 @@ export class AddDrivePage implements OnInit {
               canDrive.push({text: value, ready: true});
           }
           else {
-            canDrive.push({text: value + " - NOT CURRENT", ready: false});         
+            canDrive.push({text: value, ready: true});         
           }
         });
 
-        console.log(canDrive)
+        //console.log(canDrive)
         return canDrive;
   }
 
@@ -144,12 +152,20 @@ export class AddDrivePage implements OnInit {
     return today.diff(date,"day") < period ;
   }
 
+  onChange(name) {
+    if(this.selectedArray.includes(name)) {
+        this.selectedArray = this.selectedArray.filter((value)=>value!=name);
+    } else {
+        this.selectedArray.push(name)
+    }
+  }
+
   ngOnInit() {
     // Create form group of controls
     this.addDriveForm = this.formBuilder.group({
       date: new FormControl(this.today, Validators.compose([Validators.required])),
       vehicleNumber: new FormControl('', Validators.compose([Validators.minLength(5), Validators.required])),
-      vehicleType: new FormControl('', Validators.compose([Validators.required])),
+      vehicleType: new FormControl(''),
       vehicleCommander: new FormControl('', Validators.compose([Validators.required])),
       startLocation: new FormControl('', Validators.compose([Validators.required])),
       startOdometer: new FormControl('', Validators.compose([Validators.required])),
@@ -163,7 +179,8 @@ export class AddDrivePage implements OnInit {
       driveStatus: new FormControl(''),
       radioVerify: new FormControl({ value: '', disabled: true }),
       radioReject: new FormControl({ value: '', disabled: true }),
-      incamp: new FormControl ('')
+      incamp: new FormControl (''),
+      jit_complete: new FormControl ({ value: false, disabled: false })
     });
 
   //  this.updateStatus = false;
@@ -189,6 +206,7 @@ export class AddDrivePage implements OnInit {
     }
     if (this.drive == null) { // start a new drive
       this.mtrac = this.database.current.mtrac_to_edit;
+      this.is_jit = this.mtrac.is_jit;
       this.startDriveControls();
       this.updateStatus = false;
       this.isDisabled = false;
@@ -197,6 +215,7 @@ export class AddDrivePage implements OnInit {
       if (this.drive.driver != this.database.current.user.email && this.database.current.user.is_admin) {
         console.log('editing drive info - admin user');
         this.editDriveControls();
+        this.is_jit = this.drive.is_jit;
         this.updateStatus = true;
         this.showStatus = true;
         this.isDisabled = false;
@@ -204,6 +223,7 @@ export class AddDrivePage implements OnInit {
       (this.drive.status === 'pending' || this.drive.status === 'verified' || ((this.drive.status === 'in-progress' || this.drive.status === 'rejected') && this.drive.commander == this.database.current.user.email)) {
         // view only
         console.log('viewing a drive');
+        this.is_jit = this.drive.is_jit;
         this.updateStatus = false;
         this.showStatus = true;
         this.isDisabled = true;
@@ -211,12 +231,14 @@ export class AddDrivePage implements OnInit {
       } else if (this.drive.status === 'in-progress' && this.drive.driver == this.database.current.user.email) {
         // driver enter details to complete drive
         console.log('completing an in-progress drive - driver');
+        this.is_jit = this.drive.is_jit;
         this.updateStatus = false;
         this.isDisabled = false;
         this.showStatus = false;
         this.endDriveControls();
       } else if ((this.drive.status === 'rejected' && this.drive.driver == this.database.current.user.email)) {
         console.log('editing rejected drive info - driver')
+        this.is_jit = this.drive.is_jit;
         // driver edit details for rejected drive
         this.updateStatus = false;
         this.showStatus = true;
@@ -252,6 +274,7 @@ export class AddDrivePage implements OnInit {
     this.addDriveForm.get('startTime').setValue(this.today);
     this.addDriveForm.get('incamp').setValue(this.mtrac.incamp);
     this.addDriveForm.get('vehicleNumber').setValue(this.mtrac.vehicleNumber);
+    this.addDriveForm.get('vehicleType').setValue(this.mtrac.vehicle_type);
     this.addDriveForm.get('vehicleCommander').setValue(this.mtrac.commander);
     this.addDriveForm.get('startLocation').setValue(this.mtrac.startLocation);
     // clear validators for end drive controls
@@ -299,6 +322,7 @@ export class AddDrivePage implements OnInit {
     console.log('end time: ' +   this.addDriveForm.value.endTime);
     this.addDriveForm.get('fuelLevel').setValue(this.drive.fuel_level);
     this.addDriveForm.get('driveComments').setValue(this.drive.comments.toUpperCase());
+    this.addDriveForm.get('jit_complete').setValue(true);
     // set the maintenance toggle to check
     this.isToggled = this.drive.is_maintenance;
   }
@@ -326,7 +350,6 @@ export class AddDrivePage implements OnInit {
 
       // Stage 1 details : the user may made some changes to these info
       currentDrive.vehicle = this.addDriveForm.value.vehicleNumber.toUpperCase();
-      currentDrive.vehicle_type = this.addDriveForm.value.vehicleType;
       currentDrive.commander =  this.addDriveForm.value.vehicleCommander;
       currentDrive.date = (this.addDriveForm.value.date).split('T')[0];
       currentDrive.start_location = this.addDriveForm.value.startLocation.toUpperCase();
@@ -387,10 +410,10 @@ export class AddDrivePage implements OnInit {
           created: this.database.getTimeStamp(),
           driver: this.database.current.user.email,
           status: "in-progress",
-
+          is_jit: this.mtrac.is_jit,
           // Stage-1 details
           vehicle: this.addDriveForm.value.vehicleNumber.toUpperCase(),
-          vehicle_type: this.addDriveForm.value.vehicleType,
+          vehicle_type: this.mtrac.vehicle_type,
           commander: this.addDriveForm.value.vehicleCommander,
           date: (this.addDriveForm.value.date).split('T')[0],
           start_location: this.addDriveForm.value.startLocation.toUpperCase(),

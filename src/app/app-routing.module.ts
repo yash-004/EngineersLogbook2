@@ -10,7 +10,10 @@ const routes: Routes = [
   { path: 'add-fuel', loadChildren: './add-fuel/add-fuel.module#AddFuelPageModule' },
   { path: 'add-drive', loadChildren: './add-drive/add-drive.module#AddDrivePageModule' },
   { path: 'boc', loadChildren: './boc/boc.module#bocPageModule' },
+  { path: 'jitboc', loadChildren: './jitboc/jitboc.module#jitbocPageModule' },
   { path: 'mtrac', loadChildren: './mtrac/mtrac.module#mtracPageModule' },
+  { path: 'jitmtrac', loadChildren: './jitmtrac/jitmtrac.module#jitmtracPageModule' },
+  { path: 'mtracinfo', loadChildren: './mtrac/info/mtracinfo.module#mtracinfoPageModule' },
   { path: 'summary', loadChildren: './pages/summary/summary.module#SummaryPageModule' },
   { path: 'reportvehicle', loadChildren: './reportvehicle/reportvehicle.module#ReportVehiclePageModule' },
 
