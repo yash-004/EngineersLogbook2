@@ -492,6 +492,7 @@ export class mtracPage implements OnInit {
           incamp: this.mtracForm.value.incamp,
 
           cmdlicense: false,
+          cmdroute: false,
           cmdspeedlimit: false,
           cmddanger: false,
           cmdreverse: false,
@@ -503,6 +504,7 @@ export class mtracPage implements OnInit {
           accidentcommander: false,
           mtraccompletecommander: false,
           cmdchecklistcomplete: false,
+          admincommander: false,
 
           seatbeltdriver: this.mtracForm.value.seatbeltdriver,
           safetystrapdriver: this.mtracForm.value.safetystrapdriver,

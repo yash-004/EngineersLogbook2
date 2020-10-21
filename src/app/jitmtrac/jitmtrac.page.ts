@@ -189,7 +189,6 @@ export class jitmtracPage implements OnInit {
         safetystrapcommander: new FormControl({value: false, disabled: true }),
         smokingcommander: new FormControl({value: false, disabled: true }),
         loadcommander: new FormControl({value: false, disabled: true }),
-        seatbelttroopscommander: new FormControl({value: false, disabled: true }),
         accidentcommander: new FormControl({value: false, disabled: true }),
         mtraccompletecommander: new FormControl({value: false, disabled: true }),
         cmdchecklistcomplete: new FormControl({value: false, disabled: true }),
@@ -200,7 +199,6 @@ export class jitmtracPage implements OnInit {
         safetystrapdriver: new FormControl(false),
         smokingdriver: new FormControl(false, Validators.compose([Validators.requiredTrue])),
         loaddriver: new FormControl(false, Validators.compose([Validators.requiredTrue])),
-        seatbelttroopsdriver: new FormControl(false, Validators.compose([Validators.requiredTrue])),
         accidentdriver: new FormControl(false, Validators.compose([Validators.requiredTrue])),
         mtraccompletedriver: new FormControl(false, Validators.compose([Validators.requiredTrue])),
         drivermtrac: new FormControl(false, Validators.compose([Validators.requiredTrue])),
@@ -223,7 +221,6 @@ export class jitmtracPage implements OnInit {
             this.mtracForm.get('safetystrapcommander').enable();
             this.mtracForm.get('smokingcommander').enable();
             this.mtracForm.get('loadcommander').enable();
-            this.mtracForm.get('seatbelttroopscommander').enable();
             this.mtracForm.get('accidentcommander').enable();
             this.mtracForm.get('mtraccompletecommander').enable();
             this.mtracForm.get('cmdchecklistcomplete').enable();
@@ -276,7 +273,6 @@ export class jitmtracPage implements OnInit {
     this.mtracForm.get('safetystrapcommander').setValue(this.mtrac.safetystrapcommander);
     this.mtracForm.get('smokingcommander').setValue(this.mtrac.smokingcommander);
     this.mtracForm.get('loadcommander').setValue(this.mtrac.loadcommander);
-    this.mtracForm.get('seatbelttroopscommander').setValue(this.mtrac.seatbelttroopscommander);
     this.mtracForm.get('accidentcommander').setValue(this.mtrac.accidentcommander);
     this.mtracForm.get('mtraccompletecommander').setValue(this.mtrac.mtraccompletecommander);
     this.mtracForm.get('cmdchecklistcomplete').setValue(this.mtrac.cmdchecklistcomplete);
@@ -286,7 +282,6 @@ export class jitmtracPage implements OnInit {
     this.mtracForm.get('safetystrapdriver').setValue(this.mtrac.safetystrapdriver);
     this.mtracForm.get('smokingdriver').setValue(this.mtrac.smokingdriver);
     this.mtracForm.get('loaddriver').setValue(this.mtrac.loaddriver);
-    this.mtracForm.get('seatbelttroopsdriver').setValue(this.mtrac.seatbelttroopsdriver);
     this.mtracForm.get('accidentdriver').setValue(this.mtrac.accidentdriver);
     this.mtracForm.get('mtraccompletedriver').setValue(this.mtrac.mtraccompletedriver);
     this.mtracForm.get('commandermtrac').setValue(this.mtrac.commandermtrac);
@@ -399,7 +394,6 @@ export class jitmtracPage implements OnInit {
     this.mtracForm.get('safetystrapcommander').value == false ||
     this.mtracForm.get('smokingcommander').value == false ||
     this.mtracForm.get('loadcommander').value == false ||
-    this.mtracForm.get('seatbelttroopscommander').value == false ||
     this.mtracForm.get('accidentcommander').value == false ||
     this.mtracForm.get('mtraccompletecommander').value == false ||
     this.mtracForm.get('cmdchecklistcomplete').value == false ||
@@ -420,7 +414,6 @@ export class jitmtracPage implements OnInit {
     this.mtracForm.get('safetystrapcommander').value == false ||
     this.mtracForm.get('smokingcommander').value == false ||
     this.mtracForm.get('loadcommander').value == false ||
-    this.mtracForm.get('seatbelttroopscommander').value == false ||
     this.mtracForm.get('accidentcommander').value == false ||
     this.mtracForm.get('mtraccompletecommander').value == false ||
     this.mtracForm.get('cmdchecklistcomplete').value == false)
@@ -436,7 +429,6 @@ export class jitmtracPage implements OnInit {
     this.mtracForm.get('safetystrapdriver').value == false ||
     this.mtracForm.get('smokingdriver').value == false ||
     this.mtracForm.get('loaddriver').value == false ||
-    this.mtracForm.get('seatbelttroopsdriver').value == false ||
     this.mtracForm.get('accidentdriver').value == false ||
     this.mtracForm.get('mtraccompletedriver').value == false ||
     this.mtracForm.get('drivermtrac').value == false )
@@ -484,7 +476,6 @@ export class jitmtracPage implements OnInit {
           safetystrapcommander: false,
           smokingcommander: false,
           loadcommander: false,
-          seatbelttroopscommander: false,
           accidentcommander: false,
           mtraccompletecommander: false,
           cmdchecklistcomplete: false,
@@ -494,7 +485,6 @@ export class jitmtracPage implements OnInit {
           safetystrapdriver: this.mtracForm.value.safetystrapdriver,
           smokingdriver: this.mtracForm.value.smokingdriver,
           loaddriver: this.mtracForm.value.loaddriver,
-          seatbelttroopsdriver: this.mtracForm.value.seatbelttroopsdriver,
           accidentdriver: this.mtracForm.value.accidentdriver,
           mtraccompletedriver: this.mtracForm.value.mtraccompletedriver,
           drivermtrac: this.mtracForm.value.drivermtrac,
@@ -530,7 +520,6 @@ export class jitmtracPage implements OnInit {
         this.mtrac.safetystrapcommander= this.mtracForm.get('safetystrapcommander').value;
         this.mtrac.smokingcommander= this.mtracForm.get('smokingcommander').value;
         this.mtrac.loadcommander= this.mtracForm.get('loadcommander').value;
-        this.mtrac.seatbelttroopscommander= this.mtracForm.get('seatbelttroopscommander').value;
         this.mtrac.accidentcommander= this.mtracForm.get('accidentcommander').value;
         this.mtrac.mtraccompletecommander= this.mtracForm.get('mtraccompletecommander').value;
         this.mtrac.cmdchecklistcomplete= this.mtracForm.get('cmdchecklistcomplete').value;
