@@ -120,7 +120,6 @@ cmdspeedlimit: boolean;
 cmddanger: boolean;
 cmdreverse: boolean;
 seatbeltcommander: boolean;
-seatingcommander: boolean;
 safetystrapcommander: boolean;
 smokingcommander: boolean;
 loadcommander: boolean;
