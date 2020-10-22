@@ -63,10 +63,10 @@
     </select>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3cdf076c-df2b-4277-9f47-69f51d413bc6" name="Default Changelist" comment="JITMtrac working now">
+    <list default="true" id="3cdf076c-df2b-4277-9f47-69f51d413bc6" name="Default Changelist" comment="limited add-drive remarks to 94 characters instead of doing the accordion">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/add-drive/add-drive.page.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/add-drive/add-drive.page.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/services/database.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/services/database.service.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/jitmtrac/jitmtrac.page.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/jitmtrac/jitmtrac.page.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/mtrac/mtrac.page.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/mtrac/mtrac.page.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -306,7 +306,14 @@
       <option name="project" value="LOCAL" />
       <updated>1603270120069</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="limited add-drive remarks to 94 characters instead of doing the accordion">
+      <created>1603337685672</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1603337685672</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="UnknownFeatures">
@@ -355,7 +362,8 @@
     <MESSAGE value="edited boc&#10;changed all to checkboxes&#10;will do the logic tomorrow" />
     <MESSAGE value="deleted seatbelttroops in JIT" />
     <MESSAGE value="JITMtrac working now" />
-    <option name="LAST_COMMIT_MESSAGE" value="JITMtrac working now" />
+    <MESSAGE value="limited add-drive remarks to 94 characters instead of doing the accordion" />
+    <option name="LAST_COMMIT_MESSAGE" value="limited add-drive remarks to 94 characters instead of doing the accordion" />
   </component>
   <component name="WindowStateProjectService">
     <state x="251" y="0" key="CommitChangelistDialog2" timestamp="1596078526302">
@@ -370,11 +378,11 @@
       <screen x="0" y="0" width="1280" height="720" />
     </state>
     <state x="221" y="103" key="IDE.errors.dialog/0.0.1280.720@0.0.1280.720" timestamp="1595393523610" />
-    <state x="280" y="113" key="Vcs.Push.Dialog.v2" timestamp="1603270123328">
+    <state x="280" y="113" key="Vcs.Push.Dialog.v2" timestamp="1603337688218">
       <screen x="0" y="0" width="1536" height="864" />
     </state>
     <state x="233" y="94" key="Vcs.Push.Dialog.v2/0.0.1280.720@0.0.1280.720" timestamp="1595424282819" />
-    <state x="280" y="113" key="Vcs.Push.Dialog.v2/0.0.1536.864@0.0.1536.864" timestamp="1603270123328" />
+    <state x="280" y="113" key="Vcs.Push.Dialog.v2/0.0.1536.864@0.0.1536.864" timestamp="1603337688218" />
     <state x="110" y="120" width="1060" height="480" key="com.android.tools.idea.avdmanager.AvdListDialog" timestamp="1595392907048">
       <screen x="0" y="0" width="1280" height="720" />
     </state>
