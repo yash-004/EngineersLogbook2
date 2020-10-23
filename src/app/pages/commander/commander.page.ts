@@ -146,7 +146,7 @@ export class CommanderPage implements OnInit {
   }
 
   public checkOtherStatus(){
-    return this.otherstatus;
+    return true; //temporary fix to make it always expanded and prevent glitches
   }
 
   public getMileagebyVehicleType(data: any,vehicle: any) {

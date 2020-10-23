@@ -64,8 +64,8 @@
   </ion-card>
   <ion-card *ngFor="let driver of getDrivers()">
     <ion-card-header>
-      <ion-card-subtitle><ion-icon name="person" text-center (click)="showother()"></ion-icon> <strong> {{driver.name}} ({{driver.email}})</strong></ion-card-subtitle>
-      <ion-card-subtitle (click)="showother()">Last drive: {{driver.summary.most_recent_drive | date: "dd/MM/yyyy hh:mm"}}, {{driver.summary.most_recent_drive | daysAgo}} days ago</ion-card-subtitle>
+      <ion-card-subtitle><strong> {{driver.name}} ({{driver.email}})</strong></ion-card-subtitle>
+      <ion-card-subtitle >Last drive: {{driver.summary.most_recent_drive | date: "dd/MM/yyyy hh:mm"}}, {{driver.summary.most_recent_drive | daysAgo}} days ago</ion-card-subtitle>
       <br/>
       <ion-label position="stacked" *ngIf="checkAll()==true"><h2>Certifications</h2></ion-label>
       <ion-button *ngIf="checkAll()==false" (click)="showEdit()">Certifications <ion-icon name="settings"></ion-icon></ion-button>
@@ -134,22 +134,13 @@
           </ion-card></ion-col>
 
           <ion-col size="4" class="bubble-text" no-padding><ion-card no-padding>
-            <div class="ion-text-center" style="width: 100%;" (click)="showother()">
+            <div class="ion-text-center" style="width: 100%;">
               <ion-icon name="clock" size="large"></ion-icon><br>
               <div class="shift_up">Time Driven</div>
               <div class="slide_num">{{driver.summary.duration_minutes / 60 | number : '1.0-1' }} hours</div>
             </div>
           </ion-card></ion-col>
 
-
-          <ion-row text-center style="padding: 0 10px" *ngIf="checkDriveStatus() || checkMileageStatus() || checkOtherStatus()" (click)="showother()">
-            <ion-col>
-              average drive distance: <br/> {{driver.summary.mileage_km / driver.summary.drive_count | number : '1.0-1'}} km
-            </ion-col>
-            <ion-col>
-              average drive duration: <br/>{{driver.summary.duration_minutes / 60 / driver.summary.drive_count | number : '1.0-1'}} hours
-            </ion-col>
-          </ion-row>
         </ion-row>
         <!-- <ion-row text-center (click)="showother()">
           <ion-col text-center><ion-card padding text-center>
@@ -191,10 +182,10 @@
 
       </ion-grid>-->
 
-      <ion-item *ngFor="let vehicle of driver.summary.most_recent_drive_by_vehicle_type | keyvalue" (click)="showother()">
+      <ion-item *ngFor="let vehicle of driver.summary.most_recent_drive_by_vehicle_type | keyvalue">
 
 
-          <ion-col *ngIf="checkOtherStatus()" (click)="showother()">
+          <ion-col *ngIf="checkOtherStatus()">
             <ion-label *ngIf="checkOtherStatus()">
               <h3 class="underline" *ngIf="checkOperatorCurrencyValid(vehicle.key,driver.summary.most_recent_drive_by_vehicle_type[vehicle.key])">{{vehicle.key}}</h3>
             </ion-label >
