@@ -86,8 +86,8 @@
         </div>
         <ion-item>
           <ion-label position="floating">Fuel Type</ion-label>
-          <ion-select text-wrap formControlName="FuelType" interface="popover" value="getfueltype()">
-            <ion-select-option text-wrap value="getfueltype()">{{getfueltype()}}</ion-select-option>
+          <ion-select text-wrap formControlName="FuelType" interface="popover">
+            <ion-select-option text-wrap *ngFor="let ft of getfueltype()" value={{ft}}>{{ft}}</ion-select-option>
           </ion-select>
         </ion-item>
         <ion-item>
@@ -98,6 +98,7 @@
     </ion-card>
 
     <div class="btn-wrapper">
+      <ion-button (click)="findInvalidControls()">Check</ion-button>
       <div *ngIf = showSubmit()>
         <ion-button class="submit-btn" type="submit" [disabled]="!addFuelForm.valid" style="padding-right:10px">Submit
         </ion-button>

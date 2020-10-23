@@ -101,9 +101,9 @@ export class AddFuelPage implements OnInit {
 
   getfueltype() {
     if (this.addFuelForm.value.vehicleType == "OUV" || this.addFuelForm.value.vehicleType == "5TON") {
-      return "diesel" }
+      return ["diesel"] }
     else if (this.addFuelForm.value.vehicleType != "") {
-      return "petrol" }
+      return ["petrol"] }
   }
 
   async addFuel(value)
@@ -144,5 +144,16 @@ export class AddFuelPage implements OnInit {
         this.navCtrl.pop();
       }
     }
+  }
+  public findInvalidControls() { 
+    const invalid = [];
+    const controls = this.addFuelForm.controls;
+    for (const name in controls) {
+      if (controls[name].invalid) {
+        invalid.push(name);
+      }
+    }
+    console.log(invalid)
+    return invalid;
   }
 }
