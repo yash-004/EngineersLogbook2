@@ -1,5 +1,7 @@
 * {
+  opacity: 1 !important;
   --ion-text-color: black;
+  --background-color:	#bafbba;
 }
 
 ion-toolbar {
@@ -11,17 +13,18 @@ ion-content {
   --ion-text-color: black;
 }
 
-ion-card {
-  --background:	#bafbba;
-}
-
 ion-item {
   height: auto;
   min-height: auto;
+  --background:	#bafbba;
 }
 
 ion-grid {
   --background:	#bafbba;
+}
+
+ion-card-title {
+  --color: black;
 }
 
 ion-input {
@@ -40,6 +43,10 @@ ion-select {
 }
 
 .btn-wrapper {
+  text-align: center;
+}
+
+.signature-box {
   text-align: center;
 }
 
@@ -95,15 +102,26 @@ ion-select {
   max-height: 100%;
 }
 
-div {
-  color: black;
-}
-
 .invalid-div {
-  color: black;
   background-color: #bafbba;
 }
 
 .checkbox-div {
   background-color: #bafbba;
+}
+
+ion-checkbox {
+  --background: #DCFDDC;
+}
+
+ion-card {
+  --background: #bafbba;
+}
+
+.sc-ion-card-md-h {
+  --background: #bafbba;
+}
+
+.sc-ion-card-ios-h {
+  --background: #bafbba;
 }

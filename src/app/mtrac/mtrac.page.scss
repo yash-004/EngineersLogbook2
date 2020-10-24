@@ -1,6 +1,7 @@
 * {
   opacity: 1 !important;  // disabled items will not be grey out.
   --ion-text-color: black;
+  --background-color:	#bafbba;
 }
 
 ion-toolbar{
@@ -108,6 +109,18 @@ ion-select{
     background-color:	#bafbba;
 }
 
+ion-checkbox {
+  --background: #DCFDDC;
+}
+
+ion-card {
+  --background: #bafbba;
+
+}
 .sc-ion-card-md-h {
+  --background: #bafbba;
+}
+
+.sc-ion-card-ios-h {
   --background: #bafbba;
 }
