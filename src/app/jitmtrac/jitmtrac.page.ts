@@ -93,7 +93,8 @@ export class jitmtracPage implements OnInit {
   public getapprovedvtypes(): Array<{text:string, ready: boolean}>[] {
     var vtypes =  VehicleTypes
 
-    var driven = Object.keys(this.database.current.stats.most_recent_drive_by_vehicle_type);
+    //var driven = Object.keys(this.database.current.stats.most_recent_drive_by_vehicle_type);
+    var driven = Object.values(VehicleTypes);
 
     var canDrive = [];
 
@@ -101,26 +102,20 @@ export class jitmtracPage implements OnInit {
 
     driven.forEach((value) => {
       // check license 
-      if (value == 'MSS') {
+      if (value == 'Monster') {
         if (this.database.current.user.mss_certified == false){
           canDrive.push({text: value + " - NO LICENSE", ready: false})
         }
       }
-      else if (value == 'FLB') {
+      else if (value == 'Fly') {
         if (this.database.current.user.flb_certified == false){
           canDrive.push({text: value + " - NO LICENSE", ready: false})
         }
       }
-      else if (value == 'BELREX') {
+      else if (value == 'Bunny') {
         if (this.database.current.user.belrex_certified == false){
           canDrive.push({text: value + " - NO LICENSE", ready: false})
         }
-      }
-
-      // check currency / JIT test
-      var daysLastDriven = this.calculateDiff(this.database.current.stats.most_recent_drive_by_vehicle_type[value].$d);
-      if (daysLastDriven <= 7){ // || this.database.current.stats.JIT==true){
-          canDrive.push({text: value, ready: true});
       }
       else {
         canDrive.push({text: value, ready: true});         

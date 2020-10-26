@@ -180,7 +180,13 @@ export interface Login
   snapshot_wait: number;
 }
 //Vehicle Type B for BELREX,MS for MSS,T for 5TON, O for OUV, F for FLB, M3 for M3G
-export const VehicleTypes: string[] = [ 'BELREX', 'MSS', '5TON', 'OUV', 'FLB', 'M3G' ];
+//5TON 5Teridium
+//OUV Octopus
+//MSS Monster
+//BELREX Bunny
+//FLB Fly
+//M3G Manta
+export const VehicleTypes: string[] = [ 'Bunny', 'Monster', '5Teridium', 'Octopus', 'Fly', 'Manta' ];
 
 @Injectable()
 export class DatabaseService {

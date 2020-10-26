@@ -356,7 +356,7 @@ export class SummaryPage implements OnInit {
     return new Chart(canvas.nativeElement, {
       type: "horizontalBar",
       data: {
-        labels: ["remaining mileage to target"],
+        labels: ["Remaining Mileage to Target"],
         
         datasets: [{
             label: "Mileage",

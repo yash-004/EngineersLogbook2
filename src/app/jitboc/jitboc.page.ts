@@ -50,7 +50,7 @@ time: [
 {listID: 12, name:"Check SWD / IVD are working.",ischecked: false},
 {listID: 13, name:"Check Fuel Tank level. (not less than 1/2 tank)",ischecked: false},
 {listID: 14, name:"Check for abnormal noise, vibration and burning smell.",ischecked: false},
-{listID: 15, name:"Check that reverse sensor is switched on. (for OUV)",ischecked: false},
+{listID: 15, name:"Check that reverse sensor is switched on. (for Octopus)",ischecked: false},
 {listID: 16, name:"Check that reverse camera is working. (if applicable)",ischecked: false}
 ];
 

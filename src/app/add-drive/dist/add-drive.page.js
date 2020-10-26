@@ -133,17 +133,17 @@ var AddDrivePage = /** @class */ (function () {
         //console.log(canDrive);
         driven.forEach(function (value) {
             // check license 
-            if (value == 'MSS') {
+            if (value == 'Monster') {
                 if (_this.database.current.user.mss_certified == false) {
                     canDrive.push({ text: value + " - NO LICENSE", ready: false });
                 }
             }
-            else if (value == 'FLB') {
+            else if (value == 'Fly') {
                 if (_this.database.current.user.flb_certified == false) {
                     canDrive.push({ text: value + " - NO LICENSE", ready: false });
                 }
             }
-            else if (value == 'BELREX') {
+            else if (value == 'Bunny') {
                 if (_this.database.current.user.belrex_certified == false) {
                     canDrive.push({ text: value + " - NO LICENSE", ready: false });
                 }

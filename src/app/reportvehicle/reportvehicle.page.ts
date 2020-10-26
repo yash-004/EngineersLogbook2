@@ -78,13 +78,13 @@ export class ReportVehiclePage implements OnInit {
   public getapprovedvtypes(): string[] {
         var vtypes =  VehicleTypes
         if (this.database.current.user.mss_certified != true) {
-            vtypes = vtypes.filter( vtype => vtype != 'MSS');
+            vtypes = vtypes.filter( vtype => vtype != 'Monster');
         }
         if (this.database.current.user.flb_certified != true) {
-            vtypes = vtypes.filter( vtype => vtype != 'FLB');
+            vtypes = vtypes.filter( vtype => vtype != 'Fly');
         }
         if (this.database.current.user.belrex_certified != true) {
-            vtypes = vtypes.filter( vtype => vtype != 'BELREX');
+            vtypes = vtypes.filter( vtype => vtype != 'Bunny');
         }
         return vtypes
 

@@ -103,17 +103,17 @@ export class mtracPage implements OnInit {
 
     driven.forEach((value) => {
       // check license 
-      if (value == 'MSS') {
+      if (value == 'Monster') {
         if (this.database.current.user.mss_certified == false){
           canDrive.push({text: value + " - NO LICENSE", ready: false})
         }
       }
-      else if (value == 'FLB') {
+      else if (value == 'Fly') {
         if (this.database.current.user.flb_certified == false){
           canDrive.push({text: value + " - NO LICENSE", ready: false})
         }
       }
-      else if (value == 'BELREX') {
+      else if (value == 'Bunny') {
         if (this.database.current.user.belrex_certified == false){
           canDrive.push({text: value + " - NO LICENSE", ready: false})
         }

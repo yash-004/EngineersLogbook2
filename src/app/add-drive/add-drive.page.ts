@@ -99,46 +99,40 @@ export class AddDrivePage implements OnInit {
   }
   // prevent user from selecting vehicle types that they are not current in - 10 days?
   public getapprovedvtypes(): Array<{text:string, ready: boolean}>[] {
-        var vtypes =  VehicleTypes
+    var vtypes =  VehicleTypes
 
-        var driven = Object.keys(this.database.current.stats.most_recent_drive_by_vehicle_type);
+    //var driven = Object.keys(this.database.current.stats.most_recent_drive_by_vehicle_type);
+    var driven = Object.values(VehicleTypes);
 
-        var canDrive = [];
+    var canDrive = [];
 
-        //console.log(canDrive);
+    //console.log(canDrive);
 
-        driven.forEach((value) => {
-          // check license 
-          if (value == 'MSS') {
-            if (this.database.current.user.mss_certified == false){
-              canDrive.push({text: value + " - NO LICENSE", ready: false})
-            }
-          }
-          else if (value == 'FLB') {
-            if (this.database.current.user.flb_certified == false){
-              canDrive.push({text: value + " - NO LICENSE", ready: false})
-            }
-          }
-          else if (value == 'BELREX') {
-            if (this.database.current.user.belrex_certified == false){
-              canDrive.push({text: value + " - NO LICENSE", ready: false})
-            }
-          }
+    driven.forEach((value) => {
+      // check license 
+      if (value == 'Monster') {
+        if (this.database.current.user.mss_certified == false){
+          canDrive.push({text: value + " - NO LICENSE", ready: false})
+        }
+      }
+      else if (value == 'Fly') {
+        if (this.database.current.user.flb_certified == false){
+          canDrive.push({text: value + " - NO LICENSE", ready: false})
+        }
+      }
+      else if (value == 'Bunny') {
+        if (this.database.current.user.belrex_certified == false){
+          canDrive.push({text: value + " - NO LICENSE", ready: false})
+        }
+      }
+      else {
+        canDrive.push({text: value, ready: true});         
+      }
+    });
 
-          // check currency / JIT test
-          var daysLastDriven = this.calculateDiff(this.database.current.stats.most_recent_drive_by_vehicle_type[value].$d);
-          if (daysLastDriven <= 100){ // || this.database.current.stats.JIT==true){
-              canDrive.push({text: value, ready: true});
-          }
-          else {
-            canDrive.push({text: value, ready: true});         
-          }
-        });
-
-        //console.log(canDrive)
-        return canDrive;
+    //console.log(canDrive)
+    return canDrive;
   }
-
   calculateDiff(dateSent){
     let currentDate = new Date();
     dateSent = new Date(dateSent);
