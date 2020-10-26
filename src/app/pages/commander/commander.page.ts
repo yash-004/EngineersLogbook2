@@ -198,16 +198,16 @@ export class CommanderPage implements OnInit {
   public getCertifications(driver: User) {
     var certifications = []
     if (driver.mss_certified) {
-      certifications.push("MSS")
+      certifications.push("Monster")
     }
     if (driver.flb_certified) {
-      certifications.push("FLB")
+      certifications.push("Fly")
     }
     if (driver.belrex_certified) {
-      certifications.push("BELREX")
+      certifications.push("Bunny")
     }
     if (driver.m3g_certified) {
-      certifications.push("M3G")
+      certifications.push("Manta")
     }
     return certifications.join(", ")
   }
