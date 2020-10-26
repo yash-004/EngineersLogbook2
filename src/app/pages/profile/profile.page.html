@@ -42,14 +42,6 @@
 <ion-label text-center><h1>Certifications</h1></ion-label>
 <ion-grid>
     <ion-row>
-        <ion-col offset-4 text-center>
-            <ion-label color="success"><img src="assets/OUV.png"> Octopus </ion-label>
-        </ion-col>
-        <ion-col text-center>
-            <ion-label color="success"><img src="assets/5TON.png"> 5Teridium </ion-label>
-        </ion-col>
-    </ion-row>
-    <ion-row>
         <ion-col text-center>
             <ion-label *ngIf="database.current.user.mss_certified == true" color="success"> Monster </ion-label>
         </ion-col>
