@@ -84,25 +84,21 @@ var AddDrivePage = /** @class */ (function () {
             ],
             endOdometer: [
                 { type: 'required', message: 'Enter final Odometer value' },
+                { type: 'min', message: 'must be equal to or more than start odometer' }
             ],
             endTime: [
                 { type: 'required', message: 'Enter final Time' },
+                { type: 'min', message: 'must be equal to or more than start time' }
             ],
             fuelLevel: [
                 { type: 'required', message: 'Indicate final fuel level' },
             ]
         };
         this.checklistf = [
-            { listID: 1, name: "In Camp Driving", ischecked: false },
-            { listID: 2, name: "3 Point Turn", ischecked: false },
-            { listID: 3, name: "Reversing Drill", ischecked: false },
-            { listID: 4, name: "Parking Drill", ischecked: false },
+            { listID: 1, name: "I have completed my JIT training.", ischecked: false },
         ];
         this.checklistt = [
-            { listID: 1, name: "In Camp Driving", ischecked: true },
-            { listID: 2, name: "3 Point Turn", ischecked: true },
-            { listID: 3, name: "Reversing Drill", ischecked: true },
-            { listID: 4, name: "Parking Drill", ischecked: true },
+            { listID: 1, name: "I have completed my JIT training.", ischecked: false },
         ];
         this.selectedArray = [];
     }
@@ -128,7 +124,8 @@ var AddDrivePage = /** @class */ (function () {
     AddDrivePage.prototype.getapprovedvtypes = function () {
         var _this = this;
         var vtypes = database_service_1.VehicleTypes;
-        var driven = Object.keys(this.database.current.stats.most_recent_drive_by_vehicle_type);
+        //var driven = Object.keys(this.database.current.stats.most_recent_drive_by_vehicle_type);
+        var driven = Object.values(database_service_1.VehicleTypes);
         var canDrive = [];
         //console.log(canDrive);
         driven.forEach(function (value) {
@@ -147,11 +144,6 @@ var AddDrivePage = /** @class */ (function () {
                 if (_this.database.current.user.belrex_certified == false) {
                     canDrive.push({ text: value + " - NO LICENSE", ready: false });
                 }
-            }
-            // check currency / JIT test
-            var daysLastDriven = _this.calculateDiff(_this.database.current.stats.most_recent_drive_by_vehicle_type[value].$d);
-            if (daysLastDriven <= 100) { // || this.database.current.stats.JIT==true){
-                canDrive.push({ text: value, ready: true });
             }
             else {
                 canDrive.push({ text: value, ready: true });
@@ -197,7 +189,8 @@ var AddDrivePage = /** @class */ (function () {
             driveStatus: new forms_1.FormControl(''),
             radioVerify: new forms_1.FormControl({ value: '', disabled: true }),
             radioReject: new forms_1.FormControl({ value: '', disabled: true }),
-            incamp: new forms_1.FormControl('')
+            incamp: new forms_1.FormControl(''),
+            jit_complete: new forms_1.FormControl({ value: false, disabled: false })
         });
         //  this.updateStatus = false;
         //  this.isDisabled = false;
@@ -225,7 +218,6 @@ var AddDrivePage = /** @class */ (function () {
             this.updateStatus = false;
             this.isDisabled = false;
             this.showStatus = false;
-            this.addDriveForm.get('vehicleType').disable();
         }
         else { // retrieving an existing drive
             if (this.drive.driver != this.database.current.user.email && this.database.current.user.is_admin) {
@@ -244,7 +236,6 @@ var AddDrivePage = /** @class */ (function () {
                 this.showStatus = true;
                 this.isDisabled = true;
                 this.viewDriveControls();
-                this.addDriveForm.get('vehicleType').disable();
             }
             else if (this.drive.status === 'in-progress' && this.drive.driver == this.database.current.user.email) {
                 // driver enter details to complete drive
@@ -254,7 +245,6 @@ var AddDrivePage = /** @class */ (function () {
                 this.isDisabled = false;
                 this.showStatus = false;
                 this.endDriveControls();
-                this.addDriveForm.get('vehicleType').disable();
             }
             else if ((this.drive.status === 'rejected' && this.drive.driver == this.database.current.user.email)) {
                 console.log('editing rejected drive info - driver');
@@ -264,7 +254,6 @@ var AddDrivePage = /** @class */ (function () {
                 this.showStatus = true;
                 this.isDisabled = false;
                 this.editDriveControls();
-                this.addDriveForm.get('vehicleType').disable();
             }
         }
     };
@@ -322,7 +311,9 @@ var AddDrivePage = /** @class */ (function () {
         this.addDriveForm.get('vehicleCommander').setValue(this.drive.commander);
         this.addDriveForm.get('startLocation').setValue(this.drive.start_location.toUpperCase());
         this.addDriveForm.get('startOdometer').setValue(this.drive.start_odometer);
+        this.addDriveForm.get('endOdometer').setValidators(forms_1.Validators.min(this.drive.start_odometer));
         this.addDriveForm.get('startTime').setValue(this.drive.start_time);
+        this.addDriveForm.get('endTime').setValidators(forms_1.Validators.min(this.drive.start_time));
         this.addDriveForm.get('incamp').setValue(this.drive.incamp);
         console.log('start time: ' + this.addDriveForm.value.startTime);
     };
@@ -335,6 +326,7 @@ var AddDrivePage = /** @class */ (function () {
         console.log('end time: ' + this.addDriveForm.value.endTime);
         this.addDriveForm.get('fuelLevel').setValue(this.drive.fuel_level);
         this.addDriveForm.get('driveComments').setValue(this.drive.comments.toUpperCase());
+        this.addDriveForm.get('jit_complete').setValue(true);
         // set the maintenance toggle to check
         this.isToggled = this.drive.is_maintenance;
     };

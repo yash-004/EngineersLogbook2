@@ -52,9 +52,11 @@ export class AddDrivePage implements OnInit {
     ],
     endOdometer: [
       { type: 'required', message: 'Enter final Odometer value' },
+      { type: 'min', message: 'must be equal to or more than start odometer'}
     ],
     endTime: [
       { type: 'required', message: 'Enter final Time' },
+      { type: 'min', message: 'must be equal to or more than start time'}
     ],
     fuelLevel: [
       { type: 'required', message: 'Indicate final fuel level' },
@@ -302,7 +304,9 @@ export class AddDrivePage implements OnInit {
     this.addDriveForm.get('vehicleCommander').setValue(this.drive.commander);
     this.addDriveForm.get('startLocation').setValue(this.drive.start_location.toUpperCase());
     this.addDriveForm.get('startOdometer').setValue(this.drive.start_odometer);
+    this.addDriveForm.get('endOdometer').setValidators(Validators.min(this.drive.start_odometer));
     this.addDriveForm.get('startTime').setValue(this.drive.start_time);
+    this.addDriveForm.get('endTime').setValidators(Validators.min(this.drive.start_time));
     this.addDriveForm.get('incamp').setValue(this.drive.incamp);
     console.log('start time: ' + this.addDriveForm.value.startTime);
   }
