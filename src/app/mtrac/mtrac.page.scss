@@ -1,5 +1,5 @@
 * {
-  opacity: 1;  // disabled items will not be grey out.
+  opacity: 1 !important;  // disabled items will not be grey out.
   --ion-text-color: black;
   --background-color:	#bafbba;
 }
