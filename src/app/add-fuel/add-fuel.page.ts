@@ -4,6 +4,7 @@ import { NavController } from '@ionic/angular';
 import { DatabaseService, Fuel, VehicleTypes } from '../services/database.service';
 import { ToastController } from '@ionic/angular';
 import { ActivatedRoute } from '@angular/router';
+import { Keyboard } from '@ionic-native/keyboard/ngx';
 import * as dayjs from 'dayjs'; // Datetime utility, See http://zetcode.com/javascript/dayjs/
 
 @Component({
@@ -49,7 +50,8 @@ export class AddFuelPage implements OnInit {
     private formBuilder: FormBuilder,
     public toastController: ToastController,
     public database: DatabaseService,
-    public route: ActivatedRoute
+    public route: ActivatedRoute,
+    public keyboard: Keyboard
   ) { }
 
   public getapprovedvtypes(): string[] {
@@ -77,6 +79,10 @@ export class AddFuelPage implements OnInit {
       FuelType: new FormControl('', Validators.compose([Validators.required])),
       FuelTopUp: new FormControl('', Validators.compose([Validators.required])),
     });
+  }
+
+  hideKeyboard() {
+    this.keyboard.hide();
   }
 
   onCancel() {

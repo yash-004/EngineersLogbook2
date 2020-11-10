@@ -92,7 +92,7 @@
         </ion-item>
         <ion-item>
           <ion-label position="floating">FuelTopUp</ion-label>
-          <ion-input type="number" inputmode="numeric" formControlName="FuelTopUp"></ion-input>
+          <ion-input type="number" inputmode="numeric" formControlName="FuelTopUp" (keyup.enter)="hideKeyboard()"></ion-input>
         </ion-item>
       </ion-card-content>
     </ion-card>
