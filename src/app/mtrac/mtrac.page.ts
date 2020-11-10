@@ -191,7 +191,7 @@ export class mtracPage implements OnInit {
   ngOnInit() {
       this.mtracForm = this.formBuilder.group({
         vehicleNumber: new FormControl('', Validators.compose([Validators.minLength(5), Validators.required])),
-        licenseType: new FormControl('', Validators.compose([Validators.required])),
+        licenseType: new FormControl({value: '', disabled: true }, Validators.compose([Validators.required])),
         vehicleType: new FormControl('', Validators.compose([Validators.required])),
         vehicleType2: new FormControl('', Validators.compose([Validators.required])),
         rest: new FormControl('', Validators.compose([Validators.required])),

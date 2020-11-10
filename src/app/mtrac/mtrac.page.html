@@ -82,7 +82,7 @@
         <ion-select *ngIf="this.mtrac == null||this.database.current.user.email == this.mtrac.driver ; else notnull"[ngModel]="selectedLicense" [ngStyle]="{'color': 'black'}"  formControlName="licenseType" interface="popover" text-left>
           <ion-select-option text-wrap *ngFor="let licenseType of licenseTypes" [value]=licenseType.value>{{licenseType.text}}</ion-select-option>
         </ion-select>
-        <ng-template #notnull><ion-select *ngIf="this.database.current.user.email != this.mtrac.driver"  formControlName="licenseType" interface="popover" text-left>
+        <ng-template #notnull><ion-select *ngIf="this.database.current.user.email != this.mtrac.driver" formControlName="licenseType" interface="popover" text-left>
           <ion-select-option text-wrap value="L">CAT A, B</ion-select-option>
           <ion-select-option text-wrap value="M">CAT C</ion-select-option>
           <ion-select-option text-wrap value="H">CAT D</ion-select-option>
