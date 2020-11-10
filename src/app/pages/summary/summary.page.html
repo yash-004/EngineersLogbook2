@@ -160,16 +160,16 @@
       <app-drive-view expandHeight='150px' [drive]="trip"></app-drive-view>
     </ion-card-->
 
-    <ion-card *ngFor="let message of getNotifications()" (click)="click(message.trip)" color="primary" padding>
+    <ion-card *ngFor="let message of getNotifications()" (click)="click(message.trip)" class="notification" padding>
     
         <ion-card-subtitle color='danger'><strong>{{message.subtitle}}</strong></ion-card-subtitle>
-        <ion-card-title>{{message.title}}</ion-card-title>
+        <ion-card-title class="title">{{message.title}}</ion-card-title>
 
         <ion-card-content class="ion-no-padding">{{message.text}}</ion-card-content>
 
     </ion-card>
-    <ion-card *ngFor="let form of getVerifiedMTRAC()" (click)="clickmtrac(form)" color="primary" padding>
-        <ion-card-title>Continue to add drive</ion-card-title>
+    <ion-card *ngFor="let form of getVerifiedMTRAC()" (click)="clickmtrac(form)" color="notification" padding>
+        <ion-card-title class="title">Continue to add drive</ion-card-title>
     </ion-card>
 
 </ion-content>

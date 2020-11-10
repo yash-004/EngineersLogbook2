@@ -158,7 +158,7 @@ export class SummaryPage implements OnInit {
 
       if (trip.status === 'in-progress') {
         result.push( { 
-          subtitle: "Drive-In-Progress",
+          subtitle: "Pending End Drive",
           title: date_str,
           text: `Journey started from location ${trip.start_location} at ${trip.start_time}.`,
           trip: trip
