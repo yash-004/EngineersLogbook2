@@ -11,6 +11,7 @@ import * as dayjs from 'dayjs'; // Datetime utility, See http://zetcode.com/java
   selector: 'app-add-fuel',
   templateUrl: './add-fuel.page.html',
   styleUrls: ['./add-fuel.page.scss'],
+  providers: [Keyboard]
 })
 
 export class AddFuelPage implements OnInit {

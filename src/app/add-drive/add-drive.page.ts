@@ -4,12 +4,14 @@ import { NavController } from '@ionic/angular';
 import { DatabaseService, Drive, VehicleTypes, Mtrac } from '../services/database.service';
 import { ToastController } from '@ionic/angular';
 import { ActivatedRoute } from '@angular/router';
+import { Keyboard } from '@ionic-native/keyboard/ngx';
 import * as dayjs from 'dayjs'; // DateTime utility, See http://zetcode.com/javascript/dayjs/
 
 @Component({
   selector: 'app-add-drive',
   templateUrl: './add-drive.page.html',
   styleUrls: ['./add-drive.page.scss'],
+  providers: [Keyboard]
 })
 
 export class AddDrivePage implements OnInit {
@@ -76,7 +78,8 @@ export class AddDrivePage implements OnInit {
     private formBuilder: FormBuilder,
     public toastController: ToastController,
     public database: DatabaseService,
-    public route: ActivatedRoute
+    public route: ActivatedRoute,
+    public keyboard: Keyboard
   ) { }
   
   selectedArray : any = [];
@@ -154,6 +157,10 @@ export class AddDrivePage implements OnInit {
     } else {
         this.selectedArray.push(name)
     }
+  }
+  
+  hideKeyboard() {
+    this.keyboard.hide();
   }
 
   ngOnInit() {

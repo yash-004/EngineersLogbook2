@@ -26,7 +26,7 @@ export class SignupPage implements OnInit {
      { type: 'pattern', message: 'Enter a valid email.' }
    ],
    unit: [
-     { type: 'required', message: 'Unit is required 30SCE or TPT.' },
+     { type: 'required', message: 'Unit is required.' },
      { type: 'minlength', message: 'Unit must be at least 3 characters long.' }
    ],
    company: [

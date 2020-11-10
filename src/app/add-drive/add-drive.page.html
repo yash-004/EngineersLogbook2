@@ -116,7 +116,7 @@
         </div>
         <ion-item>
           <ion-label position="floating">Odometer</ion-label>
-          <ion-input type="number" inputmode="numeric" formControlName="startOdometer" placeholder="Input Current Odometer Reading"></ion-input>
+          <ion-input type="number" inputmode="numeric" formControlName="startOdometer" placeholder="Input Current Odometer Reading" (keyup.enter)="hideKeyboard()"></ion-input>
         </ion-item>
         <div class="validation-errors">
           <ng-container *ngFor="let validation of validationMessages.startOdometer">
@@ -161,7 +161,7 @@
         </div>
         <ion-item>
           <ion-label position="floating">Odometer</ion-label>
-          <ion-input type="number" inputmode="numeric" formControlName="endOdometer" placeholder="Input Current Odometer Reading"></ion-input>
+          <ion-input type="number" inputmode="numeric" formControlName="endOdometer" placeholder="Input Current Odometer Reading" (keyup.enter)="hideKeyboard()"></ion-input>
         </ion-item>
         <div class="validation-errors">
           <ng-container *ngFor="let validation of validationMessages.endOdometer">
