@@ -14,13 +14,7 @@
   <!-- Notifications -->
   <ion-item class="headers" text-center><ion-label style="margin-bottom: 0;"><h1> Notifications </h1></ion-label></ion-item>
 
-  <ion-card *ngFor="let drive of getPendingDrives()" padding>
-
-    <ion-fab vertical="top" horizontal="end">
-      <!--ion-fab-button size="small" (click)="click(drive)">View</ion-fab-button-->
-      <ion-fab-button size="small" (click)="click(drive)"><ion-icon name='eye'></ion-icon></ion-fab-button>
-      <!--ion-button fill="outline" size="small" (click)="click(drive)">View</ion-button-->
-    </ion-fab>
+  <ion-card *ngFor="let drive of getPendingDrives()" (click)="click(drive)" color="primary" padding>
 
     <ion-card-subtitle color='danger'><strong>Pending review</strong></ion-card-subtitle>
     <ion-card-title>{{drive.date}}</ion-card-title>
@@ -33,12 +27,7 @@
     </ion-card-content>
 
   </ion-card>
-  <ion-card *ngFor="let form of getPendingMTRAC()" padding>
-    <ion-fab vertical="top" horizontal="end">
-      <!--ion-fab-button size="small" (click)="click(drive)">View</ion-fab-button-->
-      <ion-fab-button size="small" (click)="clickmtrac(form)"><ion-icon name='share-alt'></ion-icon></ion-fab-button>
-      <!--ion-button fill="outline" size="small" (click)="click(drive)">View</ion-button-->
-    </ion-fab>
+  <ion-card *ngFor="let form of getPendingMTRAC()"  (click)="clickmtrac(form)" color="primary" padding>
     <ion-card-title>Complete MT-RAC</ion-card-title>
     <ion-card-content no-padding>
       Your MTRAC on <b>{{form.created}}</b> with <b>{{getDriverName(form.driver)}} ({{form.vehicleNumber}})</b>
