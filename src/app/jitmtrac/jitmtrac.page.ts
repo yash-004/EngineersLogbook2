@@ -504,7 +504,7 @@ export class jitmtracPage implements OnInit {
           endLocation: this.mtracForm.value.endLocation,
           fleet: this.database.current.user.fleet,
           company: this.database.current.user.company,
-          licenseType: this.mtracForm.value.licenseType,
+          licenseType: this.selectedLicense,
           vehicleType2: this.mtracForm.value.vehicleType2,
           rest: this.mtracForm.value.rest,
           health: this.mtracForm.value.health,
