@@ -162,8 +162,7 @@
 
     <ion-card *ngFor="let message of getNotifications()" (click)="click(message.trip)" color="primary" padding>
     
-        <ion-card-subtitle color='danger'><strong>{{message.subtitle}}</strong></ion-card-subtitle>
-        <ion-card-title>{{message.title}}</ion-card-title>
+        <ion-card-title color='danger'><strong>{{message.subtitle}}</strong></ion-card-title>
 
         <ion-card-content class="ion-no-padding">{{message.text}}</ion-card-content>
 

@@ -154,20 +154,18 @@ export class SummaryPage implements OnInit {
 
       let date_str = dayjs(`${trip.date} ${trip.start_time}`,'YYYY-MM-DD HH:mm').format('dddd, MMM DD, YYYY');
       let distance = this.database.distance(trip);
-      let drive_msg = `Completed ${distance} km drive, from ${trip.start_location} (${trip.start_time}) to ${trip.end_location} (${trip.end_time}).`;
+      let drive_msg = `Completed ${distance} km drive, from ${trip.start_location} (${trip.start_time}) to ${trip.end_location} (${trip.end_time}) on ${date_str}.`;
 
       if (trip.status === 'in-progress') {
         result.push( { 
           subtitle: "Pending End Drive",
-          title: date_str,
-          text: `Journey started from location ${trip.start_location} at ${trip.start_time}.`,
+          text: `Journey started from location ${trip.start_location} at ${trip.start_time} on ${date_str}.`,
           trip: trip
         });
       } else
       if (trip.status === 'pending') {
         result.push( { 
           subtitle: "Awaiting Review",
-          title: date_str,
           text: drive_msg, 
           trip: trip
         });
@@ -175,7 +173,6 @@ export class SummaryPage implements OnInit {
       if (trip.status === 'rejected') {
         result.push( { 
           subtitle: "Drive Rejected (Action Required)",
-          title: date_str,
           text: drive_msg, 
           trip: trip
         });

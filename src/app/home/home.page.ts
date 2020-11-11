@@ -145,11 +145,11 @@ export class HomePage {
 
   private debug(who) {
     if (who === 'driver') {
-      this.validationsForm.get('email').setValue('meto@30sce.com');
+      this.validationsForm.get('email').setValue('meto@google.com');
       this.validationsForm.get('password').setValue('123456');
     }
     if (who === 'commander') {
-      this.validationsForm.get('email').setValue('meoc@30sce.com');
+      this.validationsForm.get('email').setValue('meoc@google.com');
       this.validationsForm.get('password').setValue('123456');
     }
 

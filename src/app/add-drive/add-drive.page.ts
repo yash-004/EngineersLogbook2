@@ -54,11 +54,11 @@ export class AddDrivePage implements OnInit {
     ],
     endOdometer: [
       { type: 'required', message: 'Enter final Odometer value' },
-      { type: 'min', message: 'must be equal to or more than start odometer'}
+      { type: 'min', message: 'Enter a value equal or higher than start odometer'}
     ],
     endTime: [
       { type: 'required', message: 'Enter final Time' },
-      { type: 'min', message: 'must be equal to or more than start time'}
+      { type: 'min', message: 'Enter a value equal or higher than start time'}
     ],
     fuelLevel: [
       { type: 'required', message: 'Indicate final fuel level' },

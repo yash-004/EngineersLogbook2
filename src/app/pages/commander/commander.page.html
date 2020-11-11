@@ -16,8 +16,7 @@
 
   <ion-card *ngFor="let drive of getPendingDrives()" (click)="click(drive)" color="primary" padding>
 
-    <ion-card-subtitle color='danger'><strong>Pending review</strong></ion-card-subtitle>
-    <ion-card-title>{{drive.date}}</ion-card-title>
+    <ion-card-title color='danger'><strong>Pending review</strong></ion-card-title>
 
     <ion-card-content no-padding>
       Your drive on <b>{{drive.date}}</b> with <b>{{getDriverName(drive.driver)}}</b>  from
