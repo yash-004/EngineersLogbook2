@@ -6,7 +6,7 @@ import { ToastController } from '@ionic/angular';
 import { ActivatedRoute } from '@angular/router';
 import * as dayjs from 'dayjs'; // Datetime utility, See http://zetcode.com/javascript/dayjs/
 import { SignaturePad } from 'angular2-signaturepad/signature-pad';
-
+import { PrintProvider} from '../provider.service';
 
 @Component({
   selector: 'app-mtrac',
@@ -75,12 +75,16 @@ export class mtracPage implements OnInit {
     private formBuilder: FormBuilder,
     public toastController: ToastController,
     public database: DatabaseService,
-    public route: ActivatedRoute
+    public route: ActivatedRoute,
+    private printService: PrintProvider
   ) {
       // Autoselect correct license
       this.selectLicenseType();
       console.log(this.selectedLicense)
       this.mtrac = this.database.current.mtrac_to_edit;
+  }
+    print(componentName) {
+    this.printService.print(componentName);
   }
 
   checklistcmd = [

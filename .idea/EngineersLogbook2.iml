@@ -31,6 +31,7 @@
       <excludeFolder url="file://$MODULE_DIR$/browserlist" />
       <excludeFolder url="file://$MODULE_DIR$/capacitor.config.json" />
       <excludeFolder url="file://$MODULE_DIR$/config.xml" />
+      <excludeFolder url="file://$MODULE_DIR$/debug.log" />
       <excludeFolder url="file://$MODULE_DIR$/e2e" />
       <excludeFolder url="file://$MODULE_DIR$/firebase.json" />
       <excludeFolder url="file://$MODULE_DIR$/functions" />

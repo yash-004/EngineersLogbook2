@@ -63,10 +63,14 @@
     </select>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3cdf076c-df2b-4277-9f47-69f51d413bc6" name="Default Changelist" comment="limited add-drive remarks to 94 characters instead of doing the accordion">
+    <list default="true" id="3cdf076c-df2b-4277-9f47-69f51d413bc6" name="Default Changelist" comment="changed MTRAC column padding to make space for front passenger">
+      <change beforePath="$PROJECT_DIR$/.idea/EngineersLogbook2.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/EngineersLogbook2.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/jitmtrac/jitmtrac.page.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/jitmtrac/jitmtrac.page.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/app.module.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/app.module.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/app/mtrac/mtrac.page.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/mtrac/mtrac.page.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/mtrac/mtrac.page.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/mtrac/mtrac.page.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -313,7 +317,14 @@
       <option name="project" value="LOCAL" />
       <updated>1603337685672</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="changed MTRAC column padding to make space for front passenger">
+      <created>1603353363526</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1603353363526</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="UnknownFeatures">
@@ -363,37 +374,41 @@
     <MESSAGE value="deleted seatbelttroops in JIT" />
     <MESSAGE value="JITMtrac working now" />
     <MESSAGE value="limited add-drive remarks to 94 characters instead of doing the accordion" />
-    <option name="LAST_COMMIT_MESSAGE" value="limited add-drive remarks to 94 characters instead of doing the accordion" />
+    <MESSAGE value="changed MTRAC column padding to make space for front passenger" />
+    <option name="LAST_COMMIT_MESSAGE" value="changed MTRAC column padding to make space for front passenger" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="251" y="0" key="CommitChangelistDialog2" timestamp="1596078526302">
-      <screen x="0" y="0" width="1280" height="720" />
-    </state>
-    <state x="251" y="0" key="CommitChangelistDialog2/0.0.1280.720@0.0.1280.720" timestamp="1596078526302" />
     <state x="147" y="69" key="DiffContextDialog" timestamp="1603267526231">
       <screen x="0" y="0" width="1536" height="864" />
     </state>
     <state x="147" y="69" key="DiffContextDialog/0.0.1536.864@0.0.1536.864" timestamp="1603267526231" />
-    <state x="221" y="103" key="IDE.errors.dialog" timestamp="1595393523610">
-      <screen x="0" y="0" width="1280" height="720" />
-    </state>
-    <state x="221" y="103" key="IDE.errors.dialog/0.0.1280.720@0.0.1280.720" timestamp="1595393523610" />
-    <state x="280" y="113" key="Vcs.Push.Dialog.v2" timestamp="1603337688218">
+    <state width="1340" height="197" key="GridCell.Tab.0.bottom" timestamp="1605250520215">
       <screen x="0" y="0" width="1536" height="864" />
     </state>
-    <state x="233" y="94" key="Vcs.Push.Dialog.v2/0.0.1280.720@0.0.1280.720" timestamp="1595424282819" />
-    <state x="280" y="113" key="Vcs.Push.Dialog.v2/0.0.1536.864@0.0.1536.864" timestamp="1603337688218" />
-    <state x="110" y="120" width="1060" height="480" key="com.android.tools.idea.avdmanager.AvdListDialog" timestamp="1595392907048">
-      <screen x="0" y="0" width="1280" height="720" />
-    </state>
-    <state x="110" y="120" width="1060" height="480" key="com.android.tools.idea.avdmanager.AvdListDialog/0.0.1280.720@0.0.1280.720" timestamp="1595392907048" />
-    <state x="450" y="277" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1596078580238">
-      <screen x="0" y="0" width="1280" height="720" />
-    </state>
-    <state x="450" y="277" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.1280.720@0.0.1280.720" timestamp="1596078580238" />
-    <state x="472" y="221" key="git4idea.merge.GitPullDialog" timestamp="1603267486000">
+    <state width="1340" height="197" key="GridCell.Tab.0.bottom/0.0.1536.864@0.0.1536.864" timestamp="1605250520215" />
+    <state width="1340" height="197" key="GridCell.Tab.0.center" timestamp="1605250520214">
       <screen x="0" y="0" width="1536" height="864" />
     </state>
-    <state x="472" y="221" key="git4idea.merge.GitPullDialog/0.0.1536.864@0.0.1536.864" timestamp="1603267486000" />
+    <state width="1340" height="197" key="GridCell.Tab.0.center/0.0.1536.864@0.0.1536.864" timestamp="1605250520214" />
+    <state width="1340" height="197" key="GridCell.Tab.0.left" timestamp="1605250520214">
+      <screen x="0" y="0" width="1536" height="864" />
+    </state>
+    <state width="1340" height="197" key="GridCell.Tab.0.left/0.0.1536.864@0.0.1536.864" timestamp="1605250520214" />
+    <state width="1340" height="197" key="GridCell.Tab.0.right" timestamp="1605250520215">
+      <screen x="0" y="0" width="1536" height="864" />
+    </state>
+    <state width="1340" height="197" key="GridCell.Tab.0.right/0.0.1536.864@0.0.1536.864" timestamp="1605250520215" />
+    <state x="479" y="135" key="RollbackChangesDialog" timestamp="1605249850024">
+      <screen x="0" y="0" width="1536" height="864" />
+    </state>
+    <state x="479" y="135" key="RollbackChangesDialog/0.0.1536.864@0.0.1536.864" timestamp="1605249850024" />
+    <state x="280" y="113" key="Vcs.Push.Dialog.v2" timestamp="1603353365624">
+      <screen x="0" y="0" width="1536" height="864" />
+    </state>
+    <state x="280" y="113" key="Vcs.Push.Dialog.v2/0.0.1536.864@0.0.1536.864" timestamp="1603353365624" />
+    <state x="472" y="221" key="git4idea.merge.GitPullDialog" timestamp="1605249856184">
+      <screen x="0" y="0" width="1536" height="864" />
+    </state>
+    <state x="472" y="221" key="git4idea.merge.GitPullDialog/0.0.1536.864@0.0.1536.864" timestamp="1605249856184" />
   </component>
 </project>

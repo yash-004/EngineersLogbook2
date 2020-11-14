@@ -25,6 +25,7 @@ import { CountdownModule } from 'ngx-countdown';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { Device } from '@ionic-native/device/ngx';
 import { SignaturePadModule } from 'angular2-signaturepad';
+import { PrintProvider} from '../app/provider.service';
 
 import * as firebase from 'firebase/app';
 import 'firebase/auth';
@@ -50,6 +51,7 @@ firebase.initializeApp(environment.firebase);
     ],
   providers: [
     StatusBar,
+    PrintProvider,
     SplashScreen,
     Geolocation,
     Device,
