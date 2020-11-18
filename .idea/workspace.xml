@@ -63,14 +63,8 @@
     </select>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3cdf076c-df2b-4277-9f47-69f51d413bc6" name="Default Changelist" comment="changed MTRAC column padding to make space for front passenger">
-      <change beforePath="$PROJECT_DIR$/.idea/EngineersLogbook2.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/EngineersLogbook2.iml" afterDir="false" />
+    <list default="true" id="3cdf076c-df2b-4277-9f47-69f51d413bc6" name="Default Changelist" comment="dom-to-image on mtrac.page">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/app.module.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/app.module.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/mtrac/mtrac.page.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/mtrac/mtrac.page.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/mtrac/mtrac.page.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/mtrac/mtrac.page.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -324,7 +318,14 @@
       <option name="project" value="LOCAL" />
       <updated>1603353363526</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="dom-to-image on mtrac.page">
+      <created>1605362492982</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1605362492982</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="UnknownFeatures">
@@ -375,7 +376,8 @@
     <MESSAGE value="JITMtrac working now" />
     <MESSAGE value="limited add-drive remarks to 94 characters instead of doing the accordion" />
     <MESSAGE value="changed MTRAC column padding to make space for front passenger" />
-    <option name="LAST_COMMIT_MESSAGE" value="changed MTRAC column padding to make space for front passenger" />
+    <MESSAGE value="dom-to-image on mtrac.page" />
+    <option name="LAST_COMMIT_MESSAGE" value="dom-to-image on mtrac.page" />
   </component>
   <component name="WindowStateProjectService">
     <state x="147" y="69" key="DiffContextDialog" timestamp="1603267526231">
@@ -402,13 +404,13 @@
       <screen x="0" y="0" width="1536" height="864" />
     </state>
     <state x="479" y="135" key="RollbackChangesDialog/0.0.1536.864@0.0.1536.864" timestamp="1605249850024" />
-    <state x="280" y="113" key="Vcs.Push.Dialog.v2" timestamp="1603353365624">
+    <state x="280" y="113" key="Vcs.Push.Dialog.v2" timestamp="1605362499826">
       <screen x="0" y="0" width="1536" height="864" />
     </state>
-    <state x="280" y="113" key="Vcs.Push.Dialog.v2/0.0.1536.864@0.0.1536.864" timestamp="1603353365624" />
-    <state x="472" y="221" key="git4idea.merge.GitPullDialog" timestamp="1605249856184">
+    <state x="280" y="113" key="Vcs.Push.Dialog.v2/0.0.1536.864@0.0.1536.864" timestamp="1605362499826" />
+    <state x="472" y="221" key="git4idea.merge.GitPullDialog" timestamp="1605580865715">
       <screen x="0" y="0" width="1536" height="864" />
     </state>
-    <state x="472" y="221" key="git4idea.merge.GitPullDialog/0.0.1536.864@0.0.1536.864" timestamp="1605249856184" />
+    <state x="472" y="221" key="git4idea.merge.GitPullDialog/0.0.1536.864@0.0.1536.864" timestamp="1605580865715" />
   </component>
 </project>
