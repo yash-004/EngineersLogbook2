@@ -38,7 +38,7 @@ export class jitmtracPage implements OnInit {
   validationMessages = {
     vehicleNumber: [
         { type: 'required', message: 'Vehicle Number is required.' },
-        { type: 'minlength', message: 'Vehicle number must be at least 5 characters long.' }],
+        { type: 'minlength', message: 'Vehicle number must be at least 4 characters long.' }],
     vehicleType: [
         { type: 'required', message: 'Select a type of vehicle' },],
     licenseType: [
@@ -183,7 +183,7 @@ export class jitmtracPage implements OnInit {
 
   ngOnInit() {
       this.mtracForm = this.formBuilder.group({
-        vehicleNumber: new FormControl('', Validators.compose([Validators.minLength(5), Validators.required])),
+        vehicleNumber: new FormControl('', Validators.compose([Validators.minLength(4), Validators.required])),
         licenseType: new FormControl({value: '', disabled: true }, Validators.compose([Validators.required])),
         vehicleType: new FormControl('', Validators.compose([Validators.required])),
         vehicleType2: new FormControl('', Validators.compose([Validators.required])),
