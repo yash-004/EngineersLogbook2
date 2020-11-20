@@ -11,35 +11,35 @@
 
 <ion-content>
 
-    <ion-grid class="table" no-padding>
+    <ion-grid class="table" class="ion-no-padding">
 
         <!-- Top section (Total Distance, Time and Drives) ------------------------------------------->
 
         <ion-row *ngIf="!getnmtimemorning()">
-            <ion-col no-padding>
-                <ion-item text-center color="danger">
+            <ion-col class="ion-no-padding">
+                <ion-item class="ion-text-center" color="danger">
                     <ion-label><h1><strong>NO MOVE TIMING TILL 0930</strong></h1></ion-label>
                 </ion-item>
             </ion-col>
         </ion-row>
         <ion-row *ngIf="!getnmtimenight()">
-            <ion-col no-padding>
-                <ion-item text-center color="danger">
+            <ion-col class="ion-no-padding">
+                <ion-item class="ion-text-center" color="danger">
                     <ion-label><h1><strong>NO MOVE TIMING TILL 1930</strong></h1></ion-label>
                 </ion-item>
             </ion-col>
         </ion-row>
 
         <ion-row>
-            <ion-col no-padding>
-                <ion-item text-center>
+            <ion-col class="ion-no-padding">
+                <ion-item class="ion-text-center">
                     <ion-label style="margin-bottom: 0;"><h1>Fleet:<strong>{{database.current.user.fleet}}/{{database.current.user.company}}</strong></h1></ion-label>
                 </ion-item>
             </ion-col>
         </ion-row>
 
         <ion-row>
-            <ion-col size="4" class="bubble-text" no-padding>
+            <ion-col size="4" class="bubble-text" class="ion-no-padding">
 
                 <ion-card (click)="showmileage()">
                     <div class="ion-text-center" style="width: 100%;">
@@ -93,7 +93,7 @@
     </ion-grid>
 
     <!-- Third section (Chart slides) ------------------------------------------->
-    <ion-slides pager='true' no-padding>
+    <ion-slides pager='true' class="ion-no-padding">
         <!--<ion-slide><canvas #chartCanvas1></canvas></ion-slide>-->
         <ion-slide style="padding: 0 5px"> <ion-grid>
             <ion-label><h1 class="underline">Platform Currency</h1></ion-label>
@@ -140,10 +140,10 @@
 
 
     <!--
-    <ion-card padding>
+    <ion-card class="ion-padding">
     <ion-card-subtitle><strong>Operator Currency</strong></ion-card-subtitle>
     <ion-card-title>Most Recent Drive:</ion-card-title>
-    <ion-card-content class="ion-no-padding">
+    <ion-card-content class="ion-class="ion-no-padding"">
       {{database.current.stats.most_recent_drive | date: "dd/MM/yyyy hh:mm"}} ({{database.current.stats.most_recent_drive | daysAgo}} days ago)
     </ion-card-content>
   </ion-card>
@@ -152,7 +152,7 @@
 
     <!-- Bottom section (Notifications) ------------------------------------------->
 
-    <ion-item text-center>
+    <ion-item class="ion-text-center">
         <ion-label><h1><strong>Notifications</strong></h1></ion-label>
     </ion-item>
 
@@ -160,15 +160,15 @@
       <app-drive-view expandHeight='150px' [drive]="trip"></app-drive-view>
     </ion-card-->
 
-    <ion-card *ngFor="let message of getNotifications()" (click)="click(message.trip)" color="primary" padding>
+    <ion-card *ngFor="let message of getNotifications()" (click)="click(message.trip)" color="primary" class="ion-padding">
     
         <ion-card-title color='danger'><strong>{{message.subtitle}}</strong></ion-card-title>
 
         <ion-card-content class="ion-no-padding">{{message.text}}</ion-card-content>
 
     </ion-card>
-    <ion-card *ngFor="let form of getVerifiedMTRAC()" (click)="clickmtrac(form)" color="primary" padding>
-        <ion-card-title >Continue to add drive</ion-card-title>
+    <ion-card *ngFor="let form of getVerifiedMTRAC()" (click)="clickmtrac(form)" color="primary" class="ion-padding">
+        <ion-card-title >Continue to add drive -->> </ion-card-title>
     </ion-card>
 
 </ion-content>

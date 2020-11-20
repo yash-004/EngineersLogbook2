@@ -44,6 +44,7 @@ ion-select{
   height: auto;
   min-height: auto;
   max-height: 100%;
+  --ion-text-color: black;
 }
 
 .btn-wrapper {
@@ -70,6 +71,7 @@ ion-select{
   border-color: black;
   border-width: .01em;
   border-style:solid;
+  background:#bafbba;
 }
 
 .invalid-class {
@@ -106,11 +108,11 @@ ion-select{
 }
 
 .invalid-div{
-    background-color: #bafbba;
+  background: #bafbba;
 }
 
 .checkbox-div{
-    background-color:	#bafbba;
+  background: #bafbba;
 }
 
 ion-checkbox {

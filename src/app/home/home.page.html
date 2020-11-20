@@ -1,7 +1,7 @@
-<ion-content padding id='login-content'>
+<ion-content class="ion-padding" id='login-content'>
 
   <form class="form" [formGroup]="validationsForm"  (ngSubmit)="loginUser(validationsForm.value)">
-    <ion-item class="textfield" no-padding id='email'>
+    <ion-item class="textfield" class="ion-no-padding" id='email'>
       <ion-label class="textfield" position="floating">Email</ion-label>
       <ion-input type="email" formControlName="email" name="email"></ion-input>
     </ion-item>
@@ -14,7 +14,7 @@
       </ng-container>
     </div-->
 
-    <ion-item class="textfield" fill="outline" no-padding id='password'>
+    <ion-item class="textfield" fill="outline" class="ion-no-padding" id='password'>
       <ion-label class="textfield" position="floating">Password</ion-label>
       <ion-input type="password" formControlName="password" class="form-control" required ></ion-input>
     </ion-item>

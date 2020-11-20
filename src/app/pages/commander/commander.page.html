@@ -12,13 +12,13 @@
 <ion-content>
 
   <!-- Notifications -->
-  <ion-item class="headers" text-center><ion-label style="margin-bottom: 0;"><h1> Notifications </h1></ion-label></ion-item>
+  <ion-item class="headers" class="ion-text-center"><ion-label style="margin-bottom: 0;"><h1> Notifications </h1></ion-label></ion-item>
 
   <ion-card *ngFor="let drive of getPendingDrives()" (click)="click(drive)" color="primary" padding>
 
     <ion-card-title color='danger'><strong>Pending review</strong></ion-card-title>
 
-    <ion-card-content no-padding>
+    <ion-card-content class="ion-no-padding">
       Your drive on <b>{{drive.date}}</b> with <b>{{getDriverName(drive.driver)}}</b>  from
       <b>{{drive.start_location}}</b> (<b>{{drive.start_time}}</b>) to 
       <b>{{drive.end_location}}</b> (<b>{{drive.end_time}}</b>)
@@ -28,7 +28,7 @@
   </ion-card>
   <ion-card *ngFor="let form of getPendingMTRAC()"  (click)="clickmtrac(form)" color="primary" padding>
     <ion-card-title>Complete MT-RAC</ion-card-title>
-    <ion-card-content no-padding>
+    <ion-card-content class="ion-no-padding">
       Your MTRAC on <b>{{form.created}}</b> with <b>{{getDriverName(form.driver)}} ({{form.vehicleNumber}})</b>
       is pending review.
     </ion-card-content>
@@ -37,7 +37,7 @@
 
 
 
-  <ion-item class="headers" text-center><ion-label style="margin-bottom: 0;"><h1> Operators </h1></ion-label></ion-item>
+  <ion-item class="headers" class="ion-text-center"><ion-label style="margin-bottom: 0;"><h1> Operators </h1></ion-label></ion-item>
 
   <ion-card>
     <ion-list>
@@ -92,11 +92,11 @@
 
 
     <ion-card-content>
-      <ion-grid class="table" no-padding>
+      <ion-grid class="table" class="ion-no-padding">
 
         <ion-row>
-          <ion-col size="4" class="bubble-text" no-padding><ion-card no-padding (click)="showdrives()">
-            <div class="ion-text-center" style="width: 100%;">
+          <ion-col size="4" class="bubble-text" class="ion-no-padding"><ion-card class="ion-no-padding" (click)="showdrives()">
+            <div class="ion-class="ion-text-center"" style="width: 100%;">
               <ion-icon name="car" size="large" ></ion-icon><br>
               <div class="shift_up">Drives</div>
               <div class="slide_num">{{driver.summary.drive_count}}</div>
@@ -108,8 +108,8 @@
             </div>
           </ion-card></ion-col>
 
-          <ion-col size="4" class="bubble-text" no-padding><ion-card no-padding (click)="showmileage()">
-            <div class="ion-text-center" style="width: 100%;">
+          <ion-col size="4" class="bubble-text" class="ion-no-padding"><ion-card class="ion-no-padding" (click)="showmileage()">
+            <div class="ion-class="ion-text-center"" style="width: 100%;">
               <ion-icon name="speedometer" size="large"></ion-icon><br>
               <div class="shift_up">Mileage</div>
               <div class="slide_num">{{driver.summary.mileage_km}} km</div>
@@ -121,8 +121,8 @@
             </div>
           </ion-card></ion-col>
 
-          <ion-col size="4" class="bubble-text" no-padding><ion-card no-padding>
-            <div class="ion-text-center" style="width: 100%;">
+          <ion-col size="4" class="bubble-text" class="ion-no-padding"><ion-card class="ion-no-padding">
+            <div class="ion-class="ion-text-center"" style="width: 100%;">
               <ion-icon name="clock" size="large"></ion-icon><br>
               <div class="shift_up">Time Driven</div>
               <div class="slide_num">{{driver.summary.duration_minutes / 60 | number : '1.0-1' }} hours</div>
@@ -130,23 +130,23 @@
           </ion-card></ion-col>
 
         </ion-row>
-        <!-- <ion-row text-center (click)="showother()">
-          <ion-col text-center><ion-card padding text-center>
+        <!-- <ion-row class="ion-text-center" (click)="showother()">
+          <ion-col class="ion-text-center"><ion-card padding class="ion-text-center">
             <ion-grid>
-              <ion-row><ion-col><ion-card-title text-center>
+              <ion-row><ion-col><ion-card-title class="ion-text-center">
                 <strong>JIT Countdown</strong>
               </ion-card-title></ion-col></ion-row>
 
               <ion-row><ion-col><ion-card-subtitle>
 
-                <ion-grid><ion-row><ion-col><ion-label *ngIf="checkTimelefttoJIT(driver.summary.most_recent_drive) == false" color='danger' text-center>
+                <ion-grid><ion-row><ion-col><ion-label *ngIf="checkTimelefttoJIT(driver.summary.most_recent_drive) == false" color='danger' class="ion-text-center">
                   <strong><h2>
                     DO JIT NOW!
                   </h2></strong>
                 </ion-label></ion-col></ion-row></ion-grid>
 
                 <ion-label>
-                  <ion-item *ngIf="checkTimelefttoJIT(driver.summary.most_recent_drive) == true" text-center>
+                  <ion-item *ngIf="checkTimelefttoJIT(driver.summary.most_recent_drive) == true" class="ion-text-center">
                     <ion-grid><ion-row><ion-col><countdown [config]="{leftTime: getTimelefttoJIT(driver.summary.most_recent_drive), format: 'dd'}"></countdown>
                         <h6 style="padding-bottom: 5px">days</h6></ion-col>
                       <ion-col><countdown [config]="{leftTime: getTimelefttoJIT(driver.summary.most_recent_drive), format: 'HH'}"></countdown>
@@ -162,9 +162,9 @@
         </ion-row>-->
       </ion-grid>
       <!--<ion-grid  class="ion-no-padding">
-        <ion-row text-center>
-          <ion-col text-center><ion-icon name="car"></ion-icon> <br> Total Drives: <br> {{driver.summary.drive_count}}</ion-col>
-          <ion-col text-center><ion-icon name="speedometer"></ion-icon> <br> Total Mileage:<br> {{driver.summary.mileage_km}} KM</ion-col>
+        <ion-row class="ion-text-center">
+          <ion-col class="ion-text-center"><ion-icon name="car"></ion-icon> <br> Total Drives: <br> {{driver.summary.drive_count}}</ion-col>
+          <ion-col class="ion-text-center"><ion-icon name="speedometer"></ion-icon> <br> Total Mileage:<br> {{driver.summary.mileage_km}} KM</ion-col>
           <ion-col text-center><ion-icon name="clock"></ion-icon> <br> Time Driven: <br> {{driver.summary.duration_minutes / 60 | number : '1.0-1' }} hours</ion-col>
         </ion-row>
 

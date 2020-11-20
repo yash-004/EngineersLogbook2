@@ -47,12 +47,13 @@ var core_1 = require("@angular/core");
 var forms_1 = require("@angular/forms");
 var database_service_1 = require("../services/database.service");
 var mtracPage = /** @class */ (function () {
-    function mtracPage(navCtrl, formBuilder, toastController, database, route) {
+    function mtracPage(navCtrl, formBuilder, toastController, database, route, printService) {
         this.navCtrl = navCtrl;
         this.formBuilder = formBuilder;
         this.toastController = toastController;
         this.database = database;
         this.route = route;
+        this.printService = printService;
         this.signaturePadOptions = {
             'minWidth': 0.75,
             'maxWidth': 1.5,
@@ -69,7 +70,7 @@ var mtracPage = /** @class */ (function () {
         this.validationMessages = {
             vehicleNumber: [
                 { type: 'required', message: 'Vehicle Number is required.' },
-                { type: 'minlength', message: 'Vehicle number must be at least 5 characters long.' }
+                { type: 'minlength', message: 'Vehicle number must be at least 4 characters long.' }
             ],
             vehicleType: [
                 { type: 'required', message: 'Select a type of vehicle' },
@@ -109,6 +110,7 @@ var mtracPage = /** @class */ (function () {
             ]
         };
         this.licenseTypes = [{ value: "L", text: "CAT A, B" }, { value: "M", text: "CAT C" }, { value: "H", text: "CAT D" }, { value: "N", text: "Have never been trained and familiarized in the vehicle that you will be driving" }];
+        this.wc = [{ value: "L", text: "N.A. / CAT A, B" }, { value: "M", text: "CAT C" }, { value: "N", text: "CAT D" }];
         this.checklistcmd = [
             { listID: 1, name: "To be responsible for the discipline and safety of all passengers/crew in the assigned transport detail." },
             { listID: 2, name: "To assist to look out for obstruction, hazard or danger. If the driver is reversing, there is no requirement for the vehiucle commander to guide the driver. However, VC should render assistance to the driver when requested." },
@@ -122,6 +124,9 @@ var mtracPage = /** @class */ (function () {
         console.log(this.selectedLicense);
         this.mtrac = this.database.current.mtrac_to_edit;
     }
+    mtracPage.prototype.print = function (componentName) {
+        this.printService.print(componentName);
+    };
     mtracPage.prototype.getapprovedvtypes = function () {
         var _this = this;
         var vtypes = database_service_1.VehicleTypes;
@@ -210,8 +215,8 @@ var mtracPage = /** @class */ (function () {
     };
     mtracPage.prototype.ngOnInit = function () {
         this.mtracForm = this.formBuilder.group({
-            vehicleNumber: new forms_1.FormControl('', forms_1.Validators.compose([forms_1.Validators.minLength(5), forms_1.Validators.required])),
-            licenseType: new forms_1.FormControl('', forms_1.Validators.compose([forms_1.Validators.required])),
+            vehicleNumber: new forms_1.FormControl('', forms_1.Validators.compose([forms_1.Validators.minLength(4), forms_1.Validators.required])),
+            licenseType: new forms_1.FormControl({ value: '', disabled: true }, forms_1.Validators.compose([forms_1.Validators.required])),
             vehicleType: new forms_1.FormControl('', forms_1.Validators.compose([forms_1.Validators.required])),
             vehicleType2: new forms_1.FormControl('', forms_1.Validators.compose([forms_1.Validators.required])),
             rest: new forms_1.FormControl('', forms_1.Validators.compose([forms_1.Validators.required])),
@@ -505,7 +510,7 @@ var mtracPage = /** @class */ (function () {
                             endLocation: this.mtracForm.value.endLocation,
                             fleet: this.database.current.user.fleet,
                             company: this.database.current.user.company,
-                            licenseType: this.mtracForm.value.licenseType,
+                            licenseType: this.selectedLicense,
                             vehicleType2: this.mtracForm.value.vehicleType2,
                             rest: this.mtracForm.value.rest,
                             health: this.mtracForm.value.health,

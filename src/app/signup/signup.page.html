@@ -4,13 +4,13 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content no-padding>
+<ion-content class="ion-no-padding">
 
   <form class="form" [formGroup]="validationsForm"  (ngSubmit)="tryRegister(validationsForm.value)">
     
     <!-- Name ------------------->
 
-    <ion-item no-padding>
+    <ion-item class="ion-no-padding">
       <ion-label position="floating">Name</ion-label>
       <ion-input type="text" formControlName="name"></ion-input>
     </ion-item>
@@ -24,7 +24,7 @@
 
     <!-- Email ------------------->
 
-    <ion-item no-padding>
+    <ion-item class="ion-no-padding">
       <ion-label  position="floating">Email</ion-label>
       <ion-input type="text" formControlName="email"></ion-input>
     </ion-item>
@@ -37,7 +37,7 @@
     </div>
     <!-- Unit ------------------->
 
-    <ion-item no-padding>
+    <ion-item class="ion-no-padding">
       <ion-label position="floating">Unit</ion-label>
       <ion-input type="text" formControlName="unit"></ion-input>
     </ion-item>
@@ -50,7 +50,7 @@
     </div>
     <!-- Company/Platoon ------------------->
 
-    <ion-item no-padding>
+    <ion-item class="ion-no-padding">
       <ion-label position="floating">Company</ion-label>
       <ion-input type="text" formControlName="company"></ion-input>
     </ion-item>
@@ -64,7 +64,7 @@
     
     <!-- Password ------------------->
 
-    <ion-item no-padding>
+    <ion-item class="ion-no-padding">
       <ion-label  position="floating">Password</ion-label>
       <ion-input type="password" formControlName="password"></ion-input>
     </ion-item>
@@ -76,7 +76,7 @@
       </ng-container>
     </div>
        
-    <ion-item no-padding>
+    <ion-item class="ion-no-padding">
       <ion-label position="floating">Confirm Password</ion-label>
       <ion-input type="password" formControlName="confirmPassword"></ion-input>
     </ion-item>
@@ -90,7 +90,7 @@
 
     <!-- Licence ------------------->
     
-    <ion-item no-padding>
+    <ion-item class="ion-no-padding">
       <ion-label position="floating">License Number</ion-label>
       <ion-input type="text" formControlName="licenseNum"></ion-input>
     </ion-item>
@@ -102,7 +102,7 @@
       </ng-container>
     </div>
     
-    <ion-item no-padding>
+    <ion-item class="ion-no-padding">
       <ion-label floating >License Type</ion-label>
       <ion-select formControlName="licenseType">
         <ion-select-option value="A">A</ion-select-option>
@@ -114,7 +114,7 @@
 
     <!-- Commander or Driver ------------------->
 
-    <ion-item no-padding>
+    <ion-item class="ion-no-padding">
       <ion-label floating >Commander or Driver?</ion-label>
       <ion-select formControlName="isCommander">
         <ion-select-option value="true">Commander</ion-select-option>

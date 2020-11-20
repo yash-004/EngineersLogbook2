@@ -46,14 +46,16 @@ exports.AddDrivePage = void 0;
 var core_1 = require("@angular/core");
 var forms_1 = require("@angular/forms");
 var database_service_1 = require("../services/database.service");
+var ngx_1 = require("@ionic-native/keyboard/ngx");
 var dayjs = require("dayjs"); // DateTime utility, See http://zetcode.com/javascript/dayjs/
 var AddDrivePage = /** @class */ (function () {
-    function AddDrivePage(navCtrl, formBuilder, toastController, database, route) {
+    function AddDrivePage(navCtrl, formBuilder, toastController, database, route, keyboard) {
         this.navCtrl = navCtrl;
         this.formBuilder = formBuilder;
         this.toastController = toastController;
         this.database = database;
         this.route = route;
+        this.keyboard = keyboard;
         this.errorMessage = '';
         this.successMessage = '';
         this.today = new Date().toISOString();
@@ -84,11 +86,11 @@ var AddDrivePage = /** @class */ (function () {
             ],
             endOdometer: [
                 { type: 'required', message: 'Enter final Odometer value' },
-                { type: 'min', message: 'must be equal to or more than start odometer' }
+                { type: 'min', message: 'Enter a value equal or higher than start odometer' }
             ],
             endTime: [
                 { type: 'required', message: 'Enter final Time' },
-                { type: 'min', message: 'must be equal to or more than start time' }
+                { type: 'min', message: 'Enter a value equal or higher than start time' }
             ],
             fuelLevel: [
                 { type: 'required', message: 'Indicate final fuel level' },
@@ -170,11 +172,14 @@ var AddDrivePage = /** @class */ (function () {
             this.selectedArray.push(name);
         }
     };
+    AddDrivePage.prototype.hideKeyboard = function () {
+        this.keyboard.hide();
+    };
     AddDrivePage.prototype.ngOnInit = function () {
         // Create form group of controls
         this.addDriveForm = this.formBuilder.group({
             date: new forms_1.FormControl(this.today, forms_1.Validators.compose([forms_1.Validators.required])),
-            vehicleNumber: new forms_1.FormControl('', forms_1.Validators.compose([forms_1.Validators.minLength(5), forms_1.Validators.required])),
+            vehicleNumber: new forms_1.FormControl('', forms_1.Validators.compose([forms_1.Validators.minLength(4), forms_1.Validators.required])),
             vehicleType: new forms_1.FormControl(''),
             vehicleCommander: new forms_1.FormControl('', forms_1.Validators.compose([forms_1.Validators.required])),
             startLocation: new forms_1.FormControl('', forms_1.Validators.compose([forms_1.Validators.required])),
@@ -511,7 +516,8 @@ var AddDrivePage = /** @class */ (function () {
         core_1.Component({
             selector: 'app-add-drive',
             templateUrl: './add-drive.page.html',
-            styleUrls: ['./add-drive.page.scss']
+            styleUrls: ['./add-drive.page.scss'],
+            providers: [ngx_1.Keyboard]
         })
     ], AddDrivePage);
     return AddDrivePage;

@@ -5,9 +5,9 @@
     </div>
   </ion-toolbar>
 </ion-header>
+<ion-content><div id="mtracprint">
 
-<ion-content>
-  <button ion-button (click)="print('mtrac')">
+  <button ion-button (click)="print('mtracprint')">
     <ion-icon name="print"></ion-icon>
   </button>
   <div id="mtrac">
@@ -22,25 +22,25 @@
   <ion-card><ion-card-content>
     <ion-item>
       <ion-label  position="floating">Driving Area</ion-label>
-      <ion-select [ngStyle]="{'color': 'black'}" formControlName="incamp" interface="popover">
-        <ion-select-option [ngStyle]="{'color': 'black'}" text-wrap value=true>In Camp</ion-select-option>
-        <ion-select-option [ngStyle]="{'color': 'black'}" text-wrap value=false *ngIf="gettime()">Out of Camp</ion-select-option>
+      <ion-select  formControlName="incamp" interface="popover">
+        <ion-select-option  class="ion-text-wrap" value=true>In Camp</ion-select-option>
+        <ion-select-option  class="ion-text-wrap" value=false *ngIf="gettime()">Out of Camp</ion-select-option>
       </ion-select>
     </ion-item>
 
     <ion-item>
       <ion-label  position="floating" >From</ion-label>
-      <ion-input [ngStyle]="{'color': 'black'}" type="text" onkeyup="this.value = this.value.toUpperCase()" formControlName="startLocation" placeholder="Start Location"></ion-input>
+      <ion-input  type="text" onkeyup="this.value = this.value.toUpperCase()" formControlName="startLocation" placeholder="Start Location"></ion-input>
     </ion-item>
     <ion-item>
       <ion-label  position="floating">To</ion-label>
-      <ion-input [ngStyle]="{'color': 'black'}" type="text" onkeyup="this.value = this.value.toUpperCase()" formControlName="endLocation" placeholder="End Location"></ion-input>
+      <ion-input  type="text" onkeyup="this.value = this.value.toUpperCase()" formControlName="endLocation" placeholder="End Location"></ion-input>
     </ion-item>
 
     <ion-item>
       <ion-col><ion-item>
         <ion-label  position="floating" >Vehicle Number</ion-label>
-        <ion-input [ngStyle]="{'color': 'black'}" onkeyup="this.value = this.value.toUpperCase()" formControlName="vehicleNumber" placeholder="XXXX"></ion-input>
+        <ion-input  onkeyup="this.value = this.value.toUpperCase()" formControlName="vehicleNumber" placeholder="XXXX"></ion-input>
       </ion-item>
       <div class="validation-errors">
         <ng-container *ngFor="let validation of validationMessages.vehicleNumber">
@@ -52,7 +52,7 @@
       <ion-item>
         <ion-label position="floating">Vehicle Type</ion-label>
         <ion-select formControlName="vehicleType" interface="popover">
-          <ion-select-option text-wrap *ngFor="let vty of getapprovedvtypes()" value={{vty.text}} disabled={{!vty.ready}}>{{vty.text}}</ion-select-option>
+          <ion-select-option class="ion-text-wrap" *ngFor="let vty of getapprovedvtypes()" value={{vty.text}} disabled={{!vty.ready}}>{{vty.text}}</ion-select-option>
         </ion-select></ion-item>
         <div class="validation-errors">
           <ng-container *ngFor="let validation of validationMessages.vehicleType">
@@ -75,21 +75,21 @@
   </ion-card-content></ion-card>
 
   <ion-card>
-    <ion-card-title text-center>MAN FACTORS</ion-card-title>
+    <ion-card-title class="ion-text-center">MAN FACTORS</ion-card-title>
     <ion-card-content>
 
       <ion-col><ion-item>
         <ion-label *ngIf="mtracForm.get('licenseType').value=='H'||mtracForm.get('licenseType').value=='N'" color="danger"><strong>Driving Experience</strong></ion-label>
         <ion-label *ngIf="mtracForm.get('licenseType').value=='M'" color="warning"><strong>Driving Experience</strong></ion-label>
         <ion-label *ngIf="mtracForm.get('licenseType').value==''||mtracForm.get('licenseType').value=='L'"><strong>Driving Experience</strong></ion-label>
-        <ion-select *ngIf="this.mtrac == null||this.database.current.user.email == this.mtrac.driver ; else notnull"[ngModel]="selectedLicense" [ngStyle]="{'color': 'black'}"  formControlName="licenseType" interface="popover" text-left>
-          <ion-select-option text-wrap *ngFor="let licenseType of licenseTypes" [value]=licenseType.value>{{licenseType.text}}</ion-select-option>
+        <ion-select *ngIf="this.mtrac == null||this.database.current.user.email == this.mtrac.driver ; else notnull"[ngModel]="selectedLicense"   formControlName="licenseType" interface="popover" class="ion-text-left">
+          <ion-select-option class="ion-text-wrap" *ngFor="let licenseType of licenseTypes" [value]=licenseType.value>{{licenseType.text}}</ion-select-option>
         </ion-select>
-        <ng-template #notnull><ion-select *ngIf="this.database.current.user.email != this.mtrac.driver" formControlName="licenseType" interface="popover" text-left>
-          <ion-select-option text-wrap value="L">CAT A, B</ion-select-option>
-          <ion-select-option text-wrap value="M">CAT C</ion-select-option>
-          <ion-select-option text-wrap value="H">CAT D</ion-select-option>
-          <ion-select-option text-wrap value="N">Have never been trained and familiarized in the vehicle that you will be driving</ion-select-option>
+        <ng-template #notnull><ion-select *ngIf="this.database.current.user.email != this.mtrac.driver" formControlName="licenseType" interface="popover" class="ion-text-left">
+          <ion-select-option class="ion-text-wrap" value="L">CAT A, B</ion-select-option>
+          <ion-select-option class="ion-text-wrap" value="M">CAT C</ion-select-option>
+          <ion-select-option class="ion-text-wrap" value="H">CAT D</ion-select-option>
+          <ion-select-option class="ion-text-wrap" value="N">Have never been trained and familiarized in the vehicle that you will be driving</ion-select-option>
         </ion-select></ng-template>
       </ion-item>
         <div class="validation-errors">
@@ -105,10 +105,10 @@
         <ion-label *ngIf="mtracForm.get('vehicleType2').value=='H'||mtracForm.get('vehicleType2').value=='N'" color="danger"><strong>Vehicle Type</strong></ion-label>
         <ion-label *ngIf="mtracForm.get('vehicleType2').value=='M'" color="warning"><strong>Vehicle Type</strong></ion-label>
         <ion-label *ngIf="mtracForm.get('vehicleType2').value==''||mtracForm.get('vehicleType2').value=='L'"><strong>Vehicle Type</strong></ion-label>
-        <ion-select [ngStyle]="{'color': 'black'}"  formControlName="vehicleType2" interface="popover" text-wrap>
-          <ion-select-option text-wrap value="L">Same as last detail / Different (GP Car/Pickup)</ion-select-option>
-          <ion-select-option text-wrap value="M" color="warning">Different (Class 3)</ion-select-option>
-          <ion-select-option text-wrap value="H" color="danger">Different (Class 4 and above)</ion-select-option>
+        <ion-select   formControlName="vehicleType2" interface="popover" class="ion-text-wrap">
+          <ion-select-option class="ion-text-wrap" value="L">Same as last detail / Different (GP Car/Pickup)</ion-select-option>
+          <ion-select-option class="ion-text-wrap" value="M" color="warning">Different (Class 3)</ion-select-option>
+          <ion-select-option class="ion-text-wrap" value="H" color="danger">Different (Class 4 and above)</ion-select-option>
         </ion-select>
       </ion-item>
         <div class="validation-errors">
@@ -124,11 +124,11 @@
         <ion-label *ngIf="mtracForm.get('rest').value=='H'||mtracForm.get('rest').value=='N'" color="danger"><strong>Fatigue/Length of Rest</strong></ion-label>
         <ion-label *ngIf="mtracForm.get('rest').value=='M'" color="warning"><strong>Fatigue/Length of Rest</strong></ion-label>
         <ion-label *ngIf="mtracForm.get('rest').value==''||mtracForm.get('rest').value=='L'"><strong>Fatigue/Length of Rest</strong></ion-label>
-        <ion-select [ngStyle]="{'color': 'black'}" formControlName="rest" interface="popover" text-wrap>
-          <ion-select-option text-wrap value="L">More than 7 hours</ion-select-option>
-          <ion-select-option text-wrap value="M" color="warning">Less than 7 hours (Camp/Home)</ion-select-option>
-          <ion-select-option text-wrap value="H" color="danger">Less than 7 hours (Field)</ion-select-option>
-          <ion-select-option text-wrap value="N" color="danger">Less than 4 hours (Field)</ion-select-option>
+        <ion-select  formControlName="rest" interface="popover" class="ion-text-wrap">
+          <ion-select-option class="ion-text-wrap" value="L">More than 7 hours</ion-select-option>
+          <ion-select-option class="ion-text-wrap" value="M" color="warning">Less than 7 hours (Camp/Home)</ion-select-option>
+          <ion-select-option class="ion-text-wrap" value="H" color="danger">Less than 7 hours (Field)</ion-select-option>
+          <ion-select-option class="ion-text-wrap" value="N" color="danger">Less than 4 hours (Field)</ion-select-option>
         </ion-select></ion-item>
         <div class="validation-errors">
           <ng-container *ngFor="let validation of validationMessages.rest">
@@ -143,10 +143,10 @@
         <ion-label *ngIf="mtracForm.get('health').value=='H'||mtracForm.get('health').value=='N'" color="danger"><strong>My Health</strong></ion-label>
         <ion-label *ngIf="mtracForm.get('health').value=='M'" color="warning"><strong>My Health</strong></ion-label>
         <ion-label *ngIf="mtracForm.get('health').value==''||mtracForm.get('health').value=='L'"><strong>My Health</strong></ion-label>
-        <ion-select [ngStyle]="{'color': 'black'}" formControlName="health" interface="popover" text-wrap>
-          <ion-select-option text-wrap value="L">Good</ion-select-option>
-          <ion-select-option text-wrap value="M" color="warning">Fair (Just recovered from illness)</ion-select-option>
-          <ion-select-option text-wrap value="N" color="danger">Poor (Ill or still under medication that causes drowsiness)</ion-select-option>
+        <ion-select  formControlName="health" interface="popover" class="ion-text-wrap">
+          <ion-select-option class="ion-text-wrap" value="L">Good</ion-select-option>
+          <ion-select-option class="ion-text-wrap" value="M" color="warning">Fair (Just recovered from illness)</ion-select-option>
+          <ion-select-option class="ion-text-wrap" value="N" color="danger">Poor (Ill or still under medication that causes drowsiness)</ion-select-option>
         </ion-select></ion-item>
         <div class="validation-errors">
           <ng-container *ngFor="let validation of validationMessages.health">
@@ -160,16 +160,16 @@
     </ion-card-content></ion-card>
 
   <ion-card>
-    <ion-card-title text-center>MEDIUM FACTORS</ion-card-title>
+    <ion-card-title class="ion-text-center">MEDIUM FACTORS</ion-card-title>
     <ion-card-content>
       <ion-col><ion-item>
         <ion-label *ngIf="mtracForm.get('weather').value=='H'||mtracForm.get('weather').value=='N'" color="danger"><strong>Weather</strong></ion-label>
         <ion-label *ngIf="mtracForm.get('weather').value=='M'" color="warning"><strong>Weather</strong></ion-label>
         <ion-label *ngIf="mtracForm.get('weather').value==''||mtracForm.get('weather').value=='L'"><strong>Weather</strong></ion-label>
-        <ion-select [ngStyle]="{'color': 'black'}" formControlName="weather" interface="popover" text-wrap>
-          <ion-select-option text-wrap value="L">Dry</ion-select-option>
-          <ion-select-option text-wrap value="M" color="warning">Wet</ion-select-option>
-          <ion-select-option text-wrap value="H" color="danger">Heavy showers</ion-select-option>
+        <ion-select  formControlName="weather" interface="popover" class="ion-text-wrap">
+          <ion-select-option class="ion-text-wrap" value="L">Dry</ion-select-option>
+          <ion-select-option class="ion-text-wrap" value="M" color="warning">Wet</ion-select-option>
+          <ion-select-option class="ion-text-wrap" value="H" color="danger">Heavy showers</ion-select-option>
         </ion-select></ion-item>
         <div class="validation-errors">
           <ng-container *ngFor="let validation of validationMessages.weather">
@@ -184,10 +184,10 @@
         <ion-label *ngIf="mtracForm.get('route').value=='H'||mtracForm.get('route').value=='N'" color="danger"><strong>Route Familiarity</strong></ion-label>
         <ion-label *ngIf="mtracForm.get('route').value=='M'" color="warning"><strong>Route Familiarity</strong></ion-label>
         <ion-label *ngIf="mtracForm.get('route').value==''||mtracForm.get('route').value=='L'"><strong>Route Familiarity</strong></ion-label>
-        <ion-select [ngStyle]="{'color': 'black'}" formControlName="route" interface="popover" text-wrap>
-          <ion-select-option text-wrap value="L">Familiar</ion-select-option>
-          <ion-select-option text-wrap value="H" color="danger">Not familiar even after route brief done</ion-select-option>
-          <ion-select-option text-wrap value="H" color="danger">Not familiar as route brief is not done</ion-select-option>
+        <ion-select  formControlName="route" interface="popover" class="ion-text-wrap">
+          <ion-select-option class="ion-text-wrap" value="L">Familiar</ion-select-option>
+          <ion-select-option class="ion-text-wrap" value="H" color="danger">Not familiar even after route brief done</ion-select-option>
+          <ion-select-option class="ion-text-wrap" value="H" color="danger">Not familiar as route brief is not done</ion-select-option>
         </ion-select></ion-item>
         <div class="validation-errors">
           <ng-container *ngFor="let validation of validationMessages.route">
@@ -201,16 +201,16 @@
     </ion-card-content></ion-card>
 
   <ion-card>
-    <ion-card-title text-center>MISSION FACTORS</ion-card-title>
+    <ion-card-title class="ion-text-center">MISSION FACTORS</ion-card-title>
     <ion-card-content>
       <ion-col><ion-item>
         <ion-label *ngIf="mtracForm.get('detailType').value=='H'||mtracForm.get('detailType').value=='N'" color="danger"><strong>Detail Type</strong></ion-label>
         <ion-label *ngIf="mtracForm.get('detailType').value=='M'" color="warning"><strong>Detail Type</strong></ion-label>
         <ion-label *ngIf="mtracForm.get('detailType').value==''||mtracForm.get('detailType').value=='L'"><strong>Detail Type</strong></ion-label>
-        <ion-select [ngStyle]="{'color': 'black'}" formControlName="detailType" interface="popover" text-wrap>
-          <ion-select-option text-wrap value="L">Admin</ion-select-option>
-          <ion-select-option text-wrap value="M" color="warning">Training/Operations(Including towing)</ion-select-option>
-          <ion-select-option text-wrap value="H" color="danger">All administrative towing</ion-select-option>
+        <ion-select  formControlName="detailType" interface="popover" class="ion-text-wrap">
+          <ion-select-option class="ion-text-wrap" value="L">Admin</ion-select-option>
+          <ion-select-option class="ion-text-wrap" value="M" color="warning">Training/Operations(Including towing)</ion-select-option>
+          <ion-select-option class="ion-text-wrap" value="H" color="danger">All administrative towing</ion-select-option>
         </ion-select></ion-item>
         <div class="validation-errors">
           <ng-container *ngFor="let validation of validationMessages.detailType">
@@ -224,17 +224,16 @@
     </ion-card-content></ion-card>
 
   <ion-card>
-    <ion-card-title text-center>MANAGEMENT FACTORS</ion-card-title>
+    <ion-card-title class="ion-text-center">MANAGEMENT FACTORS</ion-card-title>
     <ion-card-content>
       <ion-col><ion-item>
-        <ion-label *ngIf="mtracForm.get('vc').value=='H'||mtracForm.get('vc').value=='N'" color="danger"><strong>Without Vehicle Commander</strong></ion-label>
+        <ion-label *ngIf="mtracForm.get('vc').value=='H'||mtracForm.get('vc').value=='N'" color="danger"><strong>Without Vehicle Commander?</strong></ion-label>
         <ion-label *ngIf="mtracForm.get('vc').value=='M'" color="warning"><strong>Without Vehicle Commander</strong></ion-label>
-        <ion-label *ngIf="mtracForm.get('vc').value==''||mtracForm.get('vc').value=='L'"><strong>Without Vehicle Commander</strong></ion-label>
-        <ion-select [ngStyle]="{'color': 'black'}" formControlName="vc" interface="popover" text-wrap>
-          <ion-select-option text-wrap value="L">CAT A, B</ion-select-option>
-          <ion-select-option text-wrap value="M" color="warning">CAT C</ion-select-option>
-          <ion-select-option text-wrap value="N" color="danger">CAT D</ion-select-option>
-        </ion-select></ion-item>
+        <ion-label *ngIf="mtracForm.get('vc').value==''||mtracForm.get('vc').value=='L'"><strong>With Vehicle Commander</strong></ion-label>
+        <ion-select *ngIf="this.mtrac == null||this.database.current.user.email == this.mtrac.driver ; else notnull"[ngModel]="selectedLicense" formControlName="vc" interface="popover" class="ion-text-left">
+          <ion-select-option class="ion-text-wrap" *ngFor="let licenseType of wc" [value]=licenseType.value>{{licenseType.text}}</ion-select-option>
+        </ion-select>
+      </ion-item>
         <div class="validation-errors">
           <ng-container *ngFor="let validation of validationMessages.vc">
             <div class="error-message"
@@ -247,15 +246,15 @@
     </ion-card-content></ion-card>
 
   <ion-card>
-    <ion-card-title text-center>MACHINE FACTORS</ion-card-title>
+    <ion-card-title class="ion-text-center">MACHINE FACTORS</ion-card-title>
     <ion-card-content>
       <ion-col><ion-item>
         <ion-label *ngIf="mtracForm.get('vehicleServiceability').value=='H'||mtracForm.get('vehicleServiceability').value=='N'" color="danger"><strong>Vehicle Serviceability</strong></ion-label>
         <ion-label *ngIf="mtracForm.get('vehicleServiceability').value==''||mtracForm.get('vehicleServiceability').value=='L'"><strong>Vehicle Serviceability</strong></ion-label>
-        <ion-select formControlName="vehicleServiceability" interface="popover" text-wrap>
-          <ion-select-option text-wrap value="L">No fault</ion-select-option>
-          <ion-select-option text-wrap value="H" color="danger">Minor fault</ion-select-option>
-          <ion-select-option text-wrap value="N" color="danger">Major fault</ion-select-option>
+        <ion-select formControlName="vehicleServiceability" interface="popover" class="ion-text-wrap">
+          <ion-select-option class="ion-text-wrap" value="L">No fault</ion-select-option>
+          <ion-select-option class="ion-text-wrap" value="H" color="danger">Minor fault</ion-select-option>
+          <ion-select-option class="ion-text-wrap" value="N" color="danger">Major fault</ion-select-option>
         </ion-select></ion-item>
         <div class="validation-errors">
           <ng-container *ngFor="let validation of validationMessages.vehicleServiceability">
@@ -269,24 +268,24 @@
     </ion-card-content></ion-card>
 
     <ion-card>
-      <ion-card-title text-center>OVERALL RISK LEVEL</ion-card-title>
+      <ion-card-title class="ion-text-center">OVERALL RISK LEVEL</ion-card-title>
       <ion-card-content>
-        <ion-item *ngIf="!getoverallrisk()" color="danger" text-center>
+        <ion-item *ngIf="!getoverallrisk()" color="danger" class="ion-text-center">
           <ion-label >
             NO MOVE
           </ion-label>
         </ion-item>
-        <ion-item *ngIf="getoverallrisk()=='HIGH'" color="danger" text-center>
+        <ion-item *ngIf="getoverallrisk()=='HIGH'" color="danger" class="ion-text-center">
           <ion-label >
             {{getoverallrisk()}}
           </ion-label>
         </ion-item>
-        <ion-item *ngIf="getoverallrisk()=='MEDIUM'" color="warning" text-center>
+        <ion-item *ngIf="getoverallrisk()=='MEDIUM'" color="warning" class="ion-text-center">
           <ion-label >
             {{getoverallrisk()}}
           </ion-label>
         </ion-item>
-        <ion-item  *ngIf="getoverallrisk()=='LOW'" color="success" text-center>
+        <ion-item  *ngIf="getoverallrisk()=='LOW'" color="success" class="ion-text-center">
           <ion-label>
             {{getoverallrisk()}}
           </ion-label>
@@ -298,7 +297,7 @@
       <h6 style="text-align:center;"><strong>SAF DRIVERS<sup>1</sup>, VEHICLE COMMANDERS AND FRONT PASSENGERS ARE RESPONSIBLE FOR THE TROOPS AND CARGO TRANSPORTED. THEY ARE TO PERFORM THE FOLLOWING ACTIONS AND BRIEFING. (PLEASE TICK ACCORDINGLY ON THE CHECKLIST)</strong></h6>
     </div>
 
-    <ion-item lines="none" no-padding>
+    <ion-item lines="none" class="ion-no-padding">
       <ion-grid style="margin-left: 5px;">
         <ion-row class="cell-class">
           <ion-col size="12" class="cell-class">
@@ -306,7 +305,7 @@
               <h6 style="text-align:left"><strong>Description</strong></h6>
             </div>
           </ion-col>
-          <ion-col class="cell-class" style="margin-left : -1px; margin-top: -1px;  margin-bottom: -1px; text-align:center;">
+          <ion-col class="cell-class" style="margin-top: -1px;  margin-bottom: -1px; text-align:center;">
             <div>
               <h6 style="text-align:center"><strong>Driver</strong></h6>
             </div>
@@ -316,7 +315,7 @@
               <h6 style="text-align:center"><strong>Veh Cmd</strong></h6>
             </div>
           </ion-col>
-          <ion-col class="cell-class" style="margin-right : -1px; margin-top: -1px; margin-bottom: -1px; text-align:center;">
+          <ion-col class="cell-class" style="margin-top: -1px; margin-bottom: -1px; text-align:center;">
             <div>
                 <h6 style="text-align:center"><strong>Front Passenger</strong></h6>
             </div>
@@ -328,17 +327,17 @@
               <h6 style="text-align:left">Ensure that the driver is <strong>licensed to operate</strong> the vehicle and has displayed driving permit on dashboard</h6>
             </div>
           </ion-col>
-          <ion-col class="invalid-class" style="margin-left : -1px; margin-top: -1px; margin-bottom: -1px; margin-right: -1px;">
+          <ion-col class="invalid-class" style="margin-top: -1px; margin-bottom: -1px;">
             <div class="invalid-div">
               <h5 style="text-align:center;"><strong>-</strong></h5>
             </div>
           </ion-col>
-          <ion-col align-items-center>
+          <ion-col class="ion-align-items-center">
             <div class="checkbox-div" align="center">
               <ion-checkbox formControlName="cmdlicense" name="cmdlicense"></ion-checkbox>
             </div>
           </ion-col>
-          <ion-col class="cell-class" style="margin-left : -1px; margin-top: -1px; margin-bottom: -1px; margin-right: -1px;">
+          <ion-col class="cell-class" style="margin-left : -1px; margin-top: -1px; margin-bottom: -1px;">
               <div class="checkbox-div" align="center">
               <ion-checkbox formControlName="psgerlicense" name="psgerlicense"></ion-checkbox>
             </div>
@@ -350,17 +349,17 @@
               <h6 style="text-align:left">Gone through <strong>intended route</strong> with driver</h6>
             </div>
           </ion-col>
-          <ion-col class="invalid-class" style="margin-left : -1px; margin-top: -1px; margin-bottom: -1px; margin-right: -1px;">
+          <ion-col class="invalid-class" style="margin-top: -1px; margin-bottom: -1px;">
             <div class="invalid-div">
               <h5 style="text-align:center;"><strong>-</strong></h5>
             </div>
           </ion-col>
-          <ion-col align-items-center>
+          <ion-col class="ion-align-items-center">
             <div class="checkbox-div" align="center">
               <ion-checkbox formControlName="cmdroute" name="cmdroute" ></ion-checkbox>
             </div>
           </ion-col>
-          <ion-col class="invalid-class" style="margin-left : -1px; margin-top: -1px; margin-bottom: -1px; margin-right: -1px;">
+          <ion-col class="invalid-class" style="margin-top: -1px; margin-bottom: -1px;">
             <div class="invalid-div">
               <h5 style="text-align:center;"><strong>-</strong></h5>
             </div>
@@ -372,17 +371,17 @@
               <h6 style="text-align:left">Ensure driver does not exceed the vehicle or road <strong>speed limit</strong></h6>
             </div>
           </ion-col>
-          <ion-col class="invalid-class" style="margin-left : -1px; margin-top: -1px; margin-bottom: -1px; margin-right: -1px;">
+          <ion-col class="invalid-class" style="margin-top: -1px; margin-bottom: -1px;">
             <div class="invalid-div">
               <h5 style="text-align:center;"><strong>-</strong></h5>
             </div>
           </ion-col>
-          <ion-col align-items-center>
+          <ion-col class="ion-align-items-center">
             <div class="checkbox-div" align="center">
               <ion-checkbox formControlName="cmdspeedlimit" name="cmdspeedlimit" ></ion-checkbox>
             </div>
           </ion-col>
-          <ion-col class="cell-class" style="margin-left : -1px; margin-top: -1px; margin-bottom: -1px;  margin-right: -1px;">
+          <ion-col class="cell-class" style="margin-left : -1px; margin-top: -1px; margin-bottom: -1px;">
             <div class="checkbox-div" align="center">
               <ion-checkbox formControlName="psgerspeedlimit" name="psgerspeedlimit" ></ion-checkbox>
             </div>
@@ -394,19 +393,19 @@
               <h6 style="text-align:left">Assist/Warn the driver of any <strong>obstacles, hazards or dangers</strong></h6>
             </div>
           </ion-col>
-          <ion-col class="invalid-class" style="margin-left : -1px; margin-top: -1px; margin-bottom: -1px; margin-right: -1px;">
+          <ion-col class="invalid-class" style="margin-top: -1px; margin-bottom: -1px;">
             <div class="invalid-div">
               <h5 style="text-align:center;"><strong>-</strong></h5>
             </div>
           </ion-col>
-          <ion-col align-items-center>
+          <ion-col class="ion-align-items-center">
             <div class="checkbox-div" align="center">
-              <ion-checkbox formControlName="cmddanger" name="cmddanger" style="background: transparent;">></ion-checkbox>
+              <ion-checkbox formControlName="cmddanger" name="cmddanger" style="background: transparent;"></ion-checkbox>
             </div>
           </ion-col>
-          <ion-col class="cell-class" style="margin-left : -1px; margin-top: -1px; margin-bottom: -1px;  margin-right: -1px;">
+          <ion-col class="cell-class" style="margin-left : -1px; margin-top: -1px; margin-bottom: -1px;">
             <div class="checkbox-div" align="center">
-              <ion-checkbox formControlName="psgerdanger" name="psgerdanger" style="background: transparent;">></ion-checkbox>
+              <ion-checkbox formControlName="psgerdanger" name="psgerdanger" style="background: transparent;"></ion-checkbox>
             </div>
           </ion-col>
         </ion-row>
@@ -416,17 +415,17 @@
               <h6 style="text-align:left">Warn the driver during <strong>reversing or movement towards congested or narrow spaces</strong></h6>
             </div>
           </ion-col>
-          <ion-col class="invalid-class" style="margin-left : -1px; margin-top: -1px; margin-bottom: -1px; margin-right: -1px;">
+          <ion-col class="invalid-class" style="margin-top: -1px; margin-bottom: -1px;">
             <div class="invalid-div">
               <h5 style="text-align:center;"><strong>-</strong></h5>
             </div>
           </ion-col>
-          <ion-col align-items-center>
+          <ion-col class="ion-align-items-center">
             <div class="checkbox-div" align="center">
               <ion-checkbox formControlName="cmdreverse" name="cmdreverse"></ion-checkbox>
             </div>
           </ion-col>
-                      <ion-col class="invalid-class" style="margin-left : -1px; margin-top: -1px; margin-bottom: -1px; margin-right: -1px;">
+          <ion-col class="invalid-class" style="margin-top: -1px; margin-bottom: -1px;">
             <div class="invalid-div">
               <h5 style="text-align:center;"><strong>-</strong></h5>
             </div>
@@ -438,17 +437,17 @@
               <h6 style="text-align:left">Ensure <strong>no admin movement</strong> during no-move timings</h6>
             </div>
           </ion-col>
-          <ion-col class="cell-class" style="margin-left : -1px; margin-top: -1px; margin-bottom: -1px;">
+          <ion-col class="cell-class" style=" margin-top: -1px; margin-bottom: -1px;">
             <div class="checkbox-div" align="center">
               <ion-checkbox formControlName="admindriver" name="admindriver"></ion-checkbox>
             </div>
           </ion-col>
-          <ion-col align-items-center>
+          <ion-col class="ion-align-items-center">
             <div class="checkbox-div" align="center">
               <ion-checkbox formControlName="admincommander" name="admincommander"></ion-checkbox>
             </div>
           </ion-col>
-          <ion-col class="invalid-class" style="margin-left : -1px; margin-top: -1px; margin-bottom: -1px; margin-right: -1px; margin-right: -1px;">
+          <ion-col class="invalid-class" style="margin-left : -1px; margin-top: -1px; margin-bottom: -1px;">
             <div class="invalid-div">
               <h5 style="text-align:center;"><strong>-</strong></h5>
             </div>
@@ -460,17 +459,17 @@
               <h6 style="text-align:left">Brief and ensure troops <strong>secure their seat belts</strong> before movement of vehicle</h6>
             </div>
           </ion-col>
-          <ion-col class="cell-class" style="margin-left : -1px; margin-top: -1px; margin-bottom: -1px;">
+          <ion-col class="cell-class" style="margin-top: -1px; margin-bottom: -1px;">
             <div class="checkbox-div" align="center">
               <ion-checkbox formControlName="seatbeltdriver" name="seatbeltdriver"></ion-checkbox>
             </div>
           </ion-col>
-          <ion-col align-items-center>
+          <ion-col class="ion-align-items-center">
             <div class="checkbox-div" align="center">
               <ion-checkbox formControlName="seatbeltcommander" name="seatbeltcommander"></ion-checkbox>
             </div>
           </ion-col>
-          <ion-col class="invalid-class" style="margin-left : -1px; margin-top: -1px; margin-bottom: -1px; margin-right: -1px;">
+          <ion-col class="invalid-class" style="margin-top: -1px; margin-bottom: -1px;">
             <div class="invalid-div">
               <h5 style="text-align:center;"><strong>-</strong></h5>
             </div>
@@ -482,17 +481,17 @@
               <h6 style="text-align:left">Check and ensure <strong>safety straps in place and tailboard of vehicle is closed</strong></h6>
             </div>
           </ion-col>
-          <ion-col class="cell-class" style="margin-left : -1px; margin-top: -1px; margin-bottom: -1px;">
+          <ion-col class="cell-class" style="margin-top: -1px; margin-bottom: -1px;">
             <div class="checkbox-div" align="center">
               <ion-checkbox formControlName="safetystrapdriver" name="safetystrapdriver"></ion-checkbox>
             </div>
           </ion-col>
-          <ion-col align-items-center>
+          <ion-col class="ion-align-items-center">
             <div class="checkbox-div" align="center">
               <ion-checkbox formControlName="safetystrapcommander" name="safetystrapcommander"></ion-checkbox>
             </div>
           </ion-col>
-                      <ion-col class="invalid-class" style="margin-left : -1px; margin-top: -1px; margin-bottom: -1px; margin-right: -1px;">
+          <ion-col class="invalid-class" style="margin-top: -1px; margin-bottom: -1px;">
             <div class="invalid-div">
               <h5 style="text-align:center;"><strong>-</strong></h5>
             </div>
@@ -504,17 +503,17 @@
               <h6 style="text-align:left">Brief troops on <strong>no smoking/sleeping on the vehicle</strong> before movement of vehicle</h6>
             </div>
           </ion-col>
-          <ion-col class="cell-class" style="margin-left : -1px; margin-top: -1px; margin-bottom: -1px;">
+          <ion-col class="cell-class" style="margin-top: -1px; margin-bottom: -1px;">
             <div class="checkbox-div" align="center">
               <ion-checkbox formControlName="smokingdriver" name="smokingdriver"></ion-checkbox>
             </div>
           </ion-col>
-          <ion-col align-items-center>
+          <ion-col class="ion-align-items-center">
             <div class="checkbox-div" align="center">
               <ion-checkbox formControlName="smokingcommander" name="smokingcommander"></ion-checkbox>
             </div>
           </ion-col>
-                      <ion-col class="invalid-class" style="margin-left : -1px; margin-top: -1px; margin-bottom: -1px; margin-right: -1px;">
+          <ion-col class="invalid-class" style="margin-top: -1px; margin-bottom: -1px;">
             <div class="invalid-div">
               <h5 style="text-align:center;"><strong>-</strong></h5>
             </div>
@@ -526,17 +525,17 @@
               <h6 style="text-align:left"><strong>Secure load</strong> before movement of vehicle</h6>
             </div>
           </ion-col>
-          <ion-col class="cell-class" style="margin-left : -1px; margin-top: -1px; margin-bottom: -1px;">
+          <ion-col class="cell-class" style=" margin-top: -1px; margin-bottom: -1px;">
             <div class="checkbox-div" align="center">
               <ion-checkbox formControlName="loaddriver" name="loaddriver"></ion-checkbox>
             </div>
           </ion-col>
-          <ion-col align-items-center>
+          <ion-col class="ion-align-items-center">
             <div class="checkbox-div" align="center">
               <ion-checkbox formControlName="loadcommander" name="loadcommander"></ion-checkbox>
             </div>
           </ion-col>
-                      <ion-col class="invalid-class" style="margin-left : -1px; margin-top: -1px; margin-bottom: -1px; margin-right: -1px;">
+          <ion-col class="invalid-class" style="margin-top: -1px; margin-bottom: -1px;">
             <div class="invalid-div">
               <h5 style="text-align:center;"><strong>-</strong></h5>
             </div>
@@ -548,12 +547,12 @@
               <h6 style="text-align:left">If vehicle <strong>involved in an accident</strong> to contact parent unit, Transport Node and Police to inform about accident</h6>
             </div>
           </ion-col>
-          <ion-col class="cell-class" style="margin-left : -1px; margin-top: -1px; margin-bottom: -1px;">
+          <ion-col class="cell-class" style="margin-top: -1px; margin-bottom: -1px;">
             <div class="checkbox-div" align="center">
               <ion-checkbox formControlName="accidentdriver" name="accidentdriver"></ion-checkbox>
             </div>
           </ion-col>
-          <ion-col align-items-center>
+          <ion-col class="ion-align-items-center">
             <div class="checkbox-div" align="center">
               <ion-checkbox formControlName="accidentcommander" name="accidentcommander"></ion-checkbox>
             </div>
@@ -570,17 +569,17 @@
               <h6 style="text-align:left">Ensure that MT RAC form is <strong>completed and duly counter-signed</strong></h6>
             </div>
           </ion-col>
-          <ion-col class="cell-class" style="margin-left : -1px; margin-top: -1px; margin-bottom: -1px;">
+          <ion-col class="cell-class" style="margin-top: -1px; margin-bottom: -1px;">
             <div class="checkbox-div" align="center">
               <ion-checkbox formControlName="mtraccompletedriver" name="mtraccompletedriver"></ion-checkbox>
             </div>
           </ion-col>
-          <ion-col align-items-center>
+          <ion-col class="ion-align-items-center">
             <div class="checkbox-div" align="center">
               <ion-checkbox formControlName="mtraccompletecommander" name="mtraccompletecommander"></ion-checkbox>
             </div>
           </ion-col>
-          <ion-col class="invalid-class" style="margin-left : -1px; margin-top: -1px; margin-bottom: -1px; margin-right: -1px;">
+          <ion-col class="invalid-class" style="margin-top: -1px; margin-bottom: -1px;">
             <div class="invalid-div">
               <h5 style="text-align:center;"><strong>-</strong></h5>
             </div>
@@ -592,17 +591,17 @@
               <h6 style="text-align:left">Ensure that driver has <strong>completed</strong> the checks listed above</h6>
             </div>
           </ion-col>
-          <ion-col class="invalid-class" style="margin-left : -1px; margin-top: -1px;  margin-bottom: -1px; margin-right: -1px;">
+          <ion-col class="invalid-class" style="margin-top: -1px;  margin-bottom: -1px; margin-right: -1px;">
             <div class="invalid-div">
               <h5 style="text-align:center;"><strong>-</strong></h5>
             </div>
           </ion-col>
-          <ion-col align-items-center>
+          <ion-col class="ion-align-items-center">
             <div class="checkbox-div" align="center">
               <ion-checkbox formControlName="cmdchecklistcomplete" name="cmdchecklistcomplete"></ion-checkbox>
             </div>
           </ion-col>
-                                  <ion-col class="invalid-class" style="margin-left : -1px; margin-top: -1px;  margin-bottom: -1px; margin-right: -1px;">
+          <ion-col class="invalid-class" style="margin-left : -1px; margin-top: -1px;  margin-bottom: -1px;">
             <div class="invalid-div">
               <h5 style="text-align:center;"><strong>-</strong></h5>
             </div>
@@ -626,17 +625,17 @@
 
 -->
   <ion-card><ion-card-content>
-    <ion-card-title text-center>SAFETY MEASURES</ion-card-title>
-    <ion-textarea [ngStyle]="{'color': 'black'}" type="text" formControlName="safetyMeasures" placeholder="Please elaborate on the safety or risk mitigating measures taken."></ion-textarea>
+    <ion-card-title class="ion-text-center">SAFETY MEASURES</ion-card-title>
+    <ion-textarea  type="text" formControlName="safetyMeasures" placeholder="Please elaborate on the safety or risk mitigating measures taken."></ion-textarea>
   </ion-card-content></ion-card>
 
   <ion-card>
-    <ion-card-title text-center>COUNTERSIGNING OFFICER</ion-card-title>
-    <ion-card-content text-center>
+    <ion-card-title class="ion-text-center">COUNTERSIGNING OFFICER</ion-card-title>
+    <ion-card-content class="ion-text-center">
       <ion-col>
         <ion-item>
           <ion-label  position="floating" >Rank & Name</ion-label>
-          <ion-input [ngStyle]="{'color': 'black'}" type="text" onkeyup="this.value = this.value.toUpperCase()" formControlName="counterName" placeholder="Officer"></ion-input>
+          <ion-input  type="text" onkeyup="this.value = this.value.toUpperCase()" formControlName="counterName" placeholder="Officer"></ion-input>
           <div class="validation-errors">
             <ng-container *ngFor="let validation of validationMessages.counterName">
               <div class="error-message"
@@ -657,12 +656,12 @@
     </ion-card-content></ion-card>
 
   <ion-card>
-    <ion-card-title text-center>FRONT PASSENGER</ion-card-title>
-    <ion-card-content text-center>
+    <ion-card-title class="ion-text-center">FRONT PASSENGER</ion-card-title>
+    <ion-card-content class="ion-text-center">
       <ion-col>
         <ion-item>
           <ion-label  position="floating" >Rank & Name</ion-label>
-          <ion-input [ngStyle]="{'color': 'black'}" type="text" onkeyup="this.value = this.value.toUpperCase()" formControlName="frontName" placeholder="Passenger"></ion-input>
+          <ion-input  type="text" onkeyup="this.value = this.value.toUpperCase()" formControlName="frontName" placeholder="Passenger"></ion-input>
         </ion-item>
       </ion-col>
       <br>
@@ -675,7 +674,7 @@
 
 
     <ion-item>
-      <ion-label text-wrap>I acknowledge that I, {{this.database.current.user.name}}, have read through, understood, and checked through the MT Risk Assessment (MT-RAC) Checklist on {{getcdt()}}.</ion-label>
+      <ion-label class="ion-text-wrap">I acknowledge that I, {{this.database.current.user.name}}, have read through, understood, and checked through the MT Risk Assessment (MT-RAC) Checklist on {{getcdt()}}.</ion-label>
       <ion-checkbox *ngIf="this.driver == this.database.current.user.email" slot="start" formControlName="drivermtrac" name="drivermtrac" style="background: transparent;"></ion-checkbox>
       <ion-checkbox *ngIf="this.commander == this.database.current.user.email" slot="start" formControlName="commandermtrac" name="commandermtrac" style="background: transparent;"></ion-checkbox>
     </ion-item>
@@ -700,5 +699,4 @@
   </div>
 
   </form>
-
-</ion-content>
+</div></ion-content>

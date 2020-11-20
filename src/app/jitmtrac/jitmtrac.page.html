@@ -72,7 +72,7 @@
   </ion-card-content></ion-card>
 
   <ion-card>
-    <ion-card-title text-center>MAN FACTORS</ion-card-title>
+    <ion-card-title class="ion-text-center">MAN FACTORS</ion-card-title>
     <ion-card-content>
 
       <ion-col><ion-item>
@@ -157,7 +157,7 @@
     </ion-card-content></ion-card>
 
   <ion-card>
-    <ion-card-title text-center>MEDIUM FACTORS</ion-card-title>
+    <ion-card-title class="ion-text-center">MEDIUM FACTORS</ion-card-title>
     <ion-card-content>
       <ion-col><ion-item>
         <ion-label *ngIf="mtracForm.get('weather').value=='H'||mtracForm.get('weather').value=='N'" color="danger"><strong>Weather</strong></ion-label>
@@ -198,7 +198,7 @@
     </ion-card-content></ion-card>
 
   <ion-card>
-    <ion-card-title text-center>MISSION FACTORS</ion-card-title>
+    <ion-card-title class="ion-text-center">MISSION FACTORS</ion-card-title>
     <ion-card-content>
       <ion-col><ion-item>
         <ion-label *ngIf="mtracForm.get('detailType').value=='H'||mtracForm.get('detailType').value=='N'" color="danger"><strong>Detail Type</strong></ion-label>
@@ -221,7 +221,7 @@
     </ion-card-content></ion-card>
 
   <ion-card>
-    <ion-card-title text-center>MANAGEMENT FACTORS</ion-card-title>
+    <ion-card-title class="ion-text-center">MANAGEMENT FACTORS</ion-card-title>
     <ion-card-content>
       <ion-col><ion-item>
         <ion-label *ngIf="mtracForm.get('vc').value=='H'||mtracForm.get('vc').value=='N'" color="danger"><strong>Without Vehicle Commander</strong></ion-label>
@@ -244,7 +244,7 @@
     </ion-card-content></ion-card>
 
   <ion-card>
-    <ion-card-title text-center>MACHINE FACTORS</ion-card-title>
+    <ion-card-title class="ion-text-center">MACHINE FACTORS</ion-card-title>
     <ion-card-content>
       <ion-col><ion-item>
         <ion-label *ngIf="mtracForm.get('vehicleServiceability').value=='H'||mtracForm.get('vehicleServiceability').value=='N'" color="danger"><strong>Vehicle Serviceability</strong></ion-label>
@@ -266,24 +266,24 @@
     </ion-card-content></ion-card>
 
     <ion-card>
-      <ion-card-title text-center>OVERALL RISK LEVEL</ion-card-title>
+      <ion-card-title class="ion-text-center">OVERALL RISK LEVEL</ion-card-title>
       <ion-card-content>
-        <ion-item *ngIf="!getoverallrisk()" color="danger" text-center>
+        <ion-item *ngIf="!getoverallrisk()" color="danger" class="ion-text-center">
           <ion-label >
             NO MOVE
           </ion-label>
         </ion-item>
-        <ion-item *ngIf="getoverallrisk()=='HIGH'" color="danger" text-center>
+        <ion-item *ngIf="getoverallrisk()=='HIGH'" color="danger" class="ion-text-center">
           <ion-label >
             {{getoverallrisk()}}
           </ion-label>
         </ion-item>
-        <ion-item *ngIf="getoverallrisk()=='MEDIUM'" color="warning" text-center>
+        <ion-item *ngIf="getoverallrisk()=='MEDIUM'" color="warning" class="ion-text-center">
           <ion-label >
             {{getoverallrisk()}}
           </ion-label>
         </ion-item>
-        <ion-item  *ngIf="getoverallrisk()=='LOW'" color="success" text-center>
+        <ion-item  *ngIf="getoverallrisk()=='LOW'" color="success" class="ion-text-center">
           <ion-label>
             {{getoverallrisk()}}
           </ion-label>
@@ -623,12 +623,12 @@
 
 -->
   <ion-card><ion-card-content>
-    <ion-card-title text-center>SAFETY MEASURES</ion-card-title>
+    <ion-card-title class="ion-text-center">SAFETY MEASURES</ion-card-title>
     <ion-textarea [ngStyle]="{'color': 'black'}" type="text" formControlName="safetyMeasures" placeholder="Please elaborate on the safety or risk mitigating measures taken."></ion-textarea>
   </ion-card-content></ion-card>
 
   <ion-card>
-    <ion-card-title text-center>COUNTERSIGNING OFFICER</ion-card-title>
+    <ion-card-title class="ion-text-center">COUNTERSIGNING OFFICER</ion-card-title>
     <ion-card-content>
       <ion-col>
         <ion-item>
@@ -654,7 +654,7 @@
     </ion-card-content></ion-card>
 
   <ion-card>
-    <ion-card-title text-center>FRONT PASSENGER</ion-card-title>
+    <ion-card-title class="ion-text-center">FRONT PASSENGER</ion-card-title>
     <ion-card-content>
       <ion-col>
         <ion-item>

@@ -167,7 +167,7 @@ export class AddDrivePage implements OnInit {
     // Create form group of controls
     this.addDriveForm = this.formBuilder.group({
       date: new FormControl(this.today, Validators.compose([Validators.required])),
-      vehicleNumber: new FormControl('', Validators.compose([Validators.minLength(5), Validators.required])),
+      vehicleNumber: new FormControl('', Validators.compose([Validators.minLength(4), Validators.required])),
       vehicleType: new FormControl(''),
       vehicleCommander: new FormControl('', Validators.compose([Validators.required])),
       startLocation: new FormControl('', Validators.compose([Validators.required])),

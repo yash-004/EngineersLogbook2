@@ -15,12 +15,12 @@
       <ion-label position="stacked">Driver</ion-label>
       <ion-select id="drvr" interface="popover" value="ALL" class="full-width-select">
         <ion-select-option value="ALL">ALL</ion-select-option>
-        <ion-select-option text-wrap *ngFor="let driver of database.current.all_drivers_of_commander" value={{driver.email}} class="custom-font-size">{{driver.email}}</ion-select-option>
+        <ion-select-option class="ion-text-wrap" *ngFor="let driver of database.current.all_drivers_of_commander" value={{driver.email}} class="custom-font-size">{{driver.email}}</ion-select-option>
       </ion-select>
       <ion-label position="stacked">Vehicle Type</ion-label>
         <ion-select id="vehitype" interface="popover" value="ALL" class="full-width-select">
           <ion-select-option value="ALL">ALL</ion-select-option>
-          <ion-select-option text-wrap *ngFor ="let vehicle of database.current.stats.most_recent_drive_by_vehicle_type | keyvalue" value={{vehicle.key}} class="custom-font-size">{{vehicle.key}}</ion-select-option>
+          <ion-select-option class="ion-text-wrap" *ngFor ="let vehicle of database.current.stats.most_recent_drive_by_vehicle_type | keyvalue" value={{vehicle.key}} class="custom-font-size">{{vehicle.key}}</ion-select-option>
         </ion-select>
     </ion-item>
   </ion-list>
@@ -33,15 +33,15 @@
   <ion-item-divider sticky>
     <ion-grid>
       <ion-row class="vertical-align-content">
-        <ion-col no-padding text-center size=3>
+        <ion-col class="ion-no-padding" class="ion-text-center" size=3>
             <ion-button size="small" (click)="incrementFilterPeriod(-1)"><ion-icon name="return-left"></ion-icon></ion-button>
         </ion-col>
 
-        <ion-col no-padding text-center>
+        <ion-col class="ion-no-padding" class="ion-text-center">
           <h4>{{getFilterPeriodString()}}</h4>
         </ion-col>
 
-        <ion-col no-padding text-center size=3>
+        <ion-col class="ion-no-padding" class="ion-text-center" size=3>
             <ion-button size="small" (click)="incrementFilterPeriod(+1)"><ion-icon name="return-right"></ion-icon></ion-button>
         </ion-col>
 

@@ -43,7 +43,7 @@
           <ion-item>
             <ion-label position="floating">Vehicle Type</ion-label>
             <ion-select formControlName="vehicleType" interface="popover">
-              <ion-select-option text-wrap *ngFor="let vty of getapprovedvtypes()" value={{vty}}>{{vty}}</ion-select-option>
+              <ion-select-option class="ion-text-wrap" *ngFor="let vty of getapprovedvtypes()" value={{vty}}>{{vty}}</ion-select-option>
             </ion-select>
           </ion-item>
           <div class="validation-errors">
@@ -86,8 +86,8 @@
         </div>
         <ion-item>
           <ion-label position="floating">Fuel Type</ion-label>
-          <ion-select text-wrap formControlName="FuelType" interface="popover">
-            <ion-select-option text-wrap *ngFor="let ft of getfueltype()" value={{ft}}>{{ft}}</ion-select-option>
+          <ion-select class="ion-text-wrap" formControlName="FuelType" interface="popover">
+            <ion-select-option class="ion-text-wrap" *ngFor="let ft of getfueltype()" value={{ft}}>{{ft}}</ion-select-option>
           </ion-select>
         </ion-item>
         <ion-item>

@@ -68,6 +68,8 @@ export class mtracPage implements OnInit {
 };
 
   public licenseTypes = [{value:"L",text:"CAT A, B"},{value:"M",text:"CAT C"},{value:"H",text:"CAT D"},{value:"N",text:"Have never been trained and familiarized in the vehicle that you will be driving"}] 
+  public wc = [{value:"L",text:"N.A. / CAT A, B"},{value:"M",text:"CAT C"},{value:"N",text:"CAT D"}] 
+
   public selectedLicense;
 
   constructor(

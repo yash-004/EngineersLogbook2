@@ -28,15 +28,15 @@
   <ion-item-divider sticky>
     <ion-grid>
       <ion-row class="vertical-align-content">
-        <ion-col no-padding text-center size=3>
+        <ion-col class="ion-no-padding" class="ion-text-center" size=3>
             <ion-button size="small" (click)="incrementFilterPeriod(-1)"><ion-icon name="return-left"></ion-icon></ion-button>
         </ion-col>
 
-        <ion-col no-padding text-center>
+        <ion-col class="ion-no-padding" class="ion-text-center">
           <h4>{{getFilterPeriodString()}}</h4>
         </ion-col>
 
-        <ion-col no-padding text-center size=3>
+        <ion-col class="ion-no-padding" class="ion-text-center" size=3>
             <ion-button size="small" (click)="incrementFilterPeriod(+1)"><ion-icon name="return-right"></ion-icon></ion-button>
         </ion-col>
 

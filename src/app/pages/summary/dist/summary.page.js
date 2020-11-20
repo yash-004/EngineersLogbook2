@@ -138,19 +138,17 @@ var SummaryPage = /** @class */ (function () {
             var trip = _a[_i];
             var date_str = dayjs(trip.date + " " + trip.start_time, 'YYYY-MM-DD HH:mm').format('dddd, MMM DD, YYYY');
             var distance = this.database.distance(trip);
-            var drive_msg = "Completed " + distance + " km drive, from " + trip.start_location + " (" + trip.start_time + ") to " + trip.end_location + " (" + trip.end_time + ").";
+            var drive_msg = "Completed " + distance + " km drive, from " + trip.start_location + " (" + trip.start_time + ") to " + trip.end_location + " (" + trip.end_time + ") on " + date_str + ".";
             if (trip.status === 'in-progress') {
                 result.push({
-                    subtitle: "Drive-In-Progress",
-                    title: date_str,
-                    text: "Journey started from location " + trip.start_location + " at " + trip.start_time + ".",
+                    subtitle: "Pending End Drive",
+                    text: "Journey started from location " + trip.start_location + " at " + trip.start_time + " on " + date_str + ".",
                     trip: trip
                 });
             }
             else if (trip.status === 'pending') {
                 result.push({
                     subtitle: "Awaiting Review",
-                    title: date_str,
                     text: drive_msg,
                     trip: trip
                 });
@@ -158,7 +156,6 @@ var SummaryPage = /** @class */ (function () {
             else if (trip.status === 'rejected') {
                 result.push({
                     subtitle: "Drive Rejected (Action Required)",
-                    title: date_str,
                     text: drive_msg,
                     trip: trip
                 });
@@ -324,7 +321,7 @@ var SummaryPage = /** @class */ (function () {
         return new chart_js_1.Chart(canvas.nativeElement, {
             type: "horizontalBar",
             data: {
-                labels: ["remaining mileage to target"],
+                labels: ["Remaining Mileage to Target"],
                 datasets: [{
                         label: "Mileage",
                         borderWidth: 1,

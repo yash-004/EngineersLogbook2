@@ -9,13 +9,13 @@
   <!-- Left column: Mileage/Time --------------------->
   
   <ion-col size='4' class='left'>
-    <ion-item text-center lines="none" *ngIf="drive.status!='in-progress'">
+    <ion-item class="ion-text-center" lines="none" *ngIf="drive.status!='in-progress'">
       <ion-label position="stacked">Distance</ion-label>
       <ion-text style="margin-bottom:8px; ">{{database.distance(drive)}}km</ion-text>
       <ion-text><ion-icon name="clock"></ion-icon>{{database.formatMinutesToString(database.duration(drive))}}</ion-text>
     </ion-item>
 
-    <ion-item text-center lines="none" *ngIf="drive.status=='in-progress'">
+    <ion-item class="ion-text-center" lines="none" *ngIf="drive.status=='in-progress'">
       <ion-text color="danger" style="margin-bottom:8px; font-size: 110%; font-weight:bold;">Drive In Progress</ion-text>
     </ion-item>
   </ion-col>
@@ -24,24 +24,24 @@
   
   <ion-col class="main1">
     <br>
-    <ion-item lines="none" no-padding>
+    <ion-item lines="none" class="ion-no-padding">
       <ion-icon name="pin" size="small"></ion-icon>
       <small>Start Location</small>
     </ion-item>
     
     <ion-item style="--padding-start:18px" lines="none">
       {{drive.start_location}}
-      <ion-text text-right slot="end">{{drive.start_time}}</ion-text>
+      <ion-text class="ion-text-right" slot="end">{{drive.start_time}}</ion-text>
     </ion-item>
 
-    <ion-item lines="none" no-padding>
+    <ion-item lines="none" class="ion-no-padding">
       <ion-icon name="pin" size="small"></ion-icon>
       <small>End Location</small>
     </ion-item>
 
     <ion-item style="--padding-start:18px;" lines="none">  <!-- extra padding is to align text with location label -->
       {{drive.end_location}}
-      <ion-text text-right slot="end">{{drive.end_time}}</ion-text> <br>
+      <ion-text class="ion-text-right" slot="end">{{drive.end_time}}</ion-text> <br>
     </ion-item>
 
   </ion-col>
