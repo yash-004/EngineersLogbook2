@@ -68,7 +68,6 @@ export class mtracPage implements OnInit {
 };
 
   public licenseTypes = [{value:"L",text:"CAT A, B"},{value:"M",text:"CAT C"},{value:"H",text:"CAT D"},{value:"N",text:"Have never been trained and familiarized in the vehicle that you will be driving"}] 
-  public wc = [{value:"L",text:"N.A. / CAT A, B"},{value:"M",text:"CAT C"},{value:"N",text:"CAT D"}] 
 
   public selectedLicense;
 
@@ -288,6 +287,47 @@ export class mtracPage implements OnInit {
     }
   }
 
+  changedvc() {
+    console.log(this.mtracForm.value.vc);
+    if (this.mtracForm.value.vc == "With"){
+      this.mtracForm.get('psgerlicense').disable();
+      this.mtracForm.get('psgerlicense').setValidators([]);
+      this.mtracForm.get('psgerlicense').setValue(false);
+      this.mtracForm.get('psgerspeedlimit').disable();
+      this.mtracForm.get('psgerspeedlimit').setValidators([]);
+      this.mtracForm.get('psgerspeedlimit').setValue(false);
+      this.mtracForm.get('psgerdanger').disable();
+      this.mtracForm.get('psgerdanger').setValidators([]);
+      this.mtracForm.get('psgerdanger').setValue(false);
+      this.mtracForm.get('accidentpsger').disable();
+      this.mtracForm.get('accidentpsger').setValidators([]);
+      this.mtracForm.get('accidentpsger').setValue(false);
+
+      this.mtracForm.get('frontName').disable();
+      this.mtracForm.get('frontName').setValue("");
+      this.mtracForm.get('frontName').setValidators([]);
+
+      this.frontSignature.clear()
+      this.frontSignature.off();
+
+    }
+    else{
+      this.mtracForm.get('psgerlicense').setValidators([Validators.requiredTrue]);
+      this.mtracForm.get('psgerlicense').enable();
+      this.mtracForm.get('psgerspeedlimit').setValidators([Validators.requiredTrue]);
+      this.mtracForm.get('psgerspeedlimit').enable();
+      this.mtracForm.get('psgerdanger').setValidators([Validators.requiredTrue]);
+      this.mtracForm.get('psgerdanger').enable();
+      this.mtracForm.get('accidentpsger').setValidators([Validators.requiredTrue]);
+      this.mtracForm.get('accidentpsger').enable();
+
+      this.mtracForm.get('frontName').setValidators([Validators.required]);
+      this.mtracForm.get('frontName').enable();
+
+      this.frontSignature.on();
+    }
+  }
+
   setmtracDetails() {
     // Stage-1 details
     // populate values of start mtrac fields
@@ -420,18 +460,17 @@ export class mtracPage implements OnInit {
     var weather = this.mtracForm.get('weather').value;
     var route = this.mtracForm.get('route').value;
     var detailType = this.mtracForm.get('detailType').value;
-    var vc = this.mtracForm.get('vc').value;
     var vehicleServiceability = this.mtracForm.get('vehicleServiceability').value;
-    if (licenseType=="N" || health=="N" || vc=="N" || vehicleServiceability=="N" || licenseType=="" || health=="" || vehicleServiceability=="") {
+    if (licenseType=="N" || health=="N" || vehicleServiceability=="N" || licenseType=="" || health=="" || vehicleServiceability=="") {
         return false;
     }
-    else if (licenseType=="H" || vehicleType2=="H" || rest=="H" || health=="H" || weather=="H" || route=="H" || detailType=="H" || vc=="H" || vehicleServiceability=="H") {
+    else if (licenseType=="H" || vehicleType2=="H" || rest=="H" || health=="H" || weather=="H" || route=="H" || detailType=="H" || vehicleServiceability=="H") {
         return "HIGH";
     }
-    else if (licenseType=="M" || vehicleType2=="M" || rest=="M" || health=="M" || weather=="M" || route=="M" || detailType=="M" || vc=="M" || vehicleServiceability=="M") {
+    else if (licenseType=="M" || vehicleType2=="M" || rest=="M" || health=="M" || weather=="M" || route=="M" || detailType=="M" || vehicleServiceability=="M") {
         return "MEDIUM";
     }
-    else if (licenseType=="L" || vehicleType2=="L" || rest=="L" || health=="L" || weather=="L" || route=="L" || detailType=="L" || vc=="L" || vehicleServiceability=="L") {
+    else if (licenseType=="L" || vehicleType2=="L" || rest=="L" || health=="L" || weather=="L" || route=="L" || detailType=="L" || vehicleServiceability=="L") {
         return "LOW";
     }
   }

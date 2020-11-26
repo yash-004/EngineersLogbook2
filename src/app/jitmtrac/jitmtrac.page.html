@@ -224,13 +224,10 @@
     <ion-card-title class="ion-text-center">MANAGEMENT FACTORS</ion-card-title>
     <ion-card-content>
       <ion-col><ion-item>
-        <ion-label *ngIf="mtracForm.get('vc').value=='H'||mtracForm.get('vc').value=='N'" color="danger"><strong>Without Vehicle Commander</strong></ion-label>
-        <ion-label *ngIf="mtracForm.get('vc').value=='M'" color="warning"><strong>Without Vehicle Commander</strong></ion-label>
-        <ion-label *ngIf="mtracForm.get('vc').value==''||mtracForm.get('vc').value=='L'"><strong>Without Vehicle Commander</strong></ion-label>
-        <ion-select [ngStyle]="{'color': 'black'}" formControlName="vc" interface="popover" text-wrap>
-          <ion-select-option text-wrap value="L">CAT A, B</ion-select-option>
-          <ion-select-option text-wrap value="M">CAT C</ion-select-option>
-          <ion-select-option text-wrap value="N">CAT D</ion-select-option>
+        <ion-label><strong>Vehicle Commander</strong></ion-label>
+        <ion-select [ngStyle]="{'color': 'black'}" formControlName="vc" interface="popover" (ionChange)="changedvc()" text-wrap>
+          <ion-select-option text-wrap value="With">With</ion-select-option>
+          <ion-select-option text-wrap value="Without">Without</ion-select-option>
         </ion-select></ion-item>
         <div class="validation-errors">
           <ng-container *ngFor="let validation of validationMessages.vc">
