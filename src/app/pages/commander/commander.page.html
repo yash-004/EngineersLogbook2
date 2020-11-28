@@ -16,7 +16,7 @@
 
   <ion-card *ngFor="let drive of getPendingDrives()" (click)="click(drive)" color="primary" class="ion-padding" button=true>
 
-    <ion-card-title color='danger' class="ion-padding; card"><strong>Pending review</strong></ion-card-title>
+    <ion-card-title color='danger' class="ion-padding; card"><strong>Pending Review (Drive)</strong></ion-card-title>
 
     <ion-card-content class="ion-no-padding; card">
       Your drive on <b>{{drive.date}}</b> with <b>{{getDriverName(drive.driver)}}</b>  from
@@ -27,9 +27,9 @@
 
   </ion-card>
   <ion-card *ngFor="let form of getPendingMTRAC()"  (click)="clickmtrac(form)" color="primary" class="ion-padding">
-    <ion-card-title class="ion-padding; card">MT-RAC</ion-card-title>
+    <ion-card-title class="ion-padding; card">Pending Review (MT-RAC)</ion-card-title>
     <ion-card-content class="ion-padding; card">
-      Your MTRAC on <b>{{form.created}}</b> with <b>{{getDriverName(form.driver)}} ({{form.vehicleNumber}})</b>
+      Your MT-RAC on <b>{{form.created}}</b> with <b>{{getDriverName(form.driver)}} ({{form.vehicleNumber}})</b>
       is pending review.
     </ion-card-content>
 

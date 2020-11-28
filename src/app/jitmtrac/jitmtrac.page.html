@@ -20,13 +20,13 @@
     <ion-item>
       <ion-label  position="floating">Driving Area</ion-label>
       <ion-select [ngStyle]="{'color': 'black'}" formControlName="incamp" interface="popover">
-        <ion-select-option [ngStyle]="{'color': 'black'}" text-wrap value=true>In Camp</ion-select-option>
-        <ion-select-option [ngStyle]="{'color': 'black'}" text-wrap value=false *ngIf="gettime()">Out of Camp</ion-select-option>
+        <ion-select-option [ngStyle]="{'color': 'black'}" class="ion-text-wrap" value=true>In Camp</ion-select-option>
+        <ion-select-option [ngStyle]="{'color': 'black'}" class="ion-text-wrap" value=false *ngIf="gettime()">Out of Camp</ion-select-option>
       </ion-select>
     </ion-item>
 
     <ion-item>
-      <ion-label  position="floating" >From</ion-label>
+      <ion-label position="floating">From</ion-label>
       <ion-input [ngStyle]="{'color': 'black'}" type="text" onkeyup="this.value = this.value.toUpperCase()" formControlName="startLocation" placeholder="Start Location"></ion-input>
     </ion-item>
     <ion-item>
@@ -49,7 +49,7 @@
       <ion-item>
         <ion-label position="floating">Vehicle Type</ion-label>
         <ion-select formControlName="vehicleType" interface="popover">
-          <ion-select-option text-wrap *ngFor="let vty of getapprovedvtypes()" value={{vty.text}} disabled={{!vty.ready}}>{{vty.text}}</ion-select-option>
+          <ion-select-option class="ion-text-wrap" *ngFor="let vty of getapprovedvtypes()" value={{vty.text}} disabled={{!vty.ready}}>{{vty.text}}</ion-select-option>
         </ion-select></ion-item>
         <div class="validation-errors">
           <ng-container *ngFor="let validation of validationMessages.vehicleType">
@@ -80,13 +80,13 @@
         <ion-label *ngIf="mtracForm.get('licenseType').value=='M'" color="warning"><strong>Driving Experience</strong></ion-label>
         <ion-label *ngIf="mtracForm.get('licenseType').value==''||mtracForm.get('licenseType').value=='L'"><strong>Driving Experience</strong></ion-label>
         <ion-select *ngIf="this.mtrac == null||this.database.current.user.email == this.mtrac.driver ; else notnull"[ngModel]="selectedLicense" [ngStyle]="{'color': 'black'}"  formControlName="licenseType" interface="popover" text-left>
-          <ion-select-option text-wrap *ngFor="let licenseType of licenseTypes" [value]=licenseType.value>{{licenseType.text}}</ion-select-option>
+          <ion-select-option class="ion-text-wrap" *ngFor="let licenseType of licenseTypes" [value]=licenseType.value>{{licenseType.text}}</ion-select-option>
         </ion-select>
         <ng-template #notnull><ion-select *ngIf="this.database.current.user.email != this.mtrac.driver"  formControlName="licenseType" interface="popover" text-left>
-          <ion-select-option text-wrap value="L">CAT A, B</ion-select-option>
-          <ion-select-option text-wrap value="M">CAT C</ion-select-option>
-          <ion-select-option text-wrap value="H">CAT D</ion-select-option>
-          <ion-select-option text-wrap value="N">Have never been trained and familiarized in the vehicle that you will be driving</ion-select-option>
+          <ion-select-option class="ion-text-wrap" value="L">CAT A, B</ion-select-option>
+          <ion-select-option class="ion-text-wrap" value="M">CAT C</ion-select-option>
+          <ion-select-option class="ion-text-wrap" value="H">CAT D</ion-select-option>
+          <ion-select-option class="ion-text-wrap" value="N">Have never been trained and familiarized in the vehicle that you will be driving</ion-select-option>
         </ion-select></ng-template>
         </ion-item>
         <div class="validation-errors">
@@ -102,10 +102,10 @@
         <ion-label *ngIf="mtracForm.get('vehicleType2').value=='H'||mtracForm.get('vehicleType2').value=='N'" color="danger"><strong>Vehicle Type</strong></ion-label>
         <ion-label *ngIf="mtracForm.get('vehicleType2').value=='M'" color="warning"><strong>Vehicle Type</strong></ion-label>
         <ion-label *ngIf="mtracForm.get('vehicleType2').value==''||mtracForm.get('vehicleType2').value=='L'"><strong>Vehicle Type</strong></ion-label>
-        <ion-select [ngStyle]="{'color': 'black'}"  formControlName="vehicleType2" interface="popover" text-wrap>
-          <ion-select-option text-wrap value="L">Same as last detail / Different (GP Car/Pickup)</ion-select-option>
-          <ion-select-option text-wrap value="M">Different (Class 3)</ion-select-option>
-          <ion-select-option text-wrap value="H">Different (Class 4 and above)</ion-select-option>
+        <ion-select [ngStyle]="{'color': 'black'}"  formControlName="vehicleType2" interface="popover" class="ion-text-wrap">
+          <ion-select-option class="ion-text-wrap" value="L">Same as last detail / Different (GP Car/Pickup)</ion-select-option>
+          <ion-select-option class="ion-text-wrap" value="M">Different (Class 3)</ion-select-option>
+          <ion-select-option class="ion-text-wrap" value="H">Different (Class 4 and above)</ion-select-option>
         </ion-select>
         </ion-item>
         <div class="validation-errors">
@@ -121,11 +121,11 @@
         <ion-label *ngIf="mtracForm.get('rest').value=='H'||mtracForm.get('rest').value=='N'" color="danger"><strong>Fatigue/Length of Rest</strong></ion-label>
         <ion-label *ngIf="mtracForm.get('rest').value=='M'" color="warning"><strong>Fatigue/Length of Rest</strong></ion-label>
         <ion-label *ngIf="mtracForm.get('rest').value==''||mtracForm.get('rest').value=='L'"><strong>Fatigue/Length of Rest</strong></ion-label>
-        <ion-select [ngStyle]="{'color': 'black'}" formControlName="rest" interface="popover" text-wrap>
-          <ion-select-option text-wrap value="L">More than 7 hours</ion-select-option>
-          <ion-select-option text-wrap value="M">Less than 7 hours (Camp/Home)</ion-select-option>
-          <ion-select-option text-wrap value="H">Less than 7 hours (Field)</ion-select-option>
-          <ion-select-option text-wrap value="N">Less than 4 hours (Field)</ion-select-option>
+        <ion-select [ngStyle]="{'color': 'black'}" formControlName="rest" interface="popover" class="ion-text-wrap">
+          <ion-select-option class="ion-text-wrap" value="L">More than 7 hours</ion-select-option>
+          <ion-select-option class="ion-text-wrap" value="M">Less than 7 hours (Camp/Home)</ion-select-option>
+          <ion-select-option class="ion-text-wrap" value="H">Less than 7 hours (Field)</ion-select-option>
+          <ion-select-option class="ion-text-wrap" value="N">Less than 4 hours (Field)</ion-select-option>
         </ion-select></ion-item>
         <div class="validation-errors">
           <ng-container *ngFor="let validation of validationMessages.rest">
@@ -140,10 +140,10 @@
         <ion-label *ngIf="mtracForm.get('health').value=='H'||mtracForm.get('health').value=='N'" color="danger"><strong>My Health</strong></ion-label>
         <ion-label *ngIf="mtracForm.get('health').value=='M'" color="warning"><strong>My Health</strong></ion-label>
         <ion-label *ngIf="mtracForm.get('health').value==''||mtracForm.get('health').value=='L'"><strong>My Health</strong></ion-label>
-        <ion-select [ngStyle]="{'color': 'black'}" formControlName="health" interface="popover" text-wrap>
-          <ion-select-option text-wrap value="L">Good</ion-select-option>
-          <ion-select-option text-wrap value="M">Fair (Just recovered from illness)</ion-select-option>
-          <ion-select-option text-wrap value="N">Poor (Ill or still under medication that causes drowsiness)</ion-select-option>
+        <ion-select [ngStyle]="{'color': 'black'}" formControlName="health" interface="popover" class="ion-text-wrap">
+          <ion-select-option class="ion-text-wrap" value="L">Good</ion-select-option>
+          <ion-select-option class="ion-text-wrap" value="M">Fair (Just recovered from illness)</ion-select-option>
+          <ion-select-option class="ion-text-wrap" value="N">Poor (Ill or still under medication that causes drowsiness)</ion-select-option>
         </ion-select></ion-item>
         <div class="validation-errors">
           <ng-container *ngFor="let validation of validationMessages.health">
@@ -163,10 +163,10 @@
         <ion-label *ngIf="mtracForm.get('weather').value=='H'||mtracForm.get('weather').value=='N'" color="danger"><strong>Weather</strong></ion-label>
         <ion-label *ngIf="mtracForm.get('weather').value=='M'" color="warning"><strong>Weather</strong></ion-label>
         <ion-label *ngIf="mtracForm.get('weather').value==''||mtracForm.get('weather').value=='L'"><strong>Weather</strong></ion-label>
-        <ion-select [ngStyle]="{'color': 'black'}" formControlName="weather" interface="popover" text-wrap>
-          <ion-select-option text-wrap value="L">Dry</ion-select-option>
-          <ion-select-option text-wrap value="M">Wet</ion-select-option>
-          <ion-select-option text-wrap value="H">Heavy showers</ion-select-option>
+        <ion-select [ngStyle]="{'color': 'black'}" formControlName="weather" interface="popover" class="ion-text-wrap">
+          <ion-select-option class="ion-text-wrap" value="L">Dry</ion-select-option>
+          <ion-select-option class="ion-text-wrap" value="M">Wet</ion-select-option>
+          <ion-select-option class="ion-text-wrap" value="H">Heavy showers</ion-select-option>
         </ion-select></ion-item>
         <div class="validation-errors">
           <ng-container *ngFor="let validation of validationMessages.weather">
@@ -181,10 +181,10 @@
         <ion-label *ngIf="mtracForm.get('route').value=='H'||mtracForm.get('route').value=='N'" color="danger"><strong>Route Familiarity</strong></ion-label>
         <ion-label *ngIf="mtracForm.get('route').value=='M'" color="warning"><strong>Route Familiarity</strong></ion-label>
         <ion-label *ngIf="mtracForm.get('route').value==''||mtracForm.get('route').value=='L'"><strong>Route Familiarity</strong></ion-label>
-        <ion-select [ngStyle]="{'color': 'black'}" formControlName="route" interface="popover" text-wrap>
-          <ion-select-option text-wrap value="L">Familiar</ion-select-option>
-          <ion-select-option text-wrap value="H">Not familiar even after route brief done</ion-select-option>
-          <ion-select-option text-wrap value="H">Not familiar as route brief is not done</ion-select-option>
+        <ion-select [ngStyle]="{'color': 'black'}" formControlName="route" interface="popover" class="ion-text-wrap">
+          <ion-select-option class="ion-text-wrap" value="L">Familiar</ion-select-option>
+          <ion-select-option class="ion-text-wrap" value="H">Not familiar even after route brief done</ion-select-option>
+          <ion-select-option class="ion-text-wrap" value="H">Not familiar as route brief is not done</ion-select-option>
         </ion-select></ion-item>
         <div class="validation-errors">
           <ng-container *ngFor="let validation of validationMessages.route">
@@ -204,10 +204,10 @@
         <ion-label *ngIf="mtracForm.get('detailType').value=='H'||mtracForm.get('detailType').value=='N'" color="danger"><strong>Detail Type</strong></ion-label>
         <ion-label *ngIf="mtracForm.get('detailType').value=='M'" color="warning"><strong>Detail Type</strong></ion-label>
         <ion-label *ngIf="mtracForm.get('detailType').value==''||mtracForm.get('detailType').value=='L'"><strong>Detail Type</strong></ion-label>
-        <ion-select [ngStyle]="{'color': 'black'}" formControlName="detailType" interface="popover" text-wrap>
-          <ion-select-option text-wrap value="L">Admin</ion-select-option>
-          <ion-select-option text-wrap value="M">Training/Operations(Including towing)</ion-select-option>
-          <ion-select-option text-wrap value="H">All administrative towing</ion-select-option>
+        <ion-select [ngStyle]="{'color': 'black'}" formControlName="detailType" interface="popover" class="ion-text-wrap">
+          <ion-select-option class="ion-text-wrap" value="L">Admin</ion-select-option>
+          <ion-select-option class="ion-text-wrap" value="M">Training/Operations(Including towing)</ion-select-option>
+          <ion-select-option class="ion-text-wrap" value="H">All administrative towing</ion-select-option>
         </ion-select></ion-item>
         <div class="validation-errors">
           <ng-container *ngFor="let validation of validationMessages.detailType">
@@ -225,9 +225,9 @@
     <ion-card-content>
       <ion-col><ion-item>
         <ion-label><strong>Vehicle Commander</strong></ion-label>
-        <ion-select [ngStyle]="{'color': 'black'}" formControlName="vc" interface="popover" (ionChange)="changedvc()" text-wrap>
-          <ion-select-option text-wrap value="With">With</ion-select-option>
-          <ion-select-option text-wrap value="Without">Without</ion-select-option>
+        <ion-select [ngStyle]="{'color': 'black'}" formControlName="vc" interface="popover" (ionChange)="changedvc()" class="ion-text-wrap">
+          <ion-select-option class="ion-text-wrap" value="With">With</ion-select-option>
+          <ion-select-option class="ion-text-wrap" value="Without">Without</ion-select-option>
         </ion-select></ion-item>
         <div class="validation-errors">
           <ng-container *ngFor="let validation of validationMessages.vc">
@@ -246,10 +246,10 @@
       <ion-col><ion-item>
         <ion-label *ngIf="mtracForm.get('vehicleServiceability').value=='H'||mtracForm.get('vehicleServiceability').value=='N'" color="danger"><strong>Vehicle Serviceability</strong></ion-label>
         <ion-label *ngIf="mtracForm.get('vehicleServiceability').value==''||mtracForm.get('vehicleServiceability').value=='L'"><strong>Vehicle Serviceability</strong></ion-label>
-        <ion-select [ngStyle]="{'color': 'black'}" formControlName="vehicleServiceability" interface="popover" text-wrap>
-          <ion-select-option text-wrap value="L">No fault</ion-select-option>
-          <ion-select-option text-wrap value="H">Minor fault</ion-select-option>
-          <ion-select-option text-wrap value="N">Major fault</ion-select-option>
+        <ion-select [ngStyle]="{'color': 'black'}" formControlName="vehicleServiceability" interface="popover" class="ion-text-wrap">
+          <ion-select-option class="ion-text-wrap" value="L">No fault</ion-select-option>
+          <ion-select-option class="ion-text-wrap" value="H">Minor fault</ion-select-option>
+          <ion-select-option class="ion-text-wrap" value="N">Major fault</ion-select-option>
         </ion-select></ion-item>
         <div class="validation-errors">
           <ng-container *ngFor="let validation of validationMessages.vehicleServiceability">
@@ -662,15 +662,15 @@
       <br>
       <label>Signature</label>
       <signature-pad #frontsig [options]="signaturePadOptions"></signature-pad>
-      <div *ngIf="this.mtrac == null" class="btn-wrapper">
+      <div *ngIf="getS()" class="btn-wrapper">
         <ion-button (click)='this.frontSignature.clear()'>Clear</ion-button>
       </div>
     </ion-card-content></ion-card>
 
     <ion-item>
-      <ion-label text-wrap>I acknowledge that I, {{this.database.current.user.name}}, have read through, understood, and checked through the MT Risk Assessment (MT-RAC) Checklist on {{getcdt()}}.</ion-label>
+      <ion-label class="ion-text-wrap">I acknowledge that I, {{this.database.current.user.name}}, have read through, understood, and checked through the MT Risk Assessment (MT-RAC) Checklist on {{getcdt()}}.</ion-label>
       <ion-checkbox *ngIf="this.driver == this.database.current.user.email" slot="start" formControlName="drivermtrac" name="drivermtrac" style="background: transparent;"></ion-checkbox>
-      <ion-checkbox *ngIf="this.commander == this.database.current.user.email" slot="start" formControlName="commandermtrac" name="commandermtrac" style="background: transparent;"></ion-checkbox>
+      <ion-checkbox *ngIf="this.commander == this.database.current.user.email" slot="start" formControlName="commandermtrac" name="commandermtrac" style="background: transparent;" [disabled]="!getcmdchecklistcomplete2() || !getoverallrisk() || !getpassengerchecklistcomplete()"></ion-checkbox>
     </ion-item>
 
     <div class="btn-wrapper">
@@ -681,7 +681,7 @@
     </div>
     <div *ngIf="this.commander == this.database.current.user.email">
       <ion-button (click)='onCancel()'>Cancel</ion-button>
-      <ion-button style="padding-right:10px" [disabled]="!getcmdchecklistcomplete() || getoverallrisk()==false " class="submit-btn" type="submit" (click)='onCancel()'>Acknowledge</ion-button>
+      <ion-button style="padding-right:10px" [disabled]="!getcmdchecklistcomplete() || !getoverallrisk() || !getpassengerchecklistcomplete()" class="submit-btn" type="submit" (click)='onCancel()'>Acknowledge</ion-button>
     </div>
     <div *ngIf="getcmdchecklistcomplete() && this.commander != this.database.current.user.email">
       <ion-button (click)='onCancel()'>Cancel</ion-button>

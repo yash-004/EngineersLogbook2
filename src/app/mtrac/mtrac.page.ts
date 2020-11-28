@@ -218,7 +218,7 @@ export class mtracPage implements OnInit {
         weather: new FormControl('', Validators.compose([Validators.required])),
         route: new FormControl('', Validators.compose([Validators.required])),
         detailType: new FormControl('', Validators.compose([Validators.required])),
-        vc: new FormControl(''),
+        vc: new FormControl('', Validators.compose([Validators.required])),
         vehicleServiceability: new FormControl('', Validators.compose([Validators.required])),
         incamp: new FormControl('', Validators.compose([Validators.required])),
         startLocation: new FormControl('', Validators.compose([Validators.required])),
@@ -368,9 +368,6 @@ export class mtracPage implements OnInit {
     this.mtracForm.get('accidentpsger').setValue(this.mtrac.accidentpsger);
     }
 
-
- 
-
   gettime() {
     var cd = new Date(); // for now
     var nmtmoringstart = new Date();
@@ -449,13 +446,14 @@ export class mtracPage implements OnInit {
     var route = this.mtracForm.get('route').value;
     var detailType = this.mtracForm.get('detailType').value;
     var vehicleServiceability = this.mtracForm.get('vehicleServiceability').value;
-    if (licenseType=="N" || health=="N" || vehicleServiceability=="N" || licenseType=="" || health=="" || vehicleServiceability=="") {
+    var vehicleCommander = this.mtracForm.get('vc').value;
+    if (licenseType=="N" || health=="N" || vehicleServiceability=="N" || licenseType=="" || health=="" || vehicleServiceability=="" || ((vehicleCommander=="" || vehicleCommander=="Without") && licenseType=="H")) {
         return false;
     }
-    else if (licenseType=="H" || vehicleType2=="H" || rest=="H" || health=="H" || weather=="H" || route=="H" || detailType=="H" || vehicleServiceability=="H") {
+    else if (licenseType=="H" || vehicleType2=="H" || rest=="H" || health=="H" || weather=="H" || route=="H" || detailType=="H" || vehicleServiceability=="H" || ((vehicleCommander=="" || vehicleCommander=="Without") && licenseType=="M")) {
         return "HIGH";
     }
-    else if (licenseType=="M" || vehicleType2=="M" || rest=="M" || health=="M" || weather=="M" || route=="M" || detailType=="M" || vehicleServiceability=="M") {
+    else if (licenseType=="M" || vehicleType2=="M" || rest=="M" || health=="M" || weather=="M" || route=="M" || detailType=="M" || vehicleServiceability=="M" || ((vehicleCommander=="" || vehicleCommander=="Without") && licenseType=="L")) {
         return "MEDIUM";
     }
     else if (licenseType=="L" || vehicleType2=="L" || rest=="L" || health=="L" || weather=="L" || route=="L" || detailType=="L" || vehicleServiceability=="L") {
@@ -516,15 +514,16 @@ export class mtracPage implements OnInit {
     }
     return true;
     }
-    getpassengerchecklistcomplete() {
-        if (this.mtracForm.get('psgerlicense').value == false ||
-            this.mtracForm.get('psgerspeedlimit').value == false ||
-            this.mtracForm.get('psgerdanger').value == false ||
-            this.mtracForm.get('accidentpsger').value == false)
-        {
-            return false;
-        }
-        return true;
+
+  getpassengerchecklistcomplete() {
+    if (this.mtracForm.get('psgerlicense').value == false ||
+      this.mtracForm.get('psgerspeedlimit').value == false ||
+      this.mtracForm.get('psgerdanger').value == false ||
+      this.mtracForm.get('accidentpsger').value == false)
+    {
+      return false;
+    }
+      return true;
     }
 
   async addmtrac(value) {

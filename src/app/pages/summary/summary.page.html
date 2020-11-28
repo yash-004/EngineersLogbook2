@@ -159,14 +159,53 @@
     <!--ion-card *ngFor="let trip of database.current.drive_history">
       <app-drive-view expandHeight='150px' [drive]="trip"></app-drive-view>
     </ion-card-->
-    <ion-card *ngFor="let message of getNotifications()" (click)="click(message.trip)" color="primary" class="ion-padding" button=true>
+<!--     <ion-card *ngFor="let message of getNotifications()" (click)="click(message.trip)" color="primary" class="ion-padding" button=true>
         
         <ion-card-title color='danger' class="ion-padding; card"><strong>{{message.subtitle}}</strong></ion-card-title>
 
         <ion-card-content class="ion-no-padding; card">{{message.text}}</ion-card-content>
        
+    </ion-card> -->
+
+    <ion-card *ngFor="let drive of getPendingDrives()" (click)="click(drive)" color="primary" class="ion-padding" button=true>
+
+        <ion-card-title color='danger' class="ion-padding; card"><strong>Awaiting Review (Drive)</strong></ion-card-title>
+    
+        <ion-card-content class="ion-no-padding; card">
+            Your <b>{{drive.distance}}</b> km drive, from <b>{{drive.start_location}}</b> <b>({{drive.start_time}})</b> to <b>{{drive.end_location}}</b> <b>({{drive.end_time}})</b> on <b>{{drive.date}}</b> is awaiting approval.
+        </ion-card-content>
+    
     </ion-card>
+
+    <ion-card *ngFor="let drive of getRejectedDrives()" (click)="click(drive)" color="primary" class="ion-padding" button=true>
+
+        <ion-card-title color='danger' class="ion-padding; card"><strong>Drive Rejected (Action Required)</strong></ion-card-title>
+    
+        <ion-card-content class="ion-no-padding; card">
+            Check the details on your <b>{{drive.distance}}</b> km drive, from <b>{{drive.start_location}}</b> <b>({{drive.start_time}})</b> to <b>{{drive.end_location}}</b> <b>({{drive.end_time}})</b> on <b>{{drive.date}}</b>.
+        </ion-card-content>
+    
+    </ion-card>
+
+    <ion-card *ngFor="let drive of getInProgressDrives()" (click)="click(drive)" color="primary" class="ion-padding" button=true>
+        <ion-card-title color='danger' class="ion-padding; card"><strong>Drive In Progress</strong></ion-card-title>
+    
+        <ion-card-content class="ion-no-padding; card">
+            Journey started from location <b>{{drive.start_location}}</b> at <b>{{drive.start_time}}</b> on <b>{{drive.date}}</b>.
+        </ion-card-content>
+    
+    </ion-card>
+
     <ion-card *ngFor="let form of getVerifiedMTRAC()" (click)="clickmtrac(form)" color="primary" class="ion-padding">
         <ion-card-title >Continue to add drive -->> </ion-card-title>
+    </ion-card>
+
+    <ion-card *ngFor="let form of getPendingMTRAC()" (click)="clickmtrac(form)" color="primary" class="ion-padding">
+        <ion-card-title color='danger' class="ion-padding; card"><strong>Awaiting Review (MT-RAC)</strong></ion-card-title>
+    
+        <ion-card-content class="ion-no-padding; card">
+            Your MT-RAC from <b>{{form.start_location}}</b> <b>({{form.start_time}})</b> to <b>{{form.end_location}}</b> <b>({{form.end_time}})</b> on <b>{{form.date}}</b> is awaiting approval.
+        </ion-card-content>
+    
     </ion-card>
 </ion-content>

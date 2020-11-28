@@ -674,7 +674,7 @@
     <ion-item>
       <ion-label class="ion-text-wrap">I acknowledge that I, {{this.database.current.user.name}}, have read through, understood, and checked through the MT Risk Assessment (MT-RAC) Checklist on {{getcdt()}}.</ion-label>
       <ion-checkbox *ngIf="this.driver == this.database.current.user.email" slot="start" formControlName="drivermtrac" name="drivermtrac" style="background: transparent;"></ion-checkbox>
-      <ion-checkbox *ngIf="this.commander == this.database.current.user.email" slot="start" formControlName="commandermtrac" name="commandermtrac" style="background: transparent;"></ion-checkbox>
+      <ion-checkbox *ngIf="this.commander == this.database.current.user.email" slot="start" formControlName="commandermtrac" name="commandermtrac" style="background: transparent;" [disabled]="!getcmdchecklistcomplete2() || !getoverallrisk() || !getpassengerchecklistcomplete()"></ion-checkbox>
     </ion-item>
 
   <div class="btn-wrapper">
@@ -685,7 +685,7 @@
     </div>
     <div *ngIf="this.commander == this.database.current.user.email">
       <ion-button (click)='onCancel()'>Cancel</ion-button>
-      <ion-button style="padding-right:10px" [disabled]="!getcmdchecklistcomplete() || getoverallrisk()==false " class="submit-btn" type="submit" (click)='onCancel()'>Acknowledge</ion-button>
+      <ion-button style="padding-right:10px" [disabled]="!getcmdchecklistcomplete() || !getoverallrisk() || !getpassengerchecklistcomplete()" class="submit-btn" type="submit" (click)='onCancel()'>Acknowledge</ion-button>
     </div>
     <div *ngIf="getcmdchecklistcomplete() && this.commander != this.database.current.user.email">
       <ion-button (click)='onCancel()'>Cancel</ion-button>

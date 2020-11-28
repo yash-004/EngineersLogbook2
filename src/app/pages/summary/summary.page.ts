@@ -180,6 +180,30 @@ export class SummaryPage implements OnInit {
     }
     return result;
   }
+
+  public getPendingDrives() : Drive[] {
+    return this.database.current.drive_history.filter( (drive) => { if (this.database.current.user.email === drive.driver) {
+      return drive.status === 'pending';}
+    });
+  }
+
+  public getInProgressDrives() : Drive[] {
+    return this.database.current.drive_history.filter( (drive) => { if (this.database.current.user.email === drive.driver) {
+      return drive.status === 'in-progress';}
+    });
+  }
+
+  public getRejectedDrives() : Drive[] {
+    return this.database.current.drive_history.filter( (drive) => { if (this.database.current.user.email === drive.driver) {
+      return drive.status === 'rejected';}
+    });
+  }
+
+  public getPendingMTRAC() : Mtrac[] {
+    return this.database.current.mtrac_history.filter( (form) => { if (this.database.current.user.email === form.driver) {
+      return form.status === 'pending';}
+    });
+  }
   
   public click(drive: Drive): void {
     this.database.current.drive_to_edit = drive;

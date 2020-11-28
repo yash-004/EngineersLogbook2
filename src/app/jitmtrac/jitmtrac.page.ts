@@ -168,15 +168,30 @@ export class jitmtracPage implements OnInit {
       }
     }
   }
+
   ionViewDidEnter(){
     // this.signaturePad is now available
     //this.counterSignature.clear(); // invoke functions from szimek/signature_pad API
     
     //disable signatures after first submission
-    if (this.mtrac != null){
+    if (this.mtrac != null && this.mtrac.status != "pending"){
       this.counterSignature.off();
-      this.frontSignature.off();
       this.counterSignature.fromData(this.convertArrayFromFirebase(this.mtrac.counterSignature))
+      this.frontSignature.off();
+      this.frontSignature.fromData(this.convertArrayFromFirebase(this.mtrac.frontSignature))
+    }
+    else if(this.mtrac != null && this.mtrac.status == "pending" && this.mtrac.commander == this.database.current.user.email){
+      this.counterSignature.off();
+      this.counterSignature.fromData(this.convertArrayFromFirebase(this.mtrac.counterSignature))
+    }
+    else if (this.mtrac == null) {
+      this.frontSignature.off();
+      this.frontSignature.fromData(this.convertArrayFromFirebase(this.mtrac.frontSignature))
+    }
+    else {
+      this.counterSignature.off();
+      this.counterSignature.fromData(this.convertArrayFromFirebase(this.mtrac.counterSignature))
+      this.frontSignature.off();
       this.frontSignature.fromData(this.convertArrayFromFirebase(this.mtrac.frontSignature))
     }
   }
@@ -192,7 +207,7 @@ export class jitmtracPage implements OnInit {
         weather: new FormControl('', Validators.compose([Validators.required])),
         route: new FormControl('', Validators.compose([Validators.required])),
         detailType: new FormControl('L', Validators.compose([Validators.required])),
-        vc: new FormControl(''),
+        vc: new FormControl('', Validators.compose([Validators.required])),
         vehicleServiceability: new FormControl('', Validators.compose([Validators.required])),
         incamp: new FormControl('true', Validators.compose([Validators.required])),
         startLocation: new FormControl('JIT', Validators.compose([Validators.required])),
@@ -214,8 +229,8 @@ export class jitmtracPage implements OnInit {
         mtraccompletecommander: new FormControl({value: false, disabled: true }),
         cmdchecklistcomplete: new FormControl({value: false, disabled: true }),
         commandermtrac: new FormControl({value: false, disabled: true }),
-          admincommander: new FormControl({ value: false, disabled: true }),
-          cmdroute: new FormControl({ value: false, disabled: true }),
+        admincommander: new FormControl({ value: false, disabled: true }),
+        cmdroute: new FormControl({ value: false, disabled: true }),
 
         seatbeltdriver: new FormControl(false, Validators.compose([Validators.requiredTrue])),
         safetystrapdriver: new FormControl(false),
@@ -226,10 +241,10 @@ export class jitmtracPage implements OnInit {
         drivermtrac: new FormControl(false, Validators.compose([Validators.requiredTrue])),
         admindriver: new FormControl(false, Validators.compose([Validators.requiredTrue])),
 
-          psgerlicense: new FormControl(false, Validators.compose([Validators.requiredTrue])),
-          psgerspeedlimit: new FormControl(false, Validators.compose([Validators.requiredTrue])),
-          psgerdanger: new FormControl(false, Validators.compose([Validators.requiredTrue])),
-          accidentpsger: new FormControl(false, Validators.compose([Validators.requiredTrue])),
+        psgerlicense: new FormControl({value: false, disabled: true }, Validators.compose([Validators.requiredTrue])),
+        psgerspeedlimit: new FormControl({value: false, disabled: true }, Validators.compose([Validators.requiredTrue])),
+        psgerdanger: new FormControl({value: false, disabled: true }, Validators.compose([Validators.requiredTrue])),
+        accidentpsger: new FormControl({value: false, disabled: true }, Validators.compose([Validators.requiredTrue])),
     });
     this.mtrac = this.database.current.mtrac_to_edit;
     if (this.mtrac != null)
@@ -254,6 +269,10 @@ export class jitmtracPage implements OnInit {
             this.mtracForm.get('commandermtrac').enable();
             this.mtracForm.get('admincommander').enable();
             this.mtracForm.get('cmdroute').enable();
+            this.mtracForm.get('psgerlicense').enable();
+            this.mtracForm.get('psgerspeedlimit').enable();
+            this.mtracForm.get('psgerdanger').enable();
+            this.mtracForm.get('accidentpsger').enable();
         }
         else if (this.database.current.user.email == this.mtrac.driver && this.mtrac.status === 'verified')
         {
@@ -267,52 +286,23 @@ export class jitmtracPage implements OnInit {
             this.setmtracDetails();
             this.mtracForm.disable();
         }
+      
     }
     else
     {
-        this.driver = this.database.current.user.email
+      this.driver = this.database.current.user.email;
+      this.mtracForm.get('frontName').disable();
     }
   }
 
-  changedvc() {
-    console.log(this.mtracForm.value.vc);
-    if (this.mtracForm.value.vc == "With"){
-      this.mtracForm.get('psgerlicense').disable();
-      this.mtracForm.get('psgerlicense').setValidators([]);
-      this.mtracForm.get('psgerlicense').setValue(false);
-      this.mtracForm.get('psgerspeedlimit').disable();
-      this.mtracForm.get('psgerspeedlimit').setValidators([]);
-      this.mtracForm.get('psgerspeedlimit').setValue(false);
-      this.mtracForm.get('psgerdanger').disable();
-      this.mtracForm.get('psgerdanger').setValidators([]);
-      this.mtracForm.get('psgerdanger').setValue(false);
-      this.mtracForm.get('accidentpsger').disable();
-      this.mtracForm.get('accidentpsger').setValidators([]);
-      this.mtracForm.get('accidentpsger').setValue(false);
-
-      this.mtracForm.get('frontName').disable();
-      this.mtracForm.get('frontName').setValue("");
-      this.mtracForm.get('frontName').setValidators([]);
-
-      this.frontSignature.clear()
-      this.frontSignature.off();
-
+  getS(){
+    if (this.mtrac == null) {
+      return false
     }
-    else{
-      this.mtracForm.get('psgerlicense').setValidators([Validators.requiredTrue]);
-      this.mtracForm.get('psgerlicense').enable();
-      this.mtracForm.get('psgerspeedlimit').setValidators([Validators.requiredTrue]);
-      this.mtracForm.get('psgerspeedlimit').enable();
-      this.mtracForm.get('psgerdanger').setValidators([Validators.requiredTrue]);
-      this.mtracForm.get('psgerdanger').enable();
-      this.mtracForm.get('accidentpsger').setValidators([Validators.requiredTrue]);
-      this.mtracForm.get('accidentpsger').enable();
-
-      this.mtracForm.get('frontName').setValidators([Validators.required]);
-      this.mtracForm.get('frontName').enable();
-
-      this.frontSignature.on();
+    if (this.mtrac.status == "pending") {
+      return true
     }
+    return false
   }
 
   setmtracDetails() {
@@ -348,8 +338,8 @@ export class jitmtracPage implements OnInit {
     this.mtracForm.get('accidentcommander').setValue(this.mtrac.accidentcommander);
     this.mtracForm.get('mtraccompletecommander').setValue(this.mtrac.mtraccompletecommander);
     this.mtracForm.get('cmdchecklistcomplete').setValue(this.mtrac.cmdchecklistcomplete);
-      this.mtracForm.get('admincommander').setValue(this.mtrac.admincommander);
-      this.mtracForm.get('cmdroute').setValue(this.mtrac.cmdroute);
+    this.mtracForm.get('admincommander').setValue(this.mtrac.admincommander);
+    this.mtracForm.get('cmdroute').setValue(this.mtrac.cmdroute);
 
     this.mtracForm.get('seatbeltdriver').setValue(this.mtrac.seatbeltdriver);
     this.mtracForm.get('safetystrapdriver').setValue(this.mtrac.safetystrapdriver);
@@ -365,10 +355,7 @@ export class jitmtracPage implements OnInit {
     this.mtracForm.get('psgerspeedlimit').setValue(this.mtrac.psgerspeedlimit);
     this.mtracForm.get('psgerdanger').setValue(this.mtrac.psgerdanger);
     this.mtracForm.get('accidentpsger').setValue(this.mtrac.accidentpsger);
-    }
-
-
- 
+  }
 
   gettime() {
     var cd = new Date(); // for now
@@ -396,7 +383,7 @@ export class jitmtracPage implements OnInit {
                 + cd.getFullYear() + " @ "
                 + this.timenow();
     return cdt
-    }
+  }
 
   timenow() {
     var ct = new Date(); // for now
@@ -448,13 +435,14 @@ export class jitmtracPage implements OnInit {
     var route = this.mtracForm.get('route').value;
     var detailType = this.mtracForm.get('detailType').value;
     var vehicleServiceability = this.mtracForm.get('vehicleServiceability').value;
-    if (licenseType=="N" || health=="N" || vehicleServiceability=="N" || licenseType=="" || health=="" || vehicleServiceability=="") {
+    var vehicleCommander = this.mtracForm.get('vc').value;
+    if (licenseType=="N" || health=="N" || vehicleServiceability=="N" || licenseType=="" || health=="" || vehicleServiceability=="" || ((vehicleCommander=="" || vehicleCommander=="Without") && licenseType=="H")) {
         return false;
     }
-    else if (licenseType=="H" || vehicleType2=="H" || rest=="H" || health=="H" || weather=="H" || route=="H" || detailType=="H" || vehicleServiceability=="H") {
+    else if (licenseType=="H" || vehicleType2=="H" || rest=="H" || health=="H" || weather=="H" || route=="H" || detailType=="H" || vehicleServiceability=="H" || ((vehicleCommander=="" || vehicleCommander=="Without") && licenseType=="M")) {
         return "HIGH";
     }
-    else if (licenseType=="M" || vehicleType2=="M" || rest=="M" || health=="M" || weather=="M" || route=="M" || detailType=="M" || vehicleServiceability=="M") {
+    else if (licenseType=="M" || vehicleType2=="M" || rest=="M" || health=="M" || weather=="M" || route=="M" || detailType=="M" || vehicleServiceability=="M" || ((vehicleCommander=="" || vehicleCommander=="Without") && licenseType=="L")) {
         return "MEDIUM";
     }
     else if (licenseType=="L" || vehicleType2=="L" || rest=="L" || health=="L" || weather=="L" || route=="L" || detailType=="L" || vehicleServiceability=="L") {
@@ -473,8 +461,8 @@ export class jitmtracPage implements OnInit {
     this.mtracForm.get('loadcommander').value == false ||
     this.mtracForm.get('accidentcommander').value == false ||
     this.mtracForm.get('mtraccompletecommander').value == false ||
-        this.mtracForm.get('cmdchecklistcomplete').value == false ||
-        this.mtracForm.get('admincommander').value == false ||
+    this.mtracForm.get('cmdchecklistcomplete').value == false ||
+    this.mtracForm.get('admincommander').value == false ||
     this.mtracForm.get('commandermtrac').value == false)
     {
     return false;
@@ -486,14 +474,14 @@ export class jitmtracPage implements OnInit {
     if (this.mtracForm.get('cmdlicense').value == false ||
     this.mtracForm.get('cmdspeedlimit').value == false ||
     this.mtracForm.get('cmddanger').value == false ||
-        this.mtracForm.get('cmdreverse').value == false ||
-        this.mtracForm.get('cmdroute').value == false ||
+    this.mtracForm.get('cmdreverse').value == false ||
+    this.mtracForm.get('cmdroute').value == false ||
     this.mtracForm.get('seatbeltcommander').value == false ||
     this.mtracForm.get('safetystrapcommander').value == false ||
     this.mtracForm.get('smokingcommander').value == false ||
     this.mtracForm.get('loadcommander').value == false ||
     this.mtracForm.get('accidentcommander').value == false ||
-        this.mtracForm.get('mtraccompletecommander').value == false ||
+    this.mtracForm.get('mtraccompletecommander').value == false ||
     this.mtracForm.get('cmdchecklistcomplete').value == false)
     {
     return false;
@@ -507,23 +495,24 @@ export class jitmtracPage implements OnInit {
     this.mtracForm.get('smokingdriver').value == false ||
     this.mtracForm.get('loaddriver').value == false ||
     this.mtracForm.get('accidentdriver').value == false ||
-        this.mtracForm.get('mtraccompletedriver').value == false ||
-        this.mtracForm.get('admindriver').value == false ||
+    this.mtracForm.get('mtraccompletedriver').value == false ||
+    this.mtracForm.get('admindriver').value == false ||
     this.mtracForm.get('drivermtrac').value == false )
     {
     return false;
     }
     return true;
     }
-    getpassengerchecklistcomplete() {
-        if (this.mtracForm.get('psgerlicense').value == false ||
-            this.mtracForm.get('psgerspeedlimit').value == false ||
-            this.mtracForm.get('psgerdanger').value == false ||
-            this.mtracForm.get('accidentpsger').value == false)
-        {
-            return false;
-        }
-        return true;
+
+  getpassengerchecklistcomplete() {
+    if (this.mtracForm.get('psgerlicense').value == false ||
+      this.mtracForm.get('psgerspeedlimit').value == false ||
+      this.mtracForm.get('psgerdanger').value == false ||
+      this.mtracForm.get('accidentpsger').value == false)
+    {
+      return false;
+    }
+      return true;
     }
 
   async addmtrac(value) {
@@ -557,7 +546,7 @@ export class jitmtracPage implements OnInit {
           
           safetyMeasures: this.mtracForm.value.safetyMeasures,
           counterName: this.mtracForm.value.counterName,
-          frontName: this.mtracForm.value.frontName,
+          frontName: this.mtracForm.value.commander,
 
           counterSignature: this.convertArrayForFirebase(this.counterSignature.toData()),
           frontSignature: this.convertArrayForFirebase(this.frontSignature.toData()),
@@ -587,10 +576,10 @@ export class jitmtracPage implements OnInit {
 
           admindriver: this.mtracForm.value.admindriver,
 
-          psgerlicense: this.mtracForm.value.psgerlicense,
-          psgerspeedlimit: this.mtracForm.value.psgerspeedlimit,
-          psgerdanger: this.mtracForm.value.psgerdanger,
-          accidentpsger: this.mtracForm.value.accidentpsger,
+          psgerlicense: false,
+          psgerspeedlimit: false,
+          psgerdanger: false,
+          accidentpsger: false,
         };
         let subAutoID = this.database.collection('mtrac').doc().id;
         new_mtrac.id = subAutoID
@@ -627,6 +616,11 @@ export class jitmtracPage implements OnInit {
         this.mtrac.cmdchecklistcomplete= this.mtracForm.get('cmdchecklistcomplete').value;
         this.mtrac.commandermtrac= this.mtracForm.get('commandermtrac').value;
         this.mtrac.admincommander= this.mtracForm.get('admincommander').value;
+        this.mtrac.psgerlicense= this.mtracForm.get('psgerlicense').value;
+        this.mtrac.psgerspeedlimit= this.mtracForm.get('psgerspeedlimit').value;
+        this.mtrac.psgerdanger= this.mtracForm.get('psgerdanger').value;
+        this.mtrac.accidentpsger= this.mtracForm.get('accidentpsger').value;
+        this.mtrac.frontSignature= this.convertArrayForFirebase(this.frontSignature.toData());
         // update status in database
         await this.database.write('mtrac', this.mtrac.id, this.mtrac);
         this.errorMessage = '';
