@@ -347,7 +347,6 @@ export class AddDrivePage implements OnInit {
       this.errorMessage = 'Drive cannot be updated... missing end drive information.';
       this.showToast(this.errorMessage);
       console.log(this.errorMessage);
-      return;
     }
     if (this.drive.commander != this.database.current.user.email)
     {try {
@@ -454,7 +453,7 @@ export class AddDrivePage implements OnInit {
   showToast(msg) {
     this.toastController.create({
       message: msg,
-      duration: 2000,
+      duration: 1800,
       //  showCloseButton: true,
       //  closeButtonText: 'OK',
       position: 'middle'

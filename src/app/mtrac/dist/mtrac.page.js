@@ -110,7 +110,6 @@ var mtracPage = /** @class */ (function () {
             ]
         };
         this.licenseTypes = [{ value: "L", text: "CAT A, B" }, { value: "M", text: "CAT C" }, { value: "H", text: "CAT D" }, { value: "N", text: "Have never been trained and familiarized in the vehicle that you will be driving" }];
-        this.wc = [{ value: "L", text: "N.A. / CAT A, B" }, { value: "M", text: "CAT C" }, { value: "N", text: "CAT D" }];
         this.checklistcmd = [
             { listID: 1, name: "To be responsible for the discipline and safety of all passengers/crew in the assigned transport detail." },
             { listID: 2, name: "To assist to look out for obstruction, hazard or danger. If the driver is reversing, there is no requirement for the vehiucle commander to guide the driver. However, VC should render assistance to the driver when requested." },
@@ -206,10 +205,24 @@ var mtracPage = /** @class */ (function () {
         // this.signaturePad is now available
         //this.counterSignature.clear(); // invoke functions from szimek/signature_pad API
         //disable signatures after first submission
-        if (this.mtrac != null) {
+        if (this.mtrac != null && this.mtrac.status != "pending") {
             this.counterSignature.off();
-            this.frontSignature.off();
             this.counterSignature.fromData(this.convertArrayFromFirebase(this.mtrac.counterSignature));
+            this.frontSignature.off();
+            this.frontSignature.fromData(this.convertArrayFromFirebase(this.mtrac.frontSignature));
+        }
+        else if (this.mtrac != null && this.mtrac.status == "pending" && this.mtrac.commander == this.database.current.user.email) {
+            this.counterSignature.off();
+            this.counterSignature.fromData(this.convertArrayFromFirebase(this.mtrac.counterSignature));
+        }
+        else if (this.mtrac == null) {
+            this.frontSignature.off();
+            this.frontSignature.fromData(this.convertArrayFromFirebase(this.mtrac.frontSignature));
+        }
+        else {
+            this.counterSignature.off();
+            this.counterSignature.fromData(this.convertArrayFromFirebase(this.mtrac.counterSignature));
+            this.frontSignature.off();
             this.frontSignature.fromData(this.convertArrayFromFirebase(this.mtrac.frontSignature));
         }
     };
@@ -255,10 +268,10 @@ var mtracPage = /** @class */ (function () {
             mtraccompletedriver: new forms_1.FormControl(false, forms_1.Validators.compose([forms_1.Validators.requiredTrue])),
             drivermtrac: new forms_1.FormControl(false, forms_1.Validators.compose([forms_1.Validators.requiredTrue])),
             admindriver: new forms_1.FormControl(false, forms_1.Validators.compose([forms_1.Validators.requiredTrue])),
-            psgerlicense: new forms_1.FormControl(false, forms_1.Validators.compose([forms_1.Validators.requiredTrue])),
-            psgerspeedlimit: new forms_1.FormControl(false, forms_1.Validators.compose([forms_1.Validators.requiredTrue])),
-            psgerdanger: new forms_1.FormControl(false, forms_1.Validators.compose([forms_1.Validators.requiredTrue])),
-            accidentpsger: new forms_1.FormControl(false, forms_1.Validators.compose([forms_1.Validators.requiredTrue]))
+            psgerlicense: new forms_1.FormControl({ value: false, disabled: true }, forms_1.Validators.compose([forms_1.Validators.requiredTrue])),
+            psgerspeedlimit: new forms_1.FormControl({ value: false, disabled: true }, forms_1.Validators.compose([forms_1.Validators.requiredTrue])),
+            psgerdanger: new forms_1.FormControl({ value: false, disabled: true }, forms_1.Validators.compose([forms_1.Validators.requiredTrue])),
+            accidentpsger: new forms_1.FormControl({ value: false, disabled: true }, forms_1.Validators.compose([forms_1.Validators.requiredTrue]))
         });
         this.mtrac = this.database.current.mtrac_to_edit;
         if (this.mtrac != null) {
@@ -280,6 +293,10 @@ var mtracPage = /** @class */ (function () {
                 this.mtracForm.get('commandermtrac').enable();
                 this.mtracForm.get('admincommander').enable();
                 this.mtracForm.get('cmdroute').enable();
+                this.mtracForm.get('psgerlicense').enable();
+                this.mtracForm.get('psgerspeedlimit').enable();
+                this.mtracForm.get('psgerdanger').enable();
+                this.mtracForm.get('accidentpsger').enable();
             }
             else if (this.database.current.user.email == this.mtrac.driver && this.mtrac.status === 'verified') {
                 this.driver = this.mtrac.driver;
@@ -294,7 +311,17 @@ var mtracPage = /** @class */ (function () {
         }
         else {
             this.driver = this.database.current.user.email;
+            this.mtracForm.get('frontName').disable();
         }
+    };
+    mtracPage.prototype.getS = function () {
+        if (this.mtrac == null) {
+            return false;
+        }
+        if (this.mtrac.status == "pending") {
+            return true;
+        }
+        return false;
     };
     mtracPage.prototype.setmtracDetails = function () {
         // Stage-1 details
@@ -415,18 +442,17 @@ var mtracPage = /** @class */ (function () {
         var weather = this.mtracForm.get('weather').value;
         var route = this.mtracForm.get('route').value;
         var detailType = this.mtracForm.get('detailType').value;
-        var vc = this.mtracForm.get('vc').value;
         var vehicleServiceability = this.mtracForm.get('vehicleServiceability').value;
-        if (licenseType == "N" || health == "N" || vc == "N" || vehicleServiceability == "N" || licenseType == "" || health == "" || vehicleServiceability == "") {
+        if (licenseType == "N" || health == "N" || vehicleServiceability == "N" || licenseType == "" || health == "" || vehicleServiceability == "") {
             return false;
         }
-        else if (licenseType == "H" || vehicleType2 == "H" || rest == "H" || health == "H" || weather == "H" || route == "H" || detailType == "H" || vc == "H" || vehicleServiceability == "H") {
+        else if (licenseType == "H" || vehicleType2 == "H" || rest == "H" || health == "H" || weather == "H" || route == "H" || detailType == "H" || vehicleServiceability == "H") {
             return "HIGH";
         }
-        else if (licenseType == "M" || vehicleType2 == "M" || rest == "M" || health == "M" || weather == "M" || route == "M" || detailType == "M" || vc == "M" || vehicleServiceability == "M") {
+        else if (licenseType == "M" || vehicleType2 == "M" || rest == "M" || health == "M" || weather == "M" || route == "M" || detailType == "M" || vehicleServiceability == "M") {
             return "MEDIUM";
         }
-        else if (licenseType == "L" || vehicleType2 == "L" || rest == "L" || health == "L" || weather == "L" || route == "L" || detailType == "L" || vc == "L" || vehicleServiceability == "L") {
+        else if (licenseType == "L" || vehicleType2 == "L" || rest == "L" || health == "L" || weather == "L" || route == "L" || detailType == "L" || vehicleServiceability == "L") {
             return "LOW";
         }
     };
@@ -522,7 +548,7 @@ var mtracPage = /** @class */ (function () {
                             incamp: this.mtracForm.value.incamp,
                             safetyMeasures: this.mtracForm.value.safetyMeasures,
                             counterName: this.mtracForm.value.counterName,
-                            frontName: this.mtracForm.value.frontName,
+                            frontName: this.mtracForm.value.commander,
                             counterSignature: this.convertArrayForFirebase(this.counterSignature.toData()),
                             frontSignature: this.convertArrayForFirebase(this.frontSignature.toData()),
                             cmdlicense: false,
@@ -547,10 +573,10 @@ var mtracPage = /** @class */ (function () {
                             drivermtrac: this.mtracForm.value.drivermtrac,
                             commandermtrac: false,
                             admindriver: this.mtracForm.value.admindriver,
-                            psgerlicense: this.mtracForm.value.psgerlicense,
-                            psgerspeedlimit: this.mtracForm.value.psgerspeedlimit,
-                            psgerdanger: this.mtracForm.value.psgerdanger,
-                            accidentpsger: this.mtracForm.value.accidentpsger
+                            psgerlicense: false,
+                            psgerspeedlimit: false,
+                            psgerdanger: false,
+                            accidentpsger: false
                         };
                         subAutoID = this.database.collection('mtrac').doc().id;
                         new_mtrac.id = subAutoID;
@@ -589,6 +615,11 @@ var mtracPage = /** @class */ (function () {
                         this.mtrac.cmdchecklistcomplete = this.mtracForm.get('cmdchecklistcomplete').value;
                         this.mtrac.commandermtrac = this.mtracForm.get('commandermtrac').value;
                         this.mtrac.admincommander = this.mtracForm.get('admincommander').value;
+                        this.mtrac.psgerlicense = this.mtracForm.get('psgerlicense').value;
+                        this.mtrac.psgerspeedlimit = this.mtracForm.get('psgerspeedlimit').value;
+                        this.mtrac.psgerdanger = this.mtracForm.get('psgerdanger').value;
+                        this.mtrac.accidentpsger = this.mtracForm.get('accidentpsger').value;
+                        this.mtrac.frontSignature = this.convertArrayForFirebase(this.frontSignature.toData());
                         // update status in database
                         return [4 /*yield*/, this.database.write('mtrac', this.mtrac.id, this.mtrac)];
                     case 6:

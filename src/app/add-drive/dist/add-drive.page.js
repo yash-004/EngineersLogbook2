@@ -354,7 +354,6 @@ var AddDrivePage = /** @class */ (function () {
                             this.errorMessage = 'Drive cannot be updated... missing end drive information.';
                             this.showToast(this.errorMessage);
                             console.log(this.errorMessage);
-                            return [2 /*return*/];
                         }
                         if (!(this.drive.commander != this.database.current.user.email)) return [3 /*break*/, 4];
                         _a.label = 1;
@@ -479,7 +478,7 @@ var AddDrivePage = /** @class */ (function () {
     AddDrivePage.prototype.showToast = function (msg) {
         this.toastController.create({
             message: msg,
-            duration: 2000,
+            duration: 1800,
             //  showCloseButton: true,
             //  closeButtonText: 'OK',
             position: 'middle'

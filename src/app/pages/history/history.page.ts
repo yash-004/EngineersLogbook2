@@ -26,15 +26,6 @@ export class HistoryPage implements OnInit {
 
   ngOnInit() {
     this.buildChart();
-    let watch = this.geolocation.watchPosition();
-    watch.subscribe((data) => {
-      if ( ( parseFloat(data.coords.latitude.toFixed(9)), parseFloat(data.coords.longitude.toFixed(9)) ) != (this.database.current.user.location.lat, this.database.current.user.location.lng) )
-      { this.database.current.user.location = {lat: parseFloat(data.coords.latitude.toFixed(9)),lng: parseFloat(data.coords.longitude.toFixed(9))};
-        console.log(this.database.current.user.location);
-        console.log("write");
-        this.database.write('user', this.database.current.user.email, this.database.current.user);
-      }
-    });
   }
 
   public getMileage() {

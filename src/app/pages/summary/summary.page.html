@@ -159,16 +159,14 @@
     <!--ion-card *ngFor="let trip of database.current.drive_history">
       <app-drive-view expandHeight='150px' [drive]="trip"></app-drive-view>
     </ion-card-->
+    <ion-card *ngFor="let message of getNotifications()" (click)="click(message.trip)" color="primary" class="ion-padding" button=true>
+        
+        <ion-card-title color='danger' class="ion-padding; card"><strong>{{message.subtitle}}</strong></ion-card-title>
 
-    <ion-card *ngFor="let message of getNotifications()" (click)="click(message.trip)" color="primary" class="ion-padding">
-    
-        <ion-card-title color='danger'><strong>{{message.subtitle}}</strong></ion-card-title>
-
-        <ion-card-content class="ion-no-padding">{{message.text}}</ion-card-content>
-
+        <ion-card-content class="ion-no-padding; card">{{message.text}}</ion-card-content>
+       
     </ion-card>
     <ion-card *ngFor="let form of getVerifiedMTRAC()" (click)="clickmtrac(form)" color="primary" class="ion-padding">
         <ion-card-title >Continue to add drive -->> </ion-card-title>
     </ion-card>
-
 </ion-content>

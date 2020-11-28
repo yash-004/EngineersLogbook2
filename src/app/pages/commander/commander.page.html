@@ -14,11 +14,11 @@
   <!-- Notifications -->
   <ion-item class="headers" class="ion-text-center"><ion-label style="margin-bottom: 0;"><h1> Notifications </h1></ion-label></ion-item>
 
-  <ion-card *ngFor="let drive of getPendingDrives()" (click)="click(drive)" color="primary" padding>
+  <ion-card *ngFor="let drive of getPendingDrives()" (click)="click(drive)" color="primary" class="ion-padding" button=true>
 
-    <ion-card-title color='danger'><strong>Pending review</strong></ion-card-title>
+    <ion-card-title color='danger' class="ion-padding; card"><strong>Pending review</strong></ion-card-title>
 
-    <ion-card-content class="ion-no-padding">
+    <ion-card-content class="ion-no-padding; card">
       Your drive on <b>{{drive.date}}</b> with <b>{{getDriverName(drive.driver)}}</b>  from
       <b>{{drive.start_location}}</b> (<b>{{drive.start_time}}</b>) to 
       <b>{{drive.end_location}}</b> (<b>{{drive.end_time}}</b>)
@@ -26,9 +26,9 @@
     </ion-card-content>
 
   </ion-card>
-  <ion-card *ngFor="let form of getPendingMTRAC()"  (click)="clickmtrac(form)" color="primary" padding>
-    <ion-card-title>Complete MT-RAC</ion-card-title>
-    <ion-card-content class="ion-no-padding">
+  <ion-card *ngFor="let form of getPendingMTRAC()"  (click)="clickmtrac(form)" color="primary" class="ion-padding">
+    <ion-card-title class="ion-padding; card">MT-RAC</ion-card-title>
+    <ion-card-content class="ion-padding; card">
       Your MTRAC on <b>{{form.created}}</b> with <b>{{getDriverName(form.driver)}} ({{form.vehicleNumber}})</b>
       is pending review.
     </ion-card-content>
@@ -45,7 +45,7 @@
         <ion-label position="stacked">Driver</ion-label>
         <ion-select id="driverlist" interface="popover" class="full-width-select" value="ALL">
           <ion-select-option value="ALL">ALL</ion-select-option>
-          <ion-select-option text-wrap *ngFor="let driver of database.current.all_drivers_of_commander" value={{driver.email}} class="custom-font-size">{{driver.email}}</ion-select-option>
+          <ion-select-option class="ion-text-wrap" *ngFor="let driver of database.current.all_drivers_of_commander" value={{driver.email}} class="custom-font-size">{{driver.email}}</ion-select-option>
         </ion-select>
       </ion-item>
     </ion-list>

@@ -228,9 +228,9 @@
     <ion-card-content>
       <ion-col><ion-item>
         <ion-label><strong>Vehicle Commander</strong></ion-label>
-        <ion-select [ngStyle]="{'color': 'black'}" formControlName="vc" interface="popover" (ionChange)="changedvc()"text-wrap>
-          <ion-select-option text-wrap value="With">With</ion-select-option>
-          <ion-select-option text-wrap value="Without">Without</ion-select-option>
+        <ion-select [ngStyle]="{'color': 'black'}" formControlName="vc" interface="popover" class="ion-text-wrap">
+          <ion-select-option class="ion-text-wrap" value="With">With</ion-select-option>
+          <ion-select-option class="ion-text-wrap" value="Without">Without</ion-select-option>
         </ion-select></ion-item>
         <div class="validation-errors">
           <ng-container *ngFor="let validation of validationMessages.vc">
@@ -654,7 +654,7 @@
     </ion-card-content></ion-card>
 
   <ion-card>
-    <ion-card-title class="ion-text-center">FRONT PASSENGER</ion-card-title>
+    <ion-card-title class="ion-text-center">FRONT PASSENGER / VEHICLE COMMANDER</ion-card-title>
     <ion-card-content class="ion-text-center">
       <ion-col>
         <ion-item>
@@ -665,7 +665,7 @@
       <br>
       <label>Signature</label>
       <signature-pad style="height: 100%; display: flex; align-items: center; justify-content: center;" #frontsig [options]="signaturePadOptions"></signature-pad>
-      <div *ngIf="this.mtrac == null" class="btn-wrapper">
+      <div *ngIf="getS()" class="btn-wrapper">
         <ion-button (click)='this.frontSignature.clear()'>Clear</ion-button>
       </div>
     </ion-card-content></ion-card>
