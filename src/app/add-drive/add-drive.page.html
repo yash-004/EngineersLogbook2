@@ -229,12 +229,12 @@
 
     <div class="btn-wrapper">
       <div *ngIf = showSubmit()>
-        <ion-button *ngIf = this.database.current.user.is_commander routerLink="/tabs/commander">Cancel</ion-button>
-        <ion-button *ngIf = !this.database.current.user.is_commander routerLink="/tabs/summary">Cancel</ion-button>
         <ion-button *ngIf = this.database.current.user.is_commander class="submit-btn" color="danger" (click)="reject()" type="submit" routerLink="/tabs/commander" [disabled]="!addDriveForm.valid ">Reject Drive
         </ion-button>           
         <ion-button *ngIf = this.database.current.user.is_commander class="submit-btn" color="success" (click)="accept()" type="submit" routerLink="/tabs/commander" [disabled]="!addDriveForm.valid " style="padding-right:10px">Verify Drive
         </ion-button>
+        <ion-button *ngIf = !this.database.current.user.is_commander routerLink="/tabs/summary">Cancel</ion-button>
+        <ion-button *ngIf = this.database.current.user.is_commander routerLink="/tabs/commander">Cancel</ion-button>
         <ion-button *ngIf = "!this.database.current.user.is_commander&&this.drive==null" class="submit-btn" type="submit" routerLink="/tabs/summary" [disabled]="!addDriveForm.valid" style="padding-right:10px">
           Submit 
         </ion-button>

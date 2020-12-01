@@ -228,7 +228,7 @@
     <ion-card-content>
       <ion-col><ion-item>
         <ion-label><strong>Vehicle Commander</strong></ion-label>
-        <ion-select [ngStyle]="{'color': 'black'}" formControlName="vc" interface="popover" (ionChange)="changedvc()" class="ion-text-wrap">
+        <ion-select formControlName="vc" interface="popover" (ionChange)="changedvc()" class="ion-text-wrap">
           <ion-select-option class="ion-text-wrap" value="With">With</ion-select-option>
           <ion-select-option class="ion-text-wrap" value="Without">Without</ion-select-option>
         </ion-select></ion-item>
@@ -659,13 +659,13 @@
       <ion-col>
         <ion-item>
           <ion-label  position="floating" >Rank & Name</ion-label>
-          <ion-input  type="text" onkeyup="this.value = this.value.toUpperCase()" formControlName="frontName" placeholder="Passenger"></ion-input>
+          <ion-input type="text" onkeyup="this.value = this.value.toUpperCase()" formControlName="frontName" placeholder="Vehicle Commander / Passenger"></ion-input>
         </ion-item>
       </ion-col>
       <br>
       <label>Signature</label>
       <signature-pad style="height: 100%; display: flex; align-items: center; justify-content: center;" #frontsig [options]="signaturePadOptions"></signature-pad>
-      <div *ngIf="getS()" class="btn-wrapper">
+      <div *ngIf="changedvc()" class="btn-wrapper">
         <ion-button (click)='this.frontSignature.clear()'>Clear</ion-button>
       </div>
     </ion-card-content></ion-card>
@@ -673,23 +673,23 @@
 
     <ion-item>
       <ion-label class="ion-text-wrap">I acknowledge that I, {{this.database.current.user.name}}, have read through, understood, and checked through the MT Risk Assessment (MT-RAC) Checklist on {{getcdt()}}.</ion-label>
-      <ion-checkbox *ngIf="this.driver == this.database.current.user.email" slot="start" formControlName="drivermtrac" name="drivermtrac" style="background: transparent;"></ion-checkbox>
-      <ion-checkbox *ngIf="this.commander == this.database.current.user.email" slot="start" formControlName="commandermtrac" name="commandermtrac" style="background: transparent;" [disabled]="!getcmdchecklistcomplete2() || !getoverallrisk() || !getpassengerchecklistcomplete()"></ion-checkbox>
+      <ion-checkbox *ngIf="this.driver == this.database.current.user.email" slot="start" formControlName="drivermtrac" name="drivermtrac" style="background: transparent;" [disabled]="!getdriverchecklistcomplete2() || !getoverallrisk()"></ion-checkbox>
+      <ion-checkbox *ngIf="this.commander == this.database.current.user.email" slot="start" formControlName="commandermtrac" name="commandermtrac" style="background: transparent;" [disabled]="!getcmdchecklistcomplete2() || !getoverallrisk()"></ion-checkbox>
     </ion-item>
 
   <div class="btn-wrapper">
     <div *ngIf="mtracForm.get('drivermtrac').value && !mtracForm.get('commandermtrac').value && this.commander != this.database.current.user.email">
       <ion-button (click)='onCancel()'>Cancel</ion-button>
-      <ion-button *ngIf="!this.database.current.user.is_commander" style="padding-right:10px" class="submit-btn" type="submit" [disabled]="!mtracForm.valid || getoverallrisk()==false" routerLink="/tabs/summary">Submit</ion-button>
-      <ion-button *ngIf="this.database.current.user.is_commander" style="padding-right:10px" class="submit-btn" type="submit" [disabled]="!mtracForm.valid || getoverallrisk()==false" routerLink="/tabs/commander">Submit</ion-button>
+      <ion-button *ngIf="!this.database.current.user.is_commander" style="padding-right:10px" class="submit-btn" type="submit" [disabled]="!mtracForm.valid || !getoverallrisk()" routerLink="/tabs/summary">Submit</ion-button>
+      <ion-button *ngIf="this.database.current.user.is_commander" style="padding-right:10px" class="submit-btn" type="submit" [disabled]="!mtracForm.valid || !getoverallrisk()" routerLink="/tabs/commander">Submit</ion-button>
     </div>
     <div *ngIf="this.commander == this.database.current.user.email">
       <ion-button (click)='onCancel()'>Cancel</ion-button>
-      <ion-button style="padding-right:10px" [disabled]="!getcmdchecklistcomplete() || !getoverallrisk() || !getpassengerchecklistcomplete()" class="submit-btn" type="submit" (click)='onCancel()'>Acknowledge</ion-button>
+      <ion-button style="padding-right:10px" [disabled]="!getcmdchecklistcomplete() || !getoverallrisk()" class="submit-btn" type="submit" (click)='onCancel()'>Acknowledge</ion-button>
     </div>
     <div *ngIf="getcmdchecklistcomplete() && this.commander != this.database.current.user.email">
       <ion-button (click)='onCancel()'>Cancel</ion-button>
-      <ion-button style="padding-right:10px" routerLink="/add-drive" class="submit-btn" type="submit">Continue</ion-button>
+      <ion-button style="padding-right:10px" routerLink="/add-drive" class="submit-btn"s type="submit">Continue</ion-button>
     </div>
     <div *ngIf="!mtracForm.get('drivermtrac').value">
       <ion-button (click)='onCancel()'>Cancel</ion-button>

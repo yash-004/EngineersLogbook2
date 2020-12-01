@@ -172,7 +172,7 @@
         <ion-card-title color='danger' class="ion-padding; card"><strong>Awaiting Review (Drive)</strong></ion-card-title>
     
         <ion-card-content class="ion-no-padding; card">
-            Your <b>{{drive.distance}}</b> km drive, from <b>{{drive.start_location}}</b> <b>({{drive.start_time}})</b> to <b>{{drive.end_location}}</b> <b>({{drive.end_time}})</b> on <b>{{drive.date}}</b> is awaiting approval.
+            Your <b>{{drive.end_odometer-drive.start_odometer}}</b> km drive, from <b>{{drive.start_location}}</b> <b>({{drive.start_time}})</b> to <b>{{drive.end_location}}</b> <b>({{drive.end_time}})</b> on <b>{{drive.date}}</b> is awaiting approval.
         </ion-card-content>
     
     </ion-card>
@@ -182,7 +182,7 @@
         <ion-card-title color='danger' class="ion-padding; card"><strong>Drive Rejected (Action Required)</strong></ion-card-title>
     
         <ion-card-content class="ion-no-padding; card">
-            Check the details on your <b>{{drive.distance}}</b> km drive, from <b>{{drive.start_location}}</b> <b>({{drive.start_time}})</b> to <b>{{drive.end_location}}</b> <b>({{drive.end_time}})</b> on <b>{{drive.date}}</b>.
+            Check the details on your <b>{{drive.end_odometer-drive.start_odometer}}</b> km drive, from <b>{{drive.start_location}}</b> <b>({{drive.start_time}})</b> to <b>{{drive.end_location}}</b> <b>({{drive.end_time}})</b> on <b>{{drive.date}}</b>.
         </ion-card-content>
     
     </ion-card>
@@ -204,7 +204,7 @@
         <ion-card-title color='danger' class="ion-padding; card"><strong>Awaiting Review (MT-RAC)</strong></ion-card-title>
     
         <ion-card-content class="ion-no-padding; card">
-            Your MT-RAC from <b>{{form.start_location}}</b> <b>({{form.start_time}})</b> to <b>{{form.end_location}}</b> <b>({{form.end_time}})</b> on <b>{{form.date}}</b> is awaiting approval.
+            Your MT-RAC from <b>{{form.startLocation}}</b> to <b>{{form.endLocation}}</b> on <b>{{form.created}}</b> is awaiting approval.
         </ion-card-content>
     
     </ion-card>

@@ -147,7 +147,7 @@ export class SummaryPage implements OnInit {
     });
     }
 
-  public getNotifications() {
+/*   public getNotifications() {
 
     var result: Array<any> = [];
     for (let trip of this.database.current.drive_history) {
@@ -179,7 +179,7 @@ export class SummaryPage implements OnInit {
       }
     }
     return result;
-  }
+  } */
 
   public getPendingDrives() : Drive[] {
     return this.database.current.drive_history.filter( (drive) => { if (this.database.current.user.email === drive.driver) {
