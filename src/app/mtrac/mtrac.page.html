@@ -228,7 +228,7 @@
     <ion-card-content>
       <ion-col><ion-item>
         <ion-label><strong>Vehicle Commander</strong></ion-label>
-        <ion-select [ngStyle]="{'color': 'black'}" formControlName="vc" interface="popover" class="ion-text-wrap">
+        <ion-select [ngStyle]="{'color': 'black'}" formControlName="vc" interface="popover" (ionChange)="changedvc()" class="ion-text-wrap">
           <ion-select-option class="ion-text-wrap" value="With">With</ion-select-option>
           <ion-select-option class="ion-text-wrap" value="Without">Without</ion-select-option>
         </ion-select></ion-item>

@@ -305,6 +305,47 @@ export class jitmtracPage implements OnInit {
     return false
   }
 
+  changedvc() {
+    console.log(this.mtracForm.value.vc);
+    if (this.mtracForm.value.vc == "With"){
+      this.mtracForm.get('psgerlicense').disable();
+      this.mtracForm.get('psgerlicense').setValidators([]);
+      this.mtracForm.get('psgerlicense').setValue(false);
+      this.mtracForm.get('psgerspeedlimit').disable();
+      this.mtracForm.get('psgerspeedlimit').setValidators([]);
+      this.mtracForm.get('psgerspeedlimit').setValue(false);
+      this.mtracForm.get('psgerdanger').disable();
+      this.mtracForm.get('psgerdanger').setValidators([]);
+      this.mtracForm.get('psgerdanger').setValue(false);
+      this.mtracForm.get('accidentpsger').disable();
+      this.mtracForm.get('accidentpsger').setValidators([]);
+      this.mtracForm.get('accidentpsger').setValue(false);
+
+      this.mtracForm.get('frontName').disable();
+      this.mtracForm.get('frontName').setValue("");
+      this.mtracForm.get('frontName').setValidators([]);
+
+      this.frontSignature.clear()
+      this.frontSignature.off();
+
+    }
+    else{
+      this.mtracForm.get('psgerlicense').setValidators([Validators.requiredTrue]);
+      this.mtracForm.get('psgerlicense').enable();
+      this.mtracForm.get('psgerspeedlimit').setValidators([Validators.requiredTrue]);
+      this.mtracForm.get('psgerspeedlimit').enable();
+      this.mtracForm.get('psgerdanger').setValidators([Validators.requiredTrue]);
+      this.mtracForm.get('psgerdanger').enable();
+      this.mtracForm.get('accidentpsger').setValidators([Validators.requiredTrue]);
+      this.mtracForm.get('accidentpsger').enable();
+
+      this.mtracForm.get('frontName').setValidators([Validators.required]);
+      this.mtracForm.get('frontName').enable();
+
+      this.frontSignature.on();
+    }
+  }
+
   setmtracDetails() {
     // Stage-1 details
     // populate values of start mtrac fields
