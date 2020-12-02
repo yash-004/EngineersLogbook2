@@ -42,25 +42,25 @@ export class jitmtracPage implements OnInit {
     vehicleType: [
         { type: 'required', message: 'Select a type of vehicle' },],
     licenseType: [
-        { type: 'required', message: 'choose license type' },],
+        { type: 'required', message: 'Choose license type' },],
     rest: [
-        { type: 'required', message: 'choose rest' },],
+        { type: 'required', message: 'Choose rest' },],
     health: [
-        { type: 'required', message: 'choose health' },],
+        { type: 'required', message: 'Choose health' },],
     weather: [
-        { type: 'required', message: 'choose weather' },],
+        { type: 'required', message: 'Choose weather' },],
     route: [
-        { type: 'required', message: 'choose route' },],
+        { type: 'required', message: 'Choose route' },],
     detailType: [
-        { type: 'required', message: 'choose detail type' },],
+        { type: 'required', message: 'Choose detail type' },],
     vehicleServiceability: [
-        { type: 'required', message: 'choose vehicle serviceability' },],
+        { type: 'required', message: 'Choose vehicle serviceability' },],
     startLocation: [
-        { type: 'required', message: 'enter start location' },],
+        { type: 'required', message: 'Enter start location' },],
     endLocation: [
-        { type: 'required', message: 'enter end location' },],
+        { type: 'required', message: 'Enter end location' },],
     incamp: [
-        { type: 'required', message: 'select drive area' },],
+        { type: 'required', message: 'Select drive area' },],
     counterName: [
         { type: 'required', message: 'Enter a countersigning officer' },],
 };
@@ -74,7 +74,8 @@ export class jitmtracPage implements OnInit {
     public toastController: ToastController,
     public database: DatabaseService,
     public route: ActivatedRoute
-  ) {
+  ) 
+  {
       // Autoselect correct license
       this.selectLicenseType();
       console.log(this.selectedLicense)
@@ -169,7 +170,7 @@ export class jitmtracPage implements OnInit {
     }
   }
 
-  ionViewDidEnter(){
+  ngAfterViewChecked(){
     // this.signaturePad is now available
     //this.counterSignature.clear(); // invoke functions from szimek/signature_pad API
     
@@ -189,6 +190,19 @@ export class jitmtracPage implements OnInit {
       }
     }
     else if (this.mtrac == null) {
+        if (this.mtracForm.get('vc').value == "With") {
+          this.frontSignature.clear();
+          this.frontSignature.off();      
+        }
+        else if (this.mtracForm.get('vc').value == "Without") {
+          this.frontSignature.on();
+        }
+      }
+      else if (this.mtrac.status == "verified" || this.mtrac.status == "rejected") {
+        this.counterSignature.off();
+        this.counterSignature.fromData(this.convertArrayFromFirebase(this.mtrac.counterSignature))
+        this.frontSignature.off();
+        this.frontSignature.fromData(this.convertArrayFromFirebase(this.mtrac.frontSignature))
     }
     else {
       this.counterSignature.off();
@@ -208,12 +222,12 @@ export class jitmtracPage implements OnInit {
       health: new FormControl('', Validators.compose([Validators.required])),
       weather: new FormControl('', Validators.compose([Validators.required])),
       route: new FormControl('', Validators.compose([Validators.required])),
-      detailType: new FormControl('', Validators.compose([Validators.required])),
+      detailType: new FormControl('L', Validators.compose([Validators.required])),
       vc: new FormControl('', Validators.compose([Validators.required])),
       vehicleServiceability: new FormControl('', Validators.compose([Validators.required])),
-      incamp: new FormControl('', Validators.compose([Validators.required])),
-      startLocation: new FormControl('', Validators.compose([Validators.required])),
-      endLocation: new FormControl('', Validators.compose([Validators.required])),
+      incamp: new FormControl('true', Validators.compose([Validators.required])),
+      startLocation: new FormControl('JIT', Validators.compose([Validators.required])),
+      endLocation: new FormControl('JIT', Validators.compose([Validators.required])),
       commander: new FormControl('', Validators.compose([Validators.required])),
       safetyMeasures: new FormControl(''),
       frontName: new FormControl(''),
@@ -275,18 +289,21 @@ export class jitmtracPage implements OnInit {
             this.mtracForm.get('psgerspeedlimit').disable();
             this.mtracForm.get('psgerdanger').disable();
             this.mtracForm.get('accidentpsger').disable();
-            if (this.mtracForm.get('frontName').value!=this.mtrac.commander) {
-              this.mtracForm.get('frontName').disable();
-            }
-            else {
+            if (this.mtracForm.get('frontName').value==this.mtrac.commander) {
               this.mtracForm.get('frontName').enable();
             }
         }
         else if (this.database.current.user.email == this.mtrac.driver && this.mtrac.status === 'verified')
         {
-            this.driver = this.mtrac.driver;
-            this.setmtracDetails();
-            this.mtracForm.disable();
+          this.driver = this.mtrac.driver;
+          this.mtracForm.get('psgerlicense').disable();
+          this.mtracForm.get('psgerspeedlimit').disable();
+          this.mtracForm.get('psgerdanger').disable();
+          this.mtracForm.get('accidentpsger').disable();
+          this.mtracForm.get('frontName').disable();
+          this.setmtracDetails();
+          this.mtracForm.disable();
+          this.mtracForm.get('drivermtrac').disable();
         }
         else if (this.database.current.user.email == this.mtrac.driver && this.mtrac.status === 'pending')
         {
@@ -294,7 +311,12 @@ export class jitmtracPage implements OnInit {
             this.setmtracDetails();
             this.mtracForm.disable();
         }
-      
+        else {
+          this.mtracForm.get('psgerlicense').disable();
+          this.mtracForm.get('psgerspeedlimit').disable();
+          this.mtracForm.get('psgerdanger').disable();
+          this.mtracForm.get('accidentpsger').disable();
+        }
     }
     else
     {
@@ -303,19 +325,9 @@ export class jitmtracPage implements OnInit {
     }
   }
 
-  getS(){
-    if (this.mtrac == null) {
-      return false
-    }
-    if (this.mtrac.status == "pending") {
-      return true
-    }
-    return false
-  }
-
   changedvc() {
-    console.log(this.mtracForm.value.vc);
-    if (this.mtracForm.value.vc == "With"){
+    console.log(this.mtracForm.get('vc').value);
+    if (this.mtracForm.get('vc').value == "With" && this.mtrac==null){
       this.mtracForm.get('psgerlicense').setValue(false);
       this.mtracForm.get('psgerlicense').setValidators([]);
       this.mtracForm.get('psgerlicense').disable();
@@ -332,7 +344,7 @@ export class jitmtracPage implements OnInit {
       this.mtracForm.get('frontName').disable();
       return false;
     }
-    else{
+    else if (this.mtracForm.get('vc').value == "Without" && this.mtrac==null){
       this.mtracForm.get('psgerlicense').setValidators([Validators.requiredTrue]);
       this.mtracForm.get('psgerlicense').enable();
       this.mtracForm.get('psgerspeedlimit').setValidators([Validators.requiredTrue]);
@@ -344,6 +356,42 @@ export class jitmtracPage implements OnInit {
       this.mtracForm.get('frontName').setValidators([Validators.required]);
       this.mtracForm.get('frontName').enable();
       return true;
+    }
+    else if (this.mtracForm.get('vc').value == "With" && this.mtrac.commander==this.database.current.user.email && this.mtrac.status=="pending"){
+      this.mtracForm.get('psgerlicense').setValidators([]);
+      this.mtracForm.get('psgerlicense').disable();
+      this.mtracForm.get('psgerspeedlimit').setValidators([]);
+      this.mtracForm.get('psgerspeedlimit').disable();
+      this.mtracForm.get('psgerdanger').setValidators([]);
+      this.mtracForm.get('psgerdanger').disable();
+      this.mtracForm.get('accidentpsger').setValidators([]);
+      this.mtracForm.get('accidentpsger').disable();
+      this.mtracForm.get('frontName').setValidators([Validators.required]);
+      this.mtracForm.get('frontName').enable();
+      return true;
+    }
+    else if (this.mtracForm.get('vc').value == "Without" && this.mtrac!=null){
+      this.mtracForm.get('psgerlicense').disable();
+      this.mtracForm.get('psgerspeedlimit').disable();
+      this.mtracForm.get('psgerdanger').disable();
+      this.mtracForm.get('accidentpsger').disable();
+      this.mtracForm.get('frontName').disable();
+      this.mtracForm.get('counterName').disable();
+      this.mtracForm.get('drivermtrac').disable();
+      return false;
+    }
+    else {
+      this.mtracForm.get('psgerlicense').setValidators([]);
+      this.mtracForm.get('psgerlicense').disable();
+      this.mtracForm.get('psgerspeedlimit').setValidators([]);
+      this.mtracForm.get('psgerspeedlimit').disable();
+      this.mtracForm.get('psgerdanger').setValidators([]);
+      this.mtracForm.get('psgerdanger').disable();
+      this.mtracForm.get('accidentpsger').setValidators([]);
+      this.mtracForm.get('accidentpsger').disable();
+      this.mtracForm.get('frontName').setValidators([]);
+      this.mtracForm.get('frontName').disable();
+      return false;
     }
   }
 
@@ -773,6 +821,18 @@ export class jitmtracPage implements OnInit {
         }
     }
   
+    public findInvalidControls() {
+      const invalid = [];
+      const controls = this.mtracForm.controls;
+      for (const name in controls) {
+          if (controls[name].invalid) {
+              invalid.push(name);
+          }
+      }
+      console.log(invalid)
+      return invalid;
+    }
+    
   drawComplete() {
     // will be notified of szimek/signature_pad's onEnd event
     console.log(this.counterSignature.toData());

@@ -22,19 +22,19 @@
   <ion-card><ion-card-content>
     <ion-item>
       <ion-label  position="floating">Driving Area</ion-label>
-      <ion-select  formControlName="incamp" interface="popover">
-        <ion-select-option  class="ion-text-wrap" value=true>In Camp</ion-select-option>
-        <ion-select-option  class="ion-text-wrap" value=false *ngIf="gettime()">Out of Camp</ion-select-option>
+      <ion-select formControlName="incamp" interface="popover">
+        <ion-select-option class="ion-text-wrap" value=true>In Camp</ion-select-option>
+        <ion-select-option class="ion-text-wrap" value=false *ngIf="gettime()">Out of Camp</ion-select-option>
       </ion-select>
     </ion-item>
 
     <ion-item>
-      <ion-label  position="floating" >From</ion-label>
-      <ion-input  type="text" onkeyup="this.value = this.value.toUpperCase()" formControlName="startLocation" placeholder="Start Location"></ion-input>
+      <ion-label position="floating">From</ion-label>
+      <ion-input type="text" onkeyup="this.value = this.value.toUpperCase()" formControlName="startLocation" placeholder="Start Location"></ion-input>
     </ion-item>
     <ion-item>
-      <ion-label  position="floating">To</ion-label>
-      <ion-input  type="text" onkeyup="this.value = this.value.toUpperCase()" formControlName="endLocation" placeholder="End Location"></ion-input>
+      <ion-label position="floating">To</ion-label>
+      <ion-input type="text" onkeyup="this.value = this.value.toUpperCase()" formControlName="endLocation" placeholder="End Location"></ion-input>
     </ion-item>
 
     <ion-item>
@@ -82,7 +82,7 @@
         <ion-label *ngIf="mtracForm.get('licenseType').value=='H'||mtracForm.get('licenseType').value=='N'" color="danger"><strong>Driving Experience</strong></ion-label>
         <ion-label *ngIf="mtracForm.get('licenseType').value=='M'" color="warning"><strong>Driving Experience</strong></ion-label>
         <ion-label *ngIf="mtracForm.get('licenseType').value==''||mtracForm.get('licenseType').value=='L'"><strong>Driving Experience</strong></ion-label>
-        <ion-select *ngIf="this.mtrac == null||this.database.current.user.email == this.mtrac.driver ; else notnull"[ngModel]="selectedLicense"   formControlName="licenseType" interface="popover" class="ion-text-left">
+        <ion-select *ngIf="this.mtrac == null||this.database.current.user.email == this.mtrac.driver ; else notnull"[ngModel]="selectedLicense" formControlName="licenseType" interface="popover" class="ion-text-left">
           <ion-select-option class="ion-text-wrap" *ngFor="let licenseType of licenseTypes" [value]=licenseType.value>{{licenseType.text}}</ion-select-option>
         </ion-select>
         <ng-template #notnull><ion-select *ngIf="this.database.current.user.email != this.mtrac.driver" formControlName="licenseType" interface="popover" class="ion-text-left">
@@ -105,7 +105,7 @@
         <ion-label *ngIf="mtracForm.get('vehicleType2').value=='H'||mtracForm.get('vehicleType2').value=='N'" color="danger"><strong>Vehicle Type</strong></ion-label>
         <ion-label *ngIf="mtracForm.get('vehicleType2').value=='M'" color="warning"><strong>Vehicle Type</strong></ion-label>
         <ion-label *ngIf="mtracForm.get('vehicleType2').value==''||mtracForm.get('vehicleType2').value=='L'"><strong>Vehicle Type</strong></ion-label>
-        <ion-select   formControlName="vehicleType2" interface="popover" class="ion-text-wrap">
+        <ion-select formControlName="vehicleType2" interface="popover" class="ion-text-wrap">
           <ion-select-option class="ion-text-wrap" value="L">Same as last detail / Different (GP Car/Pickup)</ion-select-option>
           <ion-select-option class="ion-text-wrap" value="M" color="warning">Different (Class 3)</ion-select-option>
           <ion-select-option class="ion-text-wrap" value="H" color="danger">Different (Class 4 and above)</ion-select-option>
@@ -124,7 +124,7 @@
         <ion-label *ngIf="mtracForm.get('rest').value=='H'||mtracForm.get('rest').value=='N'" color="danger"><strong>Fatigue/Length of Rest</strong></ion-label>
         <ion-label *ngIf="mtracForm.get('rest').value=='M'" color="warning"><strong>Fatigue/Length of Rest</strong></ion-label>
         <ion-label *ngIf="mtracForm.get('rest').value==''||mtracForm.get('rest').value=='L'"><strong>Fatigue/Length of Rest</strong></ion-label>
-        <ion-select  formControlName="rest" interface="popover" class="ion-text-wrap">
+        <ion-select formControlName="rest" interface="popover" class="ion-text-wrap">
           <ion-select-option class="ion-text-wrap" value="L">More than 7 hours</ion-select-option>
           <ion-select-option class="ion-text-wrap" value="M" color="warning">Less than 7 hours (Camp/Home)</ion-select-option>
           <ion-select-option class="ion-text-wrap" value="H" color="danger">Less than 7 hours (Field)</ion-select-option>
@@ -143,7 +143,7 @@
         <ion-label *ngIf="mtracForm.get('health').value=='H'||mtracForm.get('health').value=='N'" color="danger"><strong>My Health</strong></ion-label>
         <ion-label *ngIf="mtracForm.get('health').value=='M'" color="warning"><strong>My Health</strong></ion-label>
         <ion-label *ngIf="mtracForm.get('health').value==''||mtracForm.get('health').value=='L'"><strong>My Health</strong></ion-label>
-        <ion-select  formControlName="health" interface="popover" class="ion-text-wrap">
+        <ion-select formControlName="health" interface="popover" class="ion-text-wrap">
           <ion-select-option class="ion-text-wrap" value="L">Good</ion-select-option>
           <ion-select-option class="ion-text-wrap" value="M" color="warning">Fair (Just recovered from illness)</ion-select-option>
           <ion-select-option class="ion-text-wrap" value="N" color="danger">Poor (Ill or still under medication that causes drowsiness)</ion-select-option>
@@ -166,7 +166,7 @@
         <ion-label *ngIf="mtracForm.get('weather').value=='H'||mtracForm.get('weather').value=='N'" color="danger"><strong>Weather</strong></ion-label>
         <ion-label *ngIf="mtracForm.get('weather').value=='M'" color="warning"><strong>Weather</strong></ion-label>
         <ion-label *ngIf="mtracForm.get('weather').value==''||mtracForm.get('weather').value=='L'"><strong>Weather</strong></ion-label>
-        <ion-select  formControlName="weather" interface="popover" class="ion-text-wrap">
+        <ion-select formControlName="weather" interface="popover" class="ion-text-wrap">
           <ion-select-option class="ion-text-wrap" value="L">Dry</ion-select-option>
           <ion-select-option class="ion-text-wrap" value="M" color="warning">Wet</ion-select-option>
           <ion-select-option class="ion-text-wrap" value="H" color="danger">Heavy showers</ion-select-option>
@@ -184,7 +184,7 @@
         <ion-label *ngIf="mtracForm.get('route').value=='H'||mtracForm.get('route').value=='N'" color="danger"><strong>Route Familiarity</strong></ion-label>
         <ion-label *ngIf="mtracForm.get('route').value=='M'" color="warning"><strong>Route Familiarity</strong></ion-label>
         <ion-label *ngIf="mtracForm.get('route').value==''||mtracForm.get('route').value=='L'"><strong>Route Familiarity</strong></ion-label>
-        <ion-select  formControlName="route" interface="popover" class="ion-text-wrap">
+        <ion-select formControlName="route" interface="popover" class="ion-text-wrap">
           <ion-select-option class="ion-text-wrap" value="L">Familiar</ion-select-option>
           <ion-select-option class="ion-text-wrap" value="H" color="danger">Not familiar even after route brief done</ion-select-option>
           <ion-select-option class="ion-text-wrap" value="H" color="danger">Not familiar as route brief is not done</ion-select-option>
@@ -207,7 +207,7 @@
         <ion-label *ngIf="mtracForm.get('detailType').value=='H'||mtracForm.get('detailType').value=='N'" color="danger"><strong>Detail Type</strong></ion-label>
         <ion-label *ngIf="mtracForm.get('detailType').value=='M'" color="warning"><strong>Detail Type</strong></ion-label>
         <ion-label *ngIf="mtracForm.get('detailType').value==''||mtracForm.get('detailType').value=='L'"><strong>Detail Type</strong></ion-label>
-        <ion-select  formControlName="detailType" interface="popover" class="ion-text-wrap">
+        <ion-select formControlName="detailType" interface="popover" class="ion-text-wrap">
           <ion-select-option class="ion-text-wrap" value="L">Admin</ion-select-option>
           <ion-select-option class="ion-text-wrap" value="M" color="warning">Training/Operations(Including towing)</ion-select-option>
           <ion-select-option class="ion-text-wrap" value="H" color="danger">All administrative towing</ion-select-option>
@@ -624,7 +624,7 @@
 -->
   <ion-card><ion-card-content>
     <ion-card-title class="ion-text-center">SAFETY MEASURES</ion-card-title>
-    <ion-textarea  type="text" formControlName="safetyMeasures" placeholder="Please elaborate on the safety or risk mitigating measures taken."></ion-textarea>
+    <ion-textarea type="text" formControlName="safetyMeasures" placeholder="Please elaborate on the safety or risk mitigating measures taken."></ion-textarea>
   </ion-card-content></ion-card>
 
   <ion-card>
@@ -632,8 +632,8 @@
     <ion-card-content class="ion-text-center">
       <ion-col>
         <ion-item>
-          <ion-label  position="floating" >Rank & Name</ion-label>
-          <ion-input  type="text" onkeyup="this.value = this.value.toUpperCase()" formControlName="counterName" placeholder="Officer"></ion-input>
+          <ion-label position="floating" >Rank & Name</ion-label>
+          <ion-input type="text" onkeyup="this.value = this.value.toUpperCase()" formControlName="counterName" placeholder="Officer"></ion-input>
           <div class="validation-errors">
             <ng-container *ngFor="let validation of validationMessages.counterName">
               <div class="error-message"
@@ -670,7 +670,6 @@
       </div>
     </ion-card-content></ion-card>
 
-
     <ion-item>
       <ion-label class="ion-text-wrap">I acknowledge that I, {{this.database.current.user.name}}, have read through, understood, and checked through the MT Risk Assessment (MT-RAC) Checklist on {{getcdt()}}.</ion-label>
       <ion-checkbox *ngIf="this.driver == this.database.current.user.email" slot="start" formControlName="drivermtrac" name="drivermtrac" style="background: transparent;" [disabled]="!getdriverchecklistcomplete2() || !getoverallrisk()"></ion-checkbox>
@@ -689,7 +688,7 @@
     </div>
     <div *ngIf="getcmdchecklistcomplete() && this.commander != this.database.current.user.email">
       <ion-button (click)='onCancel()'>Cancel</ion-button>
-      <ion-button style="padding-right:10px" routerLink="/add-drive" class="submit-btn"s type="submit">Continue</ion-button>
+      <ion-button style="padding-right:10px" routerLink="/add-drive" class="submit-btn" type="submit">Continue</ion-button>
     </div>
     <div *ngIf="!mtracForm.get('drivermtrac').value">
       <ion-button (click)='onCancel()'>Cancel</ion-button>

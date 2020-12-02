@@ -14,7 +14,6 @@ import { PrintProvider} from '../provider.service';
   styleUrls: ['./mtrac.page.scss'],
 })
 
-
 export class mtracPage implements OnInit {
   @ViewChild('countersig', {static: true}) counterSignature: SignaturePad
   @ViewChild('frontsig', {static: true}) frontSignature: SignaturePad
@@ -68,7 +67,6 @@ export class mtracPage implements OnInit {
 };
 
   public licenseTypes = [{value:"L",text:"CAT A, B"},{value:"M",text:"CAT C"},{value:"H",text:"CAT D"},{value:"N",text:"Have never been trained and familiarized in the vehicle that you will be driving"}] 
-
   public selectedLicense;
 
   constructor(
@@ -124,7 +122,6 @@ export class mtracPage implements OnInit {
           canDrive.push({text: value + " - NO LICENSE", ready: false})
         }
       }
-
       // check currency / JIT test
       var daysLastDriven = this.calculateDiff(this.database.current.stats.most_recent_drive_by_vehicle_type[value].$d);
       if (daysLastDriven <= 7){ // || this.database.current.stats.JIT==true){
@@ -307,15 +304,15 @@ export class mtracPage implements OnInit {
         }
         else if (this.database.current.user.email == this.mtrac.driver && this.mtrac.status === 'verified')
         {
-            this.driver = this.mtrac.driver;
-            this.mtracForm.get('psgerlicense').disable();
-            this.mtracForm.get('psgerspeedlimit').disable();
-            this.mtracForm.get('psgerdanger').disable();
-            this.mtracForm.get('accidentpsger').disable();
-            this.mtracForm.get('frontName').disable();
-            this.setmtracDetails();
-            this.mtracForm.disable();
-            this.mtracForm.get('drivermtrac').disable();
+          this.driver = this.mtrac.driver;
+          this.mtracForm.get('psgerlicense').disable();
+          this.mtracForm.get('psgerspeedlimit').disable();
+          this.mtracForm.get('psgerdanger').disable();
+          this.mtracForm.get('accidentpsger').disable();
+          this.mtracForm.get('frontName').disable();
+          this.setmtracDetails();
+          this.mtracForm.disable();
+          this.mtracForm.get('drivermtrac').disable();
         }
         else if (this.database.current.user.email == this.mtrac.driver && this.mtrac.status === 'pending')
         {
@@ -329,7 +326,6 @@ export class mtracPage implements OnInit {
           this.mtracForm.get('psgerdanger').disable();
           this.mtracForm.get('accidentpsger').disable();
         }
-      
     }
     else
     {
@@ -353,6 +349,7 @@ export class mtracPage implements OnInit {
       this.mtracForm.get('accidentpsger').setValue(false);
       this.mtracForm.get('accidentpsger').setValidators([]);
       this.mtracForm.get('accidentpsger').disable();
+      this.mtracForm.get('frontName').setValidators([]);
       this.mtracForm.get('frontName').disable();
       return false;
     }
