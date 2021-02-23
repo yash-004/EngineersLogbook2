@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import * as firebase from 'firebase/app';
 
+import { Auth } from 'aws-amplify'
 @Injectable({
   providedIn: 'root'
 })
@@ -15,42 +15,95 @@ export class AuthenticationService {
     */
   }
 
-  registerUser(value: { email: string; password: string; }) {
-    return new Promise<any>((resolve, reject) => {
-      firebase.auth().createUserWithEmailAndPassword(value.email, value.password)
-      .then(
-        res => resolve(res),
-        err => reject(err));
-    });
+  // registerUser(value: { email: string; password: string; }) {
+  //   return new Promise<any>((resolve, reject) => {
+  //     firebase.auth().createUserWithEmailAndPassword(value.email, value.password)
+  //     .then(
+  //       res => resolve(res),
+  //       err => reject(err));
+  //   });
+  //  }
+
+  async registerUser(value) {
+    var role
+
+    if (value.isCommander.toLowerCase() === 'false'){
+      role = "driver"
+    }
+    else{
+      role = "commander"
+    }
+
+    if (role == "driver"){
+      var { user } = await Auth.signUp(
+        {
+          username: value.email.toUpperCase(),
+          password: value.password,
+          attributes: {
+              // other custom attributes 
+              'custom:name': value.name.toUpperCase(),
+              'custom:fleet': value.unit.toUpperCase(),
+              'custom:company': value.company.toUpperCase(),
+              'custom:license_num': value.licenseNum,
+              'custom:license_type': value.licenseType,
+              'custom:created': new Date(),
+              'custom:mss_certified': false,
+              'custom:flb_certified': false,
+              'custom:belrex_certified': false,
+              'custom:m3g_certified': false,
+              'custom:role': "driver"
+          }
+      });
+    }
+    else
+    {
+      var { user } = await Auth.signUp(
+        {
+          username: value.email.toUpperCase(),
+          password: value.password,
+          attributes: {
+              // other custom attributes 
+              'custom:name': value.name.toUpperCase(),
+              'custom:fleet': value.unit.toUpperCase(),
+              'custom:company': value.company.toUpperCase(),
+              'custom:license_num': value.licenseNum,
+              'custom:license_type': value.licenseType,
+              'custom:created': new Date(),
+              'custom:mss_certified': false,
+              'custom:flb_certified': false,
+              'custom:belrex_certified': false,
+              'custom:m3g_certified': false,
+              'custom:role': "commander"
+          }
+      });
+    }
+    return user
    }
 
-  loginUser(value: { email: string; password: string; }) {
-    return new Promise<any>((resolve, reject) => {
-      firebase.auth().signInWithEmailAndPassword(value.email, value.password)
-      .then(
-        res => resolve(res),
-        err => {
-          return reject(err);
-        });
-    });
+  // loginUser(value: { email: string; password: string; }) {
+  //   return new Promise<any>((resolve, reject) => {
+  //     firebase.auth().signInWithEmailAndPassword(value.email, value.password)
+  //     .then(
+  //       res => resolve(res),
+  //       err => {
+  //         return reject(err);
+  //       });
+  //   });
+  // }
+
+  async loginUser(value) {
+    const user = await Auth.signIn(value.email, value.password);
+    return user
   }
 
-  logoutUser() {
+  async logoutUser() {
     console.log("> logout");
-    return new Promise((resolve, reject) => {
-      if ( firebase.auth().currentUser){
-        firebase.auth().signOut()
-        .then(() => {
-          console.log('LOG Out');
-          resolve();
-        }).catch((error) => {
-          reject();
-        });
-      }
-    })
+    await Auth.signOut();
    }
 
-   userDetails(){
-     return firebase.auth().currentUser;
-   }
+  async userDetails(){
+    const {attributes} = await Auth.currentAuthenticatedUser();
+
+    return attributes
+  }
 }

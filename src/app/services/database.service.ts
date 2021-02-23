@@ -3,6 +3,9 @@ import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/fire
 import * as firebase from 'firebase/app';
 import * as dayjs from 'dayjs'; // DateTime utility, See http://zetcode.com/javascript/dayjs/
 import { sprintf } from 'sprintf-js';
+import { AuthenticationService } from './authentication.service';
+import { userInfo } from 'os';
+import { APIService } from '../API.service'
 
 export interface Summary
 {
@@ -193,7 +196,7 @@ export class DatabaseService {
 
   public current: Login = null;  // Currently logged in user
 
-  constructor(public firestore: AngularFirestore)
+  constructor(public firestore: AngularFirestore, private authService: AuthenticationService, private api: APIService)
   {
     // Create dummy login for debugging without Firebase authentication
     this.current = this.createDebugLogin();
@@ -202,29 +205,73 @@ export class DatabaseService {
   ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   // Retrieves and populates profile/drive fields for the currently logged in user.
   // This is called right after Firebase authentication is successful.
-  public async init(email: string) {
+  public async init() {
+    var user = await this.authService.userDetails()
 
     if (this.current) this.logout();
 
-    const result: any = await this.read('user',email);
+    console.log(user)
+    console.log(user["custom:company"])
+
+    var is_admin
+    var is_commander
+    var is_driver
+
+    if (user["custom:role"] == "admin"){
+      is_admin = true
+      is_commander = true
+      is_driver = false
+    }
+    else if (user["custom:role"] == "commander"){
+      is_admin = false
+      is_commander = true
+      is_driver = false   
+    }
+    else{
+      is_admin = false
+      is_commander = false
+      is_driver = true   
+    }
 
     this.current = {
-      user: result.data() as User,
+      user: {
+        created: user["custom:created"],
+        name: user["custom:name"],
+        email: user.email,
+        fleet: user["custom:fleet"],
+        company: user["custom:company"],
+        is_admin: is_admin,  // Superuser
+        is_commander: is_commander,
+        location: user["custom:location"],
+        admin_level: user["custom:admin_level"],
+        
+        // For drivers only
+        is_driver: is_driver,
+        licence_num: user["custom:license_num"],
+        
+        licence_type: user["custom:license_type"],
+        mss_certified: user["custom:mss_certified"],
+        flb_certified: user["custom:flb_certified"],
+        belrex_certified: user["custom:belrex_certified"],
+        m3g_certified: user["custom:m3g_certified"]
+      },
       snapshot_wait: 0
     };
 
-    await this.log(`Logged-in: ${email}`);
+    console.log(this.current.user)
+
+    await this.log(`Logged-in: ${this.current.user.email}`);
 
     if (!this.current.user.fleet) {
       // No fleet string? Set it to the default and update the database
       this.current.user.fleet = "30SCE";
-      await this.write('user',email,this.current.user);
+      await this.write('user',this.current.user.email,this.current.user);
     }
 
-    if (this.current.user.is_driver && !this.current.user.is_commander && this.current.user.admin_level != 0) {
+    if (this.current.user.is_driver && this.current.user.admin_level != 0) {
       // No fleet string? Set it to the default and update the database
       this.current.user.admin_level = 0;
-      await this.write('user',email,this.current.user);
+      await this.write('user',this.current.user.email,this.current.user);
     }
 
     // Bind local data to database
@@ -235,7 +282,7 @@ export class DatabaseService {
       console.log("> Still retrieving userdata...");
       await this.sleep(500);
     }
-    console.log(`> Current database user: ${email} => ${JSON.stringify(this.current.user)}`);
+    console.log(`> Current database user: ${this.current.user.email} => ${JSON.stringify(this.current.user)}`);
 
     // Get all users who are in the same company as logged in user
     this.current.all_coyusers = await this.list('user', ['company','==',this.current.user.company] );
