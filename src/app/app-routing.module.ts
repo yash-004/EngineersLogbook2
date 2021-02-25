@@ -16,11 +16,17 @@ const routes: Routes = [
   { path: 'mtracinfo', loadChildren: './mtrac/info/mtracinfo.module#mtracinfoPageModule' },
   { path: 'summary', loadChildren: './pages/summary/summary.module#SummaryPageModule' },
   { path: 'reportvehicle', loadChildren: './reportvehicle/reportvehicle.module#ReportVehiclePageModule' },
-
+  { path: 'admin', loadChildren: './admin/admin.module#AdminPageModule' },
   {
     path: 'about',
     loadChildren: () => import('./pages/about/about.module').then( m => m.AboutPageModule)
   },
+  {
+    path: 'admin',
+    loadChildren: () => import('./admin/admin.module').then( m => m.AdminPageModule)
+  },
+
+
 ];
 
 @NgModule({
