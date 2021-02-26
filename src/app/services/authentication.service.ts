@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 
 import { Auth } from 'aws-amplify'
+
+import { User } from './database.service'
 @Injectable({
   providedIn: 'root'
 })
@@ -101,9 +103,55 @@ export class AuthenticationService {
     await Auth.signOut();
    }
 
-  async userDetails(){
-    const {attributes} = await Auth.currentAuthenticatedUser();
 
-    return attributes
+
+  async userDetails(){
+    const user = await Auth.currentAuthenticatedUser();
+    return user
+  }
+
+  getCurrentUser(user){
+
+    var is_admin
+    var is_commander
+    var is_driver
+
+    if (user.attributes["custom:role"] == "admin"){
+      is_admin = true
+      is_commander = true
+      is_driver = false
+    }
+    else if (user.attributes["custom:role"] == "commander"){
+      is_admin = false
+      is_commander = true
+      is_driver = false   
+    }
+    else{
+      is_admin = false
+      is_commander = false
+      is_driver = true   
+    }
+
+    return {
+      created: user.attributes["custom:created"],
+      name: user.attributes["custom:name"],
+      email: user.attributes.email,
+      fleet: user.attributes["custom:fleet"],
+      company: user.attributes["custom:company"],
+      is_admin: is_admin,  // Superuser
+      is_commander: is_commander,
+      location: user.attributes["custom:location"],
+      admin_level: user.attributes["custom:admin_level"],
+      
+      // For drivers only
+      is_driver: is_driver,
+      licence_num: user.attributes["custom:license_num"],
+      
+      licence_type: user.attributes["custom:license_type"],
+      mss_certified: user.attributes["custom:mss_certified"],
+      flb_certified: user.attributes["custom:flb_certified"],
+      belrex_certified: user.attributes["custom:belrex_certified"],
+      m3g_certified: user.attributes["custom:m3g_certified"]
+    } as User
   }
 }
