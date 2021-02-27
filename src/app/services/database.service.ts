@@ -12,11 +12,11 @@ import * as subscriptions from './graphql/subscriptions';
 import { logWarnings } from 'protractor/built/driverProviders';
 import { Observable, Subscription, from} from 'rxjs'; 
 import { Dirent } from 'fs';
+import { logging } from 'protractor';
 
 export interface Summary
 {
 id?: string;
-driver: string;
 drive_count: number;
 mileage_km: number;
 duration_minutes: number;
@@ -214,6 +214,12 @@ export class DatabaseService {
     this.current = this.createDebugLogin();
   }
 
+  private stringifyUser(user: User){
+    var stringified = user
+    stringified.location = JSON.stringify(stringified.location)
+    return stringified
+  }
+
   ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   // Retrieves and populates profile/drive fields for the currently logged in user.
   // This is called right after Firebase authentication is successful.
@@ -223,7 +229,7 @@ export class DatabaseService {
     var user = await this.authService.userDetails();
 
     this.current = {
-      user: this.authService.getCurrentUser(user),
+      user: await this.authService.userDetails() as User,
       snapshot_wait: 0
     };
 
@@ -231,8 +237,9 @@ export class DatabaseService {
 
     if (!this.current.user.fleet) {
       // No fleet string? Set it to the default and update the database
-      // this.current.user.fleet = "30SCE";
-      await Auth.updateUserAttributes(user, { "custom:fleet": "30SCE"})
+
+      await API.graphql(graphqlOperation(mutations.updateUser, {input: {email: this.current.user.email, fleet: "30SCE"}}))
+      // await Auth.updateUserAttributes(user, { "custom:fleet": "30SCE"})
 
       // await this.write('user',this.current.user.email,this.current.user);
     }
@@ -240,7 +247,7 @@ export class DatabaseService {
     if (this.current.user.is_driver && this.current.user.admin_level != 0) {
       // this.current.user.admin_level = 0;
       // await this.write('user',this.current.user.email,this.current.user);
-      await Auth.updateUserAttributes(user, { "custom:admin_level": "0"})
+      await API.graphql(graphqlOperation(mutations.updateUser, {input: {email: this.current.user.email, admin_level: 0}}))
     }
 
 
@@ -255,10 +262,20 @@ export class DatabaseService {
     console.log(`> Current database user: ${this.current.user.email} => ${JSON.stringify(this.current.user)}`);
 
     // Get all users who are in the same company as logged in user
-    this.current.all_coyusers = await this.list('user', ['company','==',this.current.user.company] );
-    this.current.all_unitusers = await this.list('user', ['fleet','==',this.current.user.fleet] );
-    //console.log(`> All Users: ${JSON.stringify(this.current.all_coyusers)}`);
-    //console.log(`> All Users: ${JSON.stringify(this.current.all_unitusers)}`);
+    // this.current.all_coyusers = await this.list('user', ['company','==',this.current.user.company] );
+    var all_coyusers = await (API.graphql(graphqlOperation(queries.listUsers, {filter: {company: {eq: this.current.user.company}}})) as Promise<User[]>)
+    
+    this.current.all_coyusers = all_coyusers["data"]["listUsers"]["items"]
+    console.log("allcoy",this.current.all_coyusers)
+
+
+    // this.current.all_unitusers = await this.list('user', ['fleet','==',this.current.user.fleet] );
+    var all_unitusers = await (API.graphql(graphqlOperation(queries.listUsers, {filter: {fleet: {eq: this.current.user.fleet}}})) as Promise<User[]>)
+    this.current.all_unitusers = all_unitusers["data"]["listUsers"]["items"]
+
+    console.log("allunit",this.current.all_unitusers)
+    console.log(`> All Users: ${JSON.stringify(this.current.all_coyusers)}`);
+    console.log(`> All Users: ${JSON.stringify(this.current.all_unitusers)}`);
 
     // If user is_driver, get list of commanders from the same company (for drop-down list in add-drive)
     if (this.current.user.is_driver||this.current.user.is_commander) {
@@ -275,17 +292,29 @@ export class DatabaseService {
       // Also retrieve summaries of drivers
       for (let driver of this.current.all_drivers_of_commander) {
 
-        const result: any = await this.read('summary',driver.email);
+        console.log("driver",driver)
 
-        if (result.data()) {
+        // const result: any = await this.read('summary',driver.email);
+
+        const result = await API.graphql(graphqlOperation(queries.getSummary, {driver: driver.email}))
+
+        console.log("result", result)
+
+        if (result["data"]["getSummary"]) {
           // Found summary, great.
-          driver.summary = result.data() as Summary;
+          driver.summary = result["data"]["getSummary"] 
+          
+          driver.summary.most_recent_drive = JSON.parse(driver.summary.most_recent_drive)
+          driver.summary.most_recent_drive_by_vehicle_type = JSON.parse(driver.summary.most_recent_drive_by_vehicle_type)
+          driver.summary.mileage_by_vehicle_type = JSON.parse(driver.summary.mileage_by_vehicle_type)
+
+          driver.summary = driver.summary as Summary;
+
+          console.log("summary",driver.summary)
         } else {
           // No summary? Calculate it...
 
-          if (this.current.drive_history.length !== 0){
-            driver.summary = this.summarize(this.current.drive_history.filter( (drive) => { return drive.driver === driver.email } ));
-          }
+          driver.summary = this.summarize(this.current.drive_history.filter( (drive) => { return drive.driver === driver.email } ));
         }
 
         //console.log(`${driver.email} ${JSON.stringify(driver.summary)}`);
@@ -307,9 +336,8 @@ export class DatabaseService {
           driver.summary = result.data() as Summary;
         } else {
           // No summary? Calculate it...
-          if (this.current.drive_history.length !== 0){
-            driver.summary = this.summarize(this.current.drive_history.filter( (drive) => { return drive.driver === driver.email } ));
-          }
+          driver.summary = this.summarize(this.current.drive_history.filter( (drive) => { return drive.driver === driver.email } ));
+        
         }
 
         //console.log(`${driver.email} ${JSON.stringify(driver.summary)}`);
@@ -412,7 +440,6 @@ export class DatabaseService {
   private summarize(drive_history:Drive[]): Summary
   {
     const stats:Summary = {
-      driver: drive_history[0].driver,
       drive_count: 0,
       mileage_km: 0,
       duration_minutes: 0,
@@ -475,7 +502,7 @@ export class DatabaseService {
     //   });
     //^ 
     // updating Login object with new user data - NOT BINDED REALTIME (yet)
-    login.user = this.authService.getCurrentUser(await this.authService.userDetails()) as User
+    login.user = await this.authService.userDetails()
   
     // Construct composite query depending on driver or commander (require Firestore composite index)
     // var query = this.collection("drive").orderBy("date","desc").orderBy("start_time","desc");
@@ -752,9 +779,8 @@ export class DatabaseService {
 
 
     // Calculate new stats for both drivers and commanders
-    if (login.drive_history.length !== 0){
-      login.stats = this.summarize(login.drive_history);
-    }
+    login.stats = this.summarize(login.drive_history);
+
     // For drivers, write summarized report to database (For commanders' module)
     if (login.user.is_driver) {
 
@@ -762,11 +788,24 @@ export class DatabaseService {
       login.stats.most_recent_drive_by_vehicle_type = JSON.stringify(login.stats.most_recent_drive_by_vehicle_type)
       login.stats.mileage_by_vehicle_type = JSON.stringify(login.stats.mileage_by_vehicle_type)
 
-      console.log("stats",login.stats)
+      //if summary already exists
+      if (login.user.summary){
+        console.log("Summary already exists")
 
-      const newSummary = await API.graphql(graphqlOperation(mutations.createSummary, {input: login.stats}));
+        login.stats.id = login.user.summary.id
 
-      console.log(newSummary)
+        const summary = await API.graphql(graphqlOperation(mutations.updateSummary, {input: login.stats}));
+        console.log("updated summary", summary)
+      }
+      //if summary doesnt exist
+      else {
+        console.log("Summary doesn't exist, creating summary")
+        const summary = await API.graphql(graphqlOperation(mutations.createSummary, {input: login.stats}));
+        console.log("created summary", summary)
+        const updateUser = await API.graphql(graphqlOperation(mutations.updateUser, {input: {email: this.current.user.email, userSummaryId: summary["data"]["createSummary"]["id"]}}));
+        console.log("updated user with summary", updateUser)
+      }
+
 
       // this.write("summary",login.user.email, JSON.parse(JSON.stringify(login.stats)) );
     }
@@ -890,20 +929,13 @@ export class DatabaseService {
       name: "Sample User",
     };
 
-    var stats
-    if (drive_history.length !== 0){
-      stats = this.summarize(drive_history);
-    }
-    else {
-      stats = null
-    }
-
-
     return {
       user: user,
       drive_history: drive_history,
       snapshot_wait: 1,
-      stats: stats
+      stats: this.summarize(drive_history)
     };
   }
+
 }
+
