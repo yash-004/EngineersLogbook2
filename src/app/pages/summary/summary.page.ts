@@ -118,13 +118,18 @@ export class SummaryPage implements OnInit {
   }
 
   public getMileagebyVehicleType(data: any,vehicle: any) {
+    var mileage = "0 km";
+
     for (var type of VehicleTypes) {
       if (type == vehicle) {
         if (data[type] != null) {
-          return data[type] + " km";
+          console.log(data[type])
+          mileage = data[type] + " km";
         }
       }
     }
+
+    return mileage
   }
 
   public getDrivesbyVehicleType(vehicle: any) {

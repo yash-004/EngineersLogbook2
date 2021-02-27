@@ -329,16 +329,37 @@ export class DatabaseService {
       // Also retrieve summaries of drivers
       for (let driver of this.current.all_drivers_of_commander) {
 
-        const result: any = await this.read('summary',driver.email);
+        // const result: any = await this.read('summary',driver.email);
 
-        if (result.data()) {
+        const result = await API.graphql(graphqlOperation(queries.getSummary, {driver: driver.email}))
+
+
+        // if (result.data()) {
+        //   // Found summary, great.
+        //   driver.summary = result.data() as Summary;
+        // } else {
+        //   // No summary? Calculate it...
+        //   driver.summary = this.summarize(this.current.drive_history.filter( (drive) => { return drive.driver === driver.email } ));
+        
+        // }
+
+        if (result["data"]["getSummary"]) {
           // Found summary, great.
-          driver.summary = result.data() as Summary;
+          driver.summary = result["data"]["getSummary"] 
+          
+          driver.summary.most_recent_drive = JSON.parse(driver.summary.most_recent_drive)
+          driver.summary.most_recent_drive_by_vehicle_type = JSON.parse(driver.summary.most_recent_drive_by_vehicle_type)
+          driver.summary.mileage_by_vehicle_type = JSON.parse(driver.summary.mileage_by_vehicle_type)
+
+          driver.summary = driver.summary as Summary;
+
+          console.log("summary",driver.summary)
         } else {
           // No summary? Calculate it...
+
           driver.summary = this.summarize(this.current.drive_history.filter( (drive) => { return drive.driver === driver.email } ));
-        
         }
+
 
         //console.log(`${driver.email} ${JSON.stringify(driver.summary)}`);
       }
@@ -427,11 +448,12 @@ export class DatabaseService {
 
     const now = dayjs();
     var user: string = this.current && this.current.user.email != "sample@gmail.com" ? `,${this.current.user.email}` : '';
-    var key: string = `${now.format('YYYY-MM-DD,HH:mm:ss')}${user}`;
+    // var key: string = `${now.format('YYYY-MM-DD,HH:mm:ss')}${user}`;
 
     console.log(`> ${message}`);
 
-    return await this.collection('logger').doc(key).set( { message:message } );
+    // return await this.collection('logger').doc(key).set( { message:message } );
+    return await API.graphql(graphqlOperation(mutations.createLogger, {input: {user: user, timestamp: now, message: message}}))
   }
 
   ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
