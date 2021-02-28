@@ -784,9 +784,12 @@ export class DatabaseService {
     // Calculate new stats for both drivers and commanders
     login.stats = this.summarize(login.drive_history);
 
+    console.log("mrdbvt1",login.stats.most_recent_drive_by_vehicle_type)
+
     // For drivers, write summarized report to database (For commanders' module)
     if (login.user.is_driver) {
 
+      //stringify variables for AWS adaptation
       login.stats.most_recent_drive = JSON.stringify(login.stats.most_recent_drive)
       login.stats.most_recent_drive_by_vehicle_type = JSON.stringify(login.stats.most_recent_drive_by_vehicle_type)
       login.stats.mileage_by_vehicle_type = JSON.stringify(login.stats.mileage_by_vehicle_type)
@@ -809,6 +812,10 @@ export class DatabaseService {
         console.log("updated user with summary", updateUser)
       }
 
+      //parse variables back to objects for future use
+      login.stats.most_recent_drive = JSON.parse(login.stats.most_recent_drive)
+      login.stats.most_recent_drive_by_vehicle_type = JSON.parse(login.stats.most_recent_drive_by_vehicle_type)
+      login.stats.mileage_by_vehicle_type = JSON.parse(login.stats.mileage_by_vehicle_type)
 
       // this.write("summary",login.user.email, JSON.parse(JSON.stringify(login.stats)) );
     }
