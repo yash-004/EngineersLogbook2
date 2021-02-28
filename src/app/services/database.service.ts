@@ -94,7 +94,7 @@ is_maintenance?: boolean;
 comments?: string;
 }
 
-export interface Mtrac
+export class Mtrac
 {
 created: string;
 id?: string;  // random identifier created by Firestore
@@ -106,7 +106,7 @@ driver: string;
 commander: string;
 fleet: string;
 company: string;
-vehicleNumber: string,
+vehicleNumber: string;
 licenseType: string;
 vehicle_type: string;
 vehicleType2: string;
@@ -147,7 +147,7 @@ mtraccompletedriver: boolean;
 drivermtrac: boolean;
 commandermtrac: boolean;
 
-admindriver: boolean,
+admindriver: boolean;
 admincommander: boolean;
 
 psgerlicense: boolean;
@@ -289,21 +289,15 @@ export class DatabaseService {
       this.current.all_drivers_of_commander = this.current.all_coyusers.filter( (user) => { return user.is_driver || user.email == this.current.user.email; } );
       console.log(`> List of drivers[${this.current.all_drivers_of_commander.length}] = ${JSON.stringify(this.current.all_drivers_of_commander)}`);
 
+
       // Also retrieve summaries of drivers
       for (let driver of this.current.all_drivers_of_commander) {
 
-        console.log("driver",driver)
-
-        // const result: any = await this.read('summary',driver.email);
-
-        const result = await API.graphql(graphqlOperation(queries.getSummary, {driver: driver.email}))
-
-        console.log("result", result)
-
-        if (result["data"]["getSummary"]) {
+        // To revisit, cannot access summary from driver even though it exists in driver object
+        if (driver.summary) {
           // Found summary, great.
-          driver.summary = result["data"]["getSummary"] 
-          
+          // driver.summary = result["data"]["getSummary"] 
+          console.log("Got summary")
           driver.summary.most_recent_drive = JSON.parse(driver.summary.most_recent_drive)
           driver.summary.most_recent_drive_by_vehicle_type = JSON.parse(driver.summary.most_recent_drive_by_vehicle_type)
           driver.summary.mileage_by_vehicle_type = JSON.parse(driver.summary.mileage_by_vehicle_type)
@@ -313,7 +307,7 @@ export class DatabaseService {
           console.log("summary",driver.summary)
         } else {
           // No summary? Calculate it...
-
+          console.log("Calculating summary")
           driver.summary = this.summarize(this.current.drive_history.filter( (drive) => { return drive.driver === driver.email } ));
         }
 
@@ -329,24 +323,11 @@ export class DatabaseService {
       // Also retrieve summaries of drivers
       for (let driver of this.current.all_drivers_of_commander) {
 
-        // const result: any = await this.read('summary',driver.email);
-
-        const result = await API.graphql(graphqlOperation(queries.getSummary, {driver: driver.email}))
-
-
-        // if (result.data()) {
-        //   // Found summary, great.
-        //   driver.summary = result.data() as Summary;
-        // } else {
-        //   // No summary? Calculate it...
-        //   driver.summary = this.summarize(this.current.drive_history.filter( (drive) => { return drive.driver === driver.email } ));
-        
-        // }
-
-        if (result["data"]["getSummary"]) {
+        // To revisit, cannot access summary from driver even though it exists in driver object
+        if (driver.summary) {
           // Found summary, great.
-          driver.summary = result["data"]["getSummary"] 
-          
+          // driver.summary = result["data"]["getSummary"] 
+          console.log("Got summary")
           driver.summary.most_recent_drive = JSON.parse(driver.summary.most_recent_drive)
           driver.summary.most_recent_drive_by_vehicle_type = JSON.parse(driver.summary.most_recent_drive_by_vehicle_type)
           driver.summary.mileage_by_vehicle_type = JSON.parse(driver.summary.mileage_by_vehicle_type)
@@ -356,7 +337,7 @@ export class DatabaseService {
           console.log("summary",driver.summary)
         } else {
           // No summary? Calculate it...
-
+          console.log("Calculating summary")
           driver.summary = this.summarize(this.current.drive_history.filter( (drive) => { return drive.driver === driver.email } ));
         }
 
@@ -385,64 +366,64 @@ export class DatabaseService {
     //   this.current.detach_bind_user = null;
     // }
 
-    if (this.current.detach_bind_drive_create){
-      this.current.detach_bind_drive_create.unsubscribe()
-      this.current.detach_bind_drive_update.unsubscribe()
-      this.current.detach_bind_drive_delete.unsubscribe()
-      this.current.detach_bind_mtrac_create.unsubscribe()
-      this.current.detach_bind_mtrac_update.unsubscribe()
-      this.current.detach_bind_mtrac_delete.unsubscribe()  
-    }
+    // if (this.current.detach_bind_drive_create){
+    //   this.current.detach_bind_drive_create.unsubscribe()
+    //   this.current.detach_bind_drive_update.unsubscribe()
+    //   this.current.detach_bind_drive_delete.unsubscribe()
+    //   this.current.detach_bind_mtrac_create.unsubscribe()
+    //   this.current.detach_bind_mtrac_update.unsubscribe()
+    //   this.current.detach_bind_mtrac_delete.unsubscribe()  
+    // }
 
     this.current = null;
   }
 
   ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   // Basic CRUD operators
-  public collection(table: string) {
-    return firebase.firestore().collection(table);
-  }
+  // public collection(table: string) {
+  //   return firebase.firestore().collection(table);
+  // }
 
-  public async read(table:string, key:string) {
-    return await this.collection(table).doc(key).get();
-  }
+  // public async read(table:string, key:string) {
+  //   return await this.collection(table).doc(key).get();
+  // }
 
-  public async write(table:string, key:string, doc:any) {
-    await this.log(`Write table:${table} key:${key}`);
-    return await this.collection(table).doc(key).set(doc);
-  }
+  // public async write(table:string, key:string, doc:any) {
+  //   await this.log(`Write table:${table} key:${key}`);
+  //   return await this.collection(table).doc(key).set(doc);
+  // }
 
-  public async add(table:string, doc:any) {
-    await this.log(`Write table:${table}`);
-    return await this.collection(table).add(doc);  // add() creates a new random document key
-  }
+  // public async add(table:string, doc:any) {
+  //   await this.log(`Write table:${table}`);
+  //   return await this.collection(table).add(doc);  // add() creates a new random document key
+  // }
 
-  public async delete(table:string, key:string) {
-    await this.log(`Delete table:${table} key:${key}`);
-    return await this.collection(table).doc(key).delete();
-  }
+  // public async delete(table:string, key:string) {
+  //   await this.log(`Delete table:${table} key:${key}`);
+  //   return await this.collection(table).doc(key).delete();
+  // }
 
-  public async list(table:string, condition?:any, order_by?:any)
-  {
-    let query: any = firebase.firestore().collection(table);
-    if (condition) {
-      // Augment query with optional condition
-      query = query.where( condition[0], condition[1], condition[2] );
-    }
-    if (order_by) {
-      // Augment query with sorted order
-      order_by.forEach( (order) => {
-        query = query.orderBy(order);  // Not yet tested
-      });
-    }
+  // public async list(table:string, condition?:any, order_by?:any)
+  // {
+  //   let query: any = firebase.firestore().collection(table);
+  //   if (condition) {
+  //     // Augment query with optional condition
+  //     query = query.where( condition[0], condition[1], condition[2] );
+  //   }
+  //   if (order_by) {
+  //     // Augment query with sorted order
+  //     order_by.forEach( (order) => {
+  //       query = query.orderBy(order);  // Not yet tested
+  //     });
+  //   }
 
-    const snapshot = await query.get();
-    const array: Array<any> = [];
-    snapshot.forEach((doc) => {
-      array.push( doc.data() );  // Caller will access documents with: "doc.id" and "doc.data()"
-    });
-    return array;
-  }
+  //   const snapshot = await query.get();
+  //   const array: Array<any> = [];
+  //   snapshot.forEach((doc) => {
+  //     array.push( doc.data() );  // Caller will access documents with: "doc.id" and "doc.data()"
+  //   });
+  //   return array;
+  // }
 
   public async log(message: string) {
 
@@ -673,15 +654,15 @@ export class DatabaseService {
     //   error: (error) => console.error(error)
     // });
 
-    var query = this.collection("mtrac").orderBy("created","desc");
-    if (login.user.is_commander == true)
-      {
-        query.where("commander", "==", login.user.email);
-      }
-    else
-      {
-      query = query.where("driver", "==", login.user.email);
-      }
+    // var query = this.collection("mtrac").orderBy("created","desc");
+    // if (login.user.is_commander == true)
+    //   {
+    //     query.where("commander", "==", login.user.email);
+    //   }
+    // else
+    //   {
+    //   query = query.where("driver", "==", login.user.email);
+    //   }
     // login.detach_bind_mtrac =
     //   query.onSnapshot( (querySnapshot) => {
     //     login.mtrac_history = [];
@@ -713,7 +694,7 @@ export class DatabaseService {
     if (login.user.is_commander == true)
     {
       var mtrac_history = await (API.graphql(graphqlOperation(queries.listMtracs, {filter: {commander: {eq: login.user.email}}})) as Promise<Drive[]>)
-      login.mtrac_history = mtrac_history["data"]["listMtracs"]["items"]
+      login.mtrac_history = mtrac_history["data"]["listMtracs"]["items"] 
       getMtracInProgress()
 
       login.detach_bind_mtrac_create = API.graphql(graphqlOperation(subscriptions.onCreateMtrac, {filter: {commander: {eq: login.user.email}}}))
@@ -886,7 +867,7 @@ export class DatabaseService {
   }
 
   public getTimeStamp(): string {
-    return dayjs(new Date()).format('YYYY-MM-DD HH:mm');
+    return dayjs(new Date()).format('YYYY-MM-DDThh:mm:ss.sssZ');
   }
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   // Test data

@@ -243,6 +243,7 @@ export class CommanderPage implements OnInit {
 
  public clickmtrac(form: Mtrac): void {
     this.database.current.mtrac_to_edit = form;
+    console.log(form)
     console.log(`> Navigating to mtracPage for mtrac id=${form.id}`);
     if (form.is_jit == true){
       this.navCtrl.navigateForward(['/jitmtrac']);

@@ -12,8 +12,8 @@ type Drive @model @auth(rules: [{allow: private}]) {
   commander: AWSEmail
   vehicle: String
   vehicle_type: String
-  start_time: AWSDateTime
-  end_time: AWSDateTime
+  start_time: AWSTime
+  end_time: AWSTime
   start_location: String
   end_location: String
   start_odometer: Int
@@ -29,7 +29,35 @@ type Drive @model @auth(rules: [{allow: private}]) {
 }
 
 type Mtrac @model @auth(rules: [{allow: private}]) {
+  created: AWSDateTime
   id: ID!
+  status: String
+  incamp: Boolean
+  is_jit: Boolean
+  
+  driver: AWSEmail
+  commander: AWSEmail
+  fleet: String
+  company: String
+  vehicleNumber: String
+  licenseType: String
+  vehicle_type: String
+  vehicleType2: String
+  rest: String
+  health: String
+  weather: String
+  route: String
+  detailType: String
+  vc: String
+  vehicleServiceability: String
+  startLocation: String
+  endLocation: String
+  counterSignature: AWSJSON
+  frontSignature: AWSJSON
+  safetyMeasures: String
+  frontName: String
+  counterName: String
+  
   accidentcommander: Boolean
   accidentdriver: Boolean
   accidentpsger: Boolean
@@ -41,47 +69,21 @@ type Mtrac @model @auth(rules: [{allow: private}]) {
   cmdreverse: Boolean
   cmdroute: Boolean
   cmdspeedlimit: Boolean
-  commander: AWSEmail
   commandermtrac: Boolean
-  company: String
-  counterName: String
-  counterSignature: AWSJSON
-  created: AWSDateTime
-  detailType: String
-  driver: AWSEmail
   drivermtrac: Boolean
-  endLocation: String
-  fleet: String
-  frontName: String
-  frontSignature: AWSJSON
-  health: String
-  incamp: Boolean
-  is_jit: Boolean
-  licenseTyp: String
   loadcommander: Boolean
   loaddriver: Boolean
   mtraccompletecommander: Boolean
   mtraccompletedriver: Boolean
-  psgerdange: Boolean
+  psgerdanger: Boolean
   psgerlicense: Boolean
   psgerspeedlimit: Boolean
-  rest: String
-  safetyMeasures: String
   safetystrapcommander: Boolean
   safetystrapdriver: Boolean
   seatbeltcommander: Boolean
-  seatbletdriver: Boolean
+  seatbeltdriver: Boolean
   smokingcommander: Boolean
   smokingdriver: Boolean
-  startLocation: String
-  status: String
-  vc: String
-  vehicleNumber: String
-  vehicleServiceability: String
-  vehicleType2: String
-  vehicle_type: String
-  weather: String
-  route: String
 }
 
 type Summary @model @auth(rules: [{allow: private}]) {

@@ -125,7 +125,33 @@ export const onDeleteDrive = /* GraphQL */ `
 export const onCreateMtrac = /* GraphQL */ `
   subscription OnCreateMtrac {
     onCreateMtrac {
+      created
       id
+      status
+      incamp
+      is_jit
+      driver
+      commander
+      fleet
+      company
+      vehicleNumber
+      licenseType
+      vehicle_type
+      vehicleType2
+      rest
+      health
+      weather
+      route
+      detailType
+      vc
+      vehicleServiceability
+      startLocation
+      endLocation
+      counterSignature
+      frontSignature
+      safetyMeasures
+      frontName
+      counterName
       accidentcommander
       accidentdriver
       accidentpsger
@@ -137,47 +163,21 @@ export const onCreateMtrac = /* GraphQL */ `
       cmdreverse
       cmdroute
       cmdspeedlimit
-      commander
       commandermtrac
-      company
-      counterName
-      counterSignature
-      created
-      detailType
-      driver
       drivermtrac
-      endLocation
-      fleet
-      frontName
-      frontSignature
-      health
-      incamp
-      is_jit
-      licenseTyp
       loadcommander
       loaddriver
       mtraccompletecommander
       mtraccompletedriver
-      psgerdange
+      psgerdanger
       psgerlicense
       psgerspeedlimit
-      rest
-      safetyMeasures
       safetystrapcommander
       safetystrapdriver
       seatbeltcommander
-      seatbletdriver
+      seatbeltdriver
       smokingcommander
       smokingdriver
-      startLocation
-      status
-      vc
-      vehicleNumber
-      vehicleServiceability
-      vehicleType2
-      vehicle_type
-      weather
-      route
       createdAt
       updatedAt
     }
@@ -186,7 +186,33 @@ export const onCreateMtrac = /* GraphQL */ `
 export const onUpdateMtrac = /* GraphQL */ `
   subscription OnUpdateMtrac {
     onUpdateMtrac {
+      created
       id
+      status
+      incamp
+      is_jit
+      driver
+      commander
+      fleet
+      company
+      vehicleNumber
+      licenseType
+      vehicle_type
+      vehicleType2
+      rest
+      health
+      weather
+      route
+      detailType
+      vc
+      vehicleServiceability
+      startLocation
+      endLocation
+      counterSignature
+      frontSignature
+      safetyMeasures
+      frontName
+      counterName
       accidentcommander
       accidentdriver
       accidentpsger
@@ -198,47 +224,21 @@ export const onUpdateMtrac = /* GraphQL */ `
       cmdreverse
       cmdroute
       cmdspeedlimit
-      commander
       commandermtrac
-      company
-      counterName
-      counterSignature
-      created
-      detailType
-      driver
       drivermtrac
-      endLocation
-      fleet
-      frontName
-      frontSignature
-      health
-      incamp
-      is_jit
-      licenseTyp
       loadcommander
       loaddriver
       mtraccompletecommander
       mtraccompletedriver
-      psgerdange
+      psgerdanger
       psgerlicense
       psgerspeedlimit
-      rest
-      safetyMeasures
       safetystrapcommander
       safetystrapdriver
       seatbeltcommander
-      seatbletdriver
+      seatbeltdriver
       smokingcommander
       smokingdriver
-      startLocation
-      status
-      vc
-      vehicleNumber
-      vehicleServiceability
-      vehicleType2
-      vehicle_type
-      weather
-      route
       createdAt
       updatedAt
     }
@@ -247,7 +247,33 @@ export const onUpdateMtrac = /* GraphQL */ `
 export const onDeleteMtrac = /* GraphQL */ `
   subscription OnDeleteMtrac {
     onDeleteMtrac {
+      created
       id
+      status
+      incamp
+      is_jit
+      driver
+      commander
+      fleet
+      company
+      vehicleNumber
+      licenseType
+      vehicle_type
+      vehicleType2
+      rest
+      health
+      weather
+      route
+      detailType
+      vc
+      vehicleServiceability
+      startLocation
+      endLocation
+      counterSignature
+      frontSignature
+      safetyMeasures
+      frontName
+      counterName
       accidentcommander
       accidentdriver
       accidentpsger
@@ -259,47 +285,21 @@ export const onDeleteMtrac = /* GraphQL */ `
       cmdreverse
       cmdroute
       cmdspeedlimit
-      commander
       commandermtrac
-      company
-      counterName
-      counterSignature
-      created
-      detailType
-      driver
       drivermtrac
-      endLocation
-      fleet
-      frontName
-      frontSignature
-      health
-      incamp
-      is_jit
-      licenseTyp
       loadcommander
       loaddriver
       mtraccompletecommander
       mtraccompletedriver
-      psgerdange
+      psgerdanger
       psgerlicense
       psgerspeedlimit
-      rest
-      safetyMeasures
       safetystrapcommander
       safetystrapdriver
       seatbeltcommander
-      seatbletdriver
+      seatbeltdriver
       smokingcommander
       smokingdriver
-      startLocation
-      status
-      vc
-      vehicleNumber
-      vehicleServiceability
-      vehicleType2
-      vehicle_type
-      weather
-      route
       createdAt
       updatedAt
     }

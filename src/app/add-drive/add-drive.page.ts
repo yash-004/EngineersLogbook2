@@ -7,6 +7,12 @@ import { ActivatedRoute } from '@angular/router';
 import { Keyboard } from '@ionic-native/keyboard/ngx';
 import * as dayjs from 'dayjs'; // DateTime utility, See http://zetcode.com/javascript/dayjs/
 
+import { API, Auth, graphqlOperation } from 'aws-amplify';
+import * as queries from '../services/graphql/queries';
+import * as mutations from '../services/graphql/mutations';
+import * as subscriptions from '../services/graphql/subscriptions';
+
+
 @Component({
   selector: 'app-add-drive',
   templateUrl: './add-drive.page.html',
@@ -374,7 +380,12 @@ export class AddDrivePage implements OnInit {
 
       currentDrive.comments = this.addDriveForm.value.driveComments;
       currentDrive.status = 'pending';
-      await this.database.write('drive', currentDrive.id, currentDrive);
+      // await this.database.write('drive', currentDrive.id, currentDrive);
+
+      var enddrive = await API.graphql(graphqlOperation(mutations.updateDrive, {input: currentDrive}))
+
+      console.log("enddrive", enddrive)
+
       this.errorMessage = '';
       this.successMessage = 'Your drive has been updated.';
       this.showToast(this.successMessage);
@@ -395,7 +406,12 @@ export class AddDrivePage implements OnInit {
         //this.drive.status = this.addDriveForm.get('driveStatus').value;
         console.log('Drive status: ' + this.drive.status);
         // update status in database
-        await this.database.write('drive', this.drive.id, this.drive);
+        // await this.database.write('drive', this.drive.id, this.drive);
+
+        var adddrive = await API.graphql(graphqlOperation(mutations.updateDrive, {input: this.drive}))
+
+        console.log("adddrive", adddrive)
+  
         this.errorMessage = '';
         this.successMessage = 'The drive status has been updated successfully.';
         this.showToast(this.successMessage);
@@ -407,10 +423,11 @@ export class AddDrivePage implements OnInit {
         this.endDrive(value);
     }
     } else { // the submit is to capture start drive information
-      try {
+      // try {
         this.mtrac = this.database.current.mtrac_to_edit;
         const time = dayjs(new Date(this.addDriveForm.value.startTime)).format('HH:mm');
         var new_drive: Drive = {
+          id: this.mtrac.id,
           created: this.database.getTimeStamp(),
           driver: this.database.current.user.email,
           status: "in-progress",
@@ -429,24 +446,34 @@ export class AddDrivePage implements OnInit {
 
         };
         console.log('new_drive=${JSON.stringify(new_drive)}');
-        await this.database.write('drive', this.mtrac.id, new_drive);
+        // await this.database.write('drive', this.mtrac.id, new_drive);
+
+        var adddrive = await API.graphql(graphqlOperation(mutations.createDrive, {input: new_drive}))
+
+        console.log("adddrive", adddrive)
+
         this.mtrac.status = "completed";
-        await this.database.write('mtrac', this.mtrac.id, this.mtrac);
+        
+        // await this.database.write('mtrac', this.mtrac.id, this.mtrac);
+
+        var updatemtrac = await API.graphql(graphqlOperation(mutations.updateMtrac, {input: this.mtrac}))
+
+        console.log("updatemtrac", updatemtrac)
 
         this.errorMessage = '';
         this.successMessage = 'Your drive has been added.';
 
         this.showToast(this.successMessage);
 
-      } catch (err) {
+      // } catch (err) {
 
-        this.errorMessage = `Add drive error: ${err}`;
-        this.successMessage = '';
-        console.log(this.errorMessage);
-        console.log(this.addDriveForm.value.startLocation);
-        this.showToast(this.errorMessage);
-        //this.navCtrl.pop();
-      }
+      //   this.errorMessage = `Add drive error: ${err}`;
+      //   this.successMessage = '';
+      //   console.log(this.errorMessage);
+      //   console.log(this.addDriveForm.value.startLocation);
+      //   this.showToast(this.errorMessage);
+      //   //this.navCtrl.pop();
+      // }
     }
   }
 
