@@ -1,0 +1,116 @@
+type Logger @model @key(fields: ["user","timestamp"]) @auth(rules: [{allow: private}]) {
+  user: AWSEmail!
+  timestamp: AWSDateTime!
+  message: String!
+}
+
+type Drive @model @auth(rules: [{allow: private}]) {
+  id: ID!
+  is_jit: Boolean!
+  driver: AWSEmail!
+  fleet: String
+  commander: AWSEmail
+  vehicle: String
+  vehicle_type: String
+  start_time: AWSDateTime
+  end_time: AWSDateTime
+  start_location: String
+  end_location: String
+  start_odometer: Int
+  end_odometer: Int
+  fuel_level: Int
+  status: String
+  comments: String
+  company: String
+  created: AWSDateTime
+  date: AWSDate
+  incamp: Boolean
+  is_maintenance: Boolean
+}
+
+type Mtrac @model @auth(rules: [{allow: private}]) {
+  id: ID!
+  accidentcommander: Boolean
+  accidentdriver: Boolean
+  accidentpsger: Boolean
+  admincommander: Boolean
+  admindriver: Boolean
+  cmdchecklistcomplete: Boolean
+  cmddanger: Boolean
+  cmdlicense: Boolean
+  cmdreverse: Boolean
+  cmdroute: Boolean
+  cmdspeedlimit: Boolean
+  commander: AWSEmail
+  commandermtrac: Boolean
+  company: String
+  counterName: String
+  counterSignature: AWSJSON
+  created: AWSDateTime
+  detailType: String
+  driver: AWSEmail
+  drivermtrac: Boolean
+  endLocation: String
+  fleet: String
+  frontName: String
+  frontSignature: AWSJSON
+  health: String
+  incamp: Boolean
+  is_jit: Boolean
+  licenseTyp: String
+  loadcommander: Boolean
+  loaddriver: Boolean
+  mtraccompletecommander: Boolean
+  mtraccompletedriver: Boolean
+  psgerdange: Boolean
+  psgerlicense: Boolean
+  psgerspeedlimit: Boolean
+  rest: String
+  safetyMeasures: String
+  safetystrapcommander: Boolean
+  safetystrapdriver: Boolean
+  seatbeltcommander: Boolean
+  seatbletdriver: Boolean
+  smokingcommander: Boolean
+  smokingdriver: Boolean
+  startLocation: String
+  status: String
+  vc: String
+  vehicleNumber: String
+  vehicleServiceability: String
+  vehicleType2: String
+  vehicle_type: String
+  weather: String
+  route: String
+}
+
+type Summary @model @auth(rules: [{allow: private}]) {
+  id: ID!
+  drive_count: Int!
+  mileage_km: Int!
+  duration_minutes: Int!
+  most_recent_drive: AWSJSON
+  most_recent_drive_by_vehicle_type: AWSJSON
+  mileage_by_vehicle_type: AWSJSON
+}
+
+type User @model @key(fields: ["email"]) @auth(rules: [{allow: private}]) {
+  email: AWSEmail!
+  created: String!
+  last_login: String
+  name: String!
+  fleet: String!
+  company: String!
+  is_admin: Boolean
+  is_commander: Boolean
+  location: AWSJSON
+  admin_level: Int
+  is_driver: Boolean
+  licence_num: String
+  licence_type: String
+  mss_certified: Boolean
+  flb_certified: Boolean
+  belrex_certified: Boolean
+  m3g_certified: Boolean
+  summary: Summary @connection
+}

@@ -1,0 +1,11 @@
+{
+  "AppSyncApiName": "engineerslogbook2",
+  "DynamoDBBillingMode": "PAY_PER_REQUEST",
+  "DynamoDBEnableServerSideEncryption": false,
+  "AuthCognitoUserPoolId": {
+    "Fn::GetAtt": [
+      "authengineerslogbook25c3a6d10",
+      "Outputs.UserPoolId"
+    ]
+  }
+}
