@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { DatabaseService, Drive, VehicleTypes } from '../../services/database.service';
 import * as dayjs from 'dayjs'; // DateTime utility, See http://zetcode.com/javascript/dayjs/;
-import { Geolocation } from '@ionic-native/geolocation/ngx';
 
 import { API, Auth, graphqlOperation } from 'aws-amplify';
 import * as queries from '../../services/graphql/queries';
@@ -20,26 +19,25 @@ export class CmdHistoryPage implements OnInit {
 
   constructor(
     private database: DatabaseService,
-    private geolocation: Geolocation,
   ) { }
 
   ngOnInit() {
     this.buildChart();
-    let watch = this.geolocation.watchPosition();
-    watch.subscribe(async (data) => {
-      if ( ( parseFloat(data.coords.latitude.toFixed(9)), parseFloat(data.coords.longitude.toFixed(9)) ) != (this.database.current.user.location.lat, this.database.current.user.location.lng) )
-      { 
-        this.database.current.user.location = {lat: parseFloat(data.coords.latitude.toFixed(9)),lng: parseFloat(data.coords.longitude.toFixed(9))};
-        console.log(this.database.current.user.location);
-        console.log("write");
-        this.database.current.user.location = JSON.stringify(this.database.current.user.location)
-        // this.database.write('user', this.database.current.user.email, this.database.current.user);
-        var updateuser = await API.graphql(graphqlOperation(mutations.updateUser, {input: {...this.database.current.user, createdAt: undefined, updatedAt: undefined}}))
-        console.log("updateuser", updateuser)
+    // let watch = this.geolocation.watchPosition();
+    // watch.subscribe(async (data) => {
+    //   if ( ( parseFloat(data.coords.latitude.toFixed(9)), parseFloat(data.coords.longitude.toFixed(9)) ) != (this.database.current.user.location.lat, this.database.current.user.location.lng) )
+    //   { 
+    //     this.database.current.user.location = {lat: parseFloat(data.coords.latitude.toFixed(9)),lng: parseFloat(data.coords.longitude.toFixed(9))};
+    //     console.log(this.database.current.user.location);
+    //     console.log("write");
+    //     this.database.current.user.location = JSON.stringify(this.database.current.user.location)
+    //     // this.database.write('user', this.database.current.user.email, this.database.current.user);
+    //     var updateuser = await API.graphql(graphqlOperation(mutations.updateUser, {input: {...this.database.current.user, createdAt: undefined, updatedAt: undefined}}))
+    //     console.log("updateuser", updateuser)
 
-        this.database.current.user.location = JSON.parse(this.database.current.user.location)
-      }
-    });
+    //     this.database.current.user.location = JSON.parse(this.database.current.user.location)
+    //   }
+    // });
   }
 
   public getMileage() {

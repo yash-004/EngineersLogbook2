@@ -22,7 +22,6 @@ import { ChartsModule } from 'ng2-charts';
 import { FCM } from '@ionic-native/fcm/ngx';
 import { IonicStorageModule } from '@ionic/storage';
 import { CountdownModule } from 'ngx-countdown';
-import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { Device } from '@ionic-native/device/ngx';
 import { SignaturePadModule } from 'angular2-signaturepad';
 import { PrintProvider} from '../app/provider.service';
@@ -53,7 +52,6 @@ firebase.initializeApp(environment.firebase);
     StatusBar,
     PrintProvider,
     SplashScreen,
-    Geolocation,
     Device,
     AuthenticationService, DatabaseService, 
     FCM, 

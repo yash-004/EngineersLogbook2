@@ -50,7 +50,6 @@ export class AuthenticationService {
       m3g_certified: false,
       is_driver: value.isCommander.toLowerCase() === 'false',
       is_commander: value.isCommander.toLowerCase() === 'true',
-      location: JSON.stringify({lat: 0, lng: 0}),
       admin_level: 1,
     };
 
@@ -88,8 +87,6 @@ export class AuthenticationService {
     var res = await API.graphql(graphqlOperation(queries.getUser, {email: user.attributes.email}));
 
     var dbUser = res["data"]["getUser"] as User
-
-    dbUser.location = JSON.parse(dbUser.location)
 
     return dbUser
   }

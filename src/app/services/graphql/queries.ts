@@ -321,7 +321,6 @@ export const getUser = /* GraphQL */ `
       company
       is_admin
       is_commander
-      location
       admin_level
       is_driver
       licence_num
@@ -369,7 +368,6 @@ export const listUsers = /* GraphQL */ `
         company
         is_admin
         is_commander
-        location
         admin_level
         is_driver
         licence_num

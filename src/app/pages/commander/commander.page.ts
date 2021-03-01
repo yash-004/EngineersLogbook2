@@ -6,7 +6,6 @@ import { Chart } from "chart.js";
 import { PipesModule } from '../../pipes/pipes.module';
 import * as dayjs from 'dayjs';
 import { ToastController } from '@ionic/angular';
-import { Geolocation } from '@ionic-native/geolocation/ngx';
 
 import { API, Auth, graphqlOperation } from 'aws-amplify';
 import * as queries from '../../services/graphql/queries';
@@ -26,7 +25,6 @@ export class CommanderPage implements OnInit {
     private navCtrl: NavController,
     public database: DatabaseService,
     private platform: Platform,
-    private geolocation: Geolocation,
     public toastController: ToastController, ) { }
 
   drivestatus = 9 > 10;
@@ -82,9 +80,7 @@ export class CommanderPage implements OnInit {
     driver.m3g_certified = m3gc;
     try {
       // await this.database.write('user',driver.email,driver);
-      driver.location = JSON.stringify(this.database.current.user.location)
       var updateuser = await API.graphql(graphqlOperation(mutations.updateUser, {input: {...driver, createdAt: undefined, updatedAt: undefined}}))
-      driver.location = JSON.parse(this.database.current.user.location)
 
       console.log("updateuser", updateuser)
 

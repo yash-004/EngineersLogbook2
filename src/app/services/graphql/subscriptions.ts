@@ -408,7 +408,6 @@ export const onCreateUser = /* GraphQL */ `
       company
       is_admin
       is_commander
-      location
       admin_level
       is_driver
       licence_num
@@ -443,7 +442,6 @@ export const onUpdateUser = /* GraphQL */ `
       company
       is_admin
       is_commander
-      location
       admin_level
       is_driver
       licence_num
@@ -478,7 +476,6 @@ export const onDeleteUser = /* GraphQL */ `
       company
       is_admin
       is_commander
-      location
       admin_level
       is_driver
       licence_num

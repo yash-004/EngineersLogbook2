@@ -7,7 +7,6 @@ import 'chartjs-plugin-labels';
 import 'chartjs-chart-radial-gauge';
 import 'chartjs-tsgauge';
 import {ChartsModule, Color} from 'ng2-charts';
-import { Geolocation } from '@ionic-native/geolocation/ngx';
 
 @Component({
   selector: 'app-history',
@@ -21,7 +20,6 @@ export class HistoryPage implements OnInit {
   
   constructor(
     private database: DatabaseService,
-    private geolocation: Geolocation,
   ) { }
 
   ngOnInit() {

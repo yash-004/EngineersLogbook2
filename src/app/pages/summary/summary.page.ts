@@ -7,7 +7,6 @@ import { PipesModule } from '../../pipes/pipes.module';
 import 'chartjs-plugin-labels';
 import 'chartjs-chart-radial-gauge';
 import 'chartjs-tsgauge';
-import { Geolocation } from '@ionic-native/geolocation/ngx';
 
 //Chart.defaults.global.defaultFontSize = 10;
 //Chart.defaults.global.maintainAspectRatio = true;
@@ -23,7 +22,6 @@ export class SummaryPage implements OnInit {
   constructor( 
     public database: DatabaseService,
     private navCtrl: NavController,
-    private geolocation: Geolocation,
   ) { }
 
   drivestatus = 9 > 10;

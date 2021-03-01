@@ -4,7 +4,6 @@ import { AuthenticationService } from '../services/authentication.service';
 import { NavController } from '@ionic/angular';
 import { DatabaseService, User } from '../services/database.service';
 import { ToastController } from '@ionic/angular';
-import { Geolocation } from '@ionic-native/geolocation/ngx';
 
 @Component({
   selector: 'app-signup',

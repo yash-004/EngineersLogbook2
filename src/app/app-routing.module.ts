@@ -15,7 +15,6 @@ const routes: Routes = [
   { path: 'jitmtrac', loadChildren: './jitmtrac/jitmtrac.module#jitmtracPageModule' },
   { path: 'mtracinfo', loadChildren: './mtrac/info/mtracinfo.module#mtracinfoPageModule' },
   { path: 'summary', loadChildren: './pages/summary/summary.module#SummaryPageModule' },
-  { path: 'reportvehicle', loadChildren: './reportvehicle/reportvehicle.module#ReportVehiclePageModule' },
 
   {
     path: 'about',

@@ -34,7 +34,6 @@ fleet: string;
 company: string;
 is_admin?: boolean;  // Superuser
 is_commander?: boolean;
-location?: any;
 admin_level?: number;
 
 // For drivers only
@@ -210,11 +209,6 @@ export class DatabaseService {
     this.current = this.createDebugLogin();
   }
 
-  private stringifyUser(user: User){
-    var stringified = user
-    stringified.location = JSON.stringify(stringified.location)
-    return stringified
-  }
 
   ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   // Retrieves and populates profile/drive fields for the currently logged in user.
@@ -926,7 +920,6 @@ export class DatabaseService {
       is_driver: false,
       licence_num: "SXXXXXX",
       licence_type: "A",
-      location: { lat: 1.3365133, lng: 103.7405132 },
       mss_certified: false,
       name: "Sample User",
     };

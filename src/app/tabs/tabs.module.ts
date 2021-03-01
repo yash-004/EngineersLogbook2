@@ -15,8 +15,6 @@ const routes: Routes = [
       { path: 'history', loadChildren: '../pages/history/history.module#HistoryPageModule' },
       { path: 'CmdHistory', loadChildren: '../pages/CmdHistory/CmdHistory.module#CmdHistoryPageModule' },
       { path: 'commander', loadChildren: '../pages/commander/commander.module#CommanderPageModule' },
-      { path: 'CmdMap', loadChildren: '../pages/CmdMap/CmdMap.module#CmdMapPageModule' },
-      { path: 'map', loadChildren: '../pages/map/map.module#MapPageModule' },
     ]
   },
   {

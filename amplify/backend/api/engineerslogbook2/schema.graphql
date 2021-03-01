@@ -86,9 +86,9 @@ type Mtrac @model @auth(rules: [{allow: private}]) {
 
 type Summary @model @auth(rules: [{allow: private}]) {
   id: ID!
-  drive_count: Int!
-  mileage_km: Int!
-  duration_minutes: Int!
+  drive_count: Int
+  mileage_km: Int
+  duration_minutes: Int
   most_recent_drive: AWSJSON
   most_recent_drive_by_vehicle_type: AWSJSON
   mileage_by_vehicle_type: AWSJSON
@@ -116,7 +116,6 @@ type User @model @key(fields: ["email"]) @auth(rules: [{allow: private}]) {
   company: String!
   is_admin: Boolean
   is_commander: Boolean
-  location: AWSJSON
   admin_level: Int
   is_driver: Boolean
   licence_num: String
