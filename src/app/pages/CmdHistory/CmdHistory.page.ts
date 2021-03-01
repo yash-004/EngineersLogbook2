@@ -3,6 +3,11 @@ import { DatabaseService, Drive, VehicleTypes } from '../../services/database.se
 import * as dayjs from 'dayjs'; // DateTime utility, See http://zetcode.com/javascript/dayjs/;
 import { Geolocation } from '@ionic-native/geolocation/ngx';
 
+import { API, Auth, graphqlOperation } from 'aws-amplify';
+import * as queries from '../../services/graphql/queries';
+import * as mutations from '../../services/graphql/mutations';
+import * as subscriptions from '../../services/graphql/subscriptions';
+
 @Component({
   selector: 'app-cmd_history',
   templateUrl: './CmdHistory.page.html',
@@ -21,12 +26,18 @@ export class CmdHistoryPage implements OnInit {
   ngOnInit() {
     this.buildChart();
     let watch = this.geolocation.watchPosition();
-    watch.subscribe((data) => {
+    watch.subscribe(async (data) => {
       if ( ( parseFloat(data.coords.latitude.toFixed(9)), parseFloat(data.coords.longitude.toFixed(9)) ) != (this.database.current.user.location.lat, this.database.current.user.location.lng) )
-      { this.database.current.user.location = {lat: parseFloat(data.coords.latitude.toFixed(9)),lng: parseFloat(data.coords.longitude.toFixed(9))};
+      { 
+        this.database.current.user.location = {lat: parseFloat(data.coords.latitude.toFixed(9)),lng: parseFloat(data.coords.longitude.toFixed(9))};
         console.log(this.database.current.user.location);
         console.log("write");
-        this.database.write('user', this.database.current.user.email, this.database.current.user);
+        this.database.current.user.location = JSON.stringify(this.database.current.user.location)
+        // this.database.write('user', this.database.current.user.email, this.database.current.user);
+        var updateuser = await API.graphql(graphqlOperation(mutations.updateUser, {input: {...this.database.current.user, createdAt: undefined, updatedAt: undefined}}))
+        console.log("updateuser", updateuser)
+
+        this.database.current.user.location = JSON.parse(this.database.current.user.location)
       }
     });
   }

@@ -582,7 +582,6 @@ export class jitmtracPage implements OnInit {
           try {
             var new_mtrac: Mtrac =
             {
-              created: this.database.getTimeStamp(),
               driver: this.database.current.user.email,
               commander: this.mtracForm.value.commander,
               status: "pending",
@@ -670,7 +669,6 @@ export class jitmtracPage implements OnInit {
           {
             var new_mtrac: Mtrac =
             {
-              created: this.database.getTimeStamp(),
               driver: this.database.current.user.email,
               commander: this.mtracForm.value.commander,
               status: "pending",

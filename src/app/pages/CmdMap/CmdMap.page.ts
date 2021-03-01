@@ -11,6 +11,12 @@ import { Device } from '@ionic-native/device/ngx';
 import * as firebase from 'firebase';
 declare var google: any;
 
+import { API, Auth, graphqlOperation } from 'aws-amplify';
+import * as queries from '../../services/graphql/queries';
+import * as mutations from '../../services/graphql/mutations';
+import * as subscriptions from '../../services/graphql/subscriptions';
+import { AuthenticationService } from 'src/app/services/authentication.service';
+
 @Component({
   selector: 'app-CmdMap',
   templateUrl:'./CmdMap.page.html',
@@ -28,6 +34,7 @@ export class CmdMapPage {
     public platform: Platform,
     private geolocation: Geolocation,
     public database: DatabaseService,
+    private authService: AuthenticationService,
     private device: Device) {
     platform.ready().then(() => {
       this.initMap();
@@ -47,12 +54,20 @@ export class CmdMapPage {
 
   initMap() {
     console.log(this.database.current.user);
-    this.geolocation.getCurrentPosition({ maximumAge: 3000, timeout: 5000, enableHighAccuracy: true }).then((resp) => {
+    this.geolocation.getCurrentPosition({ maximumAge: 3000, timeout: 5000, enableHighAccuracy: true }).then(async (resp) => {
     let mylocation = new google.maps.LatLng(parseFloat( resp.coords.latitude.toFixed(9)),parseFloat(resp.coords.longitude.toFixed(9)) );
     if ( ( parseFloat(resp.coords.latitude.toFixed(9)), parseFloat(resp.coords.longitude.toFixed(9)) ) != (this.database.current.user.location.lat, this.database.current.user.location.lng) )
     {
       this.database.current.user.location = {lat: parseFloat(resp.coords.latitude.toFixed(9)),lng: parseFloat(resp.coords.longitude.toFixed(9))};
-      this.database.write('user', this.database.current.user.email, this.database.current.user);
+      // this.database.write('user', this.database.current.user.email, this.database.current.user);
+
+      this.database.current.user.location = JSON.stringify(this.database.current.user.location)
+      // this.database.write('user', this.database.current.user.email, this.database.current.user);
+      var updateuser = await API.graphql(graphqlOperation(mutations.updateUser, {input: {...this.database.current.user, createdAt: undefined, updatedAt: undefined}}))
+      console.log("updateuser", updateuser)
+
+      this.database.current.user.location = JSON.parse(this.database.current.user.location)
+
     }
     this.map = new google.maps.Map(this.mapElement.nativeElement,
     {
@@ -61,7 +76,7 @@ export class CmdMapPage {
     });
     });
     let watch = this.geolocation.watchPosition();
-    watch.subscribe((data) => {
+    watch.subscribe(async (data) => {
       let updatelocation = new google.maps.LatLng(parseFloat(data.coords.latitude.toFixed(9)),parseFloat(data.coords.longitude.toFixed(9)));
       if ( ( parseFloat(data.coords.latitude.toFixed(9)), parseFloat(data.coords.longitude.toFixed(9)) ) != (this.database.current.user.location.lat, this.database.current.user.location.lng) )
       {
@@ -72,8 +87,12 @@ export class CmdMapPage {
         this.map.panTo(updatelocation);
         this.database.current.user.location = {lat: parseFloat(data.coords.latitude.toFixed(9)),lng: parseFloat(data.coords.longitude.toFixed(9))};
         console.log(this.database.current.user.location);
-        console.log("write");
-        this.database.write('user', this.database.current.user.email, this.database.current.user);
+        // this.database.write('user', this.database.current.user.email, this.database.current.user);
+        this.database.current.user.location = JSON.stringify(this.database.current.user.location)
+        var updateuser = await API.graphql(graphqlOperation(mutations.updateUser, {input: {...this.database.current.user, createdAt: undefined, updatedAt: undefined}}))
+        console.log("updateuser", updateuser)
+        this.database.current.user.location = JSON.parse(this.database.current.user.location)
+  
       }
       console.log("notmoved");
       this.deleteMarkers();
@@ -88,9 +107,11 @@ export class CmdMapPage {
   }
 
   async updatedriverloc(email: string) {
-    var result =  await this.database.read('user',email);
+    // var result =  await this.database.read('user',email);
+    var user = this.authService.userDetails()
+
     this.drvr = {
-      driver: result.data() as User,
+      driver: user,
     };
     return this.drvr.driver.location;
   }

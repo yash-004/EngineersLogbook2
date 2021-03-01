@@ -22,14 +22,12 @@ type Drive @model @auth(rules: [{allow: private}]) {
   status: String
   comments: String
   company: String
-  created: AWSDateTime
   date: AWSDate
   incamp: Boolean
   is_maintenance: Boolean
 }
 
 type Mtrac @model @auth(rules: [{allow: private}]) {
-  created: AWSDateTime
   id: ID!
   status: String
   incamp: Boolean
@@ -96,9 +94,22 @@ type Summary @model @auth(rules: [{allow: private}]) {
   mileage_by_vehicle_type: AWSJSON
 }
 
+
+type Fuel @model @auth(rules: [{allow: private}]) {
+  id: ID!
+  driver: AWSEmail!
+  vehicle: String!
+  vehicle_type: String!
+  date: AWSDate!
+  time: AWSTime!
+  location: String!
+  fuelTopUp: Int!
+  fleet: String!
+  company: String!
+}
+
 type User @model @key(fields: ["email"]) @auth(rules: [{allow: private}]) {
   email: AWSEmail!
-  created: String!
   last_login: String
   name: String!
   fleet: String!

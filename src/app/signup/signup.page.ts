@@ -106,7 +106,6 @@ export class SignupPage implements OnInit {
         //   company: value.company.toUpperCase(),
         //   licence_num: value.licenseNum,
         //   licence_type: value.licenseType,
-        //   created: this.database.getTimeStamp(),
         //   mss_certified: false,
         //   flb_certified: false,
         //   belrex_certified: false,

@@ -61,7 +61,6 @@ export const getDrive = /* GraphQL */ `
       status
       comments
       company
-      created
       date
       incamp
       is_maintenance
@@ -95,7 +94,6 @@ export const listDrives = /* GraphQL */ `
         status
         comments
         company
-        created
         date
         incamp
         is_maintenance
@@ -109,7 +107,6 @@ export const listDrives = /* GraphQL */ `
 export const getMtrac = /* GraphQL */ `
   query GetMtrac($id: ID!) {
     getMtrac(id: $id) {
-      created
       id
       status
       incamp
@@ -175,7 +172,6 @@ export const listMtracs = /* GraphQL */ `
   ) {
     listMtracs(filter: $filter, limit: $limit, nextToken: $nextToken) {
       items {
-        created
         id
         status
         incamp
@@ -272,11 +268,53 @@ export const listSummarys = /* GraphQL */ `
     }
   }
 `;
+export const getFuel = /* GraphQL */ `
+  query GetFuel($id: ID!) {
+    getFuel(id: $id) {
+      id
+      driver
+      vehicle
+      vehicle_type
+      date
+      time
+      location
+      fuelTopUp
+      fleet
+      company
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const listFuels = /* GraphQL */ `
+  query ListFuels(
+    $filter: ModelFuelFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listFuels(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        driver
+        vehicle
+        vehicle_type
+        date
+        time
+        location
+        fuelTopUp
+        fleet
+        company
+        createdAt
+        updatedAt
+      }
+      nextToken
+    }
+  }
+`;
 export const getUser = /* GraphQL */ `
   query GetUser($email: AWSEmail!) {
     getUser(email: $email) {
       email
-      created
       last_login
       name
       fleet
@@ -325,7 +363,6 @@ export const listUsers = /* GraphQL */ `
     ) {
       items {
         email
-        created
         last_login
         name
         fleet

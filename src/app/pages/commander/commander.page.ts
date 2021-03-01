@@ -8,6 +8,11 @@ import * as dayjs from 'dayjs';
 import { ToastController } from '@ionic/angular';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
 
+import { API, Auth, graphqlOperation } from 'aws-amplify';
+import * as queries from '../../services/graphql/queries';
+import * as mutations from '../../services/graphql/mutations';
+import * as subscriptions from '../../services/graphql/subscriptions';
+
 
 @Component({
   selector: 'app-commander',
@@ -76,7 +81,13 @@ export class CommanderPage implements OnInit {
     driver.belrex_certified = belrexc;
     driver.m3g_certified = m3gc;
     try {
-      await this.database.write('user',driver.email,driver);
+      // await this.database.write('user',driver.email,driver);
+      driver.location = JSON.stringify(this.database.current.user.location)
+      var updateuser = await API.graphql(graphqlOperation(mutations.updateUser, {input: {...driver, createdAt: undefined, updatedAt: undefined}}))
+      driver.location = JSON.parse(this.database.current.user.location)
+
+      console.log("updateuser", updateuser)
+
       this.drivereditstatus = !this.drivereditstatus;
       this.successMessage = 'the driver account has been updated.';
       this.showToast(this.successMessage);

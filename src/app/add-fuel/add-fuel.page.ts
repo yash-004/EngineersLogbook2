@@ -7,6 +7,11 @@ import { ActivatedRoute } from '@angular/router';
 import { Keyboard } from '@ionic-native/keyboard/ngx';
 import * as dayjs from 'dayjs'; // Datetime utility, See http://zetcode.com/javascript/dayjs/
 
+import { API, Auth, graphqlOperation } from 'aws-amplify';
+import * as queries from '../services/graphql/queries';
+import * as mutations from '../services/graphql/mutations';
+import * as subscriptions from '../services/graphql/subscriptions';
+
 @Component({
   selector: 'app-add-fuel',
   templateUrl: './add-fuel.page.html',
@@ -121,7 +126,6 @@ export class AddFuelPage implements OnInit {
         const time2 = dayjs(new Date(this.addFuelForm.value.time)).format('HH:mm');
         var new_fuel: Fuel =
         {
-          created: this.database.getTimeStamp(),
           driver: this.database.current.user.email,
           // Stage-1 details
           vehicle: this.addFuelForm.value.vehicleNumber,
@@ -131,12 +135,15 @@ export class AddFuelPage implements OnInit {
           time: time2,
           fleet: this.database.current.user.fleet,
           company: this.database.current.user.company,
-          FuelTopUp: this.addFuelForm.value.FuelTopUp,
+          fuelTopUp: this.addFuelForm.value.FuelTopUp,
         };
-        let subAutoID = this.database.collection('fuel').doc().id;
-        new_fuel.id = subAutoID
+        // let subAutoID = this.database.collection('fuel').doc().id;
+        // new_fuel.id = subAutoID
         console.log('new_fuel=${JSON.stringify(new_fuel)}');
-        await this.database.write('fuel', new_fuel.id, new_fuel);
+        // await this.database.write('fuel', new_fuel.id, new_fuel);
+        const fuel = await API.graphql(graphqlOperation(mutations.createFuel, {input: new_fuel}));
+        console.log("created fuel", fuel)
+
         this.errorMessage = '';
         this.successMessage = 'Your Fuel has been added.';
 

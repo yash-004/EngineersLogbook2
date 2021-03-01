@@ -67,7 +67,6 @@ export const createDrive = /* GraphQL */ `
       status
       comments
       company
-      created
       date
       incamp
       is_maintenance
@@ -99,7 +98,6 @@ export const updateDrive = /* GraphQL */ `
       status
       comments
       company
-      created
       date
       incamp
       is_maintenance
@@ -131,7 +129,6 @@ export const deleteDrive = /* GraphQL */ `
       status
       comments
       company
-      created
       date
       incamp
       is_maintenance
@@ -146,7 +143,6 @@ export const createMtrac = /* GraphQL */ `
     $condition: ModelMtracConditionInput
   ) {
     createMtrac(input: $input, condition: $condition) {
-      created
       id
       status
       incamp
@@ -210,7 +206,6 @@ export const updateMtrac = /* GraphQL */ `
     $condition: ModelMtracConditionInput
   ) {
     updateMtrac(input: $input, condition: $condition) {
-      created
       id
       status
       incamp
@@ -274,7 +269,6 @@ export const deleteMtrac = /* GraphQL */ `
     $condition: ModelMtracConditionInput
   ) {
     deleteMtrac(input: $input, condition: $condition) {
-      created
       id
       status
       incamp
@@ -386,6 +380,69 @@ export const deleteSummary = /* GraphQL */ `
     }
   }
 `;
+export const createFuel = /* GraphQL */ `
+  mutation CreateFuel(
+    $input: CreateFuelInput!
+    $condition: ModelFuelConditionInput
+  ) {
+    createFuel(input: $input, condition: $condition) {
+      id
+      driver
+      vehicle
+      vehicle_type
+      date
+      time
+      location
+      fuelTopUp
+      fleet
+      company
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const updateFuel = /* GraphQL */ `
+  mutation UpdateFuel(
+    $input: UpdateFuelInput!
+    $condition: ModelFuelConditionInput
+  ) {
+    updateFuel(input: $input, condition: $condition) {
+      id
+      driver
+      vehicle
+      vehicle_type
+      date
+      time
+      location
+      fuelTopUp
+      fleet
+      company
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const deleteFuel = /* GraphQL */ `
+  mutation DeleteFuel(
+    $input: DeleteFuelInput!
+    $condition: ModelFuelConditionInput
+  ) {
+    deleteFuel(input: $input, condition: $condition) {
+      id
+      driver
+      vehicle
+      vehicle_type
+      date
+      time
+      location
+      fuelTopUp
+      fleet
+      company
+      createdAt
+      updatedAt
+    }
+  }
+`;
 export const createUser = /* GraphQL */ `
   mutation CreateUser(
     $input: CreateUserInput!
@@ -393,7 +450,6 @@ export const createUser = /* GraphQL */ `
   ) {
     createUser(input: $input, condition: $condition) {
       email
-      created
       last_login
       name
       fleet
@@ -432,7 +488,6 @@ export const updateUser = /* GraphQL */ `
   ) {
     updateUser(input: $input, condition: $condition) {
       email
-      created
       last_login
       name
       fleet
@@ -471,7 +526,6 @@ export const deleteUser = /* GraphQL */ `
   ) {
     deleteUser(input: $input, condition: $condition) {
       email
-      created
       last_login
       name
       fleet

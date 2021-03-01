@@ -55,7 +55,6 @@ export const onCreateDrive = /* GraphQL */ `
       status
       comments
       company
-      created
       date
       incamp
       is_maintenance
@@ -84,7 +83,6 @@ export const onUpdateDrive = /* GraphQL */ `
       status
       comments
       company
-      created
       date
       incamp
       is_maintenance
@@ -113,7 +111,6 @@ export const onDeleteDrive = /* GraphQL */ `
       status
       comments
       company
-      created
       date
       incamp
       is_maintenance
@@ -125,7 +122,6 @@ export const onDeleteDrive = /* GraphQL */ `
 export const onCreateMtrac = /* GraphQL */ `
   subscription OnCreateMtrac {
     onCreateMtrac {
-      created
       id
       status
       incamp
@@ -186,7 +182,6 @@ export const onCreateMtrac = /* GraphQL */ `
 export const onUpdateMtrac = /* GraphQL */ `
   subscription OnUpdateMtrac {
     onUpdateMtrac {
-      created
       id
       status
       incamp
@@ -247,7 +242,6 @@ export const onUpdateMtrac = /* GraphQL */ `
 export const onDeleteMtrac = /* GraphQL */ `
   subscription OnDeleteMtrac {
     onDeleteMtrac {
-      created
       id
       status
       incamp
@@ -350,11 +344,64 @@ export const onDeleteSummary = /* GraphQL */ `
     }
   }
 `;
+export const onCreateFuel = /* GraphQL */ `
+  subscription OnCreateFuel {
+    onCreateFuel {
+      id
+      driver
+      vehicle
+      vehicle_type
+      date
+      time
+      location
+      fuelTopUp
+      fleet
+      company
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onUpdateFuel = /* GraphQL */ `
+  subscription OnUpdateFuel {
+    onUpdateFuel {
+      id
+      driver
+      vehicle
+      vehicle_type
+      date
+      time
+      location
+      fuelTopUp
+      fleet
+      company
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onDeleteFuel = /* GraphQL */ `
+  subscription OnDeleteFuel {
+    onDeleteFuel {
+      id
+      driver
+      vehicle
+      vehicle_type
+      date
+      time
+      location
+      fuelTopUp
+      fleet
+      company
+      createdAt
+      updatedAt
+    }
+  }
+`;
 export const onCreateUser = /* GraphQL */ `
   subscription OnCreateUser {
     onCreateUser {
       email
-      created
       last_login
       name
       fleet
@@ -390,7 +437,6 @@ export const onUpdateUser = /* GraphQL */ `
   subscription OnUpdateUser {
     onUpdateUser {
       email
-      created
       last_login
       name
       fleet
@@ -426,7 +472,6 @@ export const onDeleteUser = /* GraphQL */ `
   subscription OnDeleteUser {
     onDeleteUser {
       email
-      created
       last_login
       name
       fleet

@@ -27,7 +27,6 @@ mileage_by_vehicle_type?: any;
 
 export interface User
 {
-created: string;
 last_login?: string;
 name: string;
 email: string;  // identifier
@@ -53,7 +52,6 @@ summary?: Summary;  // Commander page needs this...
 
 export interface Fuel
 {
-created: string;
 id?: string;
 driver: string;
 vehicle: string;
@@ -61,14 +59,13 @@ vehicle_type: string;  // TODO: to retrieve from Vehicle table?
 date: string;          // date format is YYYY-MM-DD for sorting purposes
 time: string;    // time format is hh:mm in 24-hour format
 location: string;
-FuelTopUp: number;
+fuelTopUp: number;
 fleet: string;
 company: string;
 }
 
 export interface Drive
 {
-created?: string;
 id?: string;  // random identifier created by Firestore
 status?: string;  // valid values: 'in-progress', 'pending', 'verified', 'rejected'
 incamp?: boolean;
@@ -96,7 +93,6 @@ comments?: string;
 
 export class Mtrac
 {
-created: string;
 id?: string;  // random identifier created by Firestore
 status: string;  // valid values: 'in-progress', 'pending', 'verified', 'rejected'
 incamp: boolean;
@@ -882,7 +878,6 @@ export class DatabaseService {
     const drive_history: Drive[] = [
       {
         id: '',
-        created: '',
         driver: 'sample@test.com',
         commander: 'commander_name',
         vehicle: '1234',
@@ -899,7 +894,6 @@ export class DatabaseService {
       },
       {
         id: '',
-        created: '',
         driver: 'sample@test.com',
         commander: 'commander_name',
         vehicle: '1235',
@@ -925,7 +919,6 @@ export class DatabaseService {
       admin_level: 1,
       belrex_certified: false,
       company: "A",
-      created: "2020-02-13 02:33",
       email: "sample@test.com",
       flb_certified: false,
       fleet: "test",

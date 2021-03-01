@@ -430,7 +430,6 @@ export class AddDrivePage implements OnInit {
         const time = dayjs(new Date(this.addDriveForm.value.startTime)).format('hh:mm:ss.sss');
         var new_drive: Drive = {
           id: this.mtrac.id,
-          created: this.database.getTimeStamp(),
           driver: this.database.current.user.email,
           status: "in-progress",
           is_jit: this.mtrac.is_jit,

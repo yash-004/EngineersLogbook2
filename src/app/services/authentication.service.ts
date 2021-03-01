@@ -31,58 +31,11 @@ export class AuthenticationService {
   //  }
 
   async registerUser(value) {
-    var role
-
-    if (value.isCommander.toLowerCase() === 'false'){
-      role = "driver"
-    }
-    else{
-      role = "commander"
-    }
-
-    if (role == "driver"){
-      var { user } = await Auth.signUp(
-        {
-          username: value.email.toUpperCase(),
-          password: value.password,
-          attributes: {
-              // other custom attributes 
-              'custom:name': value.name.toUpperCase(),
-              'custom:fleet': value.unit.toUpperCase(),
-              'custom:company': value.company.toUpperCase(),
-              'custom:license_num': value.licenseNum,
-              'custom:license_type': value.licenseType,
-              'custom:created': new Date(),
-              'custom:mss_certified': false,
-              'custom:flb_certified': false,
-              'custom:belrex_certified': false,
-              'custom:m3g_certified': false,
-              'custom:role': "driver"
-          }
-      });
-    }
-    else
-    {
-      var { user } = await Auth.signUp(
-        {
-          username: value.email.toUpperCase(),
-          password: value.password,
-          attributes: {
-              // other custom attributes 
-              'custom:name': value.name.toUpperCase(),
-              'custom:fleet': value.unit.toUpperCase(),
-              'custom:company': value.company.toUpperCase(),
-              'custom:license_num': value.licenseNum,
-              'custom:license_type': value.licenseType,
-              'custom:created': new Date(),
-              'custom:mss_certified': false,
-              'custom:flb_certified': false,
-              'custom:belrex_certified': false,
-              'custom:m3g_certified': false,
-              'custom:role': "commander"
-          }
-      });
-    }
+    var { user } = await Auth.signUp(
+      {
+        username: value.email.toUpperCase(),
+        password: value.password,
+    });
 
     var new_user: User = {
       name: value.name.toUpperCase(),
@@ -91,7 +44,6 @@ export class AuthenticationService {
       company: value.company.toUpperCase(),
       licence_num: value.licenseNum,
       licence_type: value.licenseType,
-      created: `${new Date()}`,
       mss_certified: false,
       flb_certified: false,
       belrex_certified: false,
