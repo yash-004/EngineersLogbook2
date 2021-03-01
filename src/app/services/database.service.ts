@@ -821,7 +821,7 @@ export class DatabaseService {
 
   public duration(trip:Drive): number {
     if (!trip.end_odometer || trip.status==='in-progress') return 0; // Handle drive-in-progress
-    const dayjs_format = 'YYYY-MM-DD HH:mm';
+    const dayjs_format = 'YYYY-MM-DD hh:mm:ss.sss';
     let start_dt = dayjs(trip.date + " " + trip.start_time, dayjs_format);
     let end_dt = dayjs(trip.date + " " + trip.end_time, dayjs_format);
     let diff = end_dt.diff(start_dt,"minute");
