@@ -554,7 +554,7 @@ export class DatabaseService {
     if (login.user.is_commander == true)
     {
       var drive_history = await (API.graphql(graphqlOperation(queries.listDrives, {filter: {fleet: {eq: login.user.fleet}}})) as Promise<Drive[]>)
-      login.drive_history = drive_history["data"]["listDrives"]["items"]
+      login.drive_history = drive_history["data"]["listDrives"]["items"].sort((a, b) => (new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()) || (new Date(b.start_time).getTime() - new Date(a.start_time).getTime()))
       getDriveInProgress()
 
       login.detach_bind_drive_create = API.graphql(graphqlOperation(subscriptions.onCreateDrive, {filter: {fleet: {eq: login.user.fleet}}}))
@@ -575,7 +575,7 @@ export class DatabaseService {
       login.detach_bind_drive_update.subscribe({
         next: async ({provider, value}) => {
           var drive_history = await (API.graphql(graphqlOperation(queries.listDrives, {filter: {fleet: {eq: login.user.fleet}}})) as Promise<Drive[]>)
-          login.drive_history = drive_history["data"]["listDrives"]["items"]
+          login.drive_history = drive_history["data"]["listDrives"]["items"].sort((a, b) => (new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()) || (new Date(b.start_time).getTime() - new Date(a.start_time).getTime()))
           console.log(login.drive_history)
           getDriveInProgress()
         },
@@ -586,7 +586,7 @@ export class DatabaseService {
       login.detach_bind_drive_delete.subscribe({
         next: async ({provider, value}) => {
           var drive_history = await (API.graphql(graphqlOperation(queries.listDrives, {filter: {fleet: {eq: login.user.fleet}}})) as Promise<Drive[]>)
-          login.drive_history = drive_history["data"]["listDrives"]["items"]
+          login.drive_history = drive_history["data"]["listDrives"]["items"].sort((a, b) => (new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()) || (new Date(b.start_time).getTime() - new Date(a.start_time).getTime()))
           console.log(login.drive_history)
           getDriveInProgress()
         },
@@ -597,7 +597,7 @@ export class DatabaseService {
     else
     {
       var drive_history = await (API.graphql(graphqlOperation(queries.listDrives, {filter: {driver: {eq: login.user.email}}})) as Promise<Drive[]>)
-      login.drive_history = drive_history["data"]["listDrives"]["items"]
+      login.drive_history = drive_history["data"]["listDrives"]["items"].sort((a, b) => (new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()) || (new Date(b.start_time).getTime() - new Date(a.start_time).getTime()))
       getDriveInProgress()
 
       login.detach_bind_drive_create = API.graphql(graphqlOperation(subscriptions.onCreateDrive, {filter: {driver: {eq: login.user.email}}}))
@@ -621,7 +621,7 @@ export class DatabaseService {
       login.detach_bind_drive_update.subscribe({
         next: async ({provider, value}) => {
           var drive_history = await (API.graphql(graphqlOperation(queries.listDrives, {filter: {driver: {eq: login.user.email}}})) as Promise<Drive[]>)
-          login.drive_history = drive_history["data"]["listDrives"]["items"]
+          login.drive_history = drive_history["data"]["listDrives"]["items"].sort((a, b) => (new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()) || (new Date(b.start_time).getTime() - new Date(a.start_time).getTime()))
           console.log(login.drive_history)
           getDriveInProgress()
         },
@@ -632,7 +632,7 @@ export class DatabaseService {
       login.detach_bind_drive_delete.subscribe({
         next: async ({provider, value}) => {
           var drive_history = await (API.graphql(graphqlOperation(queries.listDrives, {filter: {driver: {eq: login.user.email}}})) as Promise<Drive[]>)
-          login.drive_history = drive_history["data"]["listDrives"]["items"]
+          login.drive_history = drive_history["data"]["listDrives"]["items"].sort((a, b) => (new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()) || (new Date(b.start_time).getTime() - new Date(a.start_time).getTime()))
           console.log(login.drive_history)
           getDriveInProgress()
         },
@@ -694,7 +694,7 @@ export class DatabaseService {
     if (login.user.is_commander == true)
     {
       var mtrac_history = await (API.graphql(graphqlOperation(queries.listMtracs, {filter: {commander: {eq: login.user.email}}})) as Promise<Drive[]>)
-      login.mtrac_history = mtrac_history["data"]["listMtracs"]["items"] 
+      login.mtrac_history = mtrac_history["data"]["listMtracs"]["items"].sort((a, b) => (new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()))
       getMtracInProgress()
 
       login.detach_bind_mtrac_create = API.graphql(graphqlOperation(subscriptions.onCreateMtrac, {filter: {commander: {eq: login.user.email}}}))
@@ -714,7 +714,7 @@ export class DatabaseService {
       login.detach_bind_mtrac_update.subscribe({
         next: async ({provider, value}) => {
           var mtrac_history = await (API.graphql(graphqlOperation(queries.listMtracs, {filter: {commander: {eq: login.user.email}}})) as Promise<Drive[]>)
-          login.mtrac_history = mtrac_history["data"]["listMtracs"]["items"]
+          login.mtrac_history = mtrac_history["data"]["listMtracs"]["items"].sort((a, b) => (new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()))
           console.log(login.mtrac_history)
 
           getMtracInProgress()
@@ -726,7 +726,7 @@ export class DatabaseService {
       login.detach_bind_mtrac_delete.subscribe({
         next: async ({provider, value}) => {
           var mtrac_history = await (API.graphql(graphqlOperation(queries.listMtracs, {filter: {commander: {eq: login.user.email}}})) as Promise<Drive[]>)
-          login.mtrac_history = mtrac_history["data"]["listMtracs"]["items"]
+          login.mtrac_history = mtrac_history["data"]["listMtracs"]["items"].sort((a, b) => (new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()))
           console.log(login.mtrac_history)
 
           getMtracInProgress()
@@ -738,7 +738,7 @@ export class DatabaseService {
     else
     {
       var mtrac_history = await (API.graphql(graphqlOperation(queries.listMtracs, {filter: {driver: {eq: login.user.email}}})) as Promise<Drive[]>)
-      login.mtrac_history = mtrac_history["data"]["listMtracs"]["items"]
+      login.mtrac_history = mtrac_history["data"]["listMtracs"]["items"].sort((a, b) => (new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()))
       getMtracInProgress()
 
       login.detach_bind_mtrac_create = API.graphql(graphqlOperation(subscriptions.onCreateMtrac, {filter: {driver: {eq: login.user.email}}}))
@@ -758,7 +758,7 @@ export class DatabaseService {
       login.detach_bind_mtrac_update.subscribe({
         next: async ({provider, value}) => {
           var mtrac_history = await (API.graphql(graphqlOperation(queries.listMtracs, {filter: {driver: {eq: login.user.email}}})) as Promise<Drive[]>)
-          login.mtrac_history = mtrac_history["data"]["listMtracs"]["items"]
+          login.mtrac_history = mtrac_history["data"]["listMtracs"]["items"].sort((a, b) => (new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()))
           console.log(login.mtrac_history)
           getMtracInProgress()
         },
@@ -769,7 +769,7 @@ export class DatabaseService {
       login.detach_bind_mtrac_delete.subscribe({
         next: async ({provider, value}) => {
           var mtrac_history = await (API.graphql(graphqlOperation(queries.listMtracs, {filter: {driver: {eq: login.user.email}}})) as Promise<Drive[]>)
-          login.mtrac_history = mtrac_history["data"]["listMtracs"]["items"]
+          login.mtrac_history = mtrac_history["data"]["listMtracs"]["items"].sort((a, b) => (new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()))
           console.log(login.mtrac_history)
           getMtracInProgress()
         },
@@ -784,7 +784,6 @@ export class DatabaseService {
     // Calculate new stats for both drivers and commanders
     login.stats = this.summarize(login.drive_history);
 
-    console.log("mrdbvt1",login.stats.most_recent_drive_by_vehicle_type)
 
     // For drivers, write summarized report to database (For commanders' module)
     if (login.user.is_driver) {

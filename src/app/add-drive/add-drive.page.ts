@@ -410,9 +410,9 @@ export class AddDrivePage implements OnInit {
         // update status in database
         // await this.database.write('drive', this.drive.id, this.drive);
 
-        var adddrive = await API.graphql(graphqlOperation(mutations.updateDrive, {input: {...this.drive, createdAt: undefined, updatedAt: undefined}}))
+        var updatedrive = await API.graphql(graphqlOperation(mutations.updateDrive, {input: {...this.drive, createdAt: undefined, updatedAt: undefined}}))
 
-        console.log("adddrive", adddrive)
+        console.log("updatedrive", updatedrive)
   
         this.errorMessage = '';
         this.successMessage = 'The drive status has been updated successfully.';
