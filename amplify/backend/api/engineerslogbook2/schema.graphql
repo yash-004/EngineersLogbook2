@@ -125,4 +125,5 @@ type User @model @key(fields: ["email"]) @auth(rules: [{allow: private}]) {
   belrex_certified: Boolean
   m3g_certified: Boolean
   summary: Summary @connection
+  devices: [String]
 }

@@ -357,6 +357,8 @@ export class AddDrivePage implements OnInit {
     if (this.drive.commander != this.database.current.user.email)
     {
       try {
+        //sort to get the latest drive
+        this.database.current.drive_history = this.database.current.drive_history.sort((a, b) => (Date.parse(b.createdAt.substring(0, b.createdAt.length - 13)+b.start_time) - Date.parse(a.createdAt.substring(0, a.createdAt.length - 13)+a.start_time)))
         const currentDrive = this.database.current.drive_history[0];
 
         // Stage 1 details : the user may made some changes to these info

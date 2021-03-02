@@ -47,6 +47,7 @@ belrex_certified?: boolean;
 m3g_certified?: boolean;
 
 summary?: Summary;  // Commander page needs this...
+devices?: string[];
 }
 
 export interface Fuel
@@ -66,6 +67,7 @@ company: string;
 export interface Drive
 {
 id?: string;  // random identifier created by Firestore
+createdAt: string;
 status?: string;  // valid values: 'in-progress', 'pending', 'verified', 'rejected'
 incamp?: boolean;
 is_jit: boolean;
@@ -90,9 +92,10 @@ is_maintenance?: boolean;
 comments?: string;
 }
 
-export class Mtrac
+export interface Mtrac
 {
 id?: string;  // random identifier created by Firestore
+createdAt: string;
 status: string;  // valid values: 'in-progress', 'pending', 'verified', 'rejected'
 incamp: boolean;
 is_jit?: boolean;
@@ -544,7 +547,7 @@ export class DatabaseService {
     if (login.user.is_commander == true)
     {
       var drive_history = await (API.graphql(graphqlOperation(queries.listDrives, {filter: {fleet: {eq: login.user.fleet}}})) as Promise<Drive[]>)
-      login.drive_history = drive_history["data"]["listDrives"]["items"].sort((a, b) => (new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()) || (new Date(b.start_time).getTime() - new Date(a.start_time).getTime()))
+      login.drive_history = drive_history["data"]["listDrives"]["items"].sort((a, b) => (Date.parse(b.createdAt.substring(0, b.createdAt.length - 13)+b.start_time) - Date.parse(a.createdAt.substring(0, a.createdAt.length - 13)+a.start_time)))
       getDriveInProgress()
 
       login.detach_bind_drive_create = API.graphql(graphqlOperation(subscriptions.onCreateDrive, {filter: {fleet: {eq: login.user.fleet}}}))
@@ -565,7 +568,7 @@ export class DatabaseService {
       login.detach_bind_drive_update.subscribe({
         next: async ({provider, value}) => {
           var drive_history = await (API.graphql(graphqlOperation(queries.listDrives, {filter: {fleet: {eq: login.user.fleet}}})) as Promise<Drive[]>)
-          login.drive_history = drive_history["data"]["listDrives"]["items"].sort((a, b) => (new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()) || (new Date(b.start_time).getTime() - new Date(a.start_time).getTime()))
+          login.drive_history = drive_history["data"]["listDrives"]["items"].sort((a, b) => (Date.parse(b.createdAt.substring(0, b.createdAt.length - 13)+b.start_time) - Date.parse(a.createdAt.substring(0, a.createdAt.length - 13)+a.start_time)))
           console.log(login.drive_history)
           getDriveInProgress()
         },
@@ -576,7 +579,7 @@ export class DatabaseService {
       login.detach_bind_drive_delete.subscribe({
         next: async ({provider, value}) => {
           var drive_history = await (API.graphql(graphqlOperation(queries.listDrives, {filter: {fleet: {eq: login.user.fleet}}})) as Promise<Drive[]>)
-          login.drive_history = drive_history["data"]["listDrives"]["items"].sort((a, b) => (new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()) || (new Date(b.start_time).getTime() - new Date(a.start_time).getTime()))
+          login.drive_history = drive_history["data"]["listDrives"]["items"].sort((a, b) => (Date.parse(b.createdAt.substring(0, b.createdAt.length - 13)+b.start_time) - Date.parse(a.createdAt.substring(0, a.createdAt.length - 13)+a.start_time)))
           console.log(login.drive_history)
           getDriveInProgress()
         },
@@ -587,7 +590,7 @@ export class DatabaseService {
     else
     {
       var drive_history = await (API.graphql(graphqlOperation(queries.listDrives, {filter: {driver: {eq: login.user.email}}})) as Promise<Drive[]>)
-      login.drive_history = drive_history["data"]["listDrives"]["items"].sort((a, b) => (new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()) || (new Date(b.start_time).getTime() - new Date(a.start_time).getTime()))
+      login.drive_history = drive_history["data"]["listDrives"]["items"].sort((a, b) => (Date.parse(b.createdAt.substring(0, b.createdAt.length - 13)+b.start_time) - Date.parse(a.createdAt.substring(0, a.createdAt.length - 13)+a.start_time)))
       getDriveInProgress()
 
       login.detach_bind_drive_create = API.graphql(graphqlOperation(subscriptions.onCreateDrive, {filter: {driver: {eq: login.user.email}}}))
@@ -611,7 +614,7 @@ export class DatabaseService {
       login.detach_bind_drive_update.subscribe({
         next: async ({provider, value}) => {
           var drive_history = await (API.graphql(graphqlOperation(queries.listDrives, {filter: {driver: {eq: login.user.email}}})) as Promise<Drive[]>)
-          login.drive_history = drive_history["data"]["listDrives"]["items"].sort((a, b) => (new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()) || (new Date(b.start_time).getTime() - new Date(a.start_time).getTime()))
+          login.drive_history = drive_history["data"]["listDrives"]["items"].sort((a, b) => (Date.parse(b.createdAt.substring(0, b.createdAt.length - 13)+b.start_time) - Date.parse(a.createdAt.substring(0, a.createdAt.length - 13)+a.start_time)))
           console.log(login.drive_history)
           getDriveInProgress()
         },
@@ -622,7 +625,7 @@ export class DatabaseService {
       login.detach_bind_drive_delete.subscribe({
         next: async ({provider, value}) => {
           var drive_history = await (API.graphql(graphqlOperation(queries.listDrives, {filter: {driver: {eq: login.user.email}}})) as Promise<Drive[]>)
-          login.drive_history = drive_history["data"]["listDrives"]["items"].sort((a, b) => (new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()) || (new Date(b.start_time).getTime() - new Date(a.start_time).getTime()))
+          login.drive_history = drive_history["data"]["listDrives"]["items"].sort((a, b) => (Date.parse(b.createdAt.substring(0, b.createdAt.length - 13)+b.start_time) - Date.parse(a.createdAt.substring(0, a.createdAt.length - 13)+a.start_time)))
           console.log(login.drive_history)
           getDriveInProgress()
         },

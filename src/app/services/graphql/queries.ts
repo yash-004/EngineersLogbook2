@@ -340,6 +340,7 @@ export const getUser = /* GraphQL */ `
         createdAt
         updatedAt
       }
+      devices
       createdAt
       updatedAt
     }
@@ -376,6 +377,7 @@ export const listUsers = /* GraphQL */ `
         flb_certified
         belrex_certified
         m3g_certified
+        devices
         createdAt
         updatedAt
       }

@@ -427,6 +427,7 @@ export const onCreateUser = /* GraphQL */ `
         createdAt
         updatedAt
       }
+      devices
       createdAt
       updatedAt
     }
@@ -461,6 +462,7 @@ export const onUpdateUser = /* GraphQL */ `
         createdAt
         updatedAt
       }
+      devices
       createdAt
       updatedAt
     }
@@ -495,6 +497,7 @@ export const onDeleteUser = /* GraphQL */ `
         createdAt
         updatedAt
       }
+      devices
       createdAt
       updatedAt
     }
