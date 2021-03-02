@@ -67,7 +67,7 @@ company: string;
 export interface Drive
 {
 id?: string;  // random identifier created by Firestore
-createdAt: string;
+createdAt?: string;
 status?: string;  // valid values: 'in-progress', 'pending', 'verified', 'rejected'
 incamp?: boolean;
 is_jit: boolean;
