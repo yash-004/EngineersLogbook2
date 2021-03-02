@@ -7,6 +7,7 @@ import { PipesModule } from '../../pipes/pipes.module';
 import 'chartjs-plugin-labels';
 import 'chartjs-chart-radial-gauge';
 import 'chartjs-tsgauge';
+import { AuthenticationService } from 'src/app/services/authentication.service';
 
 //Chart.defaults.global.defaultFontSize = 10;
 //Chart.defaults.global.maintainAspectRatio = true;
@@ -22,6 +23,7 @@ export class SummaryPage implements OnInit {
   constructor( 
     public database: DatabaseService,
     private navCtrl: NavController,
+    private authService: AuthenticationService
   ) { }
 
   drivestatus = 9 > 10;

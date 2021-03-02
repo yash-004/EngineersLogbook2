@@ -7,6 +7,7 @@ import 'chartjs-plugin-labels';
 import 'chartjs-chart-radial-gauge';
 import 'chartjs-tsgauge';
 import {ChartsModule, Color} from 'ng2-charts';
+import { AuthenticationService } from 'src/app/services/authentication.service';
 
 @Component({
   selector: 'app-history',
@@ -20,6 +21,7 @@ export class HistoryPage implements OnInit {
   
   constructor(
     private database: DatabaseService,
+    private authService: AuthenticationService
   ) { }
 
   ngOnInit() {

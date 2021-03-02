@@ -2,7 +2,7 @@
   <ion-toolbar>
     <ion-title>About</ion-title>
     <ion-buttons slot="primary">
-      <ion-button left routerLink="/" routerDirection="root" fill="clear" slot="primary">
+      <ion-button left routerLink="/" routerDirection="root" (click)="this.authService.logoutUser()" fill="clear" slot="primary">
         Logout<ion-icon name="log-out"></ion-icon>
       </ion-button>
     </ion-buttons>

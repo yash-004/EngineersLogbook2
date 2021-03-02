@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Platform } from '@ionic/angular';
+import { AuthenticationService } from 'src/app/services/authentication.service';
 
 @Component({
   selector: 'app-about',
@@ -8,7 +9,7 @@ import { Platform } from '@ionic/angular';
 })
 export class AboutPage implements OnInit {
 
-  constructor(public platform: Platform) { }
+  constructor(public platform: Platform, private authService: AuthenticationService) { }
 
   ngOnInit() {
   }

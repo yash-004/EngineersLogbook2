@@ -2,17 +2,19 @@ import { Injectable } from '@angular/core';
 
 import { API, Auth, graphqlOperation } from 'aws-amplify';
 
-import { User } from './database.service'
+import { DatabaseService, User } from './database.service'
 
 import * as queries from './graphql/queries';
 import * as mutations from './graphql/mutations';
+import { FCM } from '@ionic-native/fcm/ngx';
+import { Platform } from '@ionic/angular';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthenticationService {
 
-  constructor() { 
+  constructor(private platform: Platform, private fcm: FCM) { 
 
     /*
     firebase.auth().onAuthStateChanged( (authData) => {
@@ -74,9 +76,38 @@ export class AuthenticationService {
     return user
   }
 
+  async unregisterToken(){
+    if (this.platform.is('cordova')) {
+      
+      this.fcm.getToken().then(async token => {
+      
+        console.log(`> FCM: Token received: ${token}`);
+
+        var tokenexists = false
+
+        var user = await this.userDetails();
+        if (user.devices){
+          if (user.devices.includes(token)){
+            console.log("Current token found!")
+            var index = user.devices.indexOf(token);
+            if (index !== -1) {
+              console.log("Removing token")
+              user.devices.splice(index, 1);
+              var updateUser = await API.graphql(graphqlOperation(mutations.updateUser, {input: {email: user.email, devices: user.devices}}))
+              console.log("updateUserToken",updateUser)
+            }
+          }  
+        }
+        // this.database.write('devices',email,doc);
+      });
+    }
+  }
+
   async logoutUser() {
     console.log("> logout");
+    await this.unregisterToken()
     await Auth.signOut();
+
    }
 
 

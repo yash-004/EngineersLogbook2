@@ -6,6 +6,7 @@ import { API, Auth, graphqlOperation } from 'aws-amplify';
 import * as queries from '../../services/graphql/queries';
 import * as mutations from '../../services/graphql/mutations';
 import * as subscriptions from '../../services/graphql/subscriptions';
+import { AuthenticationService } from 'src/app/services/authentication.service';
 
 @Component({
   selector: 'app-cmd_history',
@@ -19,6 +20,7 @@ export class CmdHistoryPage implements OnInit {
 
   constructor(
     private database: DatabaseService,
+    private authService: AuthenticationService
   ) { }
 
   ngOnInit() {
