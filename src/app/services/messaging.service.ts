@@ -32,15 +32,23 @@ export class MessagingService {
       
         console.log(`> FCM: Token received: ${token}`);
 
-        if (this.database.current.user.devices.includes(token)){
-          console.log("Token already exists!")
+        var tokenexists = false
+        if (this.database.current.user.devices){
+          if (this.database.current.user.devices.includes(token)){
+            console.log("Token already exists!")
+            tokenexists = true
+          }  
         }
-        else{{
+
+        if (!tokenexists){
+          if (!this.database.current.user.devices){
+            this.database.current.user.devices = []
+          }
           this.database.current.user.devices.push(token)
           console.log("Added token to current user")
           var updateUser = await API.graphql(graphqlOperation(mutations.updateUser, {input: {email: this.database.current.user.email, devices: this.database.current.user.devices}}))
           console.log("updateUser", updateUser)
-        }}
+        }
         // this.database.write('devices',email,doc);
       });
       
