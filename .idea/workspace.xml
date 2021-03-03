@@ -63,7 +63,9 @@
     </select>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3cdf076c-df2b-4277-9f47-69f51d413bc6" name="Default Changelist" comment="followed the youtube tutorial but no error, sidebar does not display" />
+    <list default="true" id="3cdf076c-df2b-4277-9f47-69f51d413bc6" name="Default Changelist" comment="followed the youtube tutorial but no error, sidebar does not display">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -337,7 +339,14 @@
       <option name="project" value="LOCAL" />
       <updated>1614651288050</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="followed the youtube tutorial but no error, sidebar does not display">
+      <created>1614738321837</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1614738321837</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="UnknownFeatures">
@@ -394,9 +403,9 @@
     <option name="LAST_COMMIT_MESSAGE" value="followed the youtube tutorial but no error, sidebar does not display" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="343" y="195" key="Vcs.Push.Dialog.v2" timestamp="1614651406716">
+    <state x="343" y="195" key="Vcs.Push.Dialog.v2" timestamp="1614738334720">
       <screen x="0" y="0" width="1536" height="864" />
     </state>
-    <state x="343" y="195" key="Vcs.Push.Dialog.v2/0.0.1536.864@0.0.1536.864" timestamp="1614651406716" />
+    <state x="343" y="195" key="Vcs.Push.Dialog.v2/0.0.1536.864@0.0.1536.864" timestamp="1614738334720" />
   </component>
 </project>
