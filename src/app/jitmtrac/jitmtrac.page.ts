@@ -205,9 +205,9 @@ export class jitmtracPage implements OnInit {
       }
       else if (this.mtrac.status == "verified" || this.mtrac.status == "rejected") {
         this.counterSignature.off();
-        this.counterSignature.fromData(this.convertArrayFromFirebase(this.mtrac.counterSignature))
+        this.counterSignature.fromData(JSON.parse(this.mtrac.counterSignature))
         this.frontSignature.off();
-        this.frontSignature.fromData(this.convertArrayFromFirebase(this.mtrac.frontSignature))
+        this.frontSignature.fromData(JSON.parse(this.mtrac.frontSignature))
     }
     else {
       this.counterSignature.off();
