@@ -2,7 +2,7 @@
   <ion-toolbar>
     <ion-title>Commander</ion-title>
     <ion-buttons slot="primary">
-      <ion-button left routerLink="/" routerDirection="root" fill="clear" slot="primary">
+      <ion-button left routerLink="/" routerDirection="root" fill="clear" (click)="this.authService.logoutUser()" slot="primary">
         Logout<ion-icon name="log-out"></ion-icon>
       </ion-button>
     </ion-buttons>
@@ -29,7 +29,7 @@
   <ion-card *ngFor="let form of getPendingMTRAC()"  (click)="clickmtrac(form)" color="primary" class="ion-padding">
     <ion-card-title class="ion-padding; card">Pending Review (MT-RAC)</ion-card-title>
     <ion-card-content class="ion-padding; card">
-      Your MT-RAC on <b>{{form.created}}</b> with <b>{{getDriverName(form.driver)}} ({{form.vehicleNumber}})</b>
+      Your MT-RAC on <b>{{form.createdAt}}</b> with <b>{{getDriverName(form.driver)}} ({{form.vehicleNumber}})</b>
       is pending review.
     </ion-card-content>
 

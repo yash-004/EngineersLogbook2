@@ -3,6 +3,11 @@ import { Injectable } from '@angular/core';
 import { DatabaseService } from './database.service';
 import { FCM } from '@ionic-native/fcm/ngx';
 
+import { API, Auth, graphqlOperation } from 'aws-amplify';
+import * as queries from './graphql/queries';
+import * as mutations from './graphql/mutations';
+import * as subscriptions from './graphql/subscriptions';
+
 @Injectable({
   providedIn: 'root'
 })
@@ -23,16 +28,28 @@ export class MessagingService {
 
       console.log(`> FCM: Initializing cloud messaging services: ${email}`);
       
-      this.fcm.getToken().then(token => {
+      this.fcm.getToken().then(async token => {
       
         console.log(`> FCM: Token received: ${token}`);
 
-        const doc = {
-          token,
-          userId: email
-        };
-        
-        this.database.write('devices',email,doc);
+        var tokenexists = false
+        if (this.database.current.user.devices){
+          if (this.database.current.user.devices.includes(token)){
+            console.log("Token already exists!")
+            tokenexists = true
+          }  
+        }
+
+        if (!tokenexists){
+          if (!this.database.current.user.devices){
+            this.database.current.user.devices = []
+          }
+          this.database.current.user.devices.push(token)
+          console.log("Added token to current user")
+          var updateUser = await API.graphql(graphqlOperation(mutations.updateUser, {input: {email: this.database.current.user.email, devices: this.database.current.user.devices}}))
+          console.log("updateUser", updateUser)
+        }
+        // this.database.write('devices',email,doc);
       });
       
       this.fcm.onTokenRefresh().subscribe(token => {

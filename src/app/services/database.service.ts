@@ -3,20 +3,30 @@ import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/fire
 import * as firebase from 'firebase/app';
 import * as dayjs from 'dayjs'; // DateTime utility, See http://zetcode.com/javascript/dayjs/
 import { sprintf } from 'sprintf-js';
+import { AuthenticationService } from './authentication.service';
+import { userInfo } from 'os';
+import { API, Auth, graphqlOperation } from 'aws-amplify';
+import * as queries from './graphql/queries';
+import * as mutations from './graphql/mutations';
+import * as subscriptions from './graphql/subscriptions';
+import { logWarnings } from 'protractor/built/driverProviders';
+import { Observable, Subscription, from} from 'rxjs'; 
+import { Dirent } from 'fs';
+import { logging } from 'protractor';
 
 export interface Summary
 {
+id?: string;
 drive_count: number;
 mileage_km: number;
 duration_minutes: number;
-most_recent_drive: any;   // dayjs type
-most_recent_drive_by_vehicle_type: any;
-mileage_by_vehicle_type: any;
+most_recent_drive?: any;   // dayjs type
+most_recent_drive_by_vehicle_type?: any;
+mileage_by_vehicle_type?: any;
 }
 
 export interface User
 {
-created: string;
 last_login?: string;
 name: string;
 email: string;  // identifier
@@ -24,7 +34,6 @@ fleet: string;
 company: string;
 is_admin?: boolean;  // Superuser
 is_commander?: boolean;
-location?: any;
 admin_level?: number;
 
 // For drivers only
@@ -38,11 +47,11 @@ belrex_certified?: boolean;
 m3g_certified?: boolean;
 
 summary?: Summary;  // Commander page needs this...
+devices?: string[];
 }
 
 export interface Fuel
 {
-created: string;
 id?: string;
 driver: string;
 vehicle: string;
@@ -50,29 +59,29 @@ vehicle_type: string;  // TODO: to retrieve from Vehicle table?
 date: string;          // date format is YYYY-MM-DD for sorting purposes
 time: string;    // time format is hh:mm in 24-hour format
 location: string;
-FuelTopUp: number;
+fuelTopUp: number;
 fleet: string;
 company: string;
 }
 
 export interface Drive
 {
-created: string;
 id?: string;  // random identifier created by Firestore
-status: string;  // valid values: 'in-progress', 'pending', 'verified', 'rejected'
-incamp: boolean;
-is_jit?: boolean;
+createdAt?: string;
+status?: string;  // valid values: 'in-progress', 'pending', 'verified', 'rejected'
+incamp?: boolean;
+is_jit: boolean;
 // Stage-1 details (Start journey)
 driver: string;
-commander: string;
-vehicle: string;
-vehicle_type: string;  // TODO: to retrieve from Vehicle table?
-date: string;          // date format is YYYY-MM-DD for sorting purposes
-start_time: string;    // time format is hh:mm in 24-hour format
-start_location: string;
-start_odometer: number;
-fleet: string;
-company: string;
+commander?: string;
+vehicle?: string;
+vehicle_type?: string;  // TODO: to retrieve from Vehicle table?
+date?: string;          // date format is YYYY-MM-DD for sorting purposes
+start_time?: string;    // time format is hh:mm in 24-hour format
+start_location?: string;
+start_odometer?: number;
+fleet?: string;
+company?: string;
 
 // Stage-2 details (End journey)
 end_time?: string;
@@ -85,8 +94,8 @@ comments?: string;
 
 export interface Mtrac
 {
-created: string;
 id?: string;  // random identifier created by Firestore
+createdAt?: string;
 status: string;  // valid values: 'in-progress', 'pending', 'verified', 'rejected'
 incamp: boolean;
 is_jit?: boolean;
@@ -95,7 +104,7 @@ driver: string;
 commander: string;
 fleet: string;
 company: string;
-vehicleNumber: string,
+vehicleNumber: string;
 licenseType: string;
 vehicle_type: string;
 vehicleType2: string;
@@ -136,7 +145,7 @@ mtraccompletedriver: boolean;
 drivermtrac: boolean;
 commandermtrac: boolean;
 
-admindriver: boolean,
+admindriver: boolean;
 admincommander: boolean;
 
 psgerlicense: boolean;
@@ -173,9 +182,13 @@ export interface Login
   fuel_in_progress?: Fuel;
   fuel_to_edit?: Fuel;
 
-  // For Firestore data binding/un-binding
-  detach_bind_drive?: any;
-  detach_bind_mtrac?: any;
+  // For AWS data binding/un-binding
+  detach_bind_drive_create?: any;
+  detach_bind_drive_update?: any;
+  detach_bind_drive_delete?: any;
+  detach_bind_mtrac_create?: any;
+  detach_bind_mtrac_update?: any;
+  detach_bind_mtrac_delete?: any;
   detach_bind_user?: any;
   snapshot_wait: number;
 }
@@ -193,55 +206,69 @@ export class DatabaseService {
 
   public current: Login = null;  // Currently logged in user
 
-  constructor(public firestore: AngularFirestore)
+  constructor(public firestore: AngularFirestore, private authService: AuthenticationService)
   {
     // Create dummy login for debugging without Firebase authentication
     this.current = this.createDebugLogin();
   }
 
+
   ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   // Retrieves and populates profile/drive fields for the currently logged in user.
   // This is called right after Firebase authentication is successful.
-  public async init(email: string) {
-
+  public async init() {
     if (this.current) this.logout();
 
-    const result: any = await this.read('user',email);
+    var user = await this.authService.userDetails();
 
     this.current = {
-      user: result.data() as User,
+      user: await this.authService.userDetails() as User,
       snapshot_wait: 0
     };
 
-    await this.log(`Logged-in: ${email}`);
+    await this.log(`Logged-in: ${this.current.user.email}`);
 
     if (!this.current.user.fleet) {
       // No fleet string? Set it to the default and update the database
-      this.current.user.fleet = "30SCE";
-      await this.write('user',email,this.current.user);
+
+      await API.graphql(graphqlOperation(mutations.updateUser, {input: {email: this.current.user.email, fleet: "30SCE"}}))
+      // await Auth.updateUserAttributes(user, { "custom:fleet": "30SCE"})
+
+      // await this.write('user',this.current.user.email,this.current.user);
     }
 
-    if (this.current.user.is_driver && !this.current.user.is_commander && this.current.user.admin_level != 0) {
-      // No fleet string? Set it to the default and update the database
-      this.current.user.admin_level = 0;
-      await this.write('user',email,this.current.user);
+    if (this.current.user.is_driver && this.current.user.admin_level != 0) {
+      // this.current.user.admin_level = 0;
+      // await this.write('user',this.current.user.email,this.current.user);
+      await API.graphql(graphqlOperation(mutations.updateUser, {input: {email: this.current.user.email, admin_level: 0}}))
     }
+
 
     // Bind local data to database
     this.bind(this.current);
-
+    
     // Wait for data binding to finish
     while (this.current.snapshot_wait==0) {
       console.log("> Still retrieving userdata...");
       await this.sleep(500);
     }
-    console.log(`> Current database user: ${email} => ${JSON.stringify(this.current.user)}`);
+    console.log(`> Current database user: ${this.current.user.email} => ${JSON.stringify(this.current.user)}`);
 
     // Get all users who are in the same company as logged in user
-    this.current.all_coyusers = await this.list('user', ['company','==',this.current.user.company] );
-    this.current.all_unitusers = await this.list('user', ['fleet','==',this.current.user.fleet] );
-    //console.log(`> All Users: ${JSON.stringify(this.current.all_coyusers)}`);
-    //console.log(`> All Users: ${JSON.stringify(this.current.all_unitusers)}`);
+    // this.current.all_coyusers = await this.list('user', ['company','==',this.current.user.company] );
+    var all_coyusers = await (API.graphql(graphqlOperation(queries.listUsers, {filter: {company: {eq: this.current.user.company}}})) as Promise<User[]>)
+    
+    this.current.all_coyusers = all_coyusers["data"]["listUsers"]["items"]
+    console.log("allcoy",this.current.all_coyusers)
+
+
+    // this.current.all_unitusers = await this.list('user', ['fleet','==',this.current.user.fleet] );
+    var all_unitusers = await (API.graphql(graphqlOperation(queries.listUsers, {filter: {fleet: {eq: this.current.user.fleet}}})) as Promise<User[]>)
+    this.current.all_unitusers = all_unitusers["data"]["listUsers"]["items"]
+
+    console.log("allunit",this.current.all_unitusers)
+    console.log(`> All Users: ${JSON.stringify(this.current.all_coyusers)}`);
+    console.log(`> All Users: ${JSON.stringify(this.current.all_unitusers)}`);
 
     // If user is_driver, get list of commanders from the same company (for drop-down list in add-drive)
     if (this.current.user.is_driver||this.current.user.is_commander) {
@@ -255,16 +282,25 @@ export class DatabaseService {
       this.current.all_drivers_of_commander = this.current.all_coyusers.filter( (user) => { return user.is_driver || user.email == this.current.user.email; } );
       console.log(`> List of drivers[${this.current.all_drivers_of_commander.length}] = ${JSON.stringify(this.current.all_drivers_of_commander)}`);
 
+
       // Also retrieve summaries of drivers
       for (let driver of this.current.all_drivers_of_commander) {
 
-        const result: any = await this.read('summary',driver.email);
-
-        if (result.data()) {
+        // To revisit, cannot access summary from driver even though it exists in driver object
+        if (driver.summary) {
           // Found summary, great.
-          driver.summary = result.data() as Summary;
+          // driver.summary = result["data"]["getSummary"] 
+          console.log("Got summary")
+          driver.summary.most_recent_drive = JSON.parse(driver.summary.most_recent_drive)
+          driver.summary.most_recent_drive_by_vehicle_type = JSON.parse(driver.summary.most_recent_drive_by_vehicle_type)
+          driver.summary.mileage_by_vehicle_type = JSON.parse(driver.summary.mileage_by_vehicle_type)
+
+          driver.summary = driver.summary as Summary;
+
+          console.log("summary",driver.summary)
         } else {
           // No summary? Calculate it...
+          console.log("Calculating summary")
           driver.summary = this.summarize(this.current.drive_history.filter( (drive) => { return drive.driver === driver.email } ));
         }
 
@@ -280,15 +316,24 @@ export class DatabaseService {
       // Also retrieve summaries of drivers
       for (let driver of this.current.all_drivers_of_commander) {
 
-        const result: any = await this.read('summary',driver.email);
-
-        if (result.data()) {
+        // To revisit, cannot access summary from driver even though it exists in driver object
+        if (driver.summary) {
           // Found summary, great.
-          driver.summary = result.data() as Summary;
+          // driver.summary = result["data"]["getSummary"] 
+          console.log("Got summary")
+          driver.summary.most_recent_drive = JSON.parse(driver.summary.most_recent_drive)
+          driver.summary.most_recent_drive_by_vehicle_type = JSON.parse(driver.summary.most_recent_drive_by_vehicle_type)
+          driver.summary.mileage_by_vehicle_type = JSON.parse(driver.summary.mileage_by_vehicle_type)
+
+          driver.summary = driver.summary as Summary;
+
+          console.log("summary",driver.summary)
         } else {
           // No summary? Calculate it...
+          console.log("Calculating summary")
           driver.summary = this.summarize(this.current.drive_history.filter( (drive) => { return drive.driver === driver.email } ));
         }
+
 
         //console.log(`${driver.email} ${JSON.stringify(driver.summary)}`);
       }
@@ -309,73 +354,80 @@ export class DatabaseService {
 
     // Unsubscribe to real-time data binding
     // See https://firebase.google.com/docs/firestore/query-data/listen
-    if (this.current.detach_bind_user) {
-      this.current.detach_bind_user();
-      this.current.detach_bind_user = null;
-    }
-    if (this.current.detach_bind_drive) {
-      this.current.detach_bind_drive();
-      this.current.detach_bind_drive = null;
-    }
+    // if (this.current.detach_bind_user) {
+    //   this.current.detach_bind_user();
+    //   this.current.detach_bind_user = null;
+    // }
+
+    // if (this.current.detach_bind_drive_create){
+    //   this.current.detach_bind_drive_create.unsubscribe()
+    //   this.current.detach_bind_drive_update.unsubscribe()
+    //   this.current.detach_bind_drive_delete.unsubscribe()
+    //   this.current.detach_bind_mtrac_create.unsubscribe()
+    //   this.current.detach_bind_mtrac_update.unsubscribe()
+    //   this.current.detach_bind_mtrac_delete.unsubscribe()  
+    // }
+
     this.current = null;
   }
 
   ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   // Basic CRUD operators
-  public collection(table: string) {
-    return firebase.firestore().collection(table);
-  }
+  // public collection(table: string) {
+  //   return firebase.firestore().collection(table);
+  // }
 
-  public async read(table:string, key:string) {
-    return await this.collection(table).doc(key).get();
-  }
+  // public async read(table:string, key:string) {
+  //   return await this.collection(table).doc(key).get();
+  // }
 
-  public async write(table:string, key:string, doc:any) {
-    await this.log(`Write table:${table} key:${key}`);
-    return await this.collection(table).doc(key).set(doc);
-  }
+  // public async write(table:string, key:string, doc:any) {
+  //   await this.log(`Write table:${table} key:${key}`);
+  //   return await this.collection(table).doc(key).set(doc);
+  // }
 
-  public async add(table:string, doc:any) {
-    await this.log(`Write table:${table}`);
-    return await this.collection(table).add(doc);  // add() creates a new random document key
-  }
+  // public async add(table:string, doc:any) {
+  //   await this.log(`Write table:${table}`);
+  //   return await this.collection(table).add(doc);  // add() creates a new random document key
+  // }
 
-  public async delete(table:string, key:string) {
-    await this.log(`Delete table:${table} key:${key}`);
-    return await this.collection(table).doc(key).delete();
-  }
+  // public async delete(table:string, key:string) {
+  //   await this.log(`Delete table:${table} key:${key}`);
+  //   return await this.collection(table).doc(key).delete();
+  // }
 
-  public async list(table:string, condition?:any, order_by?:any)
-  {
-    let query: any = firebase.firestore().collection(table);
-    if (condition) {
-      // Augment query with optional condition
-      query = query.where( condition[0], condition[1], condition[2] );
-    }
-    if (order_by) {
-      // Augment query with sorted order
-      order_by.forEach( (order) => {
-        query = query.orderBy(order);  // Not yet tested
-      });
-    }
+  // public async list(table:string, condition?:any, order_by?:any)
+  // {
+  //   let query: any = firebase.firestore().collection(table);
+  //   if (condition) {
+  //     // Augment query with optional condition
+  //     query = query.where( condition[0], condition[1], condition[2] );
+  //   }
+  //   if (order_by) {
+  //     // Augment query with sorted order
+  //     order_by.forEach( (order) => {
+  //       query = query.orderBy(order);  // Not yet tested
+  //     });
+  //   }
 
-    const snapshot = await query.get();
-    const array: Array<any> = [];
-    snapshot.forEach((doc) => {
-      array.push( doc.data() );  // Caller will access documents with: "doc.id" and "doc.data()"
-    });
-    return array;
-  }
+  //   const snapshot = await query.get();
+  //   const array: Array<any> = [];
+  //   snapshot.forEach((doc) => {
+  //     array.push( doc.data() );  // Caller will access documents with: "doc.id" and "doc.data()"
+  //   });
+  //   return array;
+  // }
 
   public async log(message: string) {
 
     const now = dayjs();
     var user: string = this.current && this.current.user.email != "sample@gmail.com" ? `,${this.current.user.email}` : '';
-    var key: string = `${now.format('YYYY-MM-DD,HH:mm:ss')}${user}`;
+    // var key: string = `${now.format('YYYY-MM-DD,HH:mm:ss')}${user}`;
 
     console.log(`> ${message}`);
 
-    return await this.collection('logger').doc(key).set( { message:message } );
+    // return await this.collection('logger').doc(key).set( { message:message } );
+    return await API.graphql(graphqlOperation(mutations.createLogger, {input: {user: user, timestamp: now, message: message}}))
   }
 
   ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -435,118 +487,344 @@ export class DatabaseService {
   ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   // Real-time data binding. This is automatically called right after any CRUD operation
   // on the current user's drive history or profile.
-  private bind(login:Login): void
+  async bind(login:Login)
   {
     // For both drivers and commanders
-    login.detach_bind_user = this.collection('user')
-      .doc(login.user.email)
-      .onSnapshot( (doc) => {
-        login.user = doc.data() as User;  // Casting to interface User
-        console.log("\n> Updated Login object:", login.user);
-      });
-
+    // login.detach_bind_user = this.collection('user')
+    //   .doc(login.user.email)
+    //   .onSnapshot( (doc) => {
+    //     login.user = doc.data() as User;  // Casting to interface User
+    //     console.log("\n> Updated Login object:", login.user);
+    //   });
+    //^ 
+    // updating Login object with new user data - NOT BINDED REALTIME (yet)
+    login.user = await this.authService.userDetails()
+  
     // Construct composite query depending on driver or commander (require Firestore composite index)
-    var query = this.collection("drive").orderBy("date","desc").orderBy("start_time","desc");
-    if (login.user.is_commander == true)
-    {
-      query.where("commander", "==", login.user.fleet);
-      /*login.detach_bind_drive =
-        query.onSnapshot
-        (
-          (querySnapshot) =>
-        {
-          login.drive_history = [];
-          login.drive_in_progress = null;
-          querySnapshot.forEach
-          (
-           (doc) =>
-          {
-            let trip: Drive = doc.data() as Drive;  // Casting to interface Drive
-            trip.id = doc.id;
-            if (trip.company == login.user.company)
-            {
-              login.drive_history.push(trip);
-            }
-            if (trip.end_time == null) login.drive_in_progress = trip;
-          }
-          );
-        }
-        );*/
+    // var query = this.collection("drive").orderBy("date","desc").orderBy("start_time","desc");
+    // if (login.user.is_commander == true)
+    // {
+    //   query.where("commander", "==", login.user.fleet);
+    // }
+    // else
+    // {
+    //     query = query.where("driver", "==", login.user.email);      
+    // }
+    // login.detach_bind_drive =
+    //   query.onSnapshot( (querySnapshot) => {
+    //     login.drive_history = [];
+    //     login.fuel_history = [];
+    //     login.drive_in_progress = null;
+    //     querySnapshot.forEach( (doc) => {
+    //       let trip: Drive = doc.data() as Drive;  // Casting to interface Drive
+    //       trip.id = doc.id;
+    //       if (trip.company == login.user.company && trip.fleet == login.user.fleet)
+    //         {
+    //           login.drive_history.push(trip);
+    //         }
+    //       if (trip.end_time == null) login.drive_in_progress = trip;
+    //     });
+    //     console.log(login.drive_in_progress);
+          
+
+    // login.drive_history = await (API.graphql({query: queries.listDrives, variables: {driver: "login.user.email"}}) as Promise<Drive[]>)
+    
+    function getDriveInProgress(){
+      login.drive_history.forEach( (drive) => {
+        let trip: Drive = drive as Drive
+        if (trip.end_time == null) login.drive_in_progress = trip;
+      })
     }
-    else
-    {
-        query = query.where("driver", "==", login.user.email);
-        /*login.detach_bind_drive =
-          query.onSnapshot( (querySnapshot) => {
-            login.drive_history = [];
-            login.drive_in_progress = null;
-            querySnapshot.forEach( (doc) => {
-              let trip: Drive = doc.data() as Drive;  // Casting to interface Drive
-              trip.id = doc.id;
-              login.drive_history.push(trip);
-              if (trip.end_time == null) login.drive_in_progress = trip;
-            });*/
-    }
-    login.detach_bind_drive =
-      query.onSnapshot( (querySnapshot) => {
-        login.drive_history = [];
-        login.fuel_history = [];
-        login.drive_in_progress = null;
-        querySnapshot.forEach( (doc) => {
-          let trip: Drive = doc.data() as Drive;  // Casting to interface Drive
-          trip.id = doc.id;
-          if (trip.company == login.user.company && trip.fleet == login.user.fleet)
-            {
-              login.drive_history.push(trip);
-            }
-          if (trip.end_time == null) login.drive_in_progress = trip;
-        });
-        console.log(login.drive_in_progress);
 
-    var query = this.collection("mtrac").orderBy("created","desc");
-    if (login.user.is_commander == true)
-      {
-        query.where("commander", "==", login.user.email);
-      }
-    else
-      {
-      query = query.where("driver", "==", login.user.email);
-      }
-    login.detach_bind_mtrac =
-      query.onSnapshot( (querySnapshot) => {
-        login.mtrac_history = [];
-        login.mtrac_in_progress = null;
-        querySnapshot.forEach( (doc) => {
-          let form: Mtrac = doc.data() as Mtrac;  // Casting to interface Drive
-          form.id = doc.id;
-          if (form.company == login.user.company && form.fleet == login.user.fleet)
-          {
-            login.mtrac_history.push(form);
-          }
-          if (form.status != "completed")
-          {login.mtrac_in_progress = form;}
-        });});
-        console.log(login.mtrac_in_progress);
-        console.log(`\n> Updated Drive history for ${login.user.email}, ${login.drive_history.length} drives found.`);
-
-        // Calculate new stats for both drivers and commanders
-        login.stats = this.summarize(login.drive_history);
-
-        // For drivers, write summarized report to database (For commanders' module)
-        if (login.user.is_driver) {
-          this.write("summary",login.user.email, JSON.parse(JSON.stringify(login.stats)) );
+    function getMtracInProgress(){
+      login.mtrac_history.forEach(form => {
+        if (form.status != 'completed'){
+          login.mtrac_in_progress = form;
         }
-        // Allow login to proceed..
-        login.snapshot_wait++;
       });
-  }
+    }
+
+    if (login.user.is_commander == true)
+    {
+      var drive_history = await (API.graphql(graphqlOperation(queries.listDrives, {filter: {fleet: {eq: login.user.fleet}}})) as Promise<Drive[]>)
+      login.drive_history = drive_history["data"]["listDrives"]["items"].sort((a, b) => (Date.parse(b.createdAt.substring(0, b.createdAt.length - 13)+b.start_time) - Date.parse(a.createdAt.substring(0, a.createdAt.length - 13)+a.start_time)))
+      getDriveInProgress()
+
+      login.detach_bind_drive_create = API.graphql(graphqlOperation(subscriptions.onCreateDrive, {filter: {fleet: {eq: login.user.fleet}}}))
+      
+      login.detach_bind_drive_create.subscribe({
+        next: ({provider, value}) => {
+          if (value.data.onCreateDrive.fleet == login.user.fleet){
+            login.drive_history.push(value.data.onCreateDrive)
+            console.log(login.drive_history)
+
+            getDriveInProgress()
+          }
+        },
+        error: (error) => console.error(error)
+      })
+
+      login.detach_bind_drive_update = API.graphql(graphqlOperation(subscriptions.onUpdateDrive, {filter: {fleet: {eq: login.user.fleet}}}))
+      login.detach_bind_drive_update.subscribe({
+        next: async ({provider, value}) => {
+          var drive_history = await (API.graphql(graphqlOperation(queries.listDrives, {filter: {fleet: {eq: login.user.fleet}}})) as Promise<Drive[]>)
+          login.drive_history = drive_history["data"]["listDrives"]["items"].sort((a, b) => (Date.parse(b.createdAt.substring(0, b.createdAt.length - 13)+b.start_time) - Date.parse(a.createdAt.substring(0, a.createdAt.length - 13)+a.start_time)))
+          console.log(login.drive_history)
+          getDriveInProgress()
+        },
+        error: (error) => console.error(error)
+      })
+
+      login.detach_bind_drive_delete = API.graphql(graphqlOperation(subscriptions.onDeleteDrive, {filter: {fleet: {eq: login.user.fleet}}}))
+      login.detach_bind_drive_delete.subscribe({
+        next: async ({provider, value}) => {
+          var drive_history = await (API.graphql(graphqlOperation(queries.listDrives, {filter: {fleet: {eq: login.user.fleet}}})) as Promise<Drive[]>)
+          login.drive_history = drive_history["data"]["listDrives"]["items"].sort((a, b) => (Date.parse(b.createdAt.substring(0, b.createdAt.length - 13)+b.start_time) - Date.parse(a.createdAt.substring(0, a.createdAt.length - 13)+a.start_time)))
+          console.log(login.drive_history)
+          getDriveInProgress()
+        },
+        error: (error) => console.error(error)
+      })
+
+    }
+    else
+    {
+      var drive_history = await (API.graphql(graphqlOperation(queries.listDrives, {filter: {driver: {eq: login.user.email}}})) as Promise<Drive[]>)
+      login.drive_history = drive_history["data"]["listDrives"]["items"].sort((a, b) => (Date.parse(b.createdAt.substring(0, b.createdAt.length - 13)+b.start_time) - Date.parse(a.createdAt.substring(0, a.createdAt.length - 13)+a.start_time)))
+      getDriveInProgress()
+
+      login.detach_bind_drive_create = API.graphql(graphqlOperation(subscriptions.onCreateDrive, {filter: {driver: {eq: login.user.email}}}))
+      
+      login.detach_bind_drive_create.subscribe({
+        next: ({provider, value}) => {
+
+          // client side filter for now
+          if (value.data.onCreateDrive.driver == login.user.email){
+            login.drive_history.push(value.data.onCreateDrive)
+            console.log(login.drive_history)
+            getDriveInProgress()
+
+          }
+        },
+        error: (error) => console.error(error)
+      })
+
+
+      login.detach_bind_drive_update = API.graphql(graphqlOperation(subscriptions.onUpdateDrive, {filter: {driver: {eq: login.user.email}}}))
+      login.detach_bind_drive_update.subscribe({
+        next: async ({provider, value}) => {
+          var drive_history = await (API.graphql(graphqlOperation(queries.listDrives, {filter: {driver: {eq: login.user.email}}})) as Promise<Drive[]>)
+          login.drive_history = drive_history["data"]["listDrives"]["items"].sort((a, b) => (Date.parse(b.createdAt.substring(0, b.createdAt.length - 13)+b.start_time) - Date.parse(a.createdAt.substring(0, a.createdAt.length - 13)+a.start_time)))
+          console.log(login.drive_history)
+          getDriveInProgress()
+        },
+        error: (error) => console.error(error)
+      })
+
+      login.detach_bind_drive_delete = API.graphql(graphqlOperation(subscriptions.onDeleteDrive, {filter: {driver: {eq: login.user.email}}}))
+      login.detach_bind_drive_delete.subscribe({
+        next: async ({provider, value}) => {
+          var drive_history = await (API.graphql(graphqlOperation(queries.listDrives, {filter: {driver: {eq: login.user.email}}})) as Promise<Drive[]>)
+          login.drive_history = drive_history["data"]["listDrives"]["items"].sort((a, b) => (Date.parse(b.createdAt.substring(0, b.createdAt.length - 13)+b.start_time) - Date.parse(a.createdAt.substring(0, a.createdAt.length - 13)+a.start_time)))
+          console.log(login.drive_history)
+          getDriveInProgress()
+        },
+        error: (error) => console.error(error)
+      })
+
+    }
+
+    console.log("dh",login.drive_history)
+
+    // login.detach_bind_drive = this.api.OnCreateDriveListener.filter(fn: ()).subscribe((event => {
+    //   login.drive_history.push(event.value.data)
+    // }))
+
+    // login.detach_bind_drive = from(API.graphql(graphqlOperation(subscriptions.onCreateDrive, {driver: login.user.email})))
+
+    // login.detach_bind_drive.subscribe({
+    //   next: (eventData) => console.log(eventData),
+    //   error: (error) => console.error(error)
+    // });
+
+    // var query = this.collection("mtrac").orderBy("created","desc");
+    // if (login.user.is_commander == true)
+    //   {
+    //     query.where("commander", "==", login.user.email);
+    //   }
+    // else
+    //   {
+    //   query = query.where("driver", "==", login.user.email);
+    //   }
+    // login.detach_bind_mtrac =
+    //   query.onSnapshot( (querySnapshot) => {
+    //     login.mtrac_history = [];
+    //     login.mtrac_in_progress = null;
+    //     querySnapshot.forEach( (doc) => {
+    //       let form: Mtrac = doc.data() as Mtrac;  // Casting to interface Drive
+    //       form.id = doc.id;
+    //       if (form.company == login.user.company && form.fleet == login.user.fleet)
+    //       {
+    //         login.mtrac_history.push(form);
+    //       }
+    //       if (form.status != "completed")
+    //       {login.mtrac_in_progress = form;}
+    //     });});
+    //     console.log(login.mtrac_in_progress);
+    //     console.log(`\n> Updated Drive history for ${login.user.email}, ${login.drive_history.length} drives found.`);
+
+    //     // Calculate new stats for both drivers and commanders
+    //     if (login.drive_history.length !== 0){
+    //       login.stats = this.summarize(login.drive_history);
+    //     }
+
+    //     // For drivers, write summarized report to database (For commanders' module)
+    //     if (login.user.is_driver) {
+    //       this.write("summary",login.user.email, JSON.parse(JSON.stringify(login.stats)) );
+    //     }
+    
+
+    if (login.user.is_commander == true)
+    {
+      var mtrac_history = await (API.graphql(graphqlOperation(queries.listMtracs, {filter: {commander: {eq: login.user.email}}})) as Promise<Drive[]>)
+      login.mtrac_history = mtrac_history["data"]["listMtracs"]["items"].sort((a, b) => (new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()))
+      getMtracInProgress()
+
+      login.detach_bind_mtrac_create = API.graphql(graphqlOperation(subscriptions.onCreateMtrac, {filter: {commander: {eq: login.user.email}}}))
+      
+      login.detach_bind_mtrac_create.subscribe({
+        next: ({provider, value}) => {
+          if (value.data.onCreateMtrac.commander == login.user.email){
+            login.mtrac_history.push(value.data.onCreateMtrac)
+            console.log(login.mtrac_history)
+            getMtracInProgress()
+          }
+        },
+        error: (error) => console.error(error)
+      })
+
+      login.detach_bind_mtrac_update = API.graphql(graphqlOperation(subscriptions.onUpdateMtrac, {filter: {commander: {eq: login.user.email}}}))
+      login.detach_bind_mtrac_update.subscribe({
+        next: async ({provider, value}) => {
+          var mtrac_history = await (API.graphql(graphqlOperation(queries.listMtracs, {filter: {commander: {eq: login.user.email}}})) as Promise<Drive[]>)
+          login.mtrac_history = mtrac_history["data"]["listMtracs"]["items"].sort((a, b) => (new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()))
+          console.log(login.mtrac_history)
+
+          getMtracInProgress()
+        },
+        error: (error) => console.error(error)
+      })
+
+      login.detach_bind_mtrac_delete = API.graphql(graphqlOperation(subscriptions.onDeleteMtrac, {filter: {commander: {eq: login.user.email}}}))
+      login.detach_bind_mtrac_delete.subscribe({
+        next: async ({provider, value}) => {
+          var mtrac_history = await (API.graphql(graphqlOperation(queries.listMtracs, {filter: {commander: {eq: login.user.email}}})) as Promise<Drive[]>)
+          login.mtrac_history = mtrac_history["data"]["listMtracs"]["items"].sort((a, b) => (new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()))
+          console.log(login.mtrac_history)
+
+          getMtracInProgress()
+        },
+        error: (error) => console.error(error)
+      })
+
+    }
+    else
+    {
+      var mtrac_history = await (API.graphql(graphqlOperation(queries.listMtracs, {filter: {driver: {eq: login.user.email}}})) as Promise<Drive[]>)
+      login.mtrac_history = mtrac_history["data"]["listMtracs"]["items"].sort((a, b) => (new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()))
+      getMtracInProgress()
+
+      login.detach_bind_mtrac_create = API.graphql(graphqlOperation(subscriptions.onCreateMtrac, {filter: {driver: {eq: login.user.email}}}))
+      
+      login.detach_bind_mtrac_create.subscribe({
+        next: ({provider, value}) => {
+          if (value.data.onCreateMtrac.driver == login.user.email){
+            login.mtrac_history.push(value.data.onCreateMtrac)
+            console.log(login.mtrac_history)
+            getMtracInProgress()
+          }
+        },
+        error: (error) => console.error(error)
+      })
+
+      login.detach_bind_mtrac_update = API.graphql(graphqlOperation(subscriptions.onUpdateMtrac, {filter: {driver: {eq: login.user.email}}}))
+      login.detach_bind_mtrac_update.subscribe({
+        next: async ({provider, value}) => {
+          var mtrac_history = await (API.graphql(graphqlOperation(queries.listMtracs, {filter: {driver: {eq: login.user.email}}})) as Promise<Drive[]>)
+          login.mtrac_history = mtrac_history["data"]["listMtracs"]["items"].sort((a, b) => (new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()))
+          console.log(login.mtrac_history)
+          getMtracInProgress()
+        },
+        error: (error) => console.error(error)
+      })
+
+      login.detach_bind_mtrac_delete = API.graphql(graphqlOperation(subscriptions.onDeleteMtrac, {filter: {driver: {eq: login.user.email}}}))
+      login.detach_bind_mtrac_delete.subscribe({
+        next: async ({provider, value}) => {
+          var mtrac_history = await (API.graphql(graphqlOperation(queries.listMtracs, {filter: {driver: {eq: login.user.email}}})) as Promise<Drive[]>)
+          login.mtrac_history = mtrac_history["data"]["listMtracs"]["items"].sort((a, b) => (new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()))
+          console.log(login.mtrac_history)
+          getMtracInProgress()
+        },
+        error: (error) => console.error(error)
+      })
+
+    }
+    console.log("mh",login.mtrac_history)
+
+
+
+    // Calculate new stats for both drivers and commanders
+    login.stats = this.summarize(login.drive_history);
+
+
+    // For drivers, write summarized report to database (For commanders' module)
+    if (login.user.is_driver) {
+
+      //stringify variables for AWS adaptation
+      login.stats.most_recent_drive = JSON.stringify(login.stats.most_recent_drive)
+      login.stats.most_recent_drive_by_vehicle_type = JSON.stringify(login.stats.most_recent_drive_by_vehicle_type)
+      login.stats.mileage_by_vehicle_type = JSON.stringify(login.stats.mileage_by_vehicle_type)
+
+      //if summary already exists
+      if (login.user.summary){
+        console.log("Summary already exists")
+
+        login.stats.id = login.user.summary.id
+
+        const summary = await API.graphql(graphqlOperation(mutations.updateSummary, {input: login.stats}));
+        console.log("updated summary", summary)
+      }
+      //if summary doesnt exist
+      else {
+        console.log("Summary doesn't exist, creating summary")
+        const summary = await API.graphql(graphqlOperation(mutations.createSummary, {input: login.stats}));
+        console.log("created summary", summary)
+        const updateUser = await API.graphql(graphqlOperation(mutations.updateUser, {input: {email: this.current.user.email, userSummaryId: summary["data"]["createSummary"]["id"]}}));
+        console.log("updated user with summary", updateUser)
+      }
+
+      //parse variables back to objects for future use
+      login.stats.most_recent_drive = JSON.parse(login.stats.most_recent_drive)
+      login.stats.most_recent_drive_by_vehicle_type = JSON.parse(login.stats.most_recent_drive_by_vehicle_type)
+      login.stats.mileage_by_vehicle_type = JSON.parse(login.stats.mileage_by_vehicle_type)
+
+      // this.write("summary",login.user.email, JSON.parse(JSON.stringify(login.stats)) );
+    }
+
+    // Allow login to proceed..
+    login.snapshot_wait++;
+
+    };
+  
+    
 
   ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   // Utilities
 
   public duration(trip:Drive): number {
     if (!trip.end_odometer || trip.status==='in-progress') return 0; // Handle drive-in-progress
-    const dayjs_format = 'YYYY-MM-DD HH:mm';
+    const dayjs_format = 'YYYY-MM-DD hh:mm:ss.sss';
     let start_dt = dayjs(trip.date + " " + trip.start_time, dayjs_format);
     let end_dt = dayjs(trip.date + " " + trip.end_time, dayjs_format);
     let diff = end_dt.diff(start_dt,"minute");
@@ -588,18 +866,15 @@ export class DatabaseService {
   }
 
   public getTimeStamp(): string {
-    return dayjs(new Date()).format('YYYY-MM-DD HH:mm');
+    return dayjs(new Date()).format('YYYY-MM-DDThh:mm:ss.sssZ');
   }
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   // Test data
   private createDebugLogin(): Login
   {
-
-
-
     const drive_history: Drive[] = [
       {
-        created: '',
+        id: '',
         driver: 'sample@test.com',
         commander: 'commander_name',
         vehicle: '1234',
@@ -615,7 +890,7 @@ export class DatabaseService {
         is_jit:true
       },
       {
-        created: '',
+        id: '',
         driver: 'sample@test.com',
         commander: 'commander_name',
         vehicle: '1235',
@@ -633,6 +908,7 @@ export class DatabaseService {
         company: 'C',
         fleet : 'C',
         incamp: true,
+        is_jit: false
       }
     ];
 
@@ -640,7 +916,6 @@ export class DatabaseService {
       admin_level: 1,
       belrex_certified: false,
       company: "A",
-      created: "2020-02-13 02:33",
       email: "sample@test.com",
       flb_certified: false,
       fleet: "test",
@@ -648,7 +923,6 @@ export class DatabaseService {
       is_driver: false,
       licence_num: "SXXXXXX",
       licence_type: "A",
-      location: { lat: 1.3365133, lng: 103.7405132 },
       mss_certified: false,
       name: "Sample User",
     };
@@ -660,4 +934,6 @@ export class DatabaseService {
       stats: this.summarize(drive_history)
     };
   }
+
 }
+

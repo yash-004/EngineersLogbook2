@@ -1,0 +1,18 @@
+projects:
+  engineerslogbook2:
+    schemaPath: amplify/backend/api/engineerslogbook2/build/schema.graphql
+    includes:
+      - src/app/services/graphql
+    excludes:
+      - ./amplify/**
+    extensions:
+      amplify:
+        codeGenTarget: typescript
+        generatedFileName: src/app/services/API.ts
+        docsFilePath: src/app/services/graphql
+        region: ap-southeast-1
+        apiId: null
+        maxDepth: 2
+extensions:
+  amplify:
+    version: 3

@@ -7,7 +7,7 @@ import { PipesModule } from '../../pipes/pipes.module';
 import 'chartjs-plugin-labels';
 import 'chartjs-chart-radial-gauge';
 import 'chartjs-tsgauge';
-import { Geolocation } from '@ionic-native/geolocation/ngx';
+import { AuthenticationService } from 'src/app/services/authentication.service';
 
 //Chart.defaults.global.defaultFontSize = 10;
 //Chart.defaults.global.maintainAspectRatio = true;
@@ -23,7 +23,7 @@ export class SummaryPage implements OnInit {
   constructor( 
     public database: DatabaseService,
     private navCtrl: NavController,
-    private geolocation: Geolocation,
+    private authService: AuthenticationService
   ) { }
 
   drivestatus = 9 > 10;
@@ -118,13 +118,18 @@ export class SummaryPage implements OnInit {
   }
 
   public getMileagebyVehicleType(data: any,vehicle: any) {
+    var mileage = "0 km";
+
     for (var type of VehicleTypes) {
       if (type == vehicle) {
         if (data[type] != null) {
-          return data[type] + " km";
+          console.log(data[type])
+          mileage = data[type] + " km";
         }
       }
     }
+
+    return mileage
   }
 
   public getDrivesbyVehicleType(vehicle: any) {

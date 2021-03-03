@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { AuthenticationService } from 'src/app/services/authentication.service';
 import { DatabaseService } from '../../services/database.service';
 
 @Component({
@@ -8,7 +9,7 @@ import { DatabaseService } from '../../services/database.service';
 })
 export class ProfilePage implements OnInit {
 
-  constructor( public database: DatabaseService ) { }
+  constructor( public database: DatabaseService, private authService: AuthenticationService ) { }
 
   ngOnInit() {
   }

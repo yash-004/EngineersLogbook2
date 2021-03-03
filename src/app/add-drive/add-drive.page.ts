@@ -7,6 +7,12 @@ import { ActivatedRoute } from '@angular/router';
 import { Keyboard } from '@ionic-native/keyboard/ngx';
 import * as dayjs from 'dayjs'; // DateTime utility, See http://zetcode.com/javascript/dayjs/
 
+import { API, Auth, graphqlOperation } from 'aws-amplify';
+import * as queries from '../services/graphql/queries';
+import * as mutations from '../services/graphql/mutations';
+import * as subscriptions from '../services/graphql/subscriptions';
+
+
 @Component({
   selector: 'app-add-drive',
   templateUrl: './add-drive.page.html',
@@ -349,42 +355,51 @@ export class AddDrivePage implements OnInit {
       console.log(this.errorMessage);
     }
     if (this.drive.commander != this.database.current.user.email)
-    {try {
-      const currentDrive = this.database.current.drive_history[0];
+    {
+      try {
+        //sort to get the latest drive
+        this.database.current.drive_history = this.database.current.drive_history.sort((a, b) => (Date.parse(b.createdAt.substring(0, b.createdAt.length - 13)+b.start_time) - Date.parse(a.createdAt.substring(0, a.createdAt.length - 13)+a.start_time)))
+        const currentDrive = this.database.current.drive_history[0];
 
-      // Stage 1 details : the user may made some changes to these info
-      currentDrive.vehicle = this.addDriveForm.value.vehicleNumber.toUpperCase();
-      currentDrive.commander =  this.addDriveForm.value.vehicleCommander;
-      currentDrive.date = (this.addDriveForm.value.date).split('T')[0];
-      currentDrive.start_location = this.addDriveForm.value.startLocation.toUpperCase();
-      currentDrive.start_odometer = parseInt(this.addDriveForm.value.startOdometer);
-      currentDrive.start_time = this.addDriveForm.value.startTime;
-      currentDrive.fleet = this.database.current.user.fleet;
-      currentDrive.company = this.database.current.user.company;
-      currentDrive.incamp = this.addDriveForm.value.incamp;
-      // Stage 2 details
-      currentDrive.end_location = this.addDriveForm.value.endLocation;
-      currentDrive.end_odometer = parseInt(this.addDriveForm.value.endOdometer);
-     // const time2 = dayjs(new Date(this.addDriveForm.value.endTime)).format('HH:mm');
-      currentDrive.end_time = this.addDriveForm.value.endTime;
-      // store the maintenance toggle checked value in the drive document
-      currentDrive.is_maintenance = this.isToggled;
-      currentDrive.fuel_level = parseInt(this.addDriveForm.value.fuelLevel);
-      console.log('Fuel level (UI): ' + currentDrive.fuel_level);
+        // Stage 1 details : the user may made some changes to these info
+        currentDrive.vehicle = this.addDriveForm.value.vehicleNumber.toUpperCase();
+        currentDrive.commander =  this.addDriveForm.value.vehicleCommander;
+        currentDrive.date = (this.addDriveForm.value.date).split('T')[0];
+        currentDrive.start_location = this.addDriveForm.value.startLocation.toUpperCase();
+        currentDrive.start_odometer = parseInt(this.addDriveForm.value.startOdometer);
+        currentDrive.start_time = this.addDriveForm.value.startTime;
+        currentDrive.fleet = this.database.current.user.fleet;
+        currentDrive.company = this.database.current.user.company;
+        currentDrive.incamp = this.addDriveForm.value.incamp;
+        // Stage 2 details
+        currentDrive.end_location = this.addDriveForm.value.endLocation;
+        currentDrive.end_odometer = parseInt(this.addDriveForm.value.endOdometer);
+      // const time2 = dayjs(new Date(this.addDriveForm.value.endTime)).format('HH:mm');
+        currentDrive.end_time = this.addDriveForm.value.endTime;
+        // store the maintenance toggle checked value in the drive document
+        currentDrive.is_maintenance = this.isToggled;
+        currentDrive.fuel_level = parseInt(this.addDriveForm.value.fuelLevel);
+        console.log('Fuel level (UI): ' + currentDrive.fuel_level);
 
-      currentDrive.comments = this.addDriveForm.value.driveComments;
-      currentDrive.status = 'pending';
-      await this.database.write('drive', currentDrive.id, currentDrive);
-      this.errorMessage = '';
-      this.successMessage = 'Your drive has been updated.';
-      this.showToast(this.successMessage);
-    } catch (err) {
-      console.log(err);
-      this.errorMessage = 'Update drive error: ${err}';
-      this.successMessage = '';
+        currentDrive.comments = this.addDriveForm.value.driveComments;
+        currentDrive.status = 'pending';
+        // await this.database.write('drive', currentDrive.id, currentDrive);
 
-      this.showToast(this.errorMessage);
-    }}
+        var enddrive = await API.graphql(graphqlOperation(mutations.updateDrive, {input: {...currentDrive, createdAt: undefined, updatedAt: undefined}}))
+
+        console.log("enddrive", enddrive)
+
+        this.errorMessage = '';
+        this.successMessage = 'Your drive has been updated.';
+        this.showToast(this.successMessage);
+      } catch (err) {
+        console.log(err);
+        this.errorMessage = 'Update drive error: ${err}';
+        this.successMessage = '';
+
+        this.showToast(this.errorMessage);
+      }
+    }
   }
 
   async addDrive(value) {
@@ -395,7 +410,12 @@ export class AddDrivePage implements OnInit {
         //this.drive.status = this.addDriveForm.get('driveStatus').value;
         console.log('Drive status: ' + this.drive.status);
         // update status in database
-        await this.database.write('drive', this.drive.id, this.drive);
+        // await this.database.write('drive', this.drive.id, this.drive);
+
+        var updatedrive = await API.graphql(graphqlOperation(mutations.updateDrive, {input: {...this.drive, createdAt: undefined, updatedAt: undefined}}))
+
+        console.log("updatedrive", updatedrive)
+  
         this.errorMessage = '';
         this.successMessage = 'The drive status has been updated successfully.';
         this.showToast(this.successMessage);
@@ -409,9 +429,9 @@ export class AddDrivePage implements OnInit {
     } else { // the submit is to capture start drive information
       try {
         this.mtrac = this.database.current.mtrac_to_edit;
-        const time = dayjs(new Date(this.addDriveForm.value.startTime)).format('HH:mm');
+        const time = dayjs(new Date(this.addDriveForm.value.startTime)).format('hh:mm:ss.sss');
         var new_drive: Drive = {
-          created: this.database.getTimeStamp(),
+          id: this.mtrac.id,
           driver: this.database.current.user.email,
           status: "in-progress",
           is_jit: this.mtrac.is_jit,
@@ -429,9 +449,19 @@ export class AddDrivePage implements OnInit {
 
         };
         console.log('new_drive=${JSON.stringify(new_drive)}');
-        await this.database.write('drive', this.mtrac.id, new_drive);
+        // await this.database.write('drive', this.mtrac.id, new_drive);
+
+        var adddrive = await API.graphql(graphqlOperation(mutations.createDrive, {input: new_drive}))
+
+        console.log("adddrive", adddrive)
+
         this.mtrac.status = "completed";
-        await this.database.write('mtrac', this.mtrac.id, this.mtrac);
+        
+        // await this.database.write('mtrac', this.mtrac.id, this.mtrac);
+
+        var updatemtrac = await API.graphql(graphqlOperation(mutations.updateMtrac, {input: {...this.mtrac, createdAt: undefined, updatedAt: undefined}}))
+
+        console.log("updatemtrac", updatemtrac)
 
         this.errorMessage = '';
         this.successMessage = 'Your drive has been added.';

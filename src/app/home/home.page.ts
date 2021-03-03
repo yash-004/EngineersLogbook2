@@ -103,16 +103,16 @@ export class HomePage {
 
       // Authenticate user
       var res = await this.authService.loginUser(input);
-      console.log(`> Firebase authentication is successful: ${res.user.email}`);
+      console.log(`> AWS Cognito authentication is successful: ${res.email}`);
 
       // Init database, retrieve user/drives info    
       this.setLoadingText("Reading database...");
-      await this.database.init(res.user.email);
-      console.log(`> Finished loading user: ${res.user.email}`);
+      await this.database.init();
+      console.log(`> Finished loading user: ${res.email}`);
 
       // Init cloud messaging/notifications
       this.setLoadingText("Initializing cloud messaging...");
-      await this.messaging.init(res.user.email);
+      await this.messaging.init(res.email);
 
       this.setLoadingText("Login success.");
       setTimeout(() => {this.loading.dismiss();},2000);
@@ -130,9 +130,8 @@ export class HomePage {
       this.storage.set('password', input.password);
 
     } catch(err) {
-    
       this.loading.dismiss();
-      this.errorMessage = `Login failed. ${err}`;
+      this.errorMessage = `Login failed. ${err.message}`;
     }
     //this.validationsForm.reset();
   }

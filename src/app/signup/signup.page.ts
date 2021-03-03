@@ -4,7 +4,6 @@ import { AuthenticationService } from '../services/authentication.service';
 import { NavController } from '@ionic/angular';
 import { DatabaseService, User } from '../services/database.service';
 import { ToastController } from '@ionic/angular';
-import { Geolocation } from '@ionic-native/geolocation/ngx';
 
 @Component({
   selector: 'app-signup',
@@ -98,25 +97,25 @@ export class SignupPage implements OnInit {
     else {
       try {
         const res = await this.authService.registerUser(value);
-        //console.log(`success: ${JSON.stringify(res)}`);
-        var new_user: User = {
-          name: value.name.toUpperCase(),
-          email: value.email,
-          fleet: value.unit.toUpperCase(),
-          company: value.company.toUpperCase(),
-          licence_num: value.licenseNum,
-          licence_type: value.licenseType,
-          created: this.database.getTimeStamp(),
-          mss_certified: false,
-          flb_certified: false,
-          belrex_certified: false,
-          m3g_certified: false,
-          is_driver: value.isCommander.toLowerCase() === 'false',
-          is_commander: value.isCommander.toLowerCase() === 'true',
-          location: {lat: 0, lng: 0},
-          admin_level: 1,
-        };
-        await this.database.write('user',res.user.email,new_user);
+        // //console.log(`success: ${JSON.stringify(res)}`);
+        // var new_user: User = {
+        //   name: value.name.toUpperCase(),
+        //   email: value.email,
+        //   fleet: value.unit.toUpperCase(),
+        //   company: value.company.toUpperCase(),
+        //   licence_num: value.licenseNum,
+        //   licence_type: value.licenseType,
+        //   mss_certified: false,
+        //   flb_certified: false,
+        //   belrex_certified: false,
+        //   m3g_certified: false,
+        //   is_driver: value.isCommander.toLowerCase() === 'false',
+        //   is_commander: value.isCommander.toLowerCase() === 'true',
+        //   location: {lat: 0, lng: 0},
+        //   admin_level: 1,
+        // };
+        // await this.database.write('user',res.user.email,new_user);
+        console.log(res)
         this.errorMessage = '';
         this.successMessage = 'Your account has been created. Please log in.';
         this.showToast(this.successMessage);

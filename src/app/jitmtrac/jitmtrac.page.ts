@@ -7,6 +7,11 @@ import { ActivatedRoute } from '@angular/router';
 import * as dayjs from 'dayjs'; // Datetime utility, See http://zetcode.com/javascript/dayjs/
 import { SignaturePad } from 'angular2-signaturepad/signature-pad';
 
+import { API, Auth, graphqlOperation } from 'aws-amplify';
+import * as queries from '../services/graphql/queries';
+import * as mutations from '../services/graphql/mutations';
+import * as subscriptions from '../services/graphql/subscriptions';
+
 @Component({
   selector: 'app-mtrac',
   templateUrl: './jitmtrac.page.html',
@@ -177,16 +182,16 @@ export class jitmtracPage implements OnInit {
     //disable signatures after first submission
     if (this.mtrac != null && this.mtrac.status != "pending"){
       this.counterSignature.off();
-      this.counterSignature.fromData(this.convertArrayFromFirebase(this.mtrac.counterSignature))
+      this.counterSignature.fromData(JSON.parse(this.mtrac.counterSignature))
       this.frontSignature.off();
-      this.frontSignature.fromData(this.convertArrayFromFirebase(this.mtrac.frontSignature))
+      this.frontSignature.fromData(JSON.parse(this.mtrac.frontSignature))
     }
     else if(this.mtrac != null && this.mtrac.status == "pending" && this.mtrac.commander == this.database.current.user.email){
       this.counterSignature.off();
-      this.counterSignature.fromData(this.convertArrayFromFirebase(this.mtrac.counterSignature))
+      this.counterSignature.fromData(JSON.parse(this.mtrac.counterSignature))
       if (this.mtrac.vc == "Without") {
         this.frontSignature.off();
-        this.frontSignature.fromData(this.convertArrayFromFirebase(this.mtrac.frontSignature))
+        this.frontSignature.fromData(JSON.parse(this.mtrac.frontSignature))
       }
     }
     else if (this.mtrac == null) {
@@ -206,9 +211,9 @@ export class jitmtracPage implements OnInit {
     }
     else {
       this.counterSignature.off();
-      this.counterSignature.fromData(this.convertArrayFromFirebase(this.mtrac.counterSignature))
+      this.counterSignature.fromData(JSON.parse(this.mtrac.counterSignature))
       this.frontSignature.off();
-      this.frontSignature.fromData(this.convertArrayFromFirebase(this.mtrac.frontSignature))
+      this.frontSignature.fromData(JSON.parse(this.mtrac.frontSignature))
     }
   }
 
@@ -625,7 +630,6 @@ export class jitmtracPage implements OnInit {
           try {
             var new_mtrac: Mtrac =
             {
-              created: this.database.getTimeStamp(),
               driver: this.database.current.user.email,
               commander: this.mtracForm.value.commander,
               status: "pending",
@@ -652,8 +656,8 @@ export class jitmtracPage implements OnInit {
               counterName: this.mtracForm.value.counterName,
               frontName: this.mtracForm.value.commander,
   
-              counterSignature: this.convertArrayForFirebase(this.counterSignature.toData()),
-              frontSignature: this.convertArrayForFirebase(this.frontSignature.toData()),
+              counterSignature: JSON.stringify(this.counterSignature.toData()),
+              frontSignature: JSON.stringify(this.frontSignature.toData()),
   
               cmdlicense: false,
               cmdroute: false,
@@ -686,15 +690,19 @@ export class jitmtracPage implements OnInit {
               accidentpsger: false,
             };
   
-            let subAutoID = this.database.collection('mtrac').doc().id;
-            new_mtrac.id = subAutoID
+            // let subAutoID = this.database.collection('mtrac').doc().id;
+            // new_mtrac.id = subAutoID
             console.log('new_mtrac=${JSON.stringify(new_mtrac)}');
-            await this.database.write('mtrac', new_mtrac.id, new_mtrac);
+            // await this.database.write('mtrac', new_mtrac.id, new_mtrac);
+            var addmtrac = await API.graphql(graphqlOperation(mutations.createMtrac, {input: new_mtrac}))
+
+            console.log("addmtrac", addmtrac)
+    
             this.errorMessage = '';
             this.successMessage = 'Your MT-RAC form has been submitted to your vehicle commander for approval.';
             this.showToast(this.successMessage);
-  
-          } catch (err) {
+          }
+          catch (err) {
             this.errorMessage = `Add MT-RAC error: ${err}`;
             this.successMessage = '';
     
@@ -702,7 +710,6 @@ export class jitmtracPage implements OnInit {
             console.log(this.errorMessage);
             this.navCtrl.pop();
           }
-  
         }
         else 
         {
@@ -710,7 +717,6 @@ export class jitmtracPage implements OnInit {
           {
             var new_mtrac: Mtrac =
             {
-              created: this.database.getTimeStamp(),
               driver: this.database.current.user.email,
               commander: this.mtracForm.value.commander,
               status: "pending",
@@ -737,8 +743,8 @@ export class jitmtracPage implements OnInit {
               counterName: this.mtracForm.value.counterName,
               frontName: this.mtracForm.value.frontName,
   
-              counterSignature: this.convertArrayForFirebase(this.counterSignature.toData()),
-              frontSignature: this.convertArrayForFirebase(this.frontSignature.toData()),
+              counterSignature: JSON.stringify(this.counterSignature.toData()),
+              frontSignature: JSON.stringify(this.frontSignature.toData()),
   
               cmdlicense: false,
               cmdroute: false,
@@ -771,10 +777,14 @@ export class jitmtracPage implements OnInit {
               accidentpsger: this.mtracForm.value.accidentpsger,
             };
   
-            let subAutoID = this.database.collection('mtrac').doc().id;
-            new_mtrac.id = subAutoID
+            // let subAutoID = this.database.collection('mtrac').doc().id;
+            // new_mtrac.id = subAutoID
             console.log('new_mtrac=${JSON.stringify(new_mtrac)}');
-            await this.database.write('mtrac', new_mtrac.id, new_mtrac);
+            // await this.database.write('mtrac', new_mtrac.id, new_mtrac);
+            var addmtrac = await API.graphql(graphqlOperation(mutations.createMtrac, {input: new_mtrac}))
+
+            console.log("addmtrac", addmtrac)
+
             this.errorMessage = '';
             this.successMessage = 'Your MT-RAC form has been submitted to your vehicle commander for approval.';
             this.showToast(this.successMessage);
@@ -811,10 +821,15 @@ export class jitmtracPage implements OnInit {
             this.mtrac.psgerspeedlimit= this.mtracForm.get('psgerspeedlimit').value;
             this.mtrac.psgerdanger= this.mtracForm.get('psgerdanger').value;
             this.mtrac.accidentpsger= this.mtracForm.get('accidentpsger').value;
-            this.mtrac.frontSignature= this.convertArrayForFirebase(this.frontSignature.toData());
+            this.mtrac.frontSignature= JSON.stringify(this.frontSignature.toData());
             this.mtrac.frontName= this.mtracForm.get('frontName').value;
             // update status in database
-            await this.database.write('mtrac', this.mtrac.id, this.mtrac);
+            // await this.database.write('mtrac', this.mtrac.id, this.mtrac);
+
+            var updatemtrac = await API.graphql(graphqlOperation(mutations.updateMtrac, {input: {...this.mtrac, createdAt: undefined, updatedAt: undefined}}))
+
+            console.log("updatemtrac", updatemtrac)
+
             this.errorMessage = '';
             this.successMessage = 'The MT-RAC Form is completed successfully.';
             this.showToast(this.successMessage);
@@ -836,7 +851,7 @@ export class jitmtracPage implements OnInit {
   drawComplete() {
     // will be notified of szimek/signature_pad's onEnd event
     console.log(this.counterSignature.toData());
-    console.log(this.convertArrayForFirebase(this.counterSignature.toData()))
+    console.log(JSON.stringify(this.counterSignature.toData()))
   }
 
   drawStart() {
@@ -844,19 +859,4 @@ export class jitmtracPage implements OnInit {
     console.log('begin drawing');
   }
 
-  convertArrayForFirebase(nested){
-    var indirect = []
-    for (var array in nested){
-      indirect.push({"contents": nested[array]})
-    }
-    return indirect
-  }
-
-  convertArrayFromFirebase(indirect){
-    var array = []
-    indirect.forEach((obj,i) => {
-      array.push(obj.contents)
-    })
-    return array
-  }
 }

@@ -6,7 +6,12 @@ import { Chart } from "chart.js";
 import { PipesModule } from '../../pipes/pipes.module';
 import * as dayjs from 'dayjs';
 import { ToastController } from '@ionic/angular';
-import { Geolocation } from '@ionic-native/geolocation/ngx';
+
+import { API, Auth, graphqlOperation } from 'aws-amplify';
+import * as queries from '../../services/graphql/queries';
+import * as mutations from '../../services/graphql/mutations';
+import * as subscriptions from '../../services/graphql/subscriptions';
+import { AuthenticationService } from 'src/app/services/authentication.service';
 
 
 @Component({
@@ -21,8 +26,8 @@ export class CommanderPage implements OnInit {
     private navCtrl: NavController,
     public database: DatabaseService,
     private platform: Platform,
-    private geolocation: Geolocation,
-    public toastController: ToastController, ) { }
+    public toastController: ToastController, 
+    private authService: AuthenticationService) { }
 
   drivestatus = 9 > 10;
   mileagestatus = 9 > 10;
@@ -76,7 +81,11 @@ export class CommanderPage implements OnInit {
     driver.belrex_certified = belrexc;
     driver.m3g_certified = m3gc;
     try {
-      await this.database.write('user',driver.email,driver);
+      // await this.database.write('user',driver.email,driver);
+      var updateuser = await API.graphql(graphqlOperation(mutations.updateUser, {input: {...driver, createdAt: undefined, updatedAt: undefined}}))
+
+      console.log("updateuser", updateuser)
+
       this.drivereditstatus = !this.drivereditstatus;
       this.successMessage = 'the driver account has been updated.';
       this.showToast(this.successMessage);
@@ -243,6 +252,7 @@ export class CommanderPage implements OnInit {
 
  public clickmtrac(form: Mtrac): void {
     this.database.current.mtrac_to_edit = form;
+    console.log(form)
     console.log(`> Navigating to mtracPage for mtrac id=${form.id}`);
     if (form.is_jit == true){
       this.navCtrl.navigateForward(['/jitmtrac']);
