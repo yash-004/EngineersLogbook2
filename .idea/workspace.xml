@@ -63,9 +63,7 @@
     </select>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3cdf076c-df2b-4277-9f47-69f51d413bc6" name="Default Changelist" comment="created admin page, havent add things inside yet, added side but its fuckery right now">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-    </list>
+    <list default="true" id="3cdf076c-df2b-4277-9f47-69f51d413bc6" name="Default Changelist" comment="followed the youtube tutorial but no error, sidebar does not display" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -332,7 +330,14 @@
       <option name="project" value="LOCAL" />
       <updated>1614231019741</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="followed the youtube tutorial but no error, sidebar does not display">
+      <created>1614651288049</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1614651288050</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="UnknownFeatures">
@@ -385,12 +390,13 @@
     <MESSAGE value="changed MTRAC column padding to make space for front passenger" />
     <MESSAGE value="dom-to-image on mtrac.page" />
     <MESSAGE value="created admin page, havent add things inside yet, added side but its fuckery right now" />
-    <option name="LAST_COMMIT_MESSAGE" value="created admin page, havent add things inside yet, added side but its fuckery right now" />
+    <MESSAGE value="followed the youtube tutorial but no error, sidebar does not display" />
+    <option name="LAST_COMMIT_MESSAGE" value="followed the youtube tutorial but no error, sidebar does not display" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="343" y="195" key="Vcs.Push.Dialog.v2" timestamp="1614231021462">
+    <state x="343" y="195" key="Vcs.Push.Dialog.v2" timestamp="1614651406716">
       <screen x="0" y="0" width="1536" height="864" />
     </state>
-    <state x="343" y="195" key="Vcs.Push.Dialog.v2/0.0.1536.864@0.0.1536.864" timestamp="1614231021462" />
+    <state x="343" y="195" key="Vcs.Push.Dialog.v2/0.0.1536.864@0.0.1536.864" timestamp="1614651406716" />
   </component>
 </project>
